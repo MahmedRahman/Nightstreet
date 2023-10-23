@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+  <g id="Group_22392" data-name="Group 22392" transform="translate(-319 -133.5)">
+    <rect id="Rectangle_157" data-name="Rectangle 157" width="36" height="36" rx="9" transform="translate(319 133.5)" fill="#eb4335"/>
+    <g id="Group_21607" data-name="Group 21607" transform="translate(17 -312.5)">
+      <rect id="Rectangle_667" data-name="Rectangle 667" width="21.999" height="21.999" transform="translate(310 453)" fill="none"/>
+      <g id="Iconly_Light-outline_Logout" data-name="Iconly/Light-outline/Logout" transform="translate(311.535 454.499)">
+        <g id="Logout" transform="translate(0 0)">
+          <path id="Logout-2" data-name="Logout" d="M4.213,19A4.213,4.213,0,0,1,0,14.985l0-.2V4.213A4.214,4.214,0,0,1,4.014,0l.2,0H8.843a4.214,4.214,0,0,1,4.209,4.015l0,.2V5.1a.713.713,0,0,1-1.418.1l-.007-.1V4.213A2.788,2.788,0,0,0,9.007,1.43l-.164,0H4.213A2.788,2.788,0,0,0,1.43,4.049l0,.164V14.786A2.788,2.788,0,0,0,4.048,17.57l.164.005h4.64a2.779,2.779,0,0,0,2.774-2.615l0-.163v-.9a.713.713,0,0,1,1.419-.1l.006.1v.9a4.2,4.2,0,0,1-4,4.2l-.2,0Zm11.3-6.227a.712.712,0,0,1-.067-.928l.068-.08,1.558-1.553H7.359a.713.713,0,0,1-.1-1.418l.1-.006h9.714L15.514,7.236a.713.713,0,0,1-.072-.928l.069-.08a.714.714,0,0,1,.928-.071l.08.068L19.3,8.995a.71.71,0,0,1,.2.414h0l0,.016v.019h0q0,.027,0,.054h0v0s0,.009,0,.014v0s0,.008,0,.011v.045a.709.709,0,0,1-.069.239v0l-.006.012-.005.01,0,0-.007.013h0l-.007.012h0l-.008.013h0l-.008.012v0l-.007.01,0,0-.006.009,0,0v0h0a.716.716,0,0,1-.086.1l-2.765,2.753a.712.712,0,0,1-1.007,0Z" transform="translate(0 0)" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

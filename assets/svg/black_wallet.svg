@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20.003" height="17.212" viewBox="0 0 20.003 17.212">
+  <defs>
+    <clipPath id="clip-path">
+      <rect width="20.003" height="17.212" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="card" clip-path="url(#clip-path)">
+    <g id="card-2" data-name="card" transform="translate(-1.252 -2.75)">
+      <path id="Path_13910" data-name="Path 13910" d="M20.555,9.146H1.948a.7.7,0,0,1,0-1.4H20.555a.7.7,0,0,1,0,1.4Z" transform="translate(0 -0.348)" fill="#3b3b3b"/>
+      <path id="Path_13911" data-name="Path 13911" d="M7.809,17.146H5.948a.7.7,0,0,1,0-1.4H7.809a.7.7,0,0,1,0,1.4Z" transform="translate(-0.279 -0.905)" fill="#3b3b3b"/>
+      <path id="Path_13912" data-name="Path 13912" d="M14.169,17.146H10.448a.7.7,0,0,1,0-1.4h3.721a.7.7,0,0,1,0,1.4Z" transform="translate(-0.592 -0.905)" fill="#3b3b3b"/>
+      <path id="Path_13913" data-name="Path 13913" d="M16.424,19.962H6.079c-3.7,0-4.829-1.116-4.829-4.782V7.532c0-3.666,1.126-4.782,4.829-4.782H16.415c3.7,0,4.829,1.116,4.829,4.782V15.17C21.253,18.845,20.127,19.962,16.424,19.962ZM6.079,4.146c-2.921,0-3.433.5-3.433,3.387V15.17c0,2.884.512,3.387,3.433,3.387H16.415c2.921,0,3.433-.5,3.433-3.387V7.532c0-2.884-.512-3.387-3.433-3.387Z" fill="#3b3b3b"/>
+    </g>
+  </g>
+</svg>
