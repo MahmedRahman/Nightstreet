@@ -1,14 +1,29 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/app/modules/commercial_brands/controllers/product_brand_controller.dart';
+import 'package:krzv2/app/modules/commercial_brands/views/commercial_brands_view.dart';
+import 'package:krzv2/models/product_brand_model.dart';
+
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
-class ProductBrandFieldView extends GetView {
-  const ProductBrandFieldView({Key? key}) : super(key: key);
+class ProductBrandFieldView extends GetView<ProductsBrandController> {
+  ProductBrandFieldView({
+    Key? key,
+    required this.initBandsIds,
+    required this.onChanged,
+  }) : super(key: key);
+
+  final List<int> initBandsIds;
+  final _selectedIds = Rx<List<int>>([]);
+  final ValueChanged<List<int>> onChanged;
   @override
   Widget build(BuildContext context) {
+    if (initBandsIds.isNotEmpty) {
+      _selectedIds.value.addAll(initBandsIds);
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -25,7 +40,17 @@ class ProductBrandFieldView extends GetView {
         ),
         AppSpacers.height16,
         GestureDetector(
-            onTap: () => Get.toNamed(Routes.COMMERCIAL_BRANDS),
+            onTap: () => Get.to(
+                  CommercialBrandsView(
+                    initSelectedIds: _selectedIds.value,
+                    onChanged: (List<int> ids) {
+                      _selectedIds.value.clear();
+                      _selectedIds.value.addAll(ids);
+                      onChanged(ids);
+                      controller.update();
+                    },
+                  ),
+                ),
             child: Container(
               height: 50,
               decoration: BoxDecoration(
@@ -57,18 +82,35 @@ class ProductBrandFieldView extends GetView {
               ).paddingSymmetric(horizontal: 19),
             )),
         AppSpacers.height5,
-        Wrap(
-          spacing: 2,
-          children: ['1', '2']
-              .map(
-                (brand) => Stack(
-                  children: [
-                    _brandNameBuilder('title'),
-                    _removeIconBuider(onTap: () {}),
-                  ],
-                ),
-              )
-              .toList(),
+
+        /// display selected brands
+        controller.obx(
+          (brands) {
+            List<ProuctBrandModel> selectedList = brands!
+                .where((item) => _selectedIds.value.contains(item.id))
+                .toList();
+
+            return Wrap(
+              spacing: 2,
+              children: selectedList
+                  .map(
+                    (brand) => Stack(
+                      children: [
+                        _brandNameBuilder(brand.name),
+                        _removeIconBuider(
+                          onTap: () {
+                            _selectedIds.value.remove(brand.id);
+                            onChanged(_selectedIds.value);
+
+                            controller.update();
+                          },
+                        ),
+                      ],
+                    ),
+                  )
+                  .toList(),
+            );
+          },
         ),
         Divider(),
       ],

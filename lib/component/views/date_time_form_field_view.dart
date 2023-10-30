@@ -10,16 +10,19 @@ class DateTimeFormFieldView extends GetView {
     Key? key,
     required this.onDateChanged,
     this.initialDateTime,
+    this.title = "تاريخ الميلاد",
+    required this.firstDate,
   }) {
     if (initialDateTime != '') {
-      var parsedDate = DateTime.parse('$initialDateTime 00:00:00.000');
+      var parsedDate = DateTime.parse('$initialDateTime');
       selectedDate.value = parsedDate;
     }
   }
 
   final ValueChanged<DateTime> onDateChanged;
   final String? initialDateTime;
-
+  final String? title;
+  DateTime firstDate;
   final selectedDate = Rx<DateTime?>(null);
 
   @override
@@ -28,7 +31,7 @@ class DateTimeFormFieldView extends GetView {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'تاريخ الميلاد',
+          '$title',
           style: TextStyle(
             fontSize: 16.0,
             color: AppColors.blackColor,
@@ -63,7 +66,7 @@ class DateTimeFormFieldView extends GetView {
                         DateTime? pickedDate = await showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
-                          firstDate: DateTime(1900),
+                          firstDate: firstDate,
                           lastDate: DateTime(2101),
                           confirmText: "تحديد",
                           cancelText: 'رجوع',
@@ -100,9 +103,7 @@ class DateTimeFormFieldView extends GetView {
                           borderRadius: BorderRadius.circular(10.0),
                           color: Color(0xffF5F6FA),
                           border: Border.all(
-                            color: field.hasError
-                                ? Colors.red
-                                : Colors.transparent,
+                            color: field.hasError ? Colors.red : Colors.transparent,
                           ),
                         ),
                         child: Row(
@@ -118,7 +119,7 @@ class DateTimeFormFieldView extends GetView {
                             ),
                             Text(
                               selectedDate.value == null
-                                  ? "تاريخ الميلاد"
+                                  ? "$title"
                                   : '${selectedDate.value!.day} / ${selectedDate.value!.month} / ${selectedDate.value!.year}',
                               style: TextStyle(
                                 fontSize: 16.0,

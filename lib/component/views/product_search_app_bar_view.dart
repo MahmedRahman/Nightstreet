@@ -13,12 +13,14 @@ class ProductSearchAppBarView extends GetView implements PreferredSizeWidget {
     Key? key,
     required this.textEditingController,
     required this.onSearchIconTapped,
+    this.onBackTapped,
     this.onChanged,
   }) : super(key: key);
 
   final TextEditingController textEditingController;
   final Function() onSearchIconTapped;
   final Function(String)? onChanged;
+  final Function()? onBackTapped;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -34,9 +36,11 @@ class ProductSearchAppBarView extends GetView implements PreferredSizeWidget {
         statusBarBrightness: Brightness.light, // For iOS (dark icons)
       ),
       elevation: 0,
-      leading: const Padding(
-        padding: EdgeInsets.only(right: 16),
-        child: CustomBackButton(),
+      leading: Padding(
+        padding: const EdgeInsets.only(right: 16),
+        child: CustomBackButton(
+          onBackTapped: onBackTapped,
+        ),
       ),
       title: Container(
         height: 40,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/component/views/toast_component.dart';
 import 'package:krzv2/models/branch_model.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_enums.dart';
@@ -52,6 +53,45 @@ class CliniFavoriteController extends GetxController
       isPagination =
           responseModel.data['data']['pagination']['is_pagination'] as bool;
     }
+  }
+
+  Future<void> addRemoveBranchFromFavorite({
+    required int branchId,
+    Function()? onError,
+    Function()? onSuccess,
+  }) async {
+    ResponseModel response = await WebServices().addAndDeleteFavorites(
+      id: branchId.toString(),
+      type: FavoriteEnum.branch.name,
+    );
+
+    if (response.data["success"] == false) {
+      if (onError != null) onError();
+      showToast(message: response.data["message"]);
+      return;
+    }
+
+    if (onSuccess != null) onSuccess();
+  }
+
+  void toggleFavorite(int offerId) {
+    final clinic = clinics.firstWhere(
+      (p) => p.id == offerId,
+    );
+    clinic.isFavorite = !clinic.isFavorite;
+    update();
+  }
+
+  void removeClinicFromList(int productId) {
+    clinics.removeWhere(
+      (p) => p.id == productId,
+    );
+
+    if (clinics.length == 0) {
+      change([], status: RxStatus.empty());
+    }
+
+    update();
   }
 
   @override

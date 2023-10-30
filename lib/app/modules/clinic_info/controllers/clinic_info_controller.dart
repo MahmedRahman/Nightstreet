@@ -1,23 +1,55 @@
 import 'package:get/get.dart';
+import 'package:krzv2/web_serives/api_response_model.dart';
+import 'package:krzv2/web_serives/web_serives.dart';
 
-class ClinicInfoController extends GetxController {
+class ClinicAboutInfoController extends GetxController with StateMixin {
   //TODO: Implement ClinicInfoController
 
-  final count = 0.obs;
   @override
   void onInit() {
+    getBranchesSingle(
+      branchesId: 7,
+    );
     super.onInit();
   }
 
+  void getBranchesSingle({required int branchesId}) async {
+    ResponseModel responseModel = await WebServices().getBranchesSingle(
+      branchesId: branchesId,
+    );
+
+    if (responseModel.data["success"]) {
+      change(responseModel.data["data"], status: RxStatus.success());
+
+      return;
+    }
+
+    change(null, status: RxStatus.error());
+  }
+}
+
+class ClinicServicesController extends GetxController with StateMixin<List> {
   @override
-  void onReady() {
-    super.onReady();
+  void onInit() {
+    getOffersByBranchesId();
+    super.onInit();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  void getOffersByBranchesId() async {
+    ResponseModel responseModel = await WebServices().getOffersByBranchesId(
+      branchesId: 7,
+    );
 
-  void increment() => count.value++;
+    if (responseModel.data["success"]) {
+      if (responseModel.data["data"]["data"].length == 0) {
+        change([], status: RxStatus.loading());
+      }
+
+      change(responseModel.data["data"]["data"], status: RxStatus.success());
+
+      return;
+    }
+
+    change(null, status: RxStatus.error());
+  }
 }

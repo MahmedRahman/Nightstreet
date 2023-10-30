@@ -8,7 +8,7 @@ import 'package:krzv2/services/cache_service.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-enum UserType { guest, registered }
+enum UserType { guest, registered, nonAuth }
 
 enum AuthStatus { authenticated, unauthenticated, loading }
 
@@ -47,6 +47,7 @@ class AuthenticationController extends GetxController with CacheManager {
   Future<void> loginWithPhoneNumber({
     required String phoneNumber,
     required String verificationCode,
+    required Function() onError,
   }) async {
     EasyLoading.show();
     ResponseModel response = await WebServices().authLogin(
@@ -59,6 +60,8 @@ class AuthenticationController extends GetxController with CacheManager {
       showToast(
         message: response.data["message"].toString(),
       );
+
+      onError();
       return;
     }
 

@@ -111,6 +111,26 @@ class TextFieldComponent extends StatelessWidget {
           ],
         );
 
+  TextFieldComponent.text({
+    super.key,
+    this.onChanged,
+    required this.controller,
+    this.inputFormatters,
+    this.maxLines = 1,
+    this.isReadOnly = false,
+    this.isRequired = true,
+  })  : outLineText = "نص",
+        hintText = "ادخل النص",
+        keyboardType = TextInputType.name,
+        iconPath = AppSvgAssets.userIcon,
+        validator = customValidator(
+          rules: [
+            isRequired ? IsRequired(message: 'حقل مطلوب') : IsOptional(),
+            IsBetween(min: 3, max: 30),
+            IsEnglishArabicChar(),
+          ],
+        );
+
   TextFieldComponent.email({
     super.key,
     this.onChanged,

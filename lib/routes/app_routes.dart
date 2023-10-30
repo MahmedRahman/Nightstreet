@@ -38,7 +38,6 @@ abstract class Routes {
   static const HOME_PAGE_SERVICES = '/home-page-services';
   static const FAVORITE = '/favorite';
   static const CLINIC_INFO = '/clinic-info';
-  static const COMMERCIAL_BRANDS = '/commercial-brands';
   static const PRODUCT_SEARCH = '/product-search';
   static const SERVICES_SEARCH = '/services-search';
   static const SERVICE_DETAIL = '/service-detail';

@@ -13,6 +13,7 @@ class ProductsHotizontalListView extends GetView {
   final VoidCallback onShowMoreTapped;
   final Function(int productId)? onAddToCartTapped;
   final Function(int productId)? onFavoriteTapped;
+  final Function(int productId)? onTap;
 
   const ProductsHotizontalListView({
     Key? key,
@@ -21,6 +22,7 @@ class ProductsHotizontalListView extends GetView {
     required this.onShowMoreTapped,
     required this.onAddToCartTapped,
     required this.onFavoriteTapped,
+    required this.onTap,
   }) : super(key: key);
 
   const ProductsHotizontalListView.recommended({
@@ -29,6 +31,7 @@ class ProductsHotizontalListView extends GetView {
     required this.onShowMoreTapped,
     required this.onAddToCartTapped,
     required this.onFavoriteTapped,
+    required this.onTap,
   })  : showMoreText = 'منتجات قد تعجبك',
         super(key: key);
 
@@ -38,6 +41,7 @@ class ProductsHotizontalListView extends GetView {
     required this.onShowMoreTapped,
     this.onAddToCartTapped,
     this.onFavoriteTapped,
+    this.onTap,
   })  : showMoreText = "الأكثر طلبا",
         super(key: key);
 
@@ -47,6 +51,7 @@ class ProductsHotizontalListView extends GetView {
     required this.onShowMoreTapped,
     this.onAddToCartTapped,
     this.onFavoriteTapped,
+    this.onTap,
   })  : showMoreText = "العروض الحصرية",
         super(key: key);
 
@@ -56,6 +61,7 @@ class ProductsHotizontalListView extends GetView {
     required this.onShowMoreTapped,
     this.onAddToCartTapped,
     this.onFavoriteTapped,
+    this.onTap,
   })  : showMoreText = "منتجات المشابهة",
         super(key: key);
 
@@ -86,10 +92,7 @@ class ProductsHotizontalListView extends GetView {
                 onFavoriteTapped: () => onFavoriteTapped!(product.id),
                 isFavorite: product.isFavorite,
                 isLimitedQuantity: product.quantity < 10,
-                onTap: () => Get.toNamed(
-                  Routes.PRODUCT_DETAILS,
-                  arguments: product.id.toString(),
-                ),
+                onTap: () => onTap!(product.id),
               );
             },
           ),

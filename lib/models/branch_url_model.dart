@@ -61,18 +61,3 @@ String buildBranchesUrl(String baseUrl, int page,
     return '$baseUrl/branches/get?page=$page';
   }
 }
-
-// void main() {
-//   final baseUrl = 'https://example.com/api';
-  // final queryParams = BranchQueryParameters(
-  //   categoryId: '123',
-  //   name: 'branch name',
-  //   filter: 'filter value',
-  //   clinicId: '456',
-  //   lat: 12.345,
-  //   lng: 67.890,
-  // );
-
-//   final url = queryParams.buildBranchesUrl(baseUrl, queryParams);
-//   print(url);
-// }

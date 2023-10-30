@@ -2,17 +2,21 @@ class AppointmentModel {
   final Offer offer;
   final String status;
   final String doctorName;
+  final String doctorId;
   final String ClinicName;
   final int id;
+  final int? branchId;
   final String datetime;
 
   const AppointmentModel({
     required this.offer,
     required this.status,
     required this.doctorName,
+    required this.doctorId,
     required this.ClinicName,
     required this.datetime,
     required this.id,
+    this.branchId,
   });
 
   factory AppointmentModel.fromJson(Map<String, dynamic> json) {
@@ -20,9 +24,11 @@ class AppointmentModel {
       offer: Offer.fromJson(json['offer']),
       status: json['status'],
       doctorName: json['doctor']['name'],
+      doctorId: json['doctor']['id'].toString(),
       ClinicName: json['branch']['name'],
       datetime: json['datetime'],
       id: json['id'],
+      branchId: json['branch']['id'],
     );
   }
 }

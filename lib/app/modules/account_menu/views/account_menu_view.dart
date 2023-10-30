@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/app/modules/wallet/components/decorated_container_component.dart';
 import 'package:krzv2/component/views/app_bar.dart';
 import 'package:krzv2/component/views/icon_button_component.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
+import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
@@ -20,18 +22,13 @@ class AccountMenuView extends GetView<AccountMenuController> {
   final authController = Get.find<AuthenticationController>();
   @override
   Widget build(BuildContext context) {
-    print("isLoggedIn => ${authController.isLoggedIn}");
     return BaseScaffold(
       appBar: TitleSubtitleAppBar(
         titleText: 'مرحباً بك',
         subTitle: authController.userData?.name ?? '',
         actions: authController.isLoggedIn
             ? [
-                CustomIconButton(
-                  onTap: () => Get.toNamed(Routes.SHOPPINT_CART),
-                  iconPath: AppSvgAssets.cartIcon,
-                  count: 1,
-                ),
+                ShoppingCartIconView(),
                 CustomIconButton(
                   onTap: () => Get.toNamed(Routes.notificationPage),
                   iconPath: AppSvgAssets.notificationIcon,
@@ -46,9 +43,13 @@ class AccountMenuView extends GetView<AccountMenuController> {
         children: [
           AppSpacers.height10,
           if (authController.isLoggedIn)
-            _walletListTile(
-              walletBalance: '${authController.userData?.walletBalance ?? ''}',
-              onWalletTapped: () => Get.toNamed(Routes.walletPage),
+            GetBuilder<AuthenticationController>(
+              builder: (controller) {
+                return _walletListTile(
+                  walletBalance: '${controller.userData?.walletBalance ?? ''}',
+                  onWalletTapped: () => Get.toNamed(Routes.walletPage),
+                );
+              },
             ),
           AppSpacers.height12,
           if (authController.isLoggedIn)
@@ -81,6 +82,11 @@ class AccountMenuView extends GetView<AccountMenuController> {
                     title: "بطاقات الهدايا",
                     iconPath: AppSvgAssets.giftIcon,
                     onTap: () => Get.toNamed(Routes.GIFT_CARDS),
+                  ),
+                  _CustomListTile(
+                    title: "عناويني",
+                    iconPath: AppSvgAssets.policiesIcon,
+                    onTap: () => Get.toNamed(Routes.DELIVERY_ADDRESSES),
                   ),
                   _CustomListTile(
                     title: "تواصل معنا",

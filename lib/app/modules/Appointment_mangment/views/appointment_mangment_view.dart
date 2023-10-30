@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:krzv2/component/views/closed_appointment_list_view.dart';
-import 'package:krzv2/component/views/current_appointment_list_view.dart';
+import 'package:krzv2/app/modules/appointment_mangment/views/closed_appointment_list_view.dart';
+import 'package:krzv2/app/modules/appointment_mangment/views/current_appointment_list_view.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/tabs/base_switch_tap.dart';

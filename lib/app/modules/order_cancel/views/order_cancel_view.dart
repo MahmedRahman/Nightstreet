@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:krzv2/component/views/cancel_card_view.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
-import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
@@ -13,12 +14,12 @@ import '../controllers/order_cancel_controller.dart';
 class OrderCancelView extends GetView<OrderCancelController> {
   OrderCancelView({Key? key}) : super(key: key);
 
-  final RxInt selectedBranch = 100.obs;
+  final selectedReasonsIds = Rx<List<String>?>([]);
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: CustomAppBar(
-        titleText: "الغاء الطلب",
+        titleText: "إلغاء الطلب",
       ),
       body: Padding(
         padding: AppDimension.appPadding,
@@ -27,7 +28,7 @@ class OrderCancelView extends GetView<OrderCancelController> {
           children: [
             AppSpacers.height19,
             Text(
-              '- ما السبب في الغاء الطلب ؟',
+              '- ما السبب في إلغاء الطلب ؟',
               style: TextStyle(
                 fontFamily: 'Effra',
                 fontSize: 16.0,
@@ -37,25 +38,53 @@ class OrderCancelView extends GetView<OrderCancelController> {
             ),
             AppSpacers.height19,
             Expanded(
-              child: ListView.separated(
-                itemBuilder: (context, index) {
-                  return Obx(
-                    () => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: CancelCardView(
-                        isSelected: selectedBranch.value == index,
-                        reason:
-                            'خلافاَ للإعتقاد السائد فإن لوريم إيبسوم ليس نصاَ',
-                        onTap: () => selectedBranch.value = index,
-                      ),
-                    ),
-                  );
-                },
-                separatorBuilder: (context, index) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Divider(),
+              child: controller.obx(
+                (cancelReasons) => ListView.separated(
+                  itemBuilder: (context, index) {
+                    final reason = (cancelReasons as List).elementAt(index);
+
+                    final bool included = selectedReasonsIds.value
+                            ?.contains(reason['id'].toString()) ??
+                        false;
+
+                    return Obx(() {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: CancelCardView(
+                          isSelected: selectedReasonsIds.value
+                                  ?.contains(reason['id'].toString()) ??
+                              false,
+                          reason: reason['name'],
+                          onTap: () {
+                            if (included) {
+                              selectedReasonsIds.value
+                                  ?.remove(reason['id'].toString());
+
+                              controller.update();
+                              return;
+                            }
+                            selectedReasonsIds.value
+                                ?.add(reason['id'].toString());
+                            controller.update();
+                          },
+                        ),
+                      );
+                    });
+                  },
+                  separatorBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Divider(),
+                  ),
+                  itemCount: cancelReasons.length,
                 ),
-                itemCount: 20,
+                onLoading: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: CancelCardView(
+                    isSelected: false,
+                    reason: 'خلافاَ للإعتقاد السائد فإن لوريم إيبسوم ليس نصاَ',
+                    onTap: () {},
+                  ).shimmer(),
+                ),
               ),
             )
           ],
@@ -80,7 +109,16 @@ class OrderCancelView extends GetView<OrderCancelController> {
               child: CustomBtnCompenent.main(
                 //width: Get,
                 text: "إرسال",
-                onTap: () => Get.offAllNamed(Routes.LAYOUT),
+                onTap: () {
+                  if (selectedReasonsIds.value!.isEmpty) {
+                    return AppDialogs.showToast(
+                        message: 'الرجاء تحديد اسباب الإلغاء');
+                  }
+                  controller.cancelOrders(
+                    orderId: Get.arguments as String,
+                    reasondIds: selectedReasonsIds.value!,
+                  );
+                },
               ),
             ),
             SizedBox(

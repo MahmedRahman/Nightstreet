@@ -16,6 +16,7 @@ class VerifyPhoneView extends GetView<VerifyPhoneController> {
 
   final AuthenticationController authenticationController = Get.find();
 
+  final optController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     // if (kDebugMode) {
@@ -41,6 +42,7 @@ class VerifyPhoneView extends GetView<VerifyPhoneController> {
                 ),
                 AppSpacers.height60,
                 PinCodeField(
+                  otpController: optController,
                   onCompleted: (String value) async {
                     if (!formKey.currentState!.validate()) {
                       return;
@@ -49,6 +51,9 @@ class VerifyPhoneView extends GetView<VerifyPhoneController> {
                     Get.find<AuthenticationController>().loginWithPhoneNumber(
                       phoneNumber: Get.arguments.toString(),
                       verificationCode: value,
+                      onError: () {
+                        optController.clear();
+                      },
                     );
                   },
                   validator: customValidator(

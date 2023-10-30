@@ -1,17 +1,22 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
+import 'package:krzv2/models/cart_summary_model.dart';
+import 'package:krzv2/models/product_cart_model.dart';
+import 'package:krzv2/web_serives/api_response_model.dart';
+import 'package:krzv2/web_serives/web_serives.dart';
 
-class ShoppintCartController extends GetxController {
-  //TODO: Implement ShoppintCartController
+class ShoppintCartController extends GetxController
+    with StateMixin<List<ProductCartModel>> {
+  final List<ProductCartModel> _products = [];
+  int get productCount => _products.length;
 
-  final count = 0.obs;
+  final cartSummaryModel = Rx<CartSummaryModel?>(null);
+
   @override
   void onInit() {
+    getCartProducts();
     super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
   }
 
   @override
@@ -19,5 +24,67 @@ class ShoppintCartController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  getCartProducts() async {
+    change([], status: RxStatus.loading());
+
+    ResponseModel responseModel = await WebServices().getCartProducts();
+
+    if (responseModel.data["success"]) {
+      _products.clear();
+      final List<ProductCartModel> featchedData = List<ProductCartModel>.from(
+        responseModel.data['data']['data']
+            .map((category) => ProductCartModel.fromMap(category)),
+      );
+
+      cartSummaryModel.value =
+          CartSummaryModel.fromMap(responseModel.data['data']['cart']);
+
+      _products.addAll(featchedData);
+
+      if (_products.isEmpty) {
+        change([], status: RxStatus.empty());
+        return;
+      }
+
+      change(_products, status: RxStatus.success());
+    }
+  }
+
+  void addToCart({
+    required String productId,
+    required String quantity,
+    String? variantId,
+    required bool isNew,
+  }) async {
+    EasyLoading.show();
+    ResponseModel response = await WebServices().addToCart(
+      productId: productId,
+      quantity: quantity,
+      variantId: variantId,
+      isNew: isNew,
+    );
+    EasyLoading.dismiss();
+    if (!response.data["success"]) {
+      AppDialogs.showToast(message: response.data["message"]);
+      return;
+    }
+
+    getCartProducts();
+    AppDialogs.showToast(message: response.data["message"]);
+  }
+
+  void deleteItemFromCart({required String productId}) async {
+    EasyLoading.show();
+    ResponseModel response = await WebServices().deleteProductFromCart(
+      productId: productId,
+    );
+    EasyLoading.dismiss();
+    if (!response.data["success"]) {
+      AppDialogs.showToast(message: response.data["message"]);
+      return;
+    }
+
+    getCartProducts();
+    AppDialogs.showToast(message: response.data["message"]);
+  }
 }

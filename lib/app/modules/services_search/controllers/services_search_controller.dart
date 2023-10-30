@@ -6,8 +6,7 @@ import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-class ServicesSearchController extends GetxController
-    with ScrollMixin, StateMixin<List<ServiceModel>> {
+class ServicesSearchController extends GetxController with ScrollMixin, StateMixin<List<ServiceModel>> {
   final List<ServiceModel> _services = [];
   int currentPage = 1;
   bool? isPagination;
@@ -36,8 +35,7 @@ class ServicesSearchController extends GetxController
 
     if (responseModel.data["success"]) {
       final List<ServiceModel> serviceDataList = List<ServiceModel>.from(
-        responseModel.data['data']['data']
-            .map((category) => ServiceModel.fromJson(category)),
+        responseModel.data['data']['data'].map((category) => ServiceModel.fromJson(category)),
       );
 
       _services.addAll(serviceDataList);
@@ -49,16 +47,15 @@ class ServicesSearchController extends GetxController
 
       change(_services, status: RxStatus.success());
 
-      isPagination =
-          responseModel.data['data']['pagination']['is_pagination'] as bool;
+      isPagination = responseModel.data['data']['pagination']['is_pagination'] as bool;
     }
   }
 
-  void toggleFavorite(int productId) {
-    final product = _services.firstWhere(
-      (p) => p.id == productId,
+  void toggleFavorite(int serviceId) {
+    final service = _services.firstWhere(
+      (p) => p.id == serviceId,
     );
-    product.isFavorite = !product.isFavorite;
+    service.isFavorite = !service.isFavorite;
     update();
   }
 
@@ -82,8 +79,34 @@ class ServicesSearchController extends GetxController
   }
 
   @override
-  Future<void> onTopScroll() {
-    // TODO: implement onTopScroll
-    throw UnimplementedError();
+  Future<void> onTopScroll() async {
+    print('onTopScroll');
+  }
+}
+
+class BranchSearchController extends GetxController with StateMixin<List> {
+  @override
+  void onInit() {
+    getBranch();
+    // TODO: implement onInit
+    super.onInit();
+  }
+
+  void getBranch() async {
+    ResponseModel responseModel = await WebServices().getBranches(
+      page: 1,
+    );
+
+    if (responseModel.data["success"]) {
+      if (responseModel.data["data"]["data"] == 0) {
+        change([], status: RxStatus.empty());
+      }
+
+      change(responseModel.data["data"]["data"], status: RxStatus.success());
+
+      return;
+    }
+
+    change(null, status: RxStatus.error());
   }
 }

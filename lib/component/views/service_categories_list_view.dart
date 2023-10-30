@@ -9,9 +9,11 @@ import 'package:krzv2/utils/app_spacers.dart';
 
 class ServiceCategoriesListView extends GetView {
   final List<dynamic> serviceCategoriesList;
+  final Function()? onTap;
   const ServiceCategoriesListView({
     Key? key,
     required this.serviceCategoriesList,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -47,7 +49,7 @@ class ServiceCategoriesListView extends GetView {
                 return CategoryCardView(
                   title: category["name"],
                   imageUrl: category["image"],
-                  onTap: () => Get.toNamed(Routes.SERVICES_SEARCH),
+                  onTap: onTap,
                 );
               },
             ),

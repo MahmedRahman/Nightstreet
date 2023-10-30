@@ -112,9 +112,14 @@ class ServiceCancelView extends GetView<ServiceCancelController> {
                 text: "إرسال",
                 onTap: () {
                   if ((selectedReasonsIds.value ?? []).isEmpty) {
-                    showToast(message: 'الرجاء اختيار السبب');
+                    showToast(message: 'الرجاء تحديد اسباب الإلغاء');
                     return;
                   }
+
+                  controller.cancelAppointment(
+                    orderId: Get.arguments as String,
+                    reasondIds: selectedReasonsIds.value ?? [],
+                  );
                 },
               ),
             ),

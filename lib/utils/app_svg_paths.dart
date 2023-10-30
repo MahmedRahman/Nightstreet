@@ -97,4 +97,9 @@ abstract class AppSvgAssets {
   static const String trashIcon = 'assets/svg/trash_icon.svg';
   static const String markerIcon = 'assets/svg/marker.svg';
   static const String searchIcon = 'assets/svg/search.svg';
+  static const String emptyComplaintIcon = 'assets/svg/empty_complaint.svg';
+  static const String familyIcon = 'assets/svg/family_icon.svg';
+  static const String restIcon = 'assets/svg/rest_icon.svg';
+  static const String outlineDeleteIcon = 'assets/svg/outline_delete.svg';
+  static const String emptyAddressIcon = 'assets/svg/empty_address.svg';
 }

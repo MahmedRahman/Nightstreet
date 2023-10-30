@@ -2,40 +2,106 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/web_serives/api_response_model.dart';
+import 'package:krzv2/web_serives/web_serives.dart';
 
-class OfferProductView extends GetView {
-  const OfferProductView({Key? key}) : super(key: key);
+class OfferProductController extends GetxController with StateMixin<List> {
+  @override
+  void onInit() {
+    getOffersProduct();
+    super.onInit();
+  }
+
+  void getOffersProduct() async {
+    ResponseModel responseModel = await WebServices().getOffersProduct();
+    if (responseModel.data["success"]) {
+      if ((responseModel.data["data"]["data"] as List).length == 0) {
+        change(null, status: RxStatus.empty());
+        return;
+      }
+      change(responseModel.data["data"]["data"], status: RxStatus.success());
+      return;
+    }
+
+    change(null, status: RxStatus.error());
+  }
+}
+
+class OfferProductView extends GetView<OfferProductController> {
+  OfferProductView({Key? key}) : super(key: key);
+  OfferProductController controller = Get.put(OfferProductController());
   @override
   Widget build(BuildContext context) {
     final double itemHeight = (Get.height - kToolbarHeight - 24) / 1;
     final double itemWidth = Get.width / 2;
 
     return Scaffold(
-      body: GridView.builder(
-        padding: EdgeInsets.only(top: 10),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: (itemWidth / itemHeight) / .42,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-        ),
-        itemBuilder: (_, index) {
-          final idOdd = index.isOdd;
-          return ProductCardView(
-            imageUrl:
-                'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1646077574-screen-shot-2022-02-28-at-2-39-10-pm-1646077556.png?crop=1xw:0.9974358974358974xh;center,top&resize=980:*',
-            name: 'مضاد التعرق كول راش من ديجري مين، يدوم ..لمدة 48 ساعة',
-            hasDiscount: false,
-            price: '1760',
-            rate: '4.9',
-            isLimitedQuantity: idOdd ? true : false,
-            onAddToCartTapped: () {},
-            onFavoriteTapped: () {},
-            isFavorite: false,
-            onTap: () => Get.toNamed(Routes.PRODUCT_DETAILS),
-          );
-        },
-      ),
+      body: controller.obx((snapshot) {
+        return GridView.builder(
+          padding: EdgeInsets.only(top: 10),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: (itemWidth / itemHeight) / .42,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
+          itemCount: snapshot!.length,
+          itemBuilder: (_, index) {
+            final idOdd = index.isOdd;
+            return ProductCardView(
+              imageUrl: snapshot[index]["image"].toString(),
+              name: snapshot[index]["name"].toString(),
+              hasDiscount: snapshot[index]["oldPrice"] != 0,
+              price: snapshot[index]["price"].toString(),
+              onAddToCartTapped: () {
+                // cartController.addToCart(
+                //   productId: product.id.toString(),
+                //   quantity: '1',
+                //   isNew: true,
+                // );
+              },
+              onFavoriteTapped: () {
+                // final favCon = Get.put<ProductFavoriteController>(
+                //   ProductFavoriteController(),
+                // );
+                // controller.toggleFavorite(product.id);
+
+                // favCon.addRemoveProductFromFavorite(
+                //   productId: product.id,
+                //   onError: () {
+                //     controller.toggleFavorite(product.id);
+                //   },
+                // );
+              },
+              isFavorite: true, //, product.isFavorite,
+              onTap: () async {
+                // final awaitId = await Get.toNamed(
+                //   Routes.PRODUCT_DETAILS,
+                //   arguments: product.id.toString(),
+                // );
+
+                // if (awaitId != null && awaitId != '') {
+                //   controller.toggleFavorite(product.id);
+                // }
+              },
+            );
+
+            // ProductCardView(
+            //   imageUrl:
+            //       'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1646077574-screen-shot-2022-02-28-at-2-39-10-pm-1646077556.png?crop=1xw:0.9974358974358974xh;center,top&resize=980:*',
+            //   name: 'مضاد التعرق كول راش من ديجري مين، يدوم ..لمدة 48 ساعة',
+            //   hasDiscount: false,
+            //   price: '1760',
+            //   rate: '4.9',
+            //   isLimitedQuantity: idOdd ? true : false,
+            //   onAddToCartTapped: () {},
+            //   onFavoriteTapped: () {},
+            //   isFavorite: false,
+            //   onTap: () => Get.toNamed(Routes.PRODUCT_DETAILS),
+            // );
+          },
+        );
+      }),
     );
   }
 

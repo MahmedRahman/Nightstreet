@@ -6,16 +6,23 @@ import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/component/views/custom_text_field_component.dart';
 import 'package:krzv2/component/views/rating_bar_view.dart';
+import 'package:krzv2/models/appointment_model.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
 import '../controllers/service_review_controller.dart';
 
 class ServiceReviewView extends GetView<ServiceReviewController> {
-  //const ServiceReviewView({Key? key}) : super(key: key);
-  TextEditingController longController = TextEditingController();
+  final serviceMessageController = TextEditingController();
+  final branchMessageController = TextEditingController();
+  final doctorMessageController = TextEditingController();
+
+  final serviceRate = 1.0.obs;
+  final branchRate = 1.0.obs;
+  final doctorRate = 1.0.obs;
   @override
   Widget build(BuildContext context) {
+    final appointment = Get.arguments as AppointmentModel;
     return Scaffold(
       appBar: CustomAppBar(titleText: "تقييم الخدمة"),
       body: ListView(
@@ -41,7 +48,7 @@ class ServiceReviewView extends GetView<ServiceReviewController> {
                     ),
                     AppSpacers.height10,
                     Text(
-                      'تمتعي ببشرة مشرقة خالية من التجاعيد بنتائج سريعة\nو مزهلة',
+                      appointment.offer.name,
                       style: TextStyle(
                         fontSize: 14.0,
                         color: AppColors.blackColor,
@@ -65,13 +72,16 @@ class ServiceReviewView extends GetView<ServiceReviewController> {
                     ),
                     AppSpacers.height10,
                     RatingBarView(
-                      initRating: 3,
+                      initRating: 1,
                       totalRate: 5,
                       displayTotalRate: false,
+                      onRatingUpdate: (double vlu) {
+                        serviceRate.value = vlu;
+                      },
                     ),
                     AppSpacers.height10,
                     TextFieldComponent.longMessage(
-                      controller: longController,
+                      controller: serviceMessageController,
                       outLineText: "",
                       hintText: "اكتب شيئًا عن هذا الخدمة",
                     ),
@@ -79,7 +89,14 @@ class ServiceReviewView extends GetView<ServiceReviewController> {
                     CustomBtnCompenent.main(
                       width: 120,
                       text: "إرسال",
-                      onTap: () {},
+                      onTap: () {
+                        controller.rateOffer(
+                          appointmentId: appointment.id.toString(),
+                          offerId: appointment.offer.id.toString(),
+                          rate: serviceRate.value.toInt().toString(),
+                          message: serviceMessageController.text,
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -107,13 +124,16 @@ class ServiceReviewView extends GetView<ServiceReviewController> {
                     ),
                     AppSpacers.height10,
                     RatingBarView(
-                      initRating: 3,
+                      initRating: 1,
                       totalRate: 5,
                       displayTotalRate: false,
+                      onRatingUpdate: (double vlu) {
+                        branchRate.value = vlu;
+                      },
                     ),
                     AppSpacers.height10,
                     TextFieldComponent.longMessage(
-                      controller: longController,
+                      controller: branchMessageController,
                       outLineText: "",
                       hintText: "اكتب شيئًا عن هذا الخدمة",
                     ),
@@ -121,7 +141,14 @@ class ServiceReviewView extends GetView<ServiceReviewController> {
                     CustomBtnCompenent.main(
                       width: 120,
                       text: "إرسال",
-                      onTap: () {},
+                      onTap: () {
+                        controller.rateBranch(
+                          appointmentId: appointment.id.toString(),
+                          branchId: appointment.branchId.toString(),
+                          rate: branchRate.value.toInt().toString(),
+                          message: branchMessageController.text,
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -149,13 +176,16 @@ class ServiceReviewView extends GetView<ServiceReviewController> {
                     ),
                     AppSpacers.height10,
                     RatingBarView(
-                      initRating: 3,
+                      initRating: 1,
                       totalRate: 5,
                       displayTotalRate: false,
+                      onRatingUpdate: (double vlu) {
+                        doctorRate.value = vlu;
+                      },
                     ),
                     AppSpacers.height10,
                     TextFieldComponent.longMessage(
-                      controller: longController,
+                      controller: doctorMessageController,
                       outLineText: "",
                       hintText: "اكتب شيئًا عن هذا الخدمة",
                     ),
@@ -163,7 +193,14 @@ class ServiceReviewView extends GetView<ServiceReviewController> {
                     CustomBtnCompenent.main(
                       width: 120,
                       text: "إرسال",
-                      onTap: () {},
+                      onTap: () {
+                        controller.rateDoctor(
+                          appointmentId: appointment.id.toString(),
+                          doctorId: appointment.doctorId.toString(),
+                          rate: doctorRate.value.toInt().toString(),
+                          message: doctorMessageController.text,
+                        );
+                      },
                     ),
                   ],
                 ),

@@ -7,6 +7,7 @@ import 'package:krzv2/component/views/custom_text_field_component.dart';
 import 'package:krzv2/component/views/order_details_card_view.dart';
 import 'package:krzv2/component/views/rating_bar_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
+import 'package:krzv2/models/order_model.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
@@ -14,35 +15,79 @@ import 'package:krzv2/utils/app_spacers.dart';
 import '../controllers/order_review_controller.dart';
 
 class OrderReviewView extends GetView<OrderReviewController> {
-  const OrderReviewView({Key? key}) : super(key: key);
+  OrderReviewView({Key? key, required this.orderId, required this.products})
+      : super(key: key);
+  final int orderId;
+  final List<OrderProdudctsDetails> products;
+
+  final controller = Get.put(OrderReviewController());
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: CustomAppBar(titleText: 'تقييم الطلب'),
       body: ListView.separated(
+        itemCount: products.length,
         padding: AppDimension.appPadding,
         itemBuilder: (context, index) {
-          return ProductRateForm();
+          final product = products.elementAt(index);
+          return ProductRateForm(
+            productImage: product.productImage,
+            productName: product.productName,
+            productQuantuty: product.quantity.toString(),
+            productPrice: product.price.toString(),
+            productOldPrice: product.oldPrice.toString(),
+            onTap: ({String? message, double? rate}) {
+              controller.rateOrderProduct(
+                orderId: orderId.toString(),
+                productId: product.productId.toString(),
+                rate: rate!.toInt().toString(),
+                message: message,
+              );
+            },
+          );
         },
         separatorBuilder: (BuildContext context, int index) => Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Divider(),
         ),
-        itemCount: 5,
       ),
     );
   }
 }
 
 class ProductRateForm extends StatelessWidget {
-  const ProductRateForm({super.key});
+  ProductRateForm({
+    super.key,
+    required this.productImage,
+    required this.productName,
+    required this.productQuantuty,
+    required this.productPrice,
+    required this.productOldPrice,
+    required this.onTap,
+  });
+
+  final String productImage;
+  final String productName;
+  final String productPrice;
+  final String productQuantuty;
+  final String productOldPrice;
+  final Function({required double rate, required String message}) onTap;
+
+  final RxDouble _rate = 1.0.obs;
+  final messageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        OrderDetailsCardView.demmy(),
+        OrderDetailsCardView(
+          image: productImage,
+          price: productPrice,
+          name: productName,
+          oldPrice: productOldPrice,
+          quantity: productQuantuty,
+        ),
         Divider(),
         AppSpacers.height12,
         Text(
@@ -57,15 +102,18 @@ class ProductRateForm extends StatelessWidget {
         ),
         AppSpacers.height12,
         RatingBarView(
-          initRating: 0,
+          initRating: 1,
           totalRate: 0,
           displayTotalRate: false,
           itemSize: 20,
+          onRatingUpdate: (double vlu) {
+            _rate.value = vlu;
+          },
         ),
         AppSpacers.height12,
         Divider(),
         TextFieldComponent.longMessage(
-          controller: TextEditingController(),
+          controller: messageController,
           outLineText: '',
           hintText: 'اكتب شيئًا عن هذا المنتج',
         ),
@@ -75,7 +123,9 @@ class ProductRateForm extends StatelessWidget {
             CustomBtnCompenent.main(
               width: 130,
               text: 'إرسال',
-              onTap: () {},
+              onTap: () {
+                onTap(rate: _rate.value, message: messageController.text);
+              },
             ),
           ],
         ),

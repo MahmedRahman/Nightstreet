@@ -58,9 +58,9 @@ class ProductCardView extends GetView {
         width: 150.0,
         padding: const EdgeInsets.all(8),
         margin: const EdgeInsets.only(left: 8),
-        constraints: BoxConstraints(
-          maxHeight: 300,
-        ),
+        // constraints: BoxConstraints(
+        //   maxHeight: 300,
+        // ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
           color: Colors.white,
@@ -107,31 +107,28 @@ class ProductCardView extends GetView {
   }
 
   Widget productImage({required String imageUrl}) {
-    return Stack(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: CashedNetworkImageView(
-            height: 134,
-            width: double.infinity,
+    return Expanded(
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          CashedNetworkImageView(
             imageUrl: imageUrl,
             boxFit: BoxFit.cover,
-            // 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1646077574-screen-shot-2022-02-28-at-2-39-10-pm-1646077556.png?crop=1xw:0.9974358974358974xh;center,top&resize=980:*',
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              buildLimitedQuantityBadge(
-                isLimitedQuantity: isLimitedQuantity,
-              ),
-              buildRatingBadge(rate: rate),
-            ],
-          ),
-        )
-      ],
+          Padding(
+            padding: const EdgeInsets.all(5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                buildLimitedQuantityBadge(
+                  isLimitedQuantity: isLimitedQuantity,
+                ),
+                buildRatingBadge(rate: rate),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 

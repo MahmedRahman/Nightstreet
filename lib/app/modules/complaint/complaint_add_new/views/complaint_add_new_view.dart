@@ -92,25 +92,29 @@ class ComplaintAddNewView extends GetView<ComplaintAddNewController> {
               onTap: () => _selecteFileSheet(
                 onSelected: (File file) {
                   selectedFile.value = file;
+                  controller.update();
                 },
               ),
             ),
-            Visibility(
-              visible: selectedFile.value != null,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Text(
-                  "تم ارفاق ملف/صوره",
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    color: AppColors.mainColor,
-                    fontWeight: FontWeight.w500,
-                    height: 0.67,
+            Obx(
+              () => Visibility(
+                visible: selectedFile.value != null,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    "تم ارفاق ملف/صوره",
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      color: AppColors.mainColor,
+                      fontWeight: FontWeight.w500,
+                      height: 0.67,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
               ),
             ),
+            AppSpacers.height19,
           ],
         ),
       ),

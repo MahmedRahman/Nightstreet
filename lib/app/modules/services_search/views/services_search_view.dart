@@ -24,6 +24,7 @@ class ServicesSearchView extends GetView<ServicesSearchController> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: ProductSearchAppBarView(
+        onBackTapped: () => Get.back(result: true),
         textEditingController: searchController,
         onSearchIconTapped: onSearchTapped,
         onChanged: (String query) {
@@ -96,11 +97,15 @@ class ServiceSearchView extends GetView<ServicesSearchController> {
             rate: service.totalRateAvg.toString(),
             totalRate: service.totalRateCount.toString(),
             isFavorite: service.isFavorite,
-            onTapped: () {
-              Get.toNamed(
+            onTapped: () async {
+              final awaitId = await Get.toNamed(
                 Routes.SERVICE_DETAIL,
-                arguments: service.id,
+                arguments: service.id.toString(),
               );
+
+              if (awaitId != null && awaitId != '') {
+                controller.toggleFavorite(service.id);
+              }
             },
           ).paddingOnly(bottom: 10);
         },
@@ -116,13 +121,30 @@ class ServiceSearchView extends GetView<ServicesSearchController> {
   }
 }
 
-class ClinicsSearchView extends GetView {
+class ClinicsSearchView extends GetView<BranchSearchController> {
+  BranchSearchController controllerBranchSearch = Get.put(BranchSearchController());
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        return ClinicCardView.dummy().paddingOnly(bottom: 10);
+    return controller.obx(
+      (snapshot) {
+        return ListView.builder(
+          itemCount: snapshot!.length,
+          itemBuilder: (context, index) {
+            return ClinicCardView(
+              name: snapshot.elementAt(index)["name"].toString(),
+              imageUrl: snapshot.elementAt(index)["clinic"]["image"].toString(),
+              totalRate: snapshot.elementAt(index)["total_rate_count"].toString(),
+              oldPrice: snapshot.elementAt(index)["total_rate_count"].toString(),
+              isFavorite: false,
+              onFavoriteTapped: () {},
+              rate: snapshot.elementAt(index)["total_rate_count"].toString(),
+              
+            );
+          },
+        );
       },
     );
   }
+  
 }

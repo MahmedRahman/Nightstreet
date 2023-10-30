@@ -44,7 +44,7 @@ class ProductColorSelectorView extends GetView {
                   overlayColor: MaterialStatePropertyAll(Colors.transparent),
                   onTap: () {
                     selectedColor.value = color;
-                    onChanged(variant.name);
+                    onChanged(variant.id.toString());
                   },
                   child: Container(
                     margin: const EdgeInsets.only(left: 8),

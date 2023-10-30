@@ -1,0 +1,373 @@
+import 'dart:developer';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+import 'package:krzv2/app/modules/address/list_addresses/controllers/delivery_addresses_controller.dart';
+import 'package:krzv2/component/views/costum_btn_component.dart';
+import 'package:krzv2/component/views/custom_app_bar.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
+import 'package:krzv2/component/views/custom_drop_menu_view.dart';
+import 'package:krzv2/component/views/custom_text_field_component.dart';
+import 'package:krzv2/component/views/custom_toggle_view.dart';
+import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
+import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/utils/app_colors.dart';
+import 'package:krzv2/utils/app_dimens.dart';
+import 'package:krzv2/utils/app_spacers.dart';
+
+import '../controllers/edit_address_controller.dart';
+
+class editAddressView extends GetView<editAddressController> {
+  final data;
+  final formKey = GlobalKey<FormState>();
+  editAddressController controller = Get.put(editAddressController());
+
+  final addressController = TextEditingController();
+  final phoneController = TextEditingController();
+  final noteController = TextEditingController();
+  final isDefaultCon = TextEditingController();
+  int cityId = 0;
+  RxInt? isDefault = 0.obs;
+
+  editAddressView({
+    required this.data,
+  }) {
+    Future.delayed(Duration.zero, () async {
+      print('dataaaa $data');
+      addressController.text = data["address"];
+      phoneController.text = data["phone"];
+      noteController.text = data["notes"] ?? '';
+      cityId = data["city"]["id"];
+      isDefaultCon.text = data["is_default"].toString();
+      controller.update();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print('isDefault ${isDefaultCon.text}');
+    print(' data["is_default"]; ${data["is_default"]}');
+    return BaseScaffold(
+      appBar: CustomAppBar(titleText: 'تعديل العنوان'),
+      body: Form(
+        key: formKey,
+        child: ListView(
+          padding: AppDimension.appPadding,
+          children: [
+            AppSpacers.height16,
+            Text(
+              'حدد الموقع المراد التوصيل له',
+              style: TextStyle(
+                fontFamily: 'Effra',
+                fontSize: 16.0,
+                color: AppColors.greyColor,
+                letterSpacing: 0.32,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Divider(),
+            ),
+            TextFieldComponent.text(
+              controller: noteController,
+            ),
+            AppSpacers.height25,
+            SelectorView(
+              title: "اختر المدينة",
+              selectedIndexValue: cityId,
+              dataList: dataCity,
+              onChanged: (data) {
+                cityId = data['id'];
+              },
+            ),
+            AppSpacers.height25,
+            TextFieldComponent.address(
+              controller: addressController,
+            ),
+            AppSpacers.height25,
+            TextFieldComponent.phone(
+              controller: phoneController,
+              iconPath: '',
+            ),
+            AppSpacers.height16,
+            Row(
+              children: [
+                Text(
+                  'افتراضي',
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    color: AppColors.blackColor,
+                    letterSpacing: 0.28,
+                    height: 0.86,
+                  ),
+                  textAlign: TextAlign.right,
+                ),
+                AppSpacers.width10,
+                CustomToggleView(
+                  activeColor: AppColors.mainColor,
+                  deactivateColor: Colors.white,
+                  Kselected: isDefault == 1,
+                  onChanged: (bool vlu) {
+                    print('isDefault ${isDefault?.value}');
+                    // if (vlu) {
+                    //   isDefault = 1;
+                    //   return;
+                    // }
+                    // isDefault = 0;
+                  },
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+      bottomBarHeight: 143,
+      bottomNavigationBar: Padding(
+        padding: AppDimension.appPadding,
+        child: CustomBtnCompenent.main(
+          text: "تعديل",
+          onTap: () async {
+            if (!formKey.currentState!.validate()) {
+              return;
+            }
+
+            controller.editAddress(
+              Id: data["id"],
+              cityId: cityId.toString(),
+              phone: phoneController.text.toString(),
+              address: addressController.text.toString(),
+              notes: noteController.text.toString(),
+              isDefault: isDefault.toString(),
+              previousRoute: Get.previousRoute,
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  // Obx selectAdressCategory() {
+  //   return Obx(() {
+  //     return Row(
+  //       children: [
+  //         customBnt(
+  //           title: "المنزل",
+  //           isSelect: (IsSelect.value == 0),
+  //           onTap: () {
+  //             IsSelect.value = 0;
+  //             selectAddressCategory = "المنزل";
+  //           },
+  //         ),
+  //         customBnt(
+  //           title: "العمل",
+  //           isSelect: IsSelect.value == 1,
+  //           onTap: () {
+  //             IsSelect.value = 1;
+  //             selectAddressCategory = "العمل";
+  //           },
+  //         ),
+  //         customBnt(
+  //           title: "العائلة",
+  //           isSelect: IsSelect.value == 2,
+  //           onTap: () {
+  //             IsSelect.value = 2;
+  //             selectAddressCategory = "العائلة";
+  //           },
+  //         ),
+  //         customBnt(
+  //           title: "الاستراحة",
+  //           isSelect: IsSelect.value == 3,
+  //           onTap: () {
+  //             IsSelect.value = 3;
+  //             selectAddressCategory = "الاستراحة";
+  //           },
+  //         ),
+  //       ],
+  //     );
+  //   });
+  // }
+
+  Widget customBnt({
+    required String title,
+    required bool isSelect,
+    required void Function()? onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: isSelect ? Color(0xff7D3A5B) : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 5,
+          ),
+          child: Text(
+            "$title",
+            style: TextStyle(
+              color: isSelect ? Colors.white : Colors.black,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  CustomDropMenuView<String> citySelector({
+    required Function(String) onCityChanged,
+  }) {
+    return CustomDropMenuView<String>(
+      requiredFiled: true,
+      labelText: "اختر المدينة",
+      itemAsString: (String? u) => u!,
+      items: ['الرياض', 'جده', 'الدمام'],
+      onChanged: (String? selectedCity) {
+        onCityChanged(selectedCity ?? '');
+      },
+      dropdownBuilder: (_, String? title) {
+        return Text(
+          title ?? "اختر المدينة",
+          style: title == ''
+              ? null
+              : TextStyle(
+                  fontSize: 16.0,
+                  color: AppColors.greyColor,
+                ),
+        );
+      },
+      popupItemBuilder: (_, String? title, __) {
+        return Padding(
+          padding: const EdgeInsets.only(
+            right: 20,
+          ),
+          child: Text(
+            title ?? '',
+            style: const TextStyle(
+              fontSize: 16,
+              color: AppColors.greyColor,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class SelectorView extends GetView {
+  final selectedIndexValue;
+  final String title;
+  final selectedIndex = Rx<int>(0);
+  final List<dynamic> dataList;
+  final ValueChanged<dynamic> onChanged;
+
+  SelectorView({
+    required this.dataList,
+    required this.onChanged,
+    required this.title,
+    required this.selectedIndexValue,
+  }) {
+    selectedIndex.value = selectedIndexValue;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title.toString(),
+          style: const TextStyle(
+            fontSize: 16.0,
+            color: AppColors.blackColor,
+            letterSpacing: 0.32,
+            fontWeight: FontWeight.w500,
+            height: 0.75,
+          ),
+          textAlign: TextAlign.right,
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Obx(
+          () => InkWell(
+            onTap: () {
+              _showDialog(
+                CupertinoPicker(
+                  magnification: 1.22,
+                  squeeze: 1.2,
+                  useMagnifier: true,
+                  itemExtent: 32,
+                  scrollController: FixedExtentScrollController(
+                    initialItem: selectedIndex.value,
+                  ),
+                  children: List<Widget>.generate(
+                    dataList.length,
+                    (int index) {
+                      return Center(child: Text(dataList[index]["name"]));
+                    },
+                  ),
+                  onSelectedItemChanged: (int selectedItemIndex) {
+                    selectedIndex.value = selectedItemIndex;
+                    log(selectedItemIndex.toString());
+                    //log(dataList[selectedItemIndex]);
+                    onChanged(dataList[selectedItemIndex]);
+                  },
+                ),
+              );
+            },
+            child: Container(
+              height: 52.0,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: AppColors.greyColor2,
+              ),
+              child: Row(
+                children: [
+                  AppSpacers.width20,
+                  Text(
+                    dataList[selectedIndex.value]["name"],
+                    style: TextStyle(
+                      fontFamily: 'Effra',
+                      fontSize: 16.0,
+                      color: AppColors.greyColor,
+                      letterSpacing: 0.32,
+                      height: 0.75,
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _showDialog(Widget child) {
+    showCupertinoModalPopup<void>(
+      context: Get.context!,
+      builder: (BuildContext context) => Container(
+        height: 216,
+        padding: const EdgeInsets.only(top: 6.0),
+        // The Bottom margin is provided to align the popup above the system navigation bar.
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        // Provide a background color for the popup.
+        color: CupertinoColors.systemBackground.resolveFrom(context),
+        // Use a SafeArea widget to avoid system overlaps.
+        child: SafeArea(
+          top: false,
+          child: child,
+        ),
+      ),
+    );
+  }
+}

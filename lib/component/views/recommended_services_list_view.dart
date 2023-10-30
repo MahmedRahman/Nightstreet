@@ -11,11 +11,13 @@ class RecommendedServicesListView extends GetView {
   final List<ServiceModel> recommendedServicesList;
   final VoidCallback onShowMoreTapped;
   final Function(int id) onFavoriteTapped;
+  final Function(int id) onTap;
   const RecommendedServicesListView({
     Key? key,
     required this.recommendedServicesList,
     required this.onShowMoreTapped,
     required this.onFavoriteTapped,
+    required this.onTap,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -45,10 +47,7 @@ class RecommendedServicesListView extends GetView {
                 totalRate: service.totalRateCount.toString(),
                 isFavorite: service.isFavorite,
                 onTapped: () {
-                  Get.toNamed(
-                    Routes.SERVICE_DETAIL,
-                    arguments: service.id,
-                  );
+                  onTap(service.id);
                 },
               );
             },

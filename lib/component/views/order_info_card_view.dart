@@ -12,11 +12,13 @@ class OrderInfoCardView extends GetView {
     required this.orderDate,
     required this.orderNo,
     required this.status,
+    required this.statusNum,
   }) : super(key: key);
 
   final String orderNo;
   final String orderDate;
   final String status;
+  final String statusNum;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -46,30 +48,34 @@ class OrderInfoCardView extends GetView {
           ],
         ),
         Spacer(),
-        orderStatusCard(status: status),
+        orderStatusCard(
+          status: status,
+          statusNum: statusNum,
+        ),
       ],
     );
   }
 
-  Container orderStatusCard({required String status}) {
+  Container orderStatusCard(
+      {required String status, required String statusNum}) {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(7.0),
-        color: getColorBasedOnStatus(status).withOpacity(0.08),
+        color: getColorBasedOnStatus(statusNum).withOpacity(0.08),
       ),
       child: Row(
         children: [
           SvgPicture.asset(
             AppSvgAssets.orderStatusBox,
-            color: getColorBasedOnStatus(status),
+            color: getColorBasedOnStatus(statusNum),
           ),
           AppSpacers.width5,
           Text(
             status,
             style: TextStyle(
               fontSize: 14.0,
-              color: getColorBasedOnStatus(status),
+              color: getColorBasedOnStatus(statusNum),
               height: 0.86,
             ),
             textAlign: TextAlign.right,
@@ -79,13 +85,13 @@ class OrderInfoCardView extends GetView {
     );
   }
 
-  Color getColorBasedOnStatus(String status) {
-    switch (status) {
-      case "تم التوصيل":
+  Color getColorBasedOnStatus(String statusNum) {
+    switch (statusNum) {
+      case "2":
         return AppColors.greenColor;
-      case "قيد التوصيل":
+      case "1":
         return AppColors.orangeColor;
-      case "ملغى":
+      case "3":
         return AppColors.errorColor;
       default:
         return AppColors.mainColor;

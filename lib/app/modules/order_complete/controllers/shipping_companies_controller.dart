@@ -1,0 +1,32 @@
+import 'package:get/get.dart';
+import 'package:krzv2/models/shipping_companies_model.dart';
+import 'package:krzv2/web_serives/api_response_model.dart';
+import 'package:krzv2/web_serives/web_serives.dart';
+
+class ShippingCompaniesController extends GetxController
+    with StateMixin<List<ShippingCompaniesModel>> {
+  getShppingCompanies({
+    required String addressId,
+  }) async {
+    change([], status: RxStatus.loading());
+
+    ResponseModel responseModel = await WebServices().getShippingCompanies(
+      addressId: addressId,
+    );
+
+    if (responseModel.data["success"]) {
+      final List<ShippingCompaniesModel> featchedData =
+          List<ShippingCompaniesModel>.from(
+        responseModel.data['data']
+            .map((category) => ShippingCompaniesModel.fromMap(category)),
+      );
+
+      if (featchedData.isEmpty) {
+        change([], status: RxStatus.empty());
+        return;
+      }
+
+      change(featchedData, status: RxStatus.success());
+    }
+  }
+}

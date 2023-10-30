@@ -6,11 +6,13 @@ import 'package:krzv2/utils/app_colors.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String titleText;
   final List<Widget>? actions;
+  final Function()? onBackTapped;
 
   const CustomAppBar({
     super.key,
     required this.titleText,
     this.actions,
+    this.onBackTapped,
   });
 
   @override
@@ -29,10 +31,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         statusBarBrightness: Brightness.light, // For iOS (dark icons)
       ),
       elevation: 0,
-      
-      leading: const Padding(
-        padding: EdgeInsets.only(right: 16),
-        child: CustomBackButton(),
+      leading: Padding(
+        padding: const EdgeInsets.only(right: 16),
+        child: CustomBackButton(onBackTapped: onBackTapped),
       ),
       centerTitle: false,
       title: Text(

@@ -68,7 +68,7 @@ class OrderDetailsCardView extends GetView {
               AppSpacers.height5,
               PriceWithDiscountView(
                 price: price,
-                hasDiscount: oldPrice != '' ? true : false,
+                hasDiscount: oldPrice != '' && oldPrice != '0' ? true : false,
                 oldPrice: oldPrice,
               ),
               AppSpacers.height5,

@@ -1,46 +1,77 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/models/order_model.dart';
+import 'package:krzv2/utils/app_colors.dart';
+import 'package:krzv2/web_serives/api_response_model.dart';
+import 'package:krzv2/web_serives/web_serives.dart';
 
 class OrdersListController extends GetxController
-    with StateMixin<List<dynamic>> {
-  List orders = [
-    {
-      "orderNo": '58967895',
-      "orderDate": 'الإثنـــين، 10 اكتوبر 2022م',
-      "status": 'تم التوصيل',
-      "productCount": '5',
-      "price": '1760',
-    },
-    {
-      "orderNo": '58967895',
-      "orderDate": 'الإثنـــين، 10 اكتوبر 2022م',
-      "status": "قيد التوصيل",
-      "productCount": '5',
-      "price": '1760',
-    },
-    {
-      "orderNo": '58967895',
-      "orderDate": 'الإثنـــين، 10 اكتوبر 2022م',
-      "status": "ملغى",
-      "productCount": '5',
-      "price": '1760',
-    },
-  ];
-  final count = 0.obs;
+    with StateMixin<List<OrderModel>>, ScrollMixin {
+  final List<OrderModel> _orders = [];
+  int currentPage = 1;
+  bool? isPagination;
+
   @override
   void onInit() {
-    change(orders, status: RxStatus.success());
+    getOrders();
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void refreshList() {
+    currentPage = 1;
+    _orders.clear();
+    getOrders();
+  }
+
+  getOrders() async {
+    if (currentPage == 1) change([], status: RxStatus.loading());
+
+    ResponseModel responseModel = await WebServices().getOrders(
+      pageNo: currentPage,
+    );
+
+    if (responseModel.data["success"]) {
+      final List<OrderModel> ordersDataList = List<OrderModel>.from(
+        responseModel.data['data']['data']
+            .map((category) => OrderModel.fromJson(category)),
+      );
+
+      _orders.addAll(ordersDataList);
+
+      if (_orders.isEmpty) {
+        change([], status: RxStatus.empty());
+        return;
+      }
+
+      change(_orders, status: RxStatus.success());
+
+      isPagination =
+          responseModel.data['data']['pagination']['is_pagination'] as bool;
+    }
   }
 
   @override
-  void onClose() {
-    super.onClose();
+  Future<void> onEndScroll() async {
+    if (isPagination == false) return;
+    currentPage++;
+
+    Get.dialog(
+      const Center(
+        child: SpinKitCircle(
+          color: AppColors.mainColor,
+          size: 70,
+        ),
+      ),
+    );
+
+    await getOrders();
+
+    Get.back();
   }
 
-  void increment() => count.value++;
+  @override
+  Future<void> onTopScroll() async {
+    print('onTopScroll');
+  }
 }

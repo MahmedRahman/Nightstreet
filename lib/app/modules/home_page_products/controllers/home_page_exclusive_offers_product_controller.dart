@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:krzv2/models/product_model.dart';
+import 'package:krzv2/models/product_search_query.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
@@ -15,7 +16,9 @@ class ExclusiveOffersProductController extends GetxController
   void getExclusiveOffersProducts() async {
     change(null, status: RxStatus.loading());
     ResponseModel responseModel = await WebServices().getProducts(
-      adminFeatured: '1',
+      queryParameters: ProductQueryParameters(
+        adminFeatured: 1,
+      ),
     );
 
     if (responseModel.data["success"]) {

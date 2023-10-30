@@ -10,10 +10,14 @@ class ProductFilterItemsView extends GetView {
   const ProductFilterItemsView({
     Key? key,
     required this.onChanged,
+    this.initValue,
   }) : super(key: key);
+
+  final ProductFilterModel? initValue;
   @override
   Widget build(BuildContext context) {
-    final _selectedItem = productFilterItems.first.obs;
+    final _selectedItem =
+        initValue != null ? initValue.obs : productFilterItems.first.obs;
 
     return Obx(
       () => Column(
@@ -22,6 +26,7 @@ class ProductFilterItemsView extends GetView {
             return GestureDetector(
               onTap: () {
                 _selectedItem.value = filterEntity;
+                onChanged(filterEntity);
               },
               child: Container(
                   decoration: BoxDecoration(

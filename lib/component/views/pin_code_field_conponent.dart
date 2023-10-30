@@ -9,10 +9,11 @@ class PinCodeField extends StatelessWidget {
     Key? key,
     required this.onCompleted,
     required this.validator,
+    required this.otpController,
   }) : super(key: key);
 
   final ValueChanged<String>? onCompleted;
-  // TextEditingController otpController = TextEditingController(text: "7418");
+  final TextEditingController otpController;
   final String? Function(String?)? validator;
 
   @override
@@ -30,7 +31,7 @@ class PinCodeField extends StatelessWidget {
           child: Column(
             children: [
               PinCodeTextField(
-                // controller: otpController,
+                controller: otpController,
                 enablePinAutofill: true,
                 autoFocus: true,
                 appContext: context,

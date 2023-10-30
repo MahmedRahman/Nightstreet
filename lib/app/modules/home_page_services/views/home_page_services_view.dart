@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:focus_detector/focus_detector.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
 import 'package:krzv2/app/modules/google_map/controllers/google_map_controller.dart';
 import 'package:krzv2/app/modules/home_page_services/controllers/hom_page_service_slider_controller.dart';
 import 'package:krzv2/component/views/app_bar_search_view.dart';
@@ -99,10 +100,21 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                       final branch = branches.elementAt(index);
 
                       return ClinicCardView(
+                        isFavorite: branch.isFavorite,
                         imageUrl: branch.clinic.image,
                         name: branch.name,
                         onFavoriteTapped: () {
-                          print('tapped');
+                          final favCon = Get.put<CliniFavoriteController>(
+                            CliniFavoriteController(),
+                          );
+                          controller.toggleFavorite(branch.id);
+
+                          favCon.addRemoveBranchFromFavorite(
+                            branchId: branch.id,
+                            onError: () {
+                              servicesController.toggleFavorite(branch.id);
+                            },
+                          );
                         },
                         rate: branch.totalRateAvg.toString(),
                         totalRate: branch.totalRateCount.toString(),

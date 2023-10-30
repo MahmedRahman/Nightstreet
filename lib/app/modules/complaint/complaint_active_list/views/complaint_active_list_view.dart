@@ -56,10 +56,9 @@ class ComplaintActiveListView extends GetView<ComplaintActiveListController> {
           ).shimmer();
         },
       ),
-      onEmpty: AppPageEmpty(
+      onEmpty: AppPageEmpty.complaint(
         title: "الشكاوي الحاليه",
         description: "لا يوجد شكاوي حاليه",
-        imagePath: "assets/svg/about_icon.svg",
       ),
     );
   }

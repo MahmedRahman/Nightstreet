@@ -217,9 +217,21 @@ class FavoriteClinic extends GetView<CliniFavoriteController> {
                 bottom: 8,
               ),
               child: ClinicCardView(
-                imageUrl: clinic!.clinic.image,
+                isFavorite: clinic!.isFavorite,
+                imageUrl: clinic.clinic.image,
                 name: clinic.name,
-                onFavoriteTapped: () {},
+                onFavoriteTapped: () {
+               
+                  controller.toggleFavorite(clinic.id);
+
+                  controller.addRemoveBranchFromFavorite(
+                    branchId: clinic.id,
+                    onError: () {
+                      controller.toggleFavorite(clinic.id);
+                    },
+                    onSuccess: () => controller.removeClinicFromList(clinic.id),
+                  );
+                },
                 rate: clinic.totalRateAvg.toString(),
                 totalRate: clinic.totalRateCount.toString(),
               ),

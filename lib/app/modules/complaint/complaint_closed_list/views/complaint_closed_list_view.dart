@@ -56,10 +56,9 @@ class ComplaintClosedListView extends GetView<ComplaintClosedListController> {
           ).shimmer();
         },
       ),
-      onEmpty: AppPageEmpty(
+      onEmpty: AppPageEmpty.complaint(
         title: "الشكاوي المغلقه",
         description: "لا يوجد شكاوي مغلقه",
-        imagePath: "assets/svg/about_icon.svg",
       ),
     );
   }

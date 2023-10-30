@@ -52,7 +52,8 @@ class AppDialogs {
       onTap: () {},
       title: "تهانينا !!",
       barrierDismissible: false,
-      subtitle: "حسابك جاهز للاستخدام ، ستتم إعادة توجيهك\nإلى الصفحة الرئيسية في بضع ثوان",
+      subtitle:
+          "حسابك جاهز للاستخدام ، ستتم إعادة توجيهك\nإلى الصفحة الرئيسية في بضع ثوان",
       image: AppSvgAssets.successIcon,
       child: SpinKitCircle(
         color: AppColors.mainColor,
@@ -67,7 +68,8 @@ class AppDialogs {
     appDialogs._dialog(
       onTap: () {},
       title: "تهانينا !!",
-      subtitle: "تم إضافة العنوان بنجاح ، ستتم إعادة توجيهك \n إلى صفحة العناويين في بضع ثوان",
+      subtitle:
+          "تم إضافة العنوان بنجاح ، ستتم إعادة توجيهك \n إلى صفحة العناويين في بضع ثوان",
       image: AppSvgAssets.successIcon,
       child: SpinKitCircle(
         color: AppColors.mainColor,
@@ -82,7 +84,8 @@ class AppDialogs {
     appDialogs._dialog(
       onTap: () {},
       title: "تهانينا !!",
-      subtitle: 'تمت العملية بنجاح ، وسنرسل إليك رسالة\nتأكيد عبر البريد الإلكتروني قريبًا.',
+      subtitle:
+          'تمت العملية بنجاح ، وسنرسل إليك رسالة\nتأكيد عبر البريد الإلكتروني قريبًا.',
       image: AppSvgAssets.successIcon,
       barrierDismissible: false,
       child: CustomBtnCompenent.main(
@@ -115,12 +118,14 @@ class AppDialogs {
     return appDialogs;
   }
 
-  factory AppDialogs.complaintAddNewSuccessful({required void Function() onTap}) {
+  factory AppDialogs.complaintAddNewSuccessful(
+      {required void Function() onTap}) {
     final appDialogs = AppDialogs._();
     appDialogs._dialog(
       onTap: () {},
       title: "تهانينا !!",
-      subtitle: 'تمت العملية بنجاح ، وسنرسل إليك رسالة\nتأكيد عبر البريد الإلكتروني قريبًا.',
+      subtitle:
+          'تم تقديم التذكرة بنجاح ، وسنرسل إليك رسالة \n تأكيد عبر البريد الإلكتروني قريبًا.',
       image: AppSvgAssets.successIcon,
       barrierDismissible: false,
       child: Column(
@@ -213,7 +218,8 @@ class AppDialogs {
     appDialogs._dialog(
       onTap: () {},
       title: "تهانينا !!",
-      subtitle: 'تم تأكيد طلبك ، وسنرسل إليك رسالة تأكيد \n عبر البريد الإلكتروني قريبًا.',
+      subtitle:
+          'تم تأكيد طلبك ، وسنرسل إليك رسالة تأكيد \n عبر البريد الإلكتروني قريبًا.',
       image: AppSvgAssets.editAppointmentIcon,
       barrierDismissible: false,
       child: Column(
@@ -246,7 +252,8 @@ class AppDialogs {
     appDialogs._dialog(
       onTap: () {},
       title: "تهانينا !!",
-      subtitle: 'تم تأكيد طلبك ، وسنرسل إليك رسالة تأكيد \n عبر البريد الإلكتروني قريبًا.',
+      subtitle:
+          'تم تأكيد طلبك ، وسنرسل إليك رسالة تأكيد \n عبر البريد الإلكتروني قريبًا.',
       image: AppSvgAssets.editAppointmentIcon,
       barrierDismissible: false,
       child: Column(
@@ -296,10 +303,12 @@ class AppDialogs {
   }) {
     Get.generalDialog(
       barrierDismissible: barrierDismissible,
-      barrierLabel: MaterialLocalizations.of(Get.context!).modalBarrierDismissLabel,
+      barrierLabel:
+          MaterialLocalizations.of(Get.context!).modalBarrierDismissLabel,
       barrierColor: Colors.black45,
       transitionDuration: const Duration(milliseconds: 200),
-      pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+      pageBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation) {
         return Center(
           child: Container(
             width: Get.width * .8,

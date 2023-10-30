@@ -3,19 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/utils/app_colors.dart';
 
+final RxBool selected = false.obs;
+
 class CustomToggleView extends GetView {
   CustomToggleView({
     Key? key,
     required this.activeColor,
     required this.deactivateColor,
     required this.onChanged,
-  }) : super(key: key);
+    required this.Kselected,
+  }) {
+    selected.value = Kselected;
+  }
 
   final Color activeColor;
   final Color deactivateColor;
   final Function(bool) onChanged;
-
-  final RxBool selected = false.obs;
+  final bool Kselected;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -35,8 +39,7 @@ class CustomToggleView extends GetView {
           ),
           child: AnimatedAlign(
             duration: const Duration(milliseconds: 300),
-            alignment:
-                selected.value ? Alignment.centerRight : Alignment.centerLeft,
+            alignment: selected.value ? Alignment.centerRight : Alignment.centerLeft,
             curve: Curves.fastOutSlowIn,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),

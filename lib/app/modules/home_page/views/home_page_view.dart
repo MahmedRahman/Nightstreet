@@ -7,6 +7,7 @@ import 'package:krzv2/app/modules/home_page/controllers/home_page_recommended_pr
 import 'package:krzv2/app/modules/home_page/controllers/home_page_service_categories.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_service_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_slider_controller.dart';
+import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
 import 'package:krzv2/component/views/home_app_bar_view.dart';
 import 'package:krzv2/component/views/product_categories_list_view.dart';
@@ -21,6 +22,7 @@ import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/product_model.dart';
 import 'package:krzv2/models/service_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
@@ -28,6 +30,7 @@ class HomePageView extends GetView {
   final productCategoriesController = Get.put(ProductCategoriesController());
   final serviceCategoriesController = Get.put(ServiceCategoriesController());
   final recommendedProductController = Get.put(RecommendedProductController());
+  final cartController = Get.put(ShoppintCartController());
   final servicesController = Get.put(HomePageServiceController());
   final sliderController = Get.put(HomePageSliderController());
   final bottomNavigationBarController = Get.put(MyBottomNavigationController());
@@ -44,7 +47,6 @@ class HomePageView extends GetView {
           onNotificationTapped: () {
             Get.toNamed(Routes.notificationPage);
           },
-          cartItemsCounter: 2,
           notificationCounter: 1,
         ),
         actions: [],
@@ -89,10 +91,32 @@ class HomePageView extends GetView {
               (servicesList) {
                 return ServiceCategoriesListView(
                   serviceCategoriesList: servicesList,
+                  onTap: () async {
+                    final shoudRefresh =
+                        await Get.toNamed(Routes.SERVICES_SEARCH);
+
+                    if (shoudRefresh != null) {
+                      servicesController.onInit();
+                    }
+                  },
                 );
               },
               onLoading: CategoriesShimmer(
                 categoryTitle: 'أقسام الخدمات',
+              ),
+              onError: (String? error) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'أقسام الخدمات',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: AppColors.blackColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
+                ],
               ),
             ),
             AppSpacers.height16,
@@ -100,6 +124,15 @@ class HomePageView extends GetView {
               (categoriesList) {
                 return ProductCategoriesListView(
                   productCategoriesList: categoriesList,
+                  onTap: (int categoryId) async {
+                    final shoudRefresh = await Get.toNamed(
+                      Routes.PRODUCTS_LIST,
+                      arguments: categoryId.toString(),
+                    );
+                    if (shoudRefresh != null) {
+                      recommendedProductController.onInit();
+                    }
+                  },
                 );
               },
               onLoading: CategoriesShimmer(
@@ -112,7 +145,13 @@ class HomePageView extends GetView {
                 return ProductsHotizontalListView.recommended(
                   productsList: productsList ?? [],
                   onShowMoreTapped: () => Get.toNamed(Routes.PRODUCTS_LIST),
-                  onAddToCartTapped: (int productId) {},
+                  onAddToCartTapped: (int productId) {
+                    cartController.addToCart(
+                      productId: productId.toString(),
+                      quantity: '1',
+                      isNew: true,
+                    );
+                  },
                   onFavoriteTapped: (int productId) {
                     final favCon = Get.put<ProductFavoriteController>(
                       ProductFavoriteController(),
@@ -126,6 +165,16 @@ class HomePageView extends GetView {
                       },
                     );
                   },
+                  onTap: (int id) async {
+                    final awaitId = await Get.toNamed(
+                      Routes.PRODUCT_DETAILS,
+                      arguments: id.toString(),
+                    );
+
+                    if (awaitId != null && awaitId != '') {
+                      recommendedProductController.toggleFavorite(id);
+                    }
+                  },
                 );
               },
               onLoading: ProductsHotizontalListView.recommended(
@@ -135,6 +184,7 @@ class HomePageView extends GetView {
                 onShowMoreTapped: () {},
                 onAddToCartTapped: (_) {},
                 onFavoriteTapped: (_) {},
+                onTap: (int productId) {},
               ).shimmer(),
             ),
             AppSpacers.height25,
@@ -156,6 +206,16 @@ class HomePageView extends GetView {
                       },
                     );
                   },
+                  onTap: (int id) async {
+                    final awaitId = await Get.toNamed(
+                      Routes.SERVICE_DETAIL,
+                      arguments: id.toString(),
+                    );
+
+                    if (awaitId != null && awaitId != '') {
+                      servicesController.toggleFavorite(id);
+                    }
+                  },
                 );
               },
               onLoading: RecommendedServicesListView(
@@ -165,6 +225,7 @@ class HomePageView extends GetView {
                   ServiceModel.dummyService,
                 ],
                 onFavoriteTapped: (_) {},
+                onTap: (int id) {},
               ).shimmer(),
             ),
             AppSpacers.height50,

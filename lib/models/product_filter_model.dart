@@ -11,9 +11,9 @@ class ProductFilterModel extends Equatable {
 }
 
 List<ProductFilterModel> get productFilterItems => [
-      ProductFilterModel(searchKey: 'latest', title: 'الكل'),
-      ProductFilterModel(searchKey: 'offers', title: "الاعلى تقييماً"),
-      ProductFilterModel(searchKey: 'most_sellers', title: "الأكــثر مبيعاً"),
-      ProductFilterModel(searchKey: 'high_price', title: "السعر الاعلى"),
-      ProductFilterModel(searchKey: 'lowest_price', title: "السعر الادنى"),
+      ProductFilterModel(searchKey: '', title: 'الكل'),
+      ProductFilterModel(searchKey: '1', title: "الاعلى تقييماً"),
+      ProductFilterModel(searchKey: '4', title: "الأكــثر مبيعاً"),
+      ProductFilterModel(searchKey: '3', title: "السعر الاعلى"),
+      ProductFilterModel(searchKey: '2', title: "السعر الادنى"),
     ];

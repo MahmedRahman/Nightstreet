@@ -1,25 +1,20 @@
 import 'package:get/get.dart';
 
-import '../app/modules/Appointment_mangment/bindings/appointment_mangment_binding.dart';
-import '../app/modules/Appointment_mangment/views/appointment_mangment_view.dart';
+import '../app/modules/appointment_mangment/bindings/appointment_mangment_binding.dart';
+import '../app/modules/appointment_mangment/views/appointment_mangment_view.dart';
 import '../app/modules/about_doctor/bindings/about_doctor_binding.dart';
 import '../app/modules/about_doctor/views/about_doctor_view.dart';
 import '../app/modules/account_menu/bindings/account_menu_binding.dart';
 import '../app/modules/account_menu/views/account_menu_view.dart';
-import '../app/modules/add_new_address/bindings/add_new_address_binding.dart';
-import '../app/modules/add_new_address/views/add_new_address_view.dart';
-import '../app/modules/appointment_address/bindings/appointment_address_binding.dart';
-import '../app/modules/appointment_address/views/appointment_address_view.dart';
-import '../app/modules/booking_appointment/bindings/booking_appointment_binding.dart';
-import '../app/modules/booking_appointment/views/booking_appointment_view.dart';
-import '../app/modules/choose_a_doctor/bindings/choose_a_doctor_binding.dart';
-import '../app/modules/choose_a_doctor/views/choose_a_doctor_view.dart';
+import '../app/modules/address/add_address/bindings/add_new_address_binding.dart';
+import '../app/modules/address/add_address/views/add_new_address_view.dart';
+import '../app/modules/address/list_addresses/bindings/delivery_addresses_binding.dart';
+import '../app/modules/address/list_addresses/views/delivery_addresses_view.dart';
+import '../app/modules/appointment/views/payment_appointment_view.dart';
 import '../app/modules/choose_doctor/bindings/choose_doctor_binding.dart';
 import '../app/modules/choose_doctor/views/choose_doctor_view.dart';
 import '../app/modules/clinic_info/bindings/clinic_info_binding.dart';
 import '../app/modules/clinic_info/views/clinic_info_view.dart';
-import '../app/modules/commercial_brands/bindings/commercial_brands_binding.dart';
-import '../app/modules/commercial_brands/views/commercial_brands_view.dart';
 import '../app/modules/complaint/complaint_active_list/bindings/complaint_active_list_binding.dart';
 import '../app/modules/complaint/complaint_active_list/views/complaint_active_list_view.dart';
 import '../app/modules/complaint/complaint_add_new/bindings/complaint_add_new_binding.dart';
@@ -28,8 +23,6 @@ import '../app/modules/complaint/complaint_closed_list/bindings/complaint_closed
 import '../app/modules/complaint/complaint_closed_list/views/complaint_closed_list_view.dart';
 import '../app/modules/complaint/complaint_manager/bindings/complaint_manager_binding.dart';
 import '../app/modules/complaint/complaint_manager/views/complaint_manager_view.dart';
-import '../app/modules/delivery_addresses/bindings/delivery_addresses_binding.dart';
-import '../app/modules/delivery_addresses/views/delivery_addresses_view.dart';
 import '../app/modules/edit_appointment/bindings/edit_appointment_binding.dart';
 import '../app/modules/edit_appointment/views/edit_appointment_view.dart';
 import '../app/modules/favorite/bindings/favorite_binding.dart';
@@ -66,14 +59,9 @@ import '../app/modules/order_details/bindings/order_details_binding.dart';
 import '../app/modules/order_details/views/order_details_delivered_view.dart';
 import '../app/modules/order_details_cancelled/bindings/order_details_cancelled_binding.dart';
 import '../app/modules/order_details_cancelled/views/order_details_cancelled_view.dart';
-import '../app/modules/order_details_underway/bindings/order_details_underway_binding.dart';
 import '../app/modules/order_details_underway/views/order_details_underway_view.dart';
-import '../app/modules/order_review/bindings/order_review_binding.dart';
-import '../app/modules/order_review/views/order_review_view.dart';
 import '../app/modules/orders_list/bindings/orders_list_binding.dart';
 import '../app/modules/orders_list/views/orders_list_view.dart';
-import '../app/modules/payment_appointment/bindings/payment_appointment_binding.dart';
-import '../app/modules/payment_appointment/views/payment_appointment_view.dart';
 import '../app/modules/product_details/bindings/product_details_binding.dart';
 import '../app/modules/product_details/views/product_details_view.dart';
 import '../app/modules/product_search/bindings/product_search_binding.dart';
@@ -277,11 +265,7 @@ class AppPages {
       page: () => const ClinicInfoView(),
       binding: ClinicInfoBinding(),
     ),
-    GetPage(
-      name: Routes.COMMERCIAL_BRANDS,
-      page: () => CommercialBrandsView(),
-      binding: CommercialBrandsBinding(),
-    ),
+
     GetPage(
       name: Routes.PRODUCT_SEARCH,
       page: () => ProductSearchView(),
@@ -317,26 +301,24 @@ class AppPages {
       page: () => const ShoppingCartView(),
       binding: ShoppintCartBinding(),
     ),
-    GetPage(
-      name: Routes.BOOKING_APPOINTMENT,
-      page: () => BookingAppointmentView(),
-      binding: BookingAppointmentBinding(),
-    ),
+    // GetPage(
+    //   name: Routes.BOOKING_APPOINTMENT,
+    //   page: () => AppointmentBookingView(),
+    // ),
     GetPage(
       name: Routes.PAYMENT_APPOINTMENT,
-      page: () => const PaymentAppointmentView(),
-      binding: PaymentAppointmentBinding(),
+      page: () => AppointmentPaymentView(),
     ),
-    GetPage(
-      name: Routes.APPOINTMENT_ADDRESS,
-      page: () => AppointmentAddressView(),
-      binding: AppointmentAddressBinding(),
-    ),
-    GetPage(
-      name: Routes.CHOOSE_A_DOCTOR,
-      page: () => const ChooseADoctorView(),
-      binding: ChooseADoctorBinding(),
-    ),
+    // GetPage(
+    //   name: Routes.APPOINTMENT_ADDRESS,
+    //   page: () => AppointmentAddressView(),
+    //   binding: AppointmentAddressBinding(),
+    // ),
+    // GetPage(
+    //   name: Routes.CHOOSE_A_DOCTOR,
+    //   page: () => const AppointmentChooseDoctorView(),
+    //   binding: ChooseADoctorBinding(),
+    // ),
     GetPage(
       name: Routes.SERVICES_REVIEWS,
       page: () => const ServicesReviewsView(),
@@ -370,23 +352,23 @@ class AppPages {
     GetPage(
       name: Routes.ORDER_DETAILS_UNDERWAY,
       page: () => const OrderDetailsUnderwayView(),
-      binding: OrderDetailsUnderwayBinding(),
+      binding: OrderDetailsBinding(),
     ),
     GetPage(
       name: Routes.ORDER_DETAILS_CANCELLED,
       page: () => const OrderDetailsCancelledView(),
-      binding: OrderDetailsCancelledBinding(),
+      binding: OrderDetailsBinding(),
     ),
     GetPage(
       name: Routes.ORDER_COMPLETE,
       page: () => OrderCompleteView(),
       binding: OrderCompleteBinding(),
     ),
-    GetPage(
-      name: Routes.ORDER_REVIEW,
-      page: () => const OrderReviewView(),
-      binding: OrderReviewBinding(),
-    ),
+    // GetPage(
+    //   name: Routes.ORDER_REVIEW,
+    //   page: () => const OrderReviewView(),
+    //   binding: OrderReviewBinding(),
+    // ),
     GetPage(
       name: Routes.ORDER_CANCEL,
       page: () => OrderCancelView(),
@@ -404,7 +386,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.EDIT_APPOINTMENT,
-      page: () => const EditAppointmentView(),
+      page: () => EditAppointmentView(),
       binding: EditAppointmentBinding(),
     ),
     GetPage(

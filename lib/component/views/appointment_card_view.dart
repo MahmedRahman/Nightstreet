@@ -121,13 +121,13 @@ class AppointmentCardView extends GetView {
                         onTap: mainButtonOnTap!,
                       ),
                     ),
-                    AppSpacers.width10,
-                    Expanded(
-                      child: CustomBtnCompenent.secondary(
-                        text: secondButtonText,
-                        onTap: secondButtonOnTap!,
-                      ),
-                    )
+                    // AppSpacers.width10,
+                    // Expanded(
+                    //   child: CustomBtnCompenent.secondary(
+                    //     text: secondButtonText,
+                    //     onTap: secondButtonOnTap!,
+                    //   ),
+                    // )
                   ],
                 ),
                 AppSpacers.height12,
@@ -243,8 +243,7 @@ class AppointmentItemView extends GetView {
                   AppSpacers.height5,
                   PriceWithDiscountView(
                     price: price,
-                    hasDiscount:
-                        oldPrice != '' && oldPrice != '0' ? true : false,
+                    hasDiscount: oldPrice != '' && oldPrice != '0' ? true : false,
                     oldPrice: oldPrice != '' || oldPrice != '0' ? '' : oldPrice,
                   ),
                   AppSpacers.height5,

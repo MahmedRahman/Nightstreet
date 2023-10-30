@@ -5,12 +5,14 @@ import 'package:krzv2/app/modules/home_page/controllers/home_page_product_catego
 import 'package:krzv2/app/modules/home_page_products/controllers/home_page_exclusive_offers_product_controller.dart';
 import 'package:krzv2/app/modules/home_page_products/controllers/home_page_most_seller_product_controller.dart';
 import 'package:krzv2/app/modules/home_page_products/controllers/home_page_products_slider_controller.dart';
+import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/component/views/app_bar_search_view.dart';
 import 'package:krzv2/component/views/home_banner_view.dart';
 import 'package:krzv2/component/views/home_categories_list_view.dart';
 import 'package:krzv2/component/views/icon_button_component.dart';
 import 'package:krzv2/component/views/products_hotizontal_list_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
+import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
 import 'package:krzv2/component/views/slider_view.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/product_model.dart';
@@ -29,6 +31,7 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
   final sliderController = Get.put(HomePageProductSliderController());
   final productCategoriesController = Get.put(ProductCategoriesController());
   final mostSelleerProductController = Get.put(MostSelleerProductController());
+  final cartController = Get.put(ShoppintCartController());
   final exclusiveOffersProductController =
       Get.put(ExclusiveOffersProductController());
   @override
@@ -38,11 +41,7 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
         placeHolder: 'ما الذي تريد البحث عنه ؟',
         actions: authController.isLoggedIn
             ? [
-                CustomIconButton(
-                  onTap: () => Get.toNamed(Routes.SHOPPINT_CART),
-                  iconPath: AppSvgAssets.cartIcon,
-                  count: 1,
-                ),
+                ShoppingCartIconView(),
                 CustomIconButton(
                   onTap: () => Get.toNamed(Routes.notificationPage),
                   iconPath: AppSvgAssets.notificationIcon,
@@ -51,7 +50,13 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                 AppSpacers.width20,
               ]
             : [],
-        onTap: () => Get.toNamed(Routes.PRODUCT_SEARCH),
+        onTap: () async {
+          final shoudRefresh = await Get.toNamed(Routes.PRODUCT_SEARCH);
+          if (shoudRefresh != null) {
+            mostSelleerProductController.onInit();
+            exclusiveOffersProductController.onInit();
+          }
+        },
       ),
       // appBar: HomePageProductsAppBarView(),
       body: ListView(
@@ -81,8 +86,15 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
             (categoriesList) {
               return HomeCategoriesListView(
                 categoriesList: categoriesList,
-                onCategoryTapped: (int categoryId) {
-                  Get.toNamed(Routes.PRODUCTS_LIST);
+                onCategoryTapped: (int categoryId) async {
+                  final shoudRefresh = await Get.toNamed(
+                    Routes.PRODUCTS_LIST,
+                    arguments: categoryId.toString(),
+                  );
+                  if (shoudRefresh != null) {
+                    mostSelleerProductController.onInit();
+                    exclusiveOffersProductController.onInit();
+                  }
                 },
               );
             },
@@ -101,11 +113,18 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                 return ProductsHotizontalListView.mostWanted(
                   productsList: productsList ?? [],
                   onShowMoreTapped: () => Get.toNamed(Routes.PRODUCTS_LIST),
-                  onAddToCartTapped: (int productId) {},
+                  onAddToCartTapped: (int productId) {
+                    cartController.addToCart(
+                      productId: productId.toString(),
+                      quantity: '1',
+                      isNew: true,
+                    );
+                  },
                   onFavoriteTapped: (int productId) {
                     final favCon = Get.put<ProductFavoriteController>(
                       ProductFavoriteController(),
                     );
+                    mostSelleerProductController.toggleFavorite(productId);
 
                     favCon.addRemoveProductFromFavorite(
                       productId: productId,
@@ -113,6 +132,16 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                         mostSelleerProductController.toggleFavorite(productId);
                       },
                     );
+                  },
+                  onTap: (int id) async {
+                    final awaitId = await Get.toNamed(
+                      Routes.PRODUCT_DETAILS,
+                      arguments: id.toString(),
+                    );
+
+                    if (awaitId != null && awaitId != '') {
+                      mostSelleerProductController.toggleFavorite(id);
+                    }
                   },
                 );
               },
@@ -141,7 +170,13 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                 return ProductsHotizontalListView.exclusiveOffers(
                   productsList: productsList ?? [],
                   onShowMoreTapped: () => Get.toNamed(Routes.PRODUCTS_LIST),
-                  onAddToCartTapped: (int productId) {},
+                  onAddToCartTapped: (int productId) {
+                    cartController.addToCart(
+                      productId: productId.toString(),
+                      quantity: '1',
+                      isNew: true,
+                    );
+                  },
                   onFavoriteTapped: (int productId) {
                     final favCon = Get.put<ProductFavoriteController>(
                       ProductFavoriteController(),

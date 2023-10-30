@@ -5,14 +5,19 @@ import 'package:krzv2/utils/app_svg_paths.dart';
 import 'package:krzv2/utils/app_colors.dart';
 
 class CustomBackButton extends StatelessWidget {
-  const CustomBackButton({super.key});
+  const CustomBackButton({
+    super.key,
+    this.onBackTapped,
+  });
+
+  final Function()? onBackTapped;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         InkWell(
-          onTap: () => Get.back(),
+          onTap: onBackTapped ?? () => Get.back(),
           child: Container(
             width: 38.0,
             height: 38.0,

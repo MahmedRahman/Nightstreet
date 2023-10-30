@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:get/get_connect/http/src/multipart/form_data.dart';
 import 'package:get/get_connect/http/src/multipart/multipart_file.dart';
 import 'package:krzv2/models/branch_url_model.dart';
+import 'package:krzv2/models/product_search_query.dart';
 import 'package:krzv2/web_serives/api_constant.dart';
 import 'package:krzv2/web_serives/api_manger.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
@@ -330,7 +332,7 @@ class WebServices {
 
   Future<ResponseModel> getAddresses() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/addresses/get?is_default=1",
+      url: "${ApiConstant.baseUrl}/addresses/get",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -362,11 +364,10 @@ class WebServices {
   }
 
   Future<ResponseModel> updateAddresses({
+    required int id,
     required String cityId,
     required String phone,
     required String address,
-    required String email,
-    required String name,
     required String notes,
     required String isDefault,
   }) async {
@@ -375,13 +376,37 @@ class WebServices {
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
       query: {
+        "id": id,
         "city_id": "$cityId",
         "phone": "$phone",
         "address": "$address",
-        "email": "$email",
-        "name": "$name",
         "notes": "$notes",
         "is_default": "$isDefault",
+      },
+    );
+  }
+
+  Future<ResponseModel> bookAppointment({
+    required String payment_type,
+    required int offer_id,
+    required int branch_id,
+    required int doctor_id,
+    required String date_time,
+    required String time,
+    required String notes,
+  }) async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/appointments/book-appointment",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      isAuth: true,
+      query: {
+        "payment_type": "$payment_type",
+        "offer_id": offer_id,
+        "branch_id": branch_id,
+        "doctor_id": doctor_id,
+        "date_time": "$date_time",
+        "time": "$time",
+        "notes": "$notes",
       },
     );
   }
@@ -411,6 +436,32 @@ class WebServices {
     );
   }
 
+  Future<ResponseModel> getBranchOfferDoctors({
+    required int branchId,
+    required int offerId,
+  }) async {
+    return await ApiManger().execute(
+      url:
+          "${ApiConstant.baseUrl}/branches/branch-offer-doctors?branch_id=${branchId}&offer_id=${offerId}",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+      isAuth: true,
+    );
+  }
+
+  Future<ResponseModel> getAvailableOfferTimes({
+    required int offerId,
+    required int branchId,
+    required int doctorId,
+    required String dateTime,
+  }) async {
+    return await ApiManger().execute(
+      url:
+          "${ApiConstant.baseUrl}/appointments/get-available-offer-times?offer_id=${offerId}&branch_id=${branchId}&doctor_id=${doctorId}&date_time=${dateTime}",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+      isAuth: true,
+    );
+  }
+
   Future<ResponseModel> getServicesCategories({
     String? name = "",
     String? categoryId = "",
@@ -423,11 +474,27 @@ class WebServices {
     );
   }
 
-  Future<ResponseModel> getProductsBrands({
-    required String name,
+  Future<ResponseModel> setBookAppointment({
+    String? name = "",
+    String? categoryId = "",
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/products/brands?name=${name}",
+        url: "${ApiConstant.baseUrl}/appointments/book-appointment",
+        HTTPRequestMethod: HTTPRequestEnum.POST,
+        isAuth: true,
+        //query: {"payment_type": "", "offer_id": "", "branch_id": "", "doctor_id": "", "date_time": ""});
+        query: {
+          "payment_type": "",
+          "offer_id": "",
+          "branch_id": "",
+          "doctor_id": "",
+          "date_time": ""
+        });
+  }
+
+  Future<ResponseModel> getProductsBrands() async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/products/brands",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -448,18 +515,15 @@ class WebServices {
   }
 
   Future<ResponseModel> getProducts({
-    String? name = '',
-    String? categoryId = '',
-    String? startPrice = '',
-    String? endPrice = '',
-    String? filter = '',
-    String? brandIds = '',
-    String? limit = '',
-    String? adminFeatured = '',
+    int? page = 1,
+    ProductQueryParameters? queryParameters,
   }) async {
     return await ApiManger().execute(
-      url:
-          "${ApiConstant.baseUrl}/products/get?category_id=$categoryId&name=$name&start_price=$startPrice&end_price=$endPrice&filter=${filter}&brand_ids=$brandIds&limit=${limit}&admin_featured=$adminFeatured",
+      url: buildProductUrl(
+        ApiConstant.baseUrl,
+        page!,
+        queryParams: queryParameters,
+      ),
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -684,12 +748,281 @@ class WebServices {
     );
   }
 
+  Future<ResponseModel> orderCancelReasons() async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/orders/cancel-reasons",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+      isAuth: true,
+    );
+  }
+
+  Future<ResponseModel> cancelOrder({
+    required String orderId,
+    required List<String> reasondIds,
+  }) async {
+    // Define the request body
+    final Map<String, dynamic> requestBody = {
+      "order_id": orderId,
+      "cancel_reasons": reasondIds.map((e) => {"id": e.toString()}).toList()
+    };
+
+    // Encode the request body as JSON
+    final String requestBodyJson = jsonEncode(requestBody);
+
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/orders/cancel-order",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      isAuth: true,
+      query: requestBody,
+    );
+  }
+
+  Future<ResponseModel> cancelAppointment({
+    required String appointmentId,
+    required List<String> reasondIds,
+  }) async {
+    // Define the request body
+    final Map<String, dynamic> requestBody = {
+      "appointment_id": appointmentId,
+      "cancel_reasons": reasondIds.map((e) => {"id": e.toString()}).toList()
+    };
+
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/appointments/cancel-appointment",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      isAuth: true,
+      query: requestBody,
+    );
+  }
+
   Future<ResponseModel> googleMapPlace({
     required String searchQuery,
   }) async {
     return await ApiManger().execute(
       url:
           "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$searchQuery&key=AIzaSyBiCU45NaS8NgadKJcIfFLY_CUu_IF2E9Y",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+    );
+  }
+
+  Future<ResponseModel> addToCart({
+    required String productId,
+    required String quantity,
+    required bool isNew,
+    String? variantId,
+  }) async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/cart/add-to-cart",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      isAuth: true,
+      query: {
+        "product_id": productId,
+        "quantity": quantity,
+        "variant_id": variantId,
+        "is_new": isNew,
+      },
+    );
+  }
+
+  Future<ResponseModel> getCartProducts() async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/cart/get-cart",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+      isAuth: true,
+    );
+  }
+
+  Future<ResponseModel> deleteProductFromCart(
+      {required String productId}) async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/cart/delete-from-cart",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      isAuth: true,
+      query: {
+        "id": productId,
+      },
+    );
+  }
+
+  //Future<ResponseModel> getShippingCompanies({required String addressId}) async {
+  Future<ResponseModel> requestOrder({
+    required String partnerId,
+    required String addressId,
+    required String paymentMethod,
+  }) async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/orders/request-order",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      isAuth: true,
+      query: {
+        "payment_type": paymentMethod,
+        "address_id": addressId,
+        "partner_id": partnerId,
+      },
+    );
+  }
+
+  Future<ResponseModel> getShippingCompanies(
+      {required String addressId}) async {
+    return await ApiManger().execute(
+      url:
+          "${ApiConstant.baseUrl}/orders/get-shipping-companies?address_id=$addressId",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+      isAuth: true,
+    );
+  }
+
+  Future<ResponseModel> getOrders({required int pageNo}) async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/orders/get-orders?page=$pageNo",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+      isAuth: true,
+    );
+  }
+
+  Future<ResponseModel> getOrderDetails({required int orderId}) async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/orders/get-order-details?id=$orderId",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+      isAuth: true,
+    );
+  }
+
+  Future<ResponseModel> reOrder({required int orderId}) async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/orders/re-order",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      query: {
+        "order_id": orderId,
+      },
+      isAuth: true,
+    );
+  }
+
+  Future<ResponseModel> rateOrderProduct({
+    required String orderId,
+    required String productId,
+    required String rate,
+    String? message,
+  }) async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/orders/rate-order-product",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      query: {
+        "product_id": productId,
+        "order_id": orderId,
+        "rate": rate,
+        "message": message,
+      },
+      isAuth: true,
+    );
+  }
+
+  Future<ResponseModel> rateOffer({
+    required String offerId,
+    required String appointmentId,
+    required String rate,
+    String? message,
+  }) async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/appointments/rate-appointment-offer",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      query: {
+        "offer_id": offerId,
+        "appointment_id": appointmentId,
+        "rate": rate,
+        "message": message,
+      },
+      isAuth: true,
+    );
+  }
+
+  Future<ResponseModel> rateBranch({
+    required String branchId,
+    required String appointmentId,
+    required String rate,
+    String? message,
+  }) async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/appointments/rate-appointment-branch",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      query: {
+        "branch_id": branchId,
+        "appointment_id": appointmentId,
+        "rate": rate,
+        "message": message,
+      },
+      isAuth: true,
+    );
+  }
+
+  Future<ResponseModel> rateDoctor({
+    required String doctorId,
+    required String appointmentId,
+    required String rate,
+    String? message,
+  }) async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/appointments/rate-appointment-doctor",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      query: {
+        "doctor_id": doctorId,
+        "appointment_id": appointmentId,
+        "rate": rate,
+        "message": message,
+      },
+      isAuth: true,
+    );
+  }
+
+  // Future<ResponseModel> getBranches({required int pageNo}) async {
+  //   return await ApiManger().execute(
+  //     url: "${ApiConstant.baseUrl}/branches/get",
+  //     HTTPRequestMethod: HTTPRequestEnum.GET,
+  //     isAuth: true,
+  //   );
+  // }
+
+  Future<ResponseModel> getBranchesSingle({
+    required int branchesId,
+  }) async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/branches/single?id=$branchesId",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+      isAuth: true,
+    );
+  }
+
+  Future<ResponseModel> getOffersByBranchesId({
+    required int branchesId,
+  }) async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/offers/get?branch_id=$branchesId",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+      isAuth: true,
+    );
+  }
+
+//  Future<ResponseModel> getOffersByBranchesId({
+//     required int branchesId,
+//   }) async {
+//     return await ApiManger().execute(
+//       url: "${ApiConstant.baseUrl}/offers/get?branch_id=$branchesId",
+//       HTTPRequestMethod: HTTPRequestEnum.GET,
+//       isAuth: true,
+//     );
+//   }
+
+  Future<ResponseModel> getOffersService() async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/offers/get?admin_featured=1",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+    );
+  }
+
+  Future<ResponseModel> getOffersProduct() async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/products/get?admin_featured=1",
       HTTPRequestMethod: HTTPRequestEnum.GET,
     );
   }

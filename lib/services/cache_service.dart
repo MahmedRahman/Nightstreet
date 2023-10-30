@@ -17,6 +17,22 @@ mixin CacheManager {
     await box.remove(CacheManagerKey.userToken.name.toString());
   }
 
+  Future<bool> saveGuestToken(String? token) async {
+    final box = GetStorage();
+    await box.write(CacheManagerKey.guestToken.name, token);
+    return true;
+  }
+
+  String? getGuestToken() {
+    final box = GetStorage();
+    return box.read(CacheManagerKey.guestToken.name.toString());
+  }
+
+  Future<void> removeGuestToken() async {
+    final box = GetStorage();
+    await box.remove(CacheManagerKey.guestToken.name.toString());
+  }
+
   Future<bool> saveFirebaseToken(String? token) async {
     final box = GetStorage();
     await box.write(CacheManagerKey.firebaseToken.name, token);
@@ -34,4 +50,4 @@ mixin CacheManager {
   }
 }
 
-enum CacheManagerKey { userToken, firebaseToken }
+enum CacheManagerKey { userToken, firebaseToken, guestToken }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/appointment/views/appointment_booking_view.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/custom_drop_menu_view.dart';
 import 'package:krzv2/component/views/custom_text_field_component.dart';
+import 'package:krzv2/component/views/date_time_form_field_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/utils/app_colors.dart';
@@ -14,7 +16,10 @@ import 'package:krzv2/utils/app_spacers.dart';
 import '../controllers/edit_appointment_controller.dart';
 
 class EditAppointmentView extends GetView<EditAppointmentController> {
-  const EditAppointmentView({Key? key}) : super(key: key);
+  EditAppointmentView({Key? key}) : super(key: key);
+
+  TextEditingController longText = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
@@ -24,21 +29,87 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
       body: ListView(
         padding: AppDimension.appPadding,
         children: [
-          AppSpacers.height12,
-          monthSelector(
-            onMonthChanged: (String) {},
+          // AppSpacers.height12,
+          // monthSelector(
+          //   onMonthChanged: (String) {},
+          // ),
+          // AppSpacers.height19,
+          // daySelector(
+          //   onDayChanged: (int) {},
+          // ),
+          // AppSpacers.height25,
+          // appointmentSelector(
+          //   onDayChanged: (int) {},
+          // ),
+          // AppSpacers.height25,
+          // TextFieldComponent.longMessage(
+          //   controller: TextEditingController(),
+          //   outLineText: "تفاصيل إضافية",
+          //   hintText: "أكتب التفاصيل هنا",
+          // )
+          //title: "",
+
+          DateTimeFormFieldView(
+            title: "التاريخ",
+            initialDateTime: DateTime.now().toString(),
+            firstDate: DateTime.now(),
+            onDateChanged: (DateTime value) {
+              //print(formattedDate.toString());
+              // String valData = "${value.year}-${value.month}-${value.day}";
+              // Get.find<AppointmentController>().selectData = valData.toString();
+              // Get.find<AppointmentController>().selectTime = "";
+              // Get.find<AppointmentController>().getAvailableOfferTimes();
+
+              //birthDateController.text = value.toString().substring(0, 10);
+            },
           ),
           AppSpacers.height19,
-          daySelector(
-            onDayChanged: (int) {},
-          ),
+          Text(controller.appointment!.datetime.toString()),
+          AppSpacers.height19,
+
+          Obx(() {
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: AppColors.mainColor,
+                ),
+              ),
+              child: controller.AppointmentDataList.length == 0
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Text("لا يوجد مواعيد"),
+                      ),
+                    )
+                  : Wrap(
+                      children: List.generate(
+                        controller.AppointmentDataList.length,
+                        (index) {
+                          return timeCard(
+                            onTap: (p0) {
+                              // Get.find<AppointmentController>().selectTime =
+                              //     controller.AppointmentDataList[index]["time"];
+                              // controller.AppointmentDataList.refresh();
+                            },
+                            time: controller.AppointmentDataList[index]["time"],
+                            isSelect: true,
+
+                            //  controller.AppointmentDataList[index]["time"] ==
+                            //     Get.find<AppointmentController>().selectTime,
+                          );
+                        },
+                      ),
+                    ),
+            );
+          }),
           AppSpacers.height25,
-          appointmentSelector(
-            onDayChanged: (int) {},
-          ),
+          // appointmentSelector(
+          //   onDayChanged: (int) {},
+          // ),
           AppSpacers.height25,
           TextFieldComponent.longMessage(
-            controller: TextEditingController(),
+            controller: longText,
             outLineText: "تفاصيل إضافية",
             hintText: "أكتب التفاصيل هنا",
           )
@@ -110,9 +181,7 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: selectedDay.value == index
-                            ? AppColors.mainColor
-                            : AppColors.greyColor4,
+                        color: selectedDay.value == index ? AppColors.mainColor : AppColors.greyColor4,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 19),
@@ -122,9 +191,7 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
                               '${index + 1}',
                               style: TextStyle(
                                 fontSize: 22.0,
-                                color: selectedDay.value == index
-                                    ? Colors.white
-                                    : AppColors.blackColor,
+                                color: selectedDay.value == index ? Colors.white : AppColors.blackColor,
                                 fontWeight: FontWeight.w500,
                                 height: 1.95,
                               ),
@@ -134,9 +201,7 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
                               'السبت',
                               style: TextStyle(
                                 fontSize: 14.0,
-                                color: selectedDay.value == index
-                                    ? Colors.white
-                                    : AppColors.blackColor,
+                                color: selectedDay.value == index ? Colors.white : AppColors.blackColor,
                                 letterSpacing: 0.35000000000000003,
                                 height: 1.64,
                               ),
@@ -193,9 +258,7 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: selectedDay.value == index
-                            ? AppColors.mainColor
-                            : AppColors.greyColor4,
+                        color: selectedDay.value == index ? AppColors.mainColor : AppColors.greyColor4,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 19),
@@ -204,9 +267,7 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
                             '0${index + 4}:00 ص',
                             style: TextStyle(
                               fontSize: 14.0,
-                              color: selectedDay.value == index
-                                  ? Colors.white
-                                  : AppColors.blackColor,
+                              color: selectedDay.value == index ? Colors.white : AppColors.blackColor,
                               letterSpacing: 0.35000000000000003,
                             ),
                             textAlign: TextAlign.center,

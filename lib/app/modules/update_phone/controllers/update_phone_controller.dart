@@ -36,6 +36,7 @@ class UpdatePhoneController extends GetxController {
   Future<void> updatePhone({
     required String phoneNumber,
     required String verificationCode,
+    required Function() onError,
   }) async {
     EasyLoading.show();
     ResponseModel response = await WebServices().updatePhone(
@@ -48,6 +49,8 @@ class UpdatePhoneController extends GetxController {
       showToast(
         message: response.data["message"].toString(),
       );
+
+      onError();
       return;
     }
 

@@ -1,23 +1,81 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
+import 'package:krzv2/web_serives/api_response_model.dart';
+import 'package:krzv2/web_serives/web_serives.dart';
 
 class ServiceReviewController extends GetxController {
-  //TODO: Implement ServiceReviewController
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+
+  rateOffer({
+    required String appointmentId,
+    required String offerId,
+    required String rate,
+    String? message,
+  }) async {
+    EasyLoading.show();
+
+    ResponseModel responseModel = await WebServices().rateOffer(
+      appointmentId: appointmentId,
+      rate: rate,
+      message: message,
+      offerId: offerId,
+    );
+    EasyLoading.dismiss();
+
+    if (responseModel.data["success"]) {
+      AppDialogs.showToast(message: responseModel.data["message"]);
+
+      return;
+    }
+    AppDialogs.showToast(message: responseModel.data["message"]);
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  rateBranch({
+    required String appointmentId,
+    required String branchId,
+    required String rate,
+    String? message,
+  }) async {
+    EasyLoading.show();
+
+    ResponseModel responseModel = await WebServices().rateBranch(
+      appointmentId: appointmentId,
+      rate: rate,
+      message: message,
+      branchId: branchId,
+    );
+    EasyLoading.dismiss();
+
+    if (responseModel.data["success"]) {
+      AppDialogs.showToast(message: responseModel.data["message"]);
+
+      return;
+    }
+    AppDialogs.showToast(message: responseModel.data["message"]);
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  rateDoctor({
+    required String appointmentId,
+    required String doctorId,
+    required String rate,
+    String? message,
+  }) async {
+    EasyLoading.show();
 
-  void increment() => count.value++;
+    ResponseModel responseModel = await WebServices().rateDoctor(
+      appointmentId: appointmentId,
+      rate: rate,
+      message: message,
+      doctorId: doctorId,
+    );
+    EasyLoading.dismiss();
+
+    if (responseModel.data["success"]) {
+      AppDialogs.showToast(message: responseModel.data["message"]);
+
+      return;
+    }
+    AppDialogs.showToast(message: responseModel.data["message"]);
+  }
 }

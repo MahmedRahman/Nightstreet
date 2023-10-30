@@ -16,6 +16,7 @@ class UpdatePhoneOtpView extends GetView<UpdatePhoneController> {
   final UpdatePhoneController updatePhoneController = Get.find();
   final verifyController = Get.put(VerifyPhoneController());
 
+  final optController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     // if (kDebugMode) {
@@ -49,6 +50,9 @@ class UpdatePhoneOtpView extends GetView<UpdatePhoneController> {
                     controller.updatePhone(
                       phoneNumber: Get.arguments.toString(),
                       verificationCode: value,
+                      onError: () {
+                        optController.clear();
+                      },
                     );
                   },
                   validator: customValidator(
@@ -57,6 +61,7 @@ class UpdatePhoneOtpView extends GetView<UpdatePhoneController> {
                       IsOTP(message: 'رمز خاطئ ، يرجى المحاولة مرة أخرى'),
                     ],
                   ),
+                  otpController: optController,
                 ),
                 AppSpacers.height60,
                 Padding(

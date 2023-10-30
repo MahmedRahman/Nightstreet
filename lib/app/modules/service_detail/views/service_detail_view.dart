@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/appointment/appointment_address_controller.dart';
+import 'package:krzv2/app/modules/appointment/views/appointment_address_view.dart';
 import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
 import 'package:krzv2/app/modules/service_detail/views/doctor_list_view.dart';
 import 'package:krzv2/app/modules/service_detail/views/review_Information_view.dart';
 import 'package:krzv2/app/modules/wallet/components/decorated_container_component.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/favorite_icon_view.dart';
 import 'package:krzv2/component/views/icon_button_component.dart';
 import 'package:krzv2/component/views/image_swpier_view.dart';
@@ -26,10 +29,12 @@ import '../controllers/service_detail_controller.dart';
 
 class ServiceDetailView extends GetView<ServiceDetailController> {
   final controller = Get.put(ServiceDetailController());
+  RxString favId = ''.obs;
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: CustomAppBar(
+        onBackTapped: () => Get.back(result: favId.value),
         titleText: "تفاصيل الخدمة",
         actions: [
           CustomIconButton(
@@ -52,7 +57,21 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                 child: CustomBtnCompenent.main(
                   text: 'احجز موعد الآن',
                   onTap: () {
-                    Get.toNamed(Routes.APPOINTMENT_ADDRESS, arguments: data);
+                    // Get.toNamed(
+                    //   Routes.APPOINTMENT_ADDRESS,
+                    //   arguments: data,
+                    // );
+
+                    if (data["branches"].length == 0) {
+                      AppDialogs.showToast(message: "لا يوجد فروع");
+                    }
+
+                    Get.find<AppointmentController>().service = data;
+                    Get.find<AppointmentController>().selectBranch = data["branches"][0];
+
+                    Get.to(
+                      AppointmentAddressView(),
+                    );
                   },
                 ),
               ),
@@ -80,11 +99,13 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                         );
 
                         data['is_favorite'] = !data['is_favorite'];
+                        favId.value = data['id'].toString();
 
                         favCon.addRemoveOfferFromFavorite(
                           offerId: data['id'],
                           onError: () {
                             data['is_favorite'] = !data['is_favorite'];
+                            favId.value = '';
                           },
                         );
                         controller.update();

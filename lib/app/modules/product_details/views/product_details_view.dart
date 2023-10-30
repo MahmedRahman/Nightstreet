@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
 import 'package:krzv2/app/modules/product_details/controllers/similar_product_controller.dart';
-import 'package:krzv2/app/modules/wallet/components/decorated_container_component.dart';
+import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/counter_view.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/favorite_icon_view.dart';
 import 'package:krzv2/component/views/icon_button_component.dart';
 import 'package:krzv2/component/views/image_swpier_view.dart';
@@ -37,11 +37,14 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
   ProductDetailsView({Key? key}) : super(key: key);
   final similarProductController = Get.put(SimilarProductController());
   final controller = Get.put(ProductDetailsController());
+
   void customInit() {
     // Get.put(SimilarProductController());
     controller.fetchProductDetails(productId: Get.arguments as String);
   }
 
+  String variantId = '';
+  RxString favId = ''.obs;
   @override
   Widget build(BuildContext context) {
     customInit();
@@ -61,11 +64,16 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
     return BaseScaffold(
       appBar: CustomAppBar(
         titleText: 'تفاصيل المنتج',
+        onBackTapped: () => Get.back(result: favId.value),
         actions: [
-          CustomIconButton(
-            onTap: () => Get.toNamed(Routes.SHOPPINT_CART),
-            iconPath: AppSvgAssets.cartIcon,
-            count: 2,
+          GetBuilder<ShoppintCartController>(
+            builder: (controller) {
+              return CustomIconButton(
+                onTap: () => Get.toNamed(Routes.SHOPPINT_CART),
+                iconPath: AppSvgAssets.cartIcon,
+                count: controller.productCount,
+              );
+            },
           ),
           CustomIconButton(
             onTap: () {},
@@ -97,11 +105,13 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                         ProductFavoriteController(),
                       );
                       product.isFavorite = !product.isFavorite;
+                      favId.value = product.id.toString();
 
                       favCon.addRemoveProductFromFavorite(
                         productId: product.id,
                         onError: () {
                           product.isFavorite = !product.isFavorite;
+                          favId.value = '';
                         },
                       );
 
@@ -149,7 +159,9 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
           ProductCashBackView(cashBackValue: product.cashback),
           AppSpacers.height10,
           ProductColorSelectorView(
-            onChanged: (String colorCode) {},
+            onChanged: (String id) {
+              variantId = id;
+            },
             variants: product.variants,
           ),
           AppSpacers.height12,
@@ -200,13 +212,35 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
         ],
       ),
       bottomBarHeight: 163,
-      bottomNavigationBar: bottomNavigationBar(controller),
+      bottomNavigationBar: bottomNavigationBar(
+        controller: controller,
+        productQuantity: product.quantity,
+        onAddToCart: () {
+          final cartController = Get.put<ShoppintCartController>(
+            ShoppintCartController(),
+          );
+
+          if (product.variants.isNotEmpty && variantId == '') {
+            AppDialogs.showToast(message: 'الرجاء تحديد اللون');
+            return;
+          }
+
+          cartController.addToCart(
+            productId: product.id.toString(),
+            quantity: controller.productCount.value.toString(),
+            variantId: variantId,
+            isNew: true,
+          );
+        },
+      ),
     );
   }
 
-  Padding bottomNavigationBar(
-    ProductDetailsController controller,
-  ) {
+  Padding bottomNavigationBar({
+    required ProductDetailsController controller,
+    required int productQuantity,
+    required Function() onAddToCart,
+  }) {
     return Padding(
       padding: AppDimension.appPadding + EdgeInsets.only(top: 20),
       child: Row(
@@ -219,7 +253,14 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                 borderRadius: 10,
                 initValue: controller.productCount.value,
                 onDecrementTapped: controller.decrement,
-                onIncrementTapped: controller.increment,
+                onIncrementTapped: () {
+                  if (productQuantity == controller.productCount.value) {
+                    AppDialogs.showToast(
+                        message: 'الحد المسموح به هو $productQuantity');
+                    return;
+                  }
+                  controller.increment();
+                },
               ),
             ),
           ),
@@ -229,7 +270,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
             child: CustomBtnCompenent.main(
               iconPath: AppSvgAssets.cartIcon,
               text: "إضافة إلى سلة الشراء",
-              onTap: () => Get.toNamed(Routes.SHOPPINT_CART),
+              onTap: onAddToCart,
             ),
           ),
         ],

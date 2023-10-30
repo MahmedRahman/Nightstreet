@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:krzv2/models/product_model.dart';
+import 'package:krzv2/models/product_search_query.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
@@ -8,7 +9,9 @@ class SimilarProductController extends GetxController
   void getMostSimilarProducts({required String categoryId}) async {
     change(null, status: RxStatus.loading());
     ResponseModel responseModel = await WebServices().getProducts(
-      categoryId: categoryId,
+      queryParameters: ProductQueryParameters(
+        categoryId: categoryId,
+      ),
     );
 
     if (responseModel.data["success"]) {

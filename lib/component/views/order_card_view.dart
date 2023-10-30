@@ -11,7 +11,7 @@ class OrderCardView extends GetView {
     required this.orderNo,
     required this.orderDate,
     required this.status,
-    required this.productCount,
+    required this.statusNum,
     required this.price,
     required this.onTap,
   }) : super(key: key);
@@ -19,7 +19,8 @@ class OrderCardView extends GetView {
   final String orderNo;
   final String orderDate;
   final String status;
-  final String productCount;
+  final String statusNum;
+
   final String price;
   final Function() onTap;
   @override
@@ -37,6 +38,7 @@ class OrderCardView extends GetView {
                 orderDate: orderDate,
                 orderNo: orderNo,
                 status: status,
+                statusNum: statusNum,
               ),
               AppSpacers.height12,
               Divider(),
@@ -44,10 +46,6 @@ class OrderCardView extends GetView {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  InfoCard(
-                    title: 'عدد المنتجات',
-                    value: '$productCount منتجات',
-                  ),
                   InfoCard(
                     title: "المجموع",
                     value: '$price ر.س',

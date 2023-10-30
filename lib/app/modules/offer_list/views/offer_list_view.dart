@@ -10,6 +10,7 @@ import 'package:krzv2/component/views/product_filter_bottom_sheet_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/service_filter_bottom_sheet_view.dart';
 import 'package:krzv2/component/views/tabs/base_switch_tap.dart';
+import 'package:krzv2/models/product_search_query.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
@@ -42,7 +43,11 @@ class OfferListView extends GetView<OfferListController> {
               Get.bottomSheet(
                 selectTab == 0
                     ? ServiceFilterBottomSheetView()
-                    : ProductFilterBottomSheetView(),
+                    : ProductFilterBottomSheetView(
+                        onChanged: (ProductQueryParameters value) {},
+                        productQuery: ProductQueryParameters(),
+                        onResetTapped: () {},
+                      ),
                 backgroundColor: Colors.white,
                 barrierColor: AppColors.mainColor.withOpacity(.15),
                 ignoreSafeArea: true,

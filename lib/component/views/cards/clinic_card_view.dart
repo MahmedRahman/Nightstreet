@@ -15,6 +15,7 @@ class ClinicCardView extends GetView {
   final String oldPrice;
   final String rate;
   final String totalRate;
+  final bool isFavorite;
   final Function()? onFavoriteTapped;
   ClinicCardView({
     required this.imageUrl,
@@ -22,6 +23,7 @@ class ClinicCardView extends GetView {
     required this.onFavoriteTapped,
     required this.rate,
     required this.totalRate,
+    required this.isFavorite,
     this.oldPrice = '',
   });
 
@@ -32,6 +34,7 @@ class ClinicCardView extends GetView {
         onFavoriteTapped = null,
         this.rate = '4',
         this.totalRate = '4',
+        this.isFavorite = false,
         this.oldPrice = '120';
 
   @override
@@ -124,7 +127,9 @@ class ClinicCardView extends GetView {
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: SvgPicture.asset(
-                      AppSvgAssets.heartIcon,
+                      isFavorite
+                          ? AppSvgAssets.solidHeartIcon
+                          : AppSvgAssets.heartIcon,
                     ),
                   ),
                 ),

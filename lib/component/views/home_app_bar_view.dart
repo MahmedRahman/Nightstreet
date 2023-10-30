@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/component/views/icon_button_component.dart';
+import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
 import 'package:krzv2/utils/app_colors.dart';
@@ -11,7 +13,6 @@ class HomeAppBarView extends GetView implements PreferredSizeWidget {
   final VoidCallback onNotificationTapped;
 
   final int? notificationCounter;
-  final int? cartItemsCounter;
   final String? title;
   final String? subTitle;
 
@@ -19,7 +20,6 @@ class HomeAppBarView extends GetView implements PreferredSizeWidget {
     super.key,
     required this.onCartTapped,
     required this.onNotificationTapped,
-    this.cartItemsCounter = 0,
     this.notificationCounter = 0,
     this.title,
     this.subTitle,
@@ -65,11 +65,7 @@ class HomeAppBarView extends GetView implements PreferredSizeWidget {
       ),
       actions: authController.isLoggedIn
           ? [
-              CustomIconButton(
-                onTap: onCartTapped,
-                iconPath: AppSvgAssets.cartIcon,
-                count: cartItemsCounter,
-              ),
+              ShoppingCartIconView(),
               CustomIconButton(
                 onTap: onNotificationTapped,
                 iconPath: AppSvgAssets.notificationIcon,

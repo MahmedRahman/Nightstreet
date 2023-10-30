@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:get/get.dart';
-import 'package:krzv2/app/modules/gift_cards/views/payment_failed_page.dart';
-import 'package:krzv2/app/modules/gift_cards/views/payment_success_page.dart';
+import 'package:krzv2/app/modules/payment_bank/payment_failed_page.dart';
+import 'package:krzv2/app/modules/payment_bank/payment_success_page.dart';
 import 'package:krzv2/web_serives/api_constant.dart';
 
 class paymentPage extends GetView {
@@ -13,9 +13,14 @@ class paymentPage extends GetView {
 
   @override
   Widget build(BuildContext context) {
+    flutterWebviewPlugin.onStateChanged.listen((viewState) async {
+      if (viewState.type == WebViewState.finishLoad) {
+        // flutterWebViewPlugin.evalJavascript(js);
+      }
+    });
+
     flutterWebviewPlugin.onUrlChanged.listen(
       (String url) {
-
         if (url == "${ApiConstant.baseUrl}/coupons/rajhi-failed-callback") {
           Get.offAll(PaymentFailedPage());
         }
@@ -29,6 +34,7 @@ class paymentPage extends GetView {
 
     return Scaffold(
       body: WebviewScaffold(
+        
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,

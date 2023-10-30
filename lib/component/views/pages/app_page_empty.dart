@@ -15,6 +15,12 @@ class AppPageEmpty extends StatelessWidget {
     required this.imagePath,
   });
 
+  AppPageEmpty.dummy({
+    super.key,
+  })  : title = 'لا يوجد عناصر',
+        description = 'لم تستلم أي عنصر حتى الآن',
+        imagePath = AppSvgAssets.emptyOrdersIcon;
+
   AppPageEmpty.notifications({
     super.key,
   })  : title = 'لا يوجد إشعارات',
@@ -41,8 +47,8 @@ class AppPageEmpty extends StatelessWidget {
 
   AppPageEmpty.shoppingCart({
     super.key,
-  })  : title = "لم يتم العثور على نتائج",
-        description = "جرب كلمة رئيسية أخرى , وحاول مرة اخرى.",
+  })  : title = "سلة التسوق الخاصة بك فارغة",
+        description = "قم بإضافة بعض المنتجات",
         imagePath = AppSvgAssets.emptyCartIcon;
 
   AppPageEmpty.branches({
@@ -65,10 +71,16 @@ class AppPageEmpty extends StatelessWidget {
         imagePath = AppSvgAssets.emptyFavoriteIcon;
 
   AppPageEmpty.addressesList({
+    this.title = "سجل العناويين الخاص بك فارغ",
+    this.description = "سجل العناويين الخاص بك فارغ",
     super.key,
-  })  : title = "سجل العناويين الخاص بك فارغ",
-        description = "سجل العناويين الخاص بك فارغ",
-        imagePath = AppSvgAssets.emptyOrdersIcon;
+  }) : imagePath = AppSvgAssets.emptyAddressIcon;
+
+  AppPageEmpty.complaint({
+    required this.title,
+    required this.description,
+    super.key,
+  }) : imagePath = AppSvgAssets.emptyComplaintIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +88,10 @@ class AppPageEmpty extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(imagePath),
+          SvgPicture.asset(
+            imagePath,
+            width: 200,
+          ),
           AppSpacers.height25,
           Text(
             title,

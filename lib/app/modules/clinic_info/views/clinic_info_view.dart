@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/wallet/components/decorated_container_component.dart';
@@ -6,6 +7,7 @@ import 'package:krzv2/component/views/cards/service_card_view.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/component/views/home_banner_view.dart';
 import 'package:krzv2/component/views/tabs/base_switch_tap.dart';
+import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
@@ -13,7 +15,7 @@ import 'package:krzv2/utils/app_svg_paths.dart';
 
 import '../controllers/clinic_info_controller.dart';
 
-class ClinicInfoView extends GetView<ClinicInfoController> {
+class ClinicInfoView extends GetView {
   const ClinicInfoView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -36,79 +38,82 @@ class ClinicInfoView extends GetView<ClinicInfoController> {
   }
 }
 
-class ClinicAboutPage extends StatelessWidget {
+class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
+  ClinicAboutInfoController controller = Get.put(ClinicAboutInfoController());
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ServiceCardView.dummy(),
-          SizedBox(
-            height: 10,
-          ),
-          Divider(),
-          SizedBox(
-            height: 10,
-          ),
-          HomeBannerView.dummy(),
-          Text(
-            'عن المركز',
-            style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w500,
-              height: 2.19,
+    return controller.obx((data) {
+      return SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ServiceCardView.dummy(),
+            SizedBox(
+              height: 10,
             ),
-            textAlign: TextAlign.right,
-          ),
-          Divider(),
-          Text(
-            '''هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما
-    سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع
-    الفقرات في الصفحة التي يقرأها. ولذلك يتم استخدام طريقة لوريم إيبسوم
-    لأنها تعطي توزيعاَ طبيعياَ -إلى حد ما للأحرف عوضاً عن استخدام "هنا
-    يوجد محتوى نصي، فتجعلها تبدو (أي الأحرف) وكأنها نص مقروء''',
-            style: TextStyle(
-              fontFamily: 'Effra',
-              fontSize: 14.0,
-              letterSpacing: 0.21,
-              height: 2.5,
+            Divider(),
+            SizedBox(
+              height: 10,
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Divider(),
-          Text(
-            'فروع المركز',
-            style: TextStyle(
-              fontFamily: 'Effra',
-              fontSize: 16.0,
-              color: AppColors.blackColor,
-              fontWeight: FontWeight.w500,
-              height: 2.19,
+            HomeBannerView.dummy(),
+            Text(
+              'عن المركز',
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+                height: 2.19,
+              ),
+              textAlign: TextAlign.right,
             ),
-            textAlign: TextAlign.right,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          addressCard(
-            address: 'فرع المنطقة الثانية - شارع الرياض',
-            isCurrentAddress: false,
-          ),
-          AppSpacers.height5,
-          addressCard(
-            address: 'فرع شارع الحرمين',
-            isCurrentAddress: true,
-          ),
-          AppSpacers.height40,
-        ],
-      ),
-    );
+            Divider(),
+            Html(
+              data: data["clinic"]["desc"],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Divider(),
+            Text(
+              'فروع المركز',
+              style: TextStyle(
+                fontFamily: 'Effra',
+                fontSize: 16.0,
+                color: AppColors.blackColor,
+                fontWeight: FontWeight.w500,
+                height: 2.19,
+              ),
+              textAlign: TextAlign.right,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            data["other_branches"].length == 0
+                ? SizedBox.shrink()
+                : Column(
+                    children: List.generate(
+                      data["other_branches"].length,
+                      (index) {
+                        return addressCard(
+                          address: data["other_branches"][index]["name"],
+                          isCurrentAddress: data["other_branches"][index]["current"],
+                        );
+                      },
+                    ),
+                  ),
+            AppSpacers.height5,
+            // addressCard(
+            //   address: 'فرع شارع الحرمين',
+            //   isCurrentAddress: true,
+            // ),
+            AppSpacers.height40,
+          ],
+        ),
+      );
+    });
   }
 
-  SizedBox addressCard({
+  Widget addressCard({
     required String address,
     required bool isCurrentAddress,
   }) {
@@ -158,43 +163,63 @@ class ClinicAboutPage extends StatelessWidget {
   }
 }
 
-class ClinicOffersPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
-        padding: EdgeInsets.zero,
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(
-              bottom: 8,
-            ),
-            child: ServiceCardView.dummy(
-              showFavoriteIcon: false,
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
+// class ClinicOffersPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: ListView.builder(
+//         padding: EdgeInsets.zero,
+//         itemCount: 10,
+//         itemBuilder: (context, index) {
+//           return Padding(
+//             padding: const EdgeInsets.only(
+//               bottom: 8,
+//             ),
+//             child: ServiceCardView.dummy(
+//               showFavoriteIcon: false,
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
 
-class ClinicServicesPage extends StatelessWidget {
+class ClinicServicesPage extends GetView<ClinicServicesController> {
+  ClinicServicesController controller = Get.put(ClinicServicesController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        padding: EdgeInsets.zero,
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(
-              bottom: 8,
-            ),
-            child: ServiceCardView.dummy(
-              showFavoriteIcon: false,
-            ),
+      body: controller.obx(
+        (snapshot) {
+          return ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: snapshot!.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 8,
+                ),
+                child: ServiceCardView(
+                  name: snapshot[index]["name"].toString(),
+                  imageUrl: snapshot[index]["image"].toString(),
+                  price: snapshot[index]["price"].toString(),
+                  oldPrice: snapshot[index]["old_price"].toString(),
+                  hasDiscount: false,
+                  onFavoriteTapped: () {},
+                  onTapped: () {
+                    Get.toNamed(
+                      Routes.SERVICE_DETAIL,
+                      arguments: snapshot[index]["id"].toString(),
+                    );
+                  },
+                  rate: snapshot[index]["total_rate_count"].toString(),
+                  totalRate: snapshot[index]["total_rate_avg"].toString(),
+                  isFavorite: true,
+                ),
+              );
+            },
           );
         },
       ),

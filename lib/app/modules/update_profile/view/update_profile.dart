@@ -83,6 +83,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             AppSpacers.height29,
             DateTimeFormFieldView(
               initialDateTime: birthDateController.text,
+              firstDate: DateTime(1990),
               onDateChanged: (DateTime value) {
                 birthDateController.text = value.toString().substring(0, 10);
               },

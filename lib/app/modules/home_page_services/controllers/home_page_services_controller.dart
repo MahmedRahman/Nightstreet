@@ -67,6 +67,14 @@ class HomePageServicesController extends GetxController
     fetchBranches();
   }
 
+  void toggleFavorite(int branchId) {
+    final product = _branches.firstWhere(
+      (p) => p.id == branchId,
+    );
+    product.isFavorite = !product.isFavorite;
+    update();
+  }
+
   @override
   Future<void> onEndScroll() async {
     bool hasNext = currentPage < totalRemotePage!;
@@ -88,13 +96,15 @@ class HomePageServicesController extends GetxController
   }
 
   @override
-  Future<void> onTopScroll() {
-    throw UnimplementedError();
+  Future<void> onTopScroll() async {
+    print('onTopScroll');
   }
 
   bool shouldWatchFocus = false;
   Future<void> navigateToSettings() async {
     final status = await PermissionsHelper.requestLocationPermission();
+
+    print('status => $status');
 
     shouldWatchFocus = false;
 
