@@ -1,14 +1,15 @@
 import 'package:get/get.dart';
+import 'package:krzv2/models/branch_model.dart';
+import 'package:krzv2/models/service_model.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-class ClinicAboutInfoController extends GetxController with StateMixin {
-  //TODO: Implement ClinicInfoController
-
+class ClinicAboutInfoController extends GetxController
+    with StateMixin<BranchModel> {
   @override
   void onInit() {
     getBranchesSingle(
-      branchesId: 7,
+      branchesId: Get.arguments,
     );
     super.onInit();
   }
@@ -19,7 +20,8 @@ class ClinicAboutInfoController extends GetxController with StateMixin {
     );
 
     if (responseModel.data["success"]) {
-      change(responseModel.data["data"], status: RxStatus.success());
+      final branch = BranchModel.fromJson(responseModel.data["data"]);
+      change(branch, status: RxStatus.success());
 
       return;
     }
@@ -28,28 +30,54 @@ class ClinicAboutInfoController extends GetxController with StateMixin {
   }
 }
 
-class ClinicServicesController extends GetxController with StateMixin<List> {
+class ClinicServicesController extends GetxController
+    with StateMixin<List<ServiceModel>> {
+  final List<ServiceModel> _services = [];
+  int currentPage = 1;
+  bool? isPagination;
   @override
   void onInit() {
-    getOffersByBranchesId();
+    print('clinic id => ${Get.arguments as int}');
+    getOffersByBranchesId(Get.arguments as int);
     super.onInit();
   }
 
-  void getOffersByBranchesId() async {
+  void getOffersByBranchesId(int branchesId) async {
+    if (currentPage == 1) change([], status: RxStatus.loading());
     ResponseModel responseModel = await WebServices().getOffersByBranchesId(
-      branchesId: 7,
+      branchesId: branchesId,
+      page: currentPage,
     );
 
     if (responseModel.data["success"]) {
-      if (responseModel.data["data"]["data"].length == 0) {
-        change([], status: RxStatus.loading());
+      final List<ServiceModel> serviceDataList = List<ServiceModel>.from(
+        responseModel.data['data']['data']
+            .map((category) => ServiceModel.fromJson(category)),
+      );
+
+      _services.addAll(serviceDataList);
+
+      if (_services.isEmpty) {
+        change([], status: RxStatus.empty());
+        return;
       }
 
-      change(responseModel.data["data"]["data"], status: RxStatus.success());
+      change(_services, status: RxStatus.success());
+
+      isPagination =
+          responseModel.data['data']['pagination']['is_pagination'] as bool;
 
       return;
     }
 
-    change(null, status: RxStatus.error());
+    change([], status: RxStatus.error(responseModel.data["message"]));
+  }
+
+  void toggleFavorite(int serviceId) {
+    final service = _services.firstWhere(
+      (p) => p.id == serviceId,
+    );
+    service.isFavorite = !service.isFavorite;
+    update();
   }
 }

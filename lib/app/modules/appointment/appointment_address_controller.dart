@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/appointment/views/appointment_booking_view.dart';
 import 'package:krzv2/app/modules/appointment/views/appointment_choose_a_doctor_view.dart';
-import 'package:krzv2/app/modules/appointment/views/payment_appointment_view.dart';
 import 'package:krzv2/app/modules/payment_bank/payment_page.dart';
+import 'package:krzv2/app/modules/payment_bank/payment_success_page.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/web_serives/api_constant.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
@@ -13,6 +13,7 @@ class AppointmentController extends GetxController {
   var selectDoctor;
   String? selectData;
   String? selectTime;
+  RxString selectTimeUI = ''.obs;
   String? selectNote;
 
   var service;
@@ -49,19 +50,45 @@ class AppointmentController extends GetxController {
   void getAvailableOfferTimes() async {
     ResponseModel responseModel;
 
-    print(selectDoctor);
+    //print(selectDoctor);
 
     responseModel = await WebServices().getAvailableOfferTimes(
       offerId: service["id"],
       branchId: selectBranch["id"],
-      doctorId: selectDoctor["id"],
+      doctorId: GetUtils.isNull(selectDoctor) ? null : selectDoctor["id"],
       dateTime: selectData.toString(),
     );
     print("selectDoctor");
     if (responseModel.data["success"]) {
+      // Get.defaultDialog(
+      //   title: "مواعيد",
+      //   content: Container(
+      //     child: Wrap(
+      //       children: List.generate(
+      //         AppointmentDataList.length,
+      //         (index) {
+      //           return timeCard(
+      //             onTap: (p0) {
+      //               Get.find<AppointmentController>().selectTime = AppointmentDataList[index]["time"];
+      //               AppointmentDataList.refresh();
+      //             },
+      //             time: AppointmentDataList[index]["time"],
+      //             isSelect: AppointmentDataList[index]["time"] == Get.find<AppointmentController>().selectTime,
+      //           );
+      //         },
+      //       ),
+      //     ),
+      //   ),
+      // );
+
       AppointmentDataList.value = responseModel.data["data"];
       update();
     } else {
+      // Get.defaultDialog(
+      //   title: "مواعيد",
+      //   content: Text("لا يوجد مواعيد"),
+      // );
+
       AppointmentDataList.value = [];
       update();
     }
@@ -74,17 +101,13 @@ class AppointmentController extends GetxController {
       payment_type: payment_type,
       offer_id: service["id"],
       branch_id: selectBranch["id"],
-      doctor_id: selectDoctor["id"],
+      doctor_id: GetUtils.isNull(selectDoctor) ? null : selectDoctor["id"],
       date_time: selectData.toString(),
       time: selectTime.toString(),
       notes: selectNote.toString(),
     );
-    service = "";
-    selectBranch = "";
-    selectDoctor = "";
-    selectData = "";
-    selectTime = "";
-    selectNote = "";
+
+    print(responseModel.data["success"]);
 
     if (responseModel.data["success"]) {
       // AppDialogs.showToast(message: responseModel.data["data"]);
@@ -93,15 +116,30 @@ class AppointmentController extends GetxController {
         Get.to(
           AppPaymentPage(
             PaymentUrl: responseModel.data["data"],
-            FailedPaymentUrl: "${ApiConstant.baseUrl}/appointments/rajhi-failed-callback",
-            SuccessPaymentUrl: "${ApiConstant.baseUrl}/appointments/rajhi-success-callback",
+            FailedPaymentUrl:
+                "${ApiConstant.baseUrl}/appointments/rajhi-failed-callback",
+            SuccessPaymentUrl:
+                "${ApiConstant.baseUrl}/appointments/rajhi-success-callback",
           ),
         );
+        clearText();
+        return;
       }
+      clearText();
+      Get.offAll(PaymentSuccessPage());
 
       return;
     }
 
     AppDialogs.showToast(message: responseModel.data["message"]);
+  }
+
+  void clearText() {
+    service = "";
+    selectBranch = "";
+    selectDoctor = "";
+    selectData = "";
+    selectTime = "";
+    selectNote = "";
   }
 }

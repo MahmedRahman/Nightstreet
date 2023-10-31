@@ -5,6 +5,8 @@ import 'package:krzv2/app/modules/home_page/controllers/home_page_service_catego
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/utils/app_colors.dart';
 
+final RxInt KselectedCategoryId = 0.obs;
+
 class ServicesCategoriesView extends GetView {
   ServicesCategoriesView({
     Key? key,
@@ -12,7 +14,6 @@ class ServicesCategoriesView extends GetView {
   }) : super(key: key);
 
   final Function(int selectedCategoryId) onTap;
-  final RxInt selectedCategoryId = 0.obs;
   final serviceCategoriesController = Get.put(ServiceCategoriesController());
   @override
   Widget build(BuildContext context) {
@@ -25,19 +26,19 @@ class ServicesCategoriesView extends GetView {
             () => Row(
               children: [
                 categoryButton(
-                  isSelect: selectedCategoryId.value == 0,
+                  isSelect: KselectedCategoryId.value == 0,
                   title: "الكل",
                   onTap: () {
-                    selectedCategoryId.value = 0;
+                    KselectedCategoryId.value = 0;
                     onTap(0);
                   },
                 ),
                 ...serviceList.map(
                   (service) => categoryButton(
-                    isSelect: selectedCategoryId.value == service['id'],
+                    isSelect: KselectedCategoryId.value == service['id'],
                     title: service['name'],
                     onTap: () {
-                      selectedCategoryId.value = service['id'];
+                      KselectedCategoryId.value = service['id'];
                       onTap(service['id']);
                     },
                   ),

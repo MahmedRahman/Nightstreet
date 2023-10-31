@@ -82,6 +82,12 @@ class AppPageEmpty extends StatelessWidget {
     super.key,
   }) : imagePath = AppSvgAssets.emptyComplaintIcon;
 
+  AppPageEmpty.appointment({
+    required this.title,
+    required this.description,
+    super.key,
+  }) : imagePath = AppSvgAssets.emptyAppoitmentIcon;
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -109,7 +115,6 @@ class AppPageEmpty extends StatelessWidget {
               fontSize: 16.0,
               color: Colors.grey,
               letterSpacing: 0.48,
-              height: 0.75,
             ),
             textAlign: TextAlign.center,
           ),

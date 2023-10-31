@@ -5,6 +5,7 @@ import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_contro
 import 'package:krzv2/app/modules/wallet/components/decorated_container_component.dart';
 import 'package:krzv2/component/views/app_bar.dart';
 import 'package:krzv2/component/views/icon_button_component.dart';
+import 'package:krzv2/component/views/notification_icon_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
 import 'package:krzv2/routes/app_pages.dart';
@@ -19,127 +20,124 @@ import '../controllers/account_menu_controller.dart';
 class AccountMenuView extends GetView<AccountMenuController> {
   AccountMenuView({Key? key}) : super(key: key);
 
-  final authController = Get.find<AuthenticationController>();
   @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
-      appBar: TitleSubtitleAppBar(
-        titleText: 'مرحباً بك',
-        subTitle: authController.userData?.name ?? '',
-        actions: authController.isLoggedIn
-            ? [
-                ShoppingCartIconView(),
-                CustomIconButton(
-                  onTap: () => Get.toNamed(Routes.notificationPage),
-                  iconPath: AppSvgAssets.notificationIcon,
-                  count: 1,
+    return GetBuilder<AuthenticationController>(builder: (authController) {
+      return BaseScaffold(
+        appBar: TitleSubtitleAppBar(
+          titleText: 'مرحباً بك',
+          subTitle: authController.userData?.name ?? '',
+          actions: [
+            if (authController.isLoggedIn || authController.isGuestUser)
+              ShoppingCartIconView(),
+            if (authController.isLoggedIn) NotificationIconView(),
+            AppSpacers.width20,
+          ],
+        ),
+        body: ListView(
+          padding: AppDimension.appPadding,
+          children: [
+            AppSpacers.height10,
+            if (authController.isLoggedIn)
+              GetBuilder<AuthenticationController>(
+                builder: (controller) {
+                  return _walletListTile(
+                    walletBalance:
+                        '${controller.userData?.walletBalance ?? ''}',
+                    onWalletTapped: () => Get.toNamed(Routes.walletPage),
+                  );
+                },
+              ),
+            AppSpacers.height12,
+            if (authController.isLoggedIn)
+              DecoratedContainer(
+                child: Column(
+                  children: [
+                    _CustomListTile(
+                      title: 'البيانات الشخصية',
+                      iconPath: AppSvgAssets.profileIcon,
+                      onTap: () => Get.toNamed(Routes.updateProfile),
+                    ),
+                    _CustomListTile(
+                      title: "المفضلة",
+                      iconPath: AppSvgAssets.favoriteIcon,
+                      onTap: () {
+                        Get.toNamed(Routes.FAVORITE);
+                      },
+                    ),
+                    _CustomListTile(
+                      title: "طلباتي",
+                      iconPath: AppSvgAssets.myOrdersIcon,
+                      onTap: () => Get.toNamed(Routes.ORDERS_LIST),
+                    ),
+                    _CustomListTile(
+                      title: "مواعيدي",
+                      iconPath: AppSvgAssets.myApointmentIcon,
+                      onTap: () => Get.toNamed(Routes.APPOINTMENT_MANGMENT),
+                    ),
+                    _CustomListTile(
+                      title: "بطاقات الهدايا",
+                      iconPath: AppSvgAssets.giftIcon,
+                      onTap: () => Get.toNamed(Routes.GIFT_CARDS),
+                    ),
+                    _CustomListTile(
+                      title: "عناويني",
+                      iconPath: AppSvgAssets.policiesIcon,
+                      onTap: () => Get.toNamed(Routes.DELIVERY_ADDRESSES),
+                    ),
+                    _CustomListTile(
+                      title: "تواصل معنا",
+                      iconPath: AppSvgAssets.contactUsIcon,
+                      onTap: () => Get.toNamed(Routes.COMPLAINT_MANAGER),
+                    ),
+                  ],
                 ),
-                AppSpacers.width20,
-              ]
-            : [],
-      ),
-      body: ListView(
-        padding: AppDimension.appPadding,
-        children: [
-          AppSpacers.height10,
-          if (authController.isLoggedIn)
-            GetBuilder<AuthenticationController>(
-              builder: (controller) {
-                return _walletListTile(
-                  walletBalance: '${controller.userData?.walletBalance ?? ''}',
-                  onWalletTapped: () => Get.toNamed(Routes.walletPage),
-                );
-              },
-            ),
-          AppSpacers.height12,
-          if (authController.isLoggedIn)
+              ),
+            AppSpacers.height12,
             DecoratedContainer(
               child: Column(
                 children: [
                   _CustomListTile(
-                    title: 'البيانات الشخصية',
-                    iconPath: AppSvgAssets.profileIcon,
-                    onTap: () => Get.toNamed(Routes.updateProfile),
+                    title: "عن التطبيق",
+                    iconPath: AppSvgAssets.aboutIcon,
+                    onTap: () => Get.toNamed(Routes.aboutUsPage),
                   ),
                   _CustomListTile(
-                    title: "المفضلة",
-                    iconPath: AppSvgAssets.favoriteIcon,
-                    onTap: () {
-                      Get.toNamed(Routes.FAVORITE);
-                    },
-                  ),
-                  _CustomListTile(
-                    title: "طلباتي",
-                    iconPath: AppSvgAssets.myOrdersIcon,
-                    onTap: () => Get.toNamed(Routes.ORDERS_LIST),
-                  ),
-                  _CustomListTile(
-                    title: "مواعيدي",
-                    iconPath: AppSvgAssets.myApointmentIcon,
-                    onTap: () => Get.toNamed(Routes.APPOINTMENT_MANGMENT),
-                  ),
-                  _CustomListTile(
-                    title: "بطاقات الهدايا",
-                    iconPath: AppSvgAssets.giftIcon,
-                    onTap: () => Get.toNamed(Routes.GIFT_CARDS),
-                  ),
-                  _CustomListTile(
-                    title: "عناويني",
+                    title: "السياسات",
                     iconPath: AppSvgAssets.policiesIcon,
-                    onTap: () => Get.toNamed(Routes.DELIVERY_ADDRESSES),
+                    onTap: () => Get.toNamed(Routes.termsPage),
                   ),
                   _CustomListTile(
-                    title: "تواصل معنا",
-                    iconPath: AppSvgAssets.contactUsIcon,
-                    onTap: () => Get.toNamed(Routes.COMPLAINT_MANAGER),
+                    title: "الأسئلة الشائعة",
+                    iconPath: AppSvgAssets.faqIcon,
+                    onTap: () => Get.toNamed(Routes.faqPage),
                   ),
                 ],
               ),
             ),
-          AppSpacers.height12,
-          DecoratedContainer(
-            child: Column(
-              children: [
-                _CustomListTile(
-                  title: "عن التطبيق",
-                  iconPath: AppSvgAssets.aboutIcon,
-                  onTap: () => Get.toNamed(Routes.aboutUsPage),
+            AppSpacers.height12,
+            if (authController.isLoggedIn)
+              DecoratedContainer(
+                child: _CustomListTile(
+                  title: 'تسجيل خروج',
+                  iconPath: AppSvgAssets.logOutIcon,
+                  onTap: () => authController.logout(),
                 ),
-                _CustomListTile(
-                  title: "السياسات",
-                  iconPath: AppSvgAssets.policiesIcon,
-                  onTap: () => Get.toNamed(Routes.termsPage),
-                ),
-                _CustomListTile(
-                  title: "الأسئلة الشائعة",
-                  iconPath: AppSvgAssets.faqIcon,
-                  onTap: () => Get.toNamed(Routes.faqPage),
-                ),
-              ],
-            ),
-          ),
-          AppSpacers.height12,
-          if (authController.isLoggedIn)
-            DecoratedContainer(
-              child: _CustomListTile(
-                title: 'تسجيل خروج',
-                iconPath: AppSvgAssets.logOutIcon,
-                onTap: () => authController.logout(),
               ),
-            ),
-          AppSpacers.height12,
-          if (authController.isLoggedIn == false)
-            DecoratedContainer(
-              child: _loginButton(
-                title: 'تسجيل دخول',
-                iconPath: AppSvgAssets.loginIcon,
-                onTap: () => Get.toNamed(Routes.LOGIN),
+            AppSpacers.height12,
+            if (authController.isLoggedIn == false)
+              DecoratedContainer(
+                child: _loginButton(
+                  title: 'تسجيل دخول',
+                  iconPath: AppSvgAssets.loginIcon,
+                  onTap: () => Get.toNamed(Routes.LOGIN),
+                ),
               ),
-            ),
-          AppSpacers.height12,
-        ],
-      ),
-    );
+            AppSpacers.height12,
+          ],
+        ),
+      );
+    });
   }
 
   Widget _walletListTile({

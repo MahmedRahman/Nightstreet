@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/wallet/components/decorated_container_component.dart';
 import 'package:krzv2/utils/app_colors.dart';
@@ -53,7 +54,8 @@ class ServiceInformationView extends GetView {
             if (clinicAddress != '' && clinicName != '')
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       clinicName!,
@@ -65,15 +67,18 @@ class ServiceInformationView extends GetView {
                       textAlign: TextAlign.right,
                     ),
                     AppSpacers.width10,
-                    Text(
-                      clinicAddress!,
-                      style: TextStyle(
-                        fontSize: 13.0,
-                        color: AppColors.greyColor,
-                        height: 1.46,
-                      ),
-                      textAlign: TextAlign.right,
+                    Html(
+                      data: clinicAddress ?? '',
                     ),
+                    // Text(
+                    //   clinicAddress!,
+                    //   style: TextStyle(
+                    //     fontSize: 13.0,
+                    //     color: AppColors.greyColor,
+                    //     height: 1.46,
+                    //   ),
+                    //   textAlign: TextAlign.right,
+                    // ),
                   ],
                 ),
               )

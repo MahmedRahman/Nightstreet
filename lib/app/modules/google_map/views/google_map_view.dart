@@ -33,6 +33,7 @@ class GoogleMapView extends GetView<GoogleMapViewController> {
           controller.obx((_) {
             return GoogleMap(
               mapType: MapType.normal,
+              myLocationButtonEnabled: false,
               markers: Set.from(controller.markers.value!),
               initialCameraPosition: _kGooglePlex,
               onMapCreated: (GoogleMapController mapController) {
@@ -88,6 +89,17 @@ class GoogleMapView extends GetView<GoogleMapViewController> {
             },
           ),
         ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 50),
+        child: FloatingActionButton(
+          onPressed: () {
+            controller.enableLocationService();
+          },
+          child: Icon(Icons.my_location),
+          backgroundColor: AppColors.mainColor,
+        ),
       ),
     );
   }

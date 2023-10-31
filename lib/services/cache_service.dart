@@ -28,6 +28,17 @@ mixin CacheManager {
     return box.read(CacheManagerKey.guestToken.name.toString());
   }
 
+  Future<bool> saveUserType(String? userType) async {
+    final box = GetStorage();
+    await box.write("userType", userType);
+    return true;
+  }
+
+  String? getUserType() {
+    final box = GetStorage();
+    return box.read("userType");
+  }
+
   Future<void> removeGuestToken() async {
     final box = GetStorage();
     await box.remove(CacheManagerKey.guestToken.name.toString());

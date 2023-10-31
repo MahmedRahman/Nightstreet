@@ -1,19 +1,15 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/address/list_addresses/controllers/delivery_addresses_controller.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
-import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/custom_drop_menu_view.dart';
 import 'package:krzv2/component/views/custom_text_field_component.dart';
 import 'package:krzv2/component/views/custom_toggle_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
-import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
@@ -23,14 +19,13 @@ import '../controllers/edit_address_controller.dart';
 class editAddressView extends GetView<editAddressController> {
   final data;
   final formKey = GlobalKey<FormState>();
-  editAddressController controller = Get.put(editAddressController());
+  final controller = Get.put(editAddressController());
 
   final addressController = TextEditingController();
   final phoneController = TextEditingController();
   final noteController = TextEditingController();
   final isDefaultCon = TextEditingController();
   int cityId = 0;
-  RxInt? isDefault = 0.obs;
 
   editAddressView({
     required this.data,
@@ -109,14 +104,15 @@ class editAddressView extends GetView<editAddressController> {
                 CustomToggleView(
                   activeColor: AppColors.mainColor,
                   deactivateColor: Colors.white,
-                  Kselected: isDefault == 1,
+                  Kselected: int.tryParse(isDefaultCon.text) == 1,
                   onChanged: (bool vlu) {
-                    print('isDefault ${isDefault?.value}');
-                    // if (vlu) {
-                    //   isDefault = 1;
-                    //   return;
-                    // }
-                    // isDefault = 0;
+                    if (vlu) {
+                      isDefaultCon.text = '1';
+
+                      return;
+                    }
+
+                    isDefaultCon.text = '0';
                   },
                 ),
               ],
@@ -140,7 +136,7 @@ class editAddressView extends GetView<editAddressController> {
               phone: phoneController.text.toString(),
               address: addressController.text.toString(),
               notes: noteController.text.toString(),
-              isDefault: isDefault.toString(),
+              isDefault: isDefaultCon.text.toString(),
               previousRoute: Get.previousRoute,
             );
           },

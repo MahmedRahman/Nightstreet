@@ -32,7 +32,7 @@ class OfferListView extends GetView<OfferListController> {
         titleText: 'استكشــف',
         subTitle: 'أقوى العروض',
         actions: [
-          if (authController.isLoggedIn)
+          if (authController.isLoggedIn || authController.isGuestUser)
             CustomIconButton(
               onTap: () => Get.toNamed(Routes.SHOPPINT_CART),
               iconPath: AppSvgAssets.cartIcon,

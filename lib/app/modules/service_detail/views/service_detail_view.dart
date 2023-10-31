@@ -21,6 +21,7 @@ import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/share_icon_view.dart';
 import 'package:krzv2/component/views/tabs/base_switch_3_tap.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
@@ -57,17 +58,18 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                 child: CustomBtnCompenent.main(
                   text: 'احجز موعد الآن',
                   onTap: () {
-                    // Get.toNamed(
-                    //   Routes.APPOINTMENT_ADDRESS,
-                    //   arguments: data,
-                    // );
-
+                    if (Get.put(AuthenticationController().isLoggedIn) ==
+                        false) {
+                      return AppDialogs.showToast(
+                          message: 'الرجاء تسجيل الدخول');
+                    }
                     if (data["branches"].length == 0) {
                       AppDialogs.showToast(message: "لا يوجد فروع");
                     }
 
                     Get.find<AppointmentController>().service = data;
-                    Get.find<AppointmentController>().selectBranch = data["branches"][0];
+                    Get.find<AppointmentController>().selectBranch =
+                        data["branches"][0];
 
                     Get.to(
                       AppointmentAddressView(),
@@ -94,6 +96,11 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                       isFavorite: data['is_favorite'],
                       title: data["clinic"]["name"],
                       onFavoriteTap: () {
+                        if (Get.put(AuthenticationController().isLoggedIn) ==
+                            false) {
+                          return AppDialogs.showToast(
+                              message: 'الرجاء تسجيل الدخول');
+                        }
                         final favCon = Get.put<OfferFavoriteController>(
                           OfferFavoriteController(),
                         );

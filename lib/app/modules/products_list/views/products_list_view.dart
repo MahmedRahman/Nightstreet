@@ -4,6 +4,7 @@ import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controll
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/icon_button_component.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/product_categories_view.dart';
@@ -14,6 +15,7 @@ import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/product_model.dart';
 import 'package:krzv2/models/product_search_query.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
@@ -22,14 +24,7 @@ import 'package:krzv2/utils/app_svg_paths.dart';
 import '../controllers/products_list_controller.dart';
 
 class ProductsListView extends GetView<ProductsListController> {
-  ProductsListView({Key? key}) {
-    final categoryId = (Get.arguments ?? '') as String;
-    if (categoryId != '') {
-      controller.queryParams.categoryId = categoryId;
-
-      controller.productFilter();
-    }
-  }
+  ProductsListView({Key? key});
 
   final double itemHeight = (Get.height - kToolbarHeight - 24) / 1;
   final double itemWidth = Get.width / 2;
@@ -104,6 +99,17 @@ class ProductsListView extends GetView<ProductsListController> {
           hasDiscount: product.oldPrice != 0,
           price: product.price.toString(),
           onAddToCartTapped: () {
+            final isGuest = Get.find<AuthenticationController>().isGuestUser;
+
+            if (isGuest) {
+              cartController.addToGuestCart(
+                productId: product.id.toString(),
+                quantity: '1',
+                isNew: true,
+              );
+
+              return;
+            }
             cartController.addToCart(
               productId: product.id.toString(),
               quantity: '1',
@@ -157,7 +163,7 @@ class ProductsListView extends GetView<ProductsListController> {
 }
 
 class ProductListAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const ProductListAppBar({
+  ProductListAppBar({
     super.key,
     required this.onChanged,
     required this.controller,
@@ -165,6 +171,7 @@ class ProductListAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   final Function(ProductQueryParameters) onChanged;
   final ProductsListController controller;
+  final authController = Get.put(AuthenticationController());
   @override
   Widget build(BuildContext context) {
     return CustomAppBar(
@@ -173,7 +180,8 @@ class ProductListAppBar extends StatelessWidget implements PreferredSizeWidget {
         Get.back(result: true);
       },
       actions: [
-        ShoppingCartIconView(),
+        if (authController.isLoggedIn || authController.isGuestUser)
+          ShoppingCartIconView(),
         CustomIconButton(
           onTap: () {
             Get.bottomSheet(

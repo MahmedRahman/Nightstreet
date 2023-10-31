@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/cards/service_card_view.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/show_more_button_view.dart';
 import 'package:krzv2/models/service_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
 class RecommendedServicesListView extends GetView {
@@ -42,7 +44,12 @@ class RecommendedServicesListView extends GetView {
                 hasDiscount: service.oldPrice.toString() != '0.0',
                 price: service.price.toString(),
                 oldPrice: service.oldPrice.toString(),
-                onFavoriteTapped: () => onFavoriteTapped(service.id),
+                onFavoriteTapped: () {
+                  if (Get.put(AuthenticationController().isLoggedIn) == false) {
+                    return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                  }
+                  return onFavoriteTapped(service.id);
+                },
                 rate: service.totalRateAvg.toString(),
                 totalRate: service.totalRateCount.toString(),
                 isFavorite: service.isFavorite,

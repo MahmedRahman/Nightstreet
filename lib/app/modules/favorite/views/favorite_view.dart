@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
+import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/component/views/cards/clinic_card_view.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/component/views/cards/service_card_view.dart';
@@ -15,6 +16,7 @@ import 'package:krzv2/models/branch_model.dart';
 import 'package:krzv2/models/product_model.dart';
 import 'package:krzv2/models/service_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 
 class FavoriteView extends GetView {
@@ -94,7 +96,28 @@ class FavoriteProducts extends GetView<ProductFavoriteController> {
             name: product.name,
             hasDiscount: product.oldPrice != 0,
             price: product.price.toString(),
-            onAddToCartTapped: () {},
+            onAddToCartTapped: () {
+              final cartController = Get.put<ShoppintCartController>(
+                ShoppintCartController(),
+              );
+
+              final isGuest = Get.find<AuthenticationController>().isGuestUser;
+
+              if (isGuest) {
+                cartController.addToGuestCart(
+                  productId: product.id.toString(),
+                  quantity: '1',
+                  isNew: true,
+                );
+                return;
+              }
+
+              cartController.addToCart(
+                productId: product.id.toString(),
+                quantity: '1',
+                isNew: true,
+              );
+            },
             onFavoriteTapped: () {
               final favCon = Get.put<ProductFavoriteController>(
                 ProductFavoriteController(),
@@ -219,9 +242,11 @@ class FavoriteClinic extends GetView<CliniFavoriteController> {
               child: ClinicCardView(
                 isFavorite: clinic!.isFavorite,
                 imageUrl: clinic.clinic.image,
+                onTap: () {
+                  
+                },
                 name: clinic.name,
                 onFavoriteTapped: () {
-               
                   controller.toggleFavorite(clinic.id);
 
                   controller.addRemoveBranchFromFavorite(
@@ -234,6 +259,7 @@ class FavoriteClinic extends GetView<CliniFavoriteController> {
                 },
                 rate: clinic.totalRateAvg.toString(),
                 totalRate: clinic.totalRateCount.toString(),
+                distance: clinic.distance,
               ),
             );
           },

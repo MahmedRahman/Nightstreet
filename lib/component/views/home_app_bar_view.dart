@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
-import 'package:krzv2/component/views/icon_button_component.dart';
+import 'package:krzv2/component/views/notification_icon_view.dart';
 import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
 import 'package:krzv2/services/auth_service.dart';
-import 'package:krzv2/utils/app_svg_paths.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
 class HomeAppBarView extends GetView implements PreferredSizeWidget {
-  final VoidCallback onCartTapped;
-  final VoidCallback onNotificationTapped;
-
-  final int? notificationCounter;
   final String? title;
   final String? subTitle;
 
   HomeAppBarView({
     super.key,
-    required this.onCartTapped,
-    required this.onNotificationTapped,
-    this.notificationCounter = 0,
     this.title,
     this.subTitle,
   });
@@ -63,17 +54,19 @@ class HomeAppBarView extends GetView implements PreferredSizeWidget {
           ),
         ],
       ),
-      actions: authController.isLoggedIn
-          ? [
-              ShoppingCartIconView(),
-              CustomIconButton(
-                onTap: onNotificationTapped,
-                iconPath: AppSvgAssets.notificationIcon,
-                count: notificationCounter,
-              ),
-              AppSpacers.width20,
-            ]
-          : [],
+      actions: [
+        if (authController.isLoggedIn || authController.isGuestUser)
+          ShoppingCartIconView(),
+        if (authController.isLoggedIn) NotificationIconView(),
+        AppSpacers.width20,
+      ],
+      // actions: (authController.isLoggedIn || authController.isGuestUser)
+      //     ? [
+      //         ShoppingCartIconView(),
+      //         NotificationIconView(),
+      //         AppSpacers.width20,
+      //       ]
+      //     : [],
     );
   }
 }

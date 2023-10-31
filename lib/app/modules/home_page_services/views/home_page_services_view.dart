@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:focus_detector/focus_detector.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
-import 'package:krzv2/app/modules/google_map/controllers/google_map_controller.dart';
 import 'package:krzv2/app/modules/home_page_services/controllers/hom_page_service_slider_controller.dart';
 import 'package:krzv2/component/views/app_bar_search_view.dart';
 import 'package:krzv2/component/views/branches_sort_box_view.dart';
 import 'package:krzv2/component/views/cards/clinic_card_view.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/icon_button_component.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
@@ -15,6 +15,7 @@ import 'package:krzv2/component/views/services_sort_view.dart';
 import 'package:krzv2/component/views/slider_view.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
@@ -23,7 +24,10 @@ import '../controllers/home_page_services_controller.dart';
 
 class HomePageServicesView extends GetView<HomePageServicesController> {
   HomePageServicesView({Key? key}) {
-    controller.resetBranches();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.queryParams.categoryId = KselectedCategoryId.value.toString();
+      controller.fiterBrancher();
+    });
   }
 
   final sliderController = Get.put(HomePageServiceSliderController());
@@ -75,7 +79,9 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                 height: 12,
               ),
               ServicesSortView(
-                onTap: () => showBranchSortBottomSheet(controller),
+                onTap: () {
+                  showBranchSortBottomSheet(controller);
+                },
               ),
               SizedBox(
                 height: 12,
@@ -84,7 +90,6 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                 onTap: (int selectedCategoryId) {
                   controller.queryParams.categoryId =
                       selectedCategoryId.toString();
-
                   controller.fiterBrancher();
                 },
               ),
@@ -100,10 +105,23 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                       final branch = branches.elementAt(index);
 
                       return ClinicCardView(
+                        distance: branch.distance,
                         isFavorite: branch.isFavorite,
                         imageUrl: branch.clinic.image,
                         name: branch.name,
+                        onTap: () {
+                          Get.toNamed(
+                            Routes.CLINIC_INFO,
+                            arguments: branch.id,
+                          );
+                        },
                         onFavoriteTapped: () {
+                          if (Get.put(AuthenticationController().isLoggedIn) ==
+                              false) {
+                            return AppDialogs.showToast(
+                                message: 'الرجاء تسجيل الدخول');
+                          }
+
                           final favCon = Get.put<CliniFavoriteController>(
                             CliniFavoriteController(),
                           );

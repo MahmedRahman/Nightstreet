@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:krzv2/app/modules/appointment/appointment_address_controller.dart';
@@ -14,13 +15,14 @@ import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
+import 'package:krzv2/utils/app_svg_paths.dart';
 
 class AppointmentBookingView extends GetView<AppointmentController> {
   bool isDoctorSelect;
   var serves;
   var selectDoctor;
   TextEditingController longText = TextEditingController();
-
+  TextEditingController selectTimeText = TextEditingController();
   AppointmentBookingView({
     required this.isDoctorSelect,
   }) {
@@ -50,60 +52,311 @@ class AppointmentBookingView extends GetView<AppointmentController> {
           // monthSelector(
           //   onMonthChanged: (String) {},
           // ),
-          DateTimeFormFieldView(
-            title: "تاريخ ",
-            initialDateTime: "",
-            firstDate: DateTime.now(),
-            onDateChanged: (DateTime value) {
-              //print(formattedDate.toString());
-              String valData = "${value.year}-${value.month}-${value.day}";
-              Get.find<AppointmentController>().selectData = valData.toString();
-              Get.find<AppointmentController>().selectTime = "";
-              Get.find<AppointmentController>().getAvailableOfferTimes();
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: DateTimeFormFieldView(
+                  title: "تاريخ ",
+                  initialDateTime: "",
+                  firstDate: DateTime.now(),
+                  onDateChanged: (DateTime value) {
+                    var month = value.month.toString();
 
-              //birthDateController.text = value.toString().substring(0, 10);
-            },
-          ),
-          AppSpacers.height19,
-          Obx(() {
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: AppColors.mainColor,
+                    if (month.length == 1) {
+                      month = "0${month}";
+                    }
+                    var day = value.day.toString();
+
+                    if (day.length == 1) {
+                      day = "0${day}";
+                    }
+
+                    String valData = "${value.year}-${month}-${day}";
+
+                    print(valData.toString());
+                    Get.find<AppointmentController>().selectData =
+                        valData.toString();
+                    Get.find<AppointmentController>().selectTime = "";
+                    Get.find<AppointmentController>().getAvailableOfferTimes();
+
+                    //birthDateController.text = value.toString().substring(0, 10);
+                  },
                 ),
               ),
-              child: controller.AppointmentDataList.length == 0
-                  ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Text("لا يوجد مواعيد"),
+              AppSpacers.width10,
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    if (controller.AppointmentDataList.length == 0) {
+                      return AppDialogs.showToast(message: 'حدد التاريخ اولا');
+                    }
+
+                    Get.generalDialog(
+                      barrierDismissible: true,
+                      barrierLabel: MaterialLocalizations.of(Get.context!)
+                          .modalBarrierDismissLabel,
+                      barrierColor: Colors.black45,
+                      transitionDuration: const Duration(milliseconds: 200),
+                      pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) {
+                        return Center(
+                          child: Container(
+                            width: Get.width * .8,
+                            constraints: BoxConstraints(
+                              maxHeight: Get.height * 0.8,
+                            ),
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25.0),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'اختر الموعد المناسب',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: AppColors.blackColor,
+                                        letterSpacing: 0.3,
+                                      ),
+                                      textAlign: TextAlign.right,
+                                    ),
+                                    Spacer(),
+                                    InkWell(
+                                      onTap: () => Get.back(),
+                                      child: Container(
+                                        alignment: Alignment(0.03, 0.0),
+                                        width: 28.0,
+                                        height: 28.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: AppColors.greyColor4,
+                                        ),
+                                        child: Icon(
+                                          Icons.close,
+                                          color: AppColors.greyColor,
+                                          size: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Divider(),
+                                AppSpacers.height25,
+                                controller.AppointmentDataList.length == 0
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Center(
+                                          child: Text("لا يوجد مواعيد"),
+                                        ),
+                                      )
+                                    : Obx(
+                                        () => Wrap(
+                                          children: List.generate(
+                                            controller
+                                                .AppointmentDataList.length,
+                                            (index) {
+                                              return timeCard(
+                                                onTap: (p0) {
+                                                  Get.find<
+                                                          AppointmentController>()
+                                                      .selectTime = controller
+                                                          .AppointmentDataList[
+                                                      index]["time"];
+                                                  Get.find<
+                                                          AppointmentController>()
+                                                      .selectTimeUI
+                                                      .value = controller
+                                                          .AppointmentDataList[
+                                                      index]["time"];
+                                                  controller.AppointmentDataList
+                                                      .refresh();
+                                                },
+                                                time: controller
+                                                        .AppointmentDataList[
+                                                    index]["time"],
+                                                isSelect: controller
+                                                            .AppointmentDataList[
+                                                        index]["time"] ==
+                                                    Get.find<
+                                                            AppointmentController>()
+                                                        .selectTime,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  overlayColor: MaterialStatePropertyAll(Colors.transparent),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'الموعد',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: AppColors.blackColor,
+                          letterSpacing: 0.32,
+                          fontWeight: FontWeight.w500,
+                          height: 0.75,
+                        ),
+                        textAlign: TextAlign.right,
                       ),
-                    )
-                  : Wrap(
-                      children: List.generate(
-                        controller.AppointmentDataList.length,
-                        (index) {
-                          return timeCard(
-                            onTap: (p0) {
-                              Get.find<AppointmentController>().selectTime =
-                                  controller.AppointmentDataList[index]["time"];
-                              controller.AppointmentDataList.refresh();
-                            },
-                            time: controller.AppointmentDataList[index]["time"],
-                            isSelect: controller.AppointmentDataList[index]["time"] ==
-                                Get.find<AppointmentController>().selectTime,
-                          );
-                        },
+                      AppSpacers.height10,
+                      Container(
+                        width: double.infinity,
+                        height: 52.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Color(0xffF5F6FA),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 20,
+                            ),
+                            SvgPicture.asset(AppSvgAssets.timeIcon),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Obx(
+                              () => Text(
+                                Get.find<AppointmentController>()
+                                            .selectTimeUI
+                                            .value !=
+                                        ''
+                                    ? Get.find<AppointmentController>()
+                                        .selectTimeUI
+                                        .value
+                                    : 'اختر الوقت',
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: AppColors.greyColor,
+                                  letterSpacing: 0.48,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-            );
-          }),
-          AppSpacers.height25,
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+          // DateTimeFormFieldView(
+          //   title: "تاريخ ",
+          //   initialDateTime: "",
+          //   firstDate: DateTime.now(),
+          //   onDateChanged: (DateTime value) {
+          //     var month = value.month.toString();
+
+          //     if (month.length == 1) {
+          //       month = "0${month}";
+          //     }
+          //     var day = value.day.toString();
+
+          //     if (day.length == 1) {
+          //       day = "0${day}";
+          //     }
+
+          //     String valData = "${value.year}-${month}-${day}";
+
+          //     print(valData.toString());
+          //     Get.find<AppointmentController>().selectData = valData.toString();
+          //     Get.find<AppointmentController>().selectTime = "";
+          //     Get.find<AppointmentController>().getAvailableOfferTimes();
+
+          //     //birthDateController.text = value.toString().substring(0, 10);
+          //   },
+          // ),
+
+          // Text(
+          //   'المواعيد',
+          //   style: TextStyle(
+          //     fontSize: 16.0,
+          //     color: AppColors.blackColor,
+          //     letterSpacing: 0.32,
+          //     fontWeight: FontWeight.w500,
+          //     height: 0.75,
+          //   ),
+          //   textAlign: TextAlign.right,
+          // ),
+          // AppSpacers.height10,
+          // TextFieldComponent(
+          //   controller: selectTimeText,
+          //   hintText: 'المواعيد',
+          //   iconPath: '',
+          //   keyboardType: TextInputType.name,
+          // ),
+
+          // Obx(() {
+          //   return Container(
+          //       decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(8),
+          //         border: Border.all(
+          //           color: AppColors.mainColor,
+          //         ),
+          //       ),
+          //       child: controller.AppointmentDataList.length == 0
+          //           ? Padding(
+          //               padding: const EdgeInsets.all(8.0),
+          //               child: Center(
+          //                 child: Text("لا يوجد مواعيد"),
+          //               ),
+          //             )
+          //           : Container(
+          //               child: Wrap(
+          //                 children: List.generate(
+          //                   controller.AppointmentDataList.length,
+          //                   (index) {
+          //                     return timeCard(
+          //                       onTap: (p0) {
+          //                         Get.find<AppointmentController>().selectTime =
+          //                             controller.AppointmentDataList[index]
+          //                                 ["time"];
+          //                         controller.AppointmentDataList.refresh();
+          //                       },
+          //                       time: controller.AppointmentDataList[index]
+          //                           ["time"],
+          //                       isSelect: controller.AppointmentDataList[index]
+          //                               ["time"] ==
+          //                           Get.find<AppointmentController>()
+          //                               .selectTime,
+          //                     );
+          //                   },
+          //                 ),
+          //               ),
+          //             )
+
+          //       // TextFieldComponent(
+          //       //   controller: selectTimeText,
+          //       //   hintText: 'المواعيد',
+          //       //   iconPath: '',
+          //       //   keyboardType: TextInputType.name,
+          //       // ),
+          //       );
+          // }),
+
           // appointmentSelector(
           //   onDayChanged: (int) {},
           // ),
-          AppSpacers.height25,
+          AppSpacers.height12,
           TextFieldComponent.longMessage(
             controller: longText,
             outLineText: "تفاصيل إضافية",
@@ -132,12 +385,20 @@ class AppointmentBookingView extends GetView<AppointmentController> {
               child: CustomBtnCompenent.main(
                 text: 'مواصلة الحجز',
                 onTap: () {
-                  if (Get.find<AppointmentController>().selectTime == "") {
-                    AppDialogs.showToast(message: "برجاء اختيار المعاد المناسب");
+                  print(
+                      'time => ${Get.find<AppointmentController>().selectTime}');
+                  print(
+                      'date => ${Get.find<AppointmentController>().selectData}');
+
+                  if (Get.find<AppointmentController>().selectData == null ||
+                      Get.find<AppointmentController>().selectData == '') {
+                    AppDialogs.showToast(message: "برجاء اختيار التاريخ");
                     return;
                   }
-                  if (Get.find<AppointmentController>().selectData == "") {
-                    AppDialogs.showToast(message: "برجاء اختيار التاريخ");
+                  if (Get.find<AppointmentController>().selectTime == null ||
+                      Get.find<AppointmentController>().selectTime == '') {
+                    AppDialogs.showToast(
+                        message: "برجاء اختيار المعاد المناسب");
                     return;
                   }
 
@@ -191,7 +452,9 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: selectedDay.value == index ? AppColors.mainColor : AppColors.greyColor4,
+                        color: selectedDay.value == index
+                            ? AppColors.mainColor
+                            : AppColors.greyColor4,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 19),
@@ -201,7 +464,9 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                               '${index + 1}',
                               style: TextStyle(
                                 fontSize: 22.0,
-                                color: selectedDay.value == index ? Colors.white : AppColors.blackColor,
+                                color: selectedDay.value == index
+                                    ? Colors.white
+                                    : AppColors.blackColor,
                                 fontWeight: FontWeight.w500,
                                 height: 1.95,
                               ),
@@ -211,7 +476,9 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                               'السبت',
                               style: TextStyle(
                                 fontSize: 14.0,
-                                color: selectedDay.value == index ? Colors.white : AppColors.blackColor,
+                                color: selectedDay.value == index
+                                    ? Colors.white
+                                    : AppColors.blackColor,
                                 letterSpacing: 0.35000000000000003,
                                 height: 1.64,
                               ),
@@ -268,7 +535,9 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: selectedDay.value == index ? AppColors.mainColor : AppColors.greyColor4,
+                        color: selectedDay.value == index
+                            ? AppColors.mainColor
+                            : AppColors.greyColor4,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 19),
@@ -277,7 +546,9 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                             '0${index + 4}:00 ص',
                             style: TextStyle(
                               fontSize: 14.0,
-                              color: selectedDay.value == index ? Colors.white : AppColors.blackColor,
+                              color: selectedDay.value == index
+                                  ? Colors.white
+                                  : AppColors.blackColor,
                               letterSpacing: 0.35000000000000003,
                             ),
                             textAlign: TextAlign.center,

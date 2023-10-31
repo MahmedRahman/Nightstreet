@@ -43,7 +43,7 @@ class editAddressController extends GetxController with StateMixin {
             return Get.offAndToNamed(Routes.ORDER_COMPLETE);
           }
 
-          return Get.offAndToNamed(Routes.DELIVERY_ADDRESSES);
+          Get.back(closeOverlays: true);
         },
       );
       change(null, status: RxStatus.success());

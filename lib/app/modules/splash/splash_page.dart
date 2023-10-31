@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
@@ -14,6 +15,9 @@ class AppGlobal {
 
 class SplashController extends GetxController with StateMixin {
   final authenticationController = Get.find<AuthenticationController>();
+  final cartController = Get.put<ShoppintCartController>(
+    ShoppintCartController(),
+  );
 
   @override
   void onInit() {
@@ -30,14 +34,19 @@ class SplashController extends GetxController with StateMixin {
       AppGlobal.KSettingData = responseModel.data["data"];
     }
 
-
- 
-
     if (authenticationController.isLoggedIn) {
       authenticationController.getProfile();
+      cartController.onInit();
       Get.offAllNamed(Routes.LAYOUT);
       return;
     }
+
+    if (authenticationController.isGuestUser) {
+      cartController.onInit();
+      Get.offAllNamed(Routes.LAYOUT);
+      return;
+    }
+
     Get.offAllNamed(Routes.LAYOUT);
     change([], status: RxStatus.success());
 

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
 import 'package:krzv2/component/views/cards/service_card_view.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
@@ -9,7 +12,6 @@ class OfferServiceController extends GetxController with StateMixin<List> {
   @override
   void onInit() {
     getOffersService();
-    // TODO: implement onInit
     super.onInit();
   }
 
@@ -29,7 +31,7 @@ class OfferServiceController extends GetxController with StateMixin<List> {
 }
 
 class OfferServiceView extends GetView<OfferServiceController> {
-  OfferServiceController controller = Get.put(OfferServiceController());
+  final controller = Get.put(OfferServiceController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,26 +41,54 @@ class OfferServiceView extends GetView<OfferServiceController> {
           itemCount: snapshot!.length,
           itemBuilder: (context, index) {
             return Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 8,
-                ),
-                child: ServiceCardView(
-                  name: snapshot[index]["name"].toString(),
-                  imageUrl: snapshot[index]["image"].toString(),
-                  price: snapshot[index]["price"].toString(),
-                  oldPrice: snapshot[index]["old_price"].toString(),
-                  hasDiscount: false,
-                  onFavoriteTapped: () {},
-                  onTapped: () {
-                    Get.toNamed(
-                      Routes.SERVICE_DETAIL,
-                      arguments: snapshot[index]["id"].toString(),
-                    );
-                  },
-                  rate: snapshot[index]["total_rate_count"].toString(),
-                  totalRate: snapshot[index]["total_rate_avg"].toString(),
-                  isFavorite: true,
-                ));
+              padding: const EdgeInsets.only(
+                bottom: 8,
+              ),
+              child: ServiceCardView(
+                name: snapshot[index]["name"].toString(),
+                imageUrl: snapshot[index]["image"].toString(),
+                price: snapshot[index]["price"].toString(),
+                oldPrice: snapshot[index]["old_price"].toString(),
+                hasDiscount: false,
+                onFavoriteTapped: () {
+                  if (Get.put(AuthenticationController().isLoggedIn) == false) {
+                    return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                  }
+
+                  final favCon = Get.put<OfferFavoriteController>(
+                    OfferFavoriteController(),
+                  );
+
+                  snapshot[index]["is_favorite"] =
+                      !snapshot[index]["is_favorite"];
+                  controller.update();
+
+                  favCon.addRemoveOfferFromFavorite(
+                    offerId: snapshot[index]["id"] as int,
+                    onError: () {
+                      snapshot[index]["is_favorite"] =
+                          !snapshot[index]["is_favorite"];
+                      controller.update();
+                    },
+                  );
+                },
+                onTapped: () async {
+                  final awaitId = await Get.toNamed(
+                    Routes.SERVICE_DETAIL,
+                    arguments: snapshot[index]["id"].toString(),
+                  );
+
+                  if (awaitId != null && awaitId != '') {
+                    snapshot[index]["is_favorite"] =
+                        !snapshot[index]["is_favorite"];
+                    controller.update();
+                  }
+                },
+                rate: snapshot[index]["total_rate_count"].toString(),
+                totalRate: snapshot[index]["total_rate_avg"].toString(),
+                isFavorite: snapshot[index]["is_favorite"],
+              ),
+            );
           },
         );
       }),

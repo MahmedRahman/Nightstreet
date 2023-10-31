@@ -87,7 +87,7 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
             children: [
               addressWidget(
                 address:
-                    '${defaultAddress['city']['name']} - ${defaultAddress['address']}',
+                    '${defaultAddress['city']['name'].toString()} - ${defaultAddress['address'].toString()}',
                 onEditAddressTapped: () {
                   Get.to(
                     () => editAddressView(

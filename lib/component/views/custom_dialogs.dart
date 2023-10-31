@@ -348,6 +348,7 @@ class AppDialogs {
         );
       },
     );
+
   }
 
   // void _loginSuccessDialog() {

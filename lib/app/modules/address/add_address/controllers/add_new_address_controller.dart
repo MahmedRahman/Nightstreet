@@ -35,7 +35,6 @@ class AddNewAddressController extends GetxController with StateMixin {
       isDefault: isDefault.toString(),
     );
 
-//AppDialogs.loginSuccess();
     if (responseModel.data["success"]) {
       AppDialogs.loginSuccess();
       await Future.delayed(
@@ -47,7 +46,7 @@ class AddNewAddressController extends GetxController with StateMixin {
             return Get.offAndToNamed(Routes.ORDER_COMPLETE);
           }
 
-          return Get.offAndToNamed(Routes.DELIVERY_ADDRESSES);
+          Get.back(closeOverlays: true);
         },
       );
       change(null, status: RxStatus.success());

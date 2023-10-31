@@ -1,16 +1,16 @@
 class UserData {
-  int id;
-  String name;
-  String email;
-  String phone;
-  String image;
-  String type;
-  int active;
-  String gender;
-  String birthDate;
-  String walletBalance;
-  int notificationsCount;
-  int cartCount;
+  final int id;
+  final String name;
+  final String email;
+  final String phone;
+  final String image;
+  final String type;
+  final int active;
+  final String gender;
+  final String birthDate;
+  final String walletBalance;
+  final int notificationsCount;
+  final int cartCount;
 
   UserData({
     required this.id,

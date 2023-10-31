@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/toast_component.dart';
 import 'package:krzv2/models/user_data_model.dart';
@@ -8,7 +11,7 @@ import 'package:krzv2/services/cache_service.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-enum UserType { guest, registered, nonAuth }
+enum UserType { guest, registered }
 
 enum AuthStatus { authenticated, unauthenticated, loading }
 
@@ -16,6 +19,8 @@ class AuthenticationController extends GetxController with CacheManager {
   bool get isLoggedIn => getUserToken() != null;
 
   String get token => getUserToken() ?? '';
+  String get guestToken => getGuestToken() ?? '';
+  bool get isGuestUser => (getUserType() ?? '') == UserType.guest.name;
 
   UserData? _userData;
   UserData? get userData => _userData;
@@ -39,8 +44,16 @@ class AuthenticationController extends GetxController with CacheManager {
     }
 
     await removeUserToken();
+    await removeGuestToken();
+    await saveUserType(UserType.guest.name);
     _userData = null;
-    _userType = UserType.guest;
+
+    print('after new login guest token => ${guestToken}');
+
+    await saveGuestToken(response.data['data']['token']);
+    final cartController = Get.find<ShoppintCartController>();
+    cartController.onInit();
+
     Get.offAndToNamed(Routes.LAYOUT);
   }
 
@@ -66,6 +79,12 @@ class AuthenticationController extends GetxController with CacheManager {
     }
 
     await saveUserToken(response.data["data"]["token"]);
+    await saveUserType(UserType.registered.name);
+    await removeGuestToken();
+
+    final cartController = Get.find<ShoppintCartController>();
+    cartController.onInit();
+
     _userData = UserData.fromJson(response.data["data"]);
 
     AppDialogs.loginSuccess();
@@ -175,6 +194,7 @@ class AuthenticationController extends GetxController with CacheManager {
 
     showToast(message: response.data["message"]);
     _userData = UserData.fromJson(response.data["data"]);
+    update();
     return;
   }
 
@@ -187,6 +207,7 @@ class AuthenticationController extends GetxController with CacheManager {
     }
 
     _userData = UserData.fromJson(response.data["data"]);
+    update();
     return;
   }
 

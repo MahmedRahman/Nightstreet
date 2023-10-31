@@ -63,9 +63,13 @@ class OrderPaymentSuccessView extends GetView {
                     text: "عرض جميع طلباتي",
                     width: 240,
                     onTap: () {
-                      Get.find<OrdersListController>().refreshList();
+                      final bottomController =
+                          Get.find<MyBottomNavigationController>();
 
-                      Get.toNamed(Routes.ORDERS_LIST);
+                      bottomController.changePage(4);
+                       Get.offAllNamed(Routes.ORDERS_LIST);
+
+                      // Get.toNamed(Routes.ORDERS_LIST);
 
                       return;
                     },

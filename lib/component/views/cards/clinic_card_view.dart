@@ -15,8 +15,10 @@ class ClinicCardView extends GetView {
   final String oldPrice;
   final String rate;
   final String totalRate;
+  final String distance;
   final bool isFavorite;
   final Function()? onFavoriteTapped;
+  void Function()? onTap;
   ClinicCardView({
     required this.imageUrl,
     required this.name,
@@ -24,6 +26,8 @@ class ClinicCardView extends GetView {
     required this.rate,
     required this.totalRate,
     required this.isFavorite,
+    required this.distance,
+    required this.onTap,
     this.oldPrice = '',
   });
 
@@ -34,13 +38,14 @@ class ClinicCardView extends GetView {
         onFavoriteTapped = null,
         this.rate = '4',
         this.totalRate = '4',
+        this.distance = '4',
         this.isFavorite = false,
         this.oldPrice = '120';
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.toNamed(Routes.CLINIC_INFO),
+      onTap: onTap,
       overlayColor: MaterialStatePropertyAll(Colors.transparent),
       child: Container(
         decoration: BoxDecoration(
@@ -91,7 +96,7 @@ class ClinicCardView extends GetView {
                           width: 4,
                         ),
                         Text(
-                          '2.4 km',
+                          '$distance كم',
                           style: TextStyle(
                             fontFamily: 'SF Pro',
                             fontSize: 12.0,
@@ -127,9 +132,7 @@ class ClinicCardView extends GetView {
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: SvgPicture.asset(
-                      isFavorite
-                          ? AppSvgAssets.solidHeartIcon
-                          : AppSvgAssets.heartIcon,
+                      isFavorite ? AppSvgAssets.solidHeartIcon : AppSvgAssets.heartIcon,
                     ),
                   ),
                 ),

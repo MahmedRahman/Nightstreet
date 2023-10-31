@@ -63,7 +63,7 @@ class ComplaintAddNewController extends GetxController
     if (responseModel.data["success"]) {
       AppDialogs.complaintAddNewSuccessful(
         onTap: () {
-          Get.offAndToNamed(Routes.COMPLAINT_MANAGER);
+          Get.back(closeOverlays: true);
           ComplaintActiveListController controller = Get.find();
           controller.getComplaints();
         },

@@ -10,7 +10,8 @@ import 'package:krzv2/models/appointment_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
-class CurrentAppointmentListView extends GetView<AppointmentMangmentController> {
+class CurrentAppointmentListView
+    extends GetView<AppointmentMangmentController> {
   const CurrentAppointmentListView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -53,9 +54,11 @@ class CurrentAppointmentListView extends GetView<AppointmentMangmentController> 
           AppSpacers.height10,
         ],
       ),
-      onEmpty: AppPageEmpty.dummy()
-      // AppDialogs.addAddressSuccess();
-      ,
+      onEmpty: AppPageEmpty.appointment(
+        title: 'لا توجد مواعيد حالية',
+        description:
+            "لم يتم تسجيل أي مواعيد. يمكنك الآن الحجز \n والاستفادة من العروض شكرًا لاختيار خدماتنا.",
+      ),
     );
   }
 }

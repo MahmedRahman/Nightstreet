@@ -152,7 +152,7 @@ class ServiceCardView extends GetView {
                 AppSpacers.height5,
                 RatingBarView(
                   initRating: double.tryParse(rate.toString())!,
-                  totalRate: int.tryParse(totalRate.toString())!,
+                  totalRate: int.tryParse(totalRate.toString()) ?? 0,
                   ignoreGestures: true,
                 )
               ],

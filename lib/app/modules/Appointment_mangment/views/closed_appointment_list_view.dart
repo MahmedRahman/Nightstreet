@@ -46,7 +46,11 @@ class ClosedAppointmentListView extends GetView<AppointmentMangmentController> {
           AppSpacers.height10,
         ],
       ),
-      onEmpty: AppPageEmpty.dummy(),
+      onEmpty: AppPageEmpty.appointment(
+        title: 'لا توجد مواعيد منتهية',
+        description:
+            "لم يتم تسجيل أي مواعيد. يمكنك الآن الحجز \n والاستفادة من العروض شكرًا لاختيار خدماتنا.",
+      ),
     );
   }
 }

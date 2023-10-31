@@ -19,13 +19,14 @@ class ComplaintDetailsView extends GetView {
   ComplaintDetailsController controller = Get.put(ComplaintDetailsController());
   TextEditingController text = TextEditingController();
   final String complaintID;
-  ComplaintDetailsView(this.complaintID);
-  final formKey = GlobalKey<FormState>();
-  @override
-  Widget build(BuildContext context) {
+  ComplaintDetailsView(this.complaintID) {
     controller.getComplaintsDetails(
       complaintID: complaintID,
     );
+  }
+  final formKey = GlobalKey<FormState>();
+  @override
+  Widget build(BuildContext context) {
     return controller.obx((snapshot) {
       return Scaffold(
         appBar: CustomAppBar(
@@ -34,7 +35,7 @@ class ComplaintDetailsView extends GetView {
         body: Column(
           children: [
             compiantInfo(
-              title: snapshot["complaint"]["description"].toString() ?? '',
+              title: snapshot["complaint"]["description"].toString(),
               complaintCode: "#${snapshot["complaint"]["id"].toString()}",
               isActiveComplaint: !snapshot["complaint"]["closed"],
               statusTitle: snapshot["complaint"]["status"],
@@ -71,55 +72,62 @@ class ComplaintDetailsView extends GetView {
             )
           ],
         ),
-        bottomSheet: Form(
-          key: formKey,
-          child: Container(
-            color: Colors.white,
-            height: 270,
-            child: Padding(
-              padding: AppDimension.appPadding,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppSpacers.height10,
-                  Divider(),
-                  TextFieldComponent.longMessage(
-                    maxLines: 5,
-                    controller: text,
-                    outLineText: '',
-                    hintText: 'أدخل ردك',
-                    isRequired: true,
-                    validator: customValidator(
-                      rules: [
-                        IsRequired(message: 'حقل مطلوب'),
-                        IsBetween(min: 5, max: 100),
-                      ],
+        bottomSheet: Visibility(
+          visible: snapshot["complaint"]['closed'] == false,
+          child: Form(
+            key: formKey,
+            child: Container(
+              color: Colors.white,
+              height: 270,
+              child: Padding(
+                padding: AppDimension.appPadding,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppSpacers.height10,
+                    Divider(),
+                    TextFieldComponent.longMessage(
+                      maxLines: 5,
+                      controller: text,
+                      outLineText: '',
+                      hintText: 'أدخل ردك',
+                      isRequired: true,
+                      validator: customValidator(
+                        rules: [
+                          IsRequired(message: 'حقل مطلوب'),
+                          IsBetween(
+                            min: 5,
+                            max: 100,
+                            message: "نص الرسالة يتراوح بين ٥ الي ١٠٠ حرفا",
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  AppSpacers.height12,
-                  CustomBtnCompenent.main(
-                    width: 130,
-                    text: 'إرسال',
-                    onTap: () {
-                      if (!formKey.currentState!.validate()) {
-                        return;
-                      }
-                      if (GetUtils.isNullOrBlank(text.text.toString()) ==
-                          true) {
-                        AppDialogs.showToast(message: "برجاء كتابه الرساله");
+                    AppSpacers.height12,
+                    CustomBtnCompenent.main(
+                      width: 130,
+                      text: 'إرسال',
+                      onTap: () {
+                        if (!formKey.currentState!.validate()) {
+                          return;
+                        }
+                        if (GetUtils.isNullOrBlank(text.text.toString()) ==
+                            true) {
+                          AppDialogs.showToast(message: "برجاء كتابه الرساله");
 
-                        return;
-                      }
+                          return;
+                        }
 
-                      controller.SendComplaints(
-                        message: text.text,
-                        complaintID: complaintID,
-                      );
+                        controller.SendComplaints(
+                          message: text.text,
+                          complaintID: complaintID,
+                        );
 
-                      text.clear();
-                    },
-                  )
-                ],
+                        text.clear();
+                      },
+                    )
+                  ],
+                ),
               ),
             ),
           ),

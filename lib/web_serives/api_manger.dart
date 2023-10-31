@@ -198,8 +198,8 @@ import 'package:krzv2/web_serives/network_error_page.dart';
 import 'package:logger/logger.dart';
 
 class ApiConfig {
-  static const bool KShowLog = false;
-  static const bool KShowError = false;
+  static const bool KShowLog = true;
+  static const bool KShowError = true;
   Function KLoginPage = () {
     return Get.offAndToNamed(Routes.LOGIN);
   };
@@ -215,18 +215,33 @@ bool KShowError = true;
 enum HTTPRequestEnum { GET, POST }
 
 class ApiManger extends GetConnect {
-  var logger = Logger();
-
-  @override
-  void onInit() {
+  ApiManger() {
     httpClient.defaultContentType = "application/json";
-    httpClient.timeout = Duration(seconds: 8);
+    httpClient.timeout = Duration(seconds: 50);
 
     httpClient.addRequestModifier((Request request) {
-      request.headers.addAll({'lang': 'ar'});
+      request.headers.addAll({
+        'lang': 'ar',
+        'Accept': 'application/json',
+      });
       return request;
     });
   }
+  var logger = Logger();
+
+  // @override
+  // void onInit() {
+  //   httpClient.defaultContentType = "application/json";
+  //   httpClient.timeout = Duration(seconds: 50);
+
+  //   httpClient.addRequestModifier((Request request) {
+  //     request.headers.addAll({
+  //       'lang': 'ar',
+  //       'Accept': 'application/json',
+  //     });
+  //     return request;
+  //   });
+  // }
 
   Future<ResponseModel> execute({
     required String url,
@@ -241,12 +256,16 @@ class ApiManger extends GetConnect {
 
     httpClient.addRequestModifier((Request request) {
       request.headers.addAll(
-        {'lang': 'ar'},
+        {
+          'lang': 'ar',
+          'Accept': 'application/json',
+        },
       );
       if (isAuth) {
         request.headers.addAll(
           {
-            'Authorization': "Bearer ${Get.find<AuthenticationController>().token}",
+            'Authorization':
+                "Bearer ${Get.find<AuthenticationController>().token}",
           },
         );
       }
@@ -275,7 +294,7 @@ class ApiManger extends GetConnect {
       return responseModel;
     }
     if (responseModel.statusCode == 401) {
-      ApiConfig().KLoginPage;
+      Get.offAndToNamed(Routes.LOGIN);
       return responseModel;
     }
     Get.to(NetworkErrorPage(responseModel));
@@ -299,7 +318,9 @@ class ApiManger extends GetConnect {
     }
 
     if (response.statusCode == 401) {
-      if (KShowError) logger.wtf("URL : ${response.request!.url.toString()} \nStatusCode : ${response.statusCode} ");
+      if (KShowError)
+        logger.wtf(
+            "URL : ${response.request!.url.toString()} \nStatusCode : ${response.statusCode} ");
 
       responseModel = ResponseModel(
           url: response.request!.url.toString(),
@@ -312,7 +333,9 @@ class ApiManger extends GetConnect {
       return responseModel;
     }
 
-    if (KShowError) logger.wtf("URL : ${response.request!.url.toString()} \nStatusCode : ${response.statusCode} ");
+    if (KShowError)
+      logger.wtf(
+          "URL : ${response.request!.url.toString()} \nStatusCode : ${response.statusCode} ");
 
     responseModel = ResponseModel(
         url: response.request!.url.toString(),

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
 import 'package:krzv2/component/views/cards/clinic_card_view.dart';
 import 'package:krzv2/component/views/cards/service_card_view.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/product_search_app_bar_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
@@ -10,6 +11,7 @@ import 'package:krzv2/component/views/tabs/base_switch_tap.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/service_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
@@ -82,6 +84,10 @@ class ServiceSearchView extends GetView<ServicesSearchController> {
             hasDiscount: service.oldPrice != 0,
             price: service.price.toString(),
             onFavoriteTapped: () {
+              if (Get.put(AuthenticationController().isLoggedIn) == false) {
+                return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+              }
+
               final favCon = Get.put<OfferFavoriteController>(
                 OfferFavoriteController(),
               );
@@ -122,7 +128,7 @@ class ServiceSearchView extends GetView<ServicesSearchController> {
 }
 
 class ClinicsSearchView extends GetView<BranchSearchController> {
-  BranchSearchController controllerBranchSearch = Get.put(BranchSearchController());
+  final controllerBranchSearch = Get.put(BranchSearchController());
 
   @override
   Widget build(BuildContext context) {
@@ -137,14 +143,14 @@ class ClinicsSearchView extends GetView<BranchSearchController> {
               totalRate: snapshot.elementAt(index)["total_rate_count"].toString(),
               oldPrice: snapshot.elementAt(index)["total_rate_count"].toString(),
               isFavorite: false,
+              onTap: () {},
               onFavoriteTapped: () {},
               rate: snapshot.elementAt(index)["total_rate_count"].toString(),
-              
+              distance: snapshot.elementAt(index)["distance"].toString(),
             );
           },
         );
       },
     );
   }
-  
 }

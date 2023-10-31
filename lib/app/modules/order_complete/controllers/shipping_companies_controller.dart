@@ -14,12 +14,16 @@ class ShippingCompaniesController extends GetxController
       addressId: addressId,
     );
 
+    print('responseModel.data["success"] => ${responseModel.data["success"]}');
+
     if (responseModel.data["success"]) {
       final List<ShippingCompaniesModel> featchedData =
-          List<ShippingCompaniesModel>.from(
-        responseModel.data['data']
-            .map((category) => ShippingCompaniesModel.fromMap(category)),
-      );
+          responseModel.data['data'] == null
+              ? []
+              : List<ShippingCompaniesModel>.from(
+                  responseModel.data['data'].map(
+                      (category) => ShippingCompaniesModel.fromMap(category)),
+                );
 
       if (featchedData.isEmpty) {
         change([], status: RxStatus.empty());
@@ -27,6 +31,9 @@ class ShippingCompaniesController extends GetxController
       }
 
       change(featchedData, status: RxStatus.success());
+      return;
     }
+
+    change([], status: RxStatus.error(responseModel.data['message']));
   }
 }

@@ -3,12 +3,14 @@ import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/product_search_app_bar_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/product_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 
 import '../controllers/product_search_controller.dart';
@@ -69,6 +71,16 @@ class ProductSearchView extends GetView<ProductSearchController> {
           hasDiscount: product.oldPrice != 0,
           price: product.price.toString(),
           onAddToCartTapped: () {
+            final isGuest = Get.find<AuthenticationController>().isGuestUser;
+
+            if (isGuest) {
+              cartController.addToGuestCart(
+                productId: product.id.toString(),
+                quantity: '1',
+                isNew: true,
+              );
+              return;
+            }
             cartController.addToCart(
               productId: product.id.toString(),
               quantity: '1',
@@ -76,6 +88,9 @@ class ProductSearchView extends GetView<ProductSearchController> {
             );
           },
           onFavoriteTapped: () {
+            if (Get.put(AuthenticationController().isLoggedIn) == false) {
+              return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+            }
             final favCon = Get.put<ProductFavoriteController>(
               ProductFavoriteController(),
             );

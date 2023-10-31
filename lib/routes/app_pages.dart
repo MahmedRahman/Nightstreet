@@ -260,11 +260,6 @@ class AppPages {
       page: () => const ClinicInfoView(),
       binding: ClinicInfoBinding(),
     ),
-    GetPage(
-      name: Routes.CLINIC_INFO,
-      page: () => const ClinicInfoView(),
-      binding: ClinicInfoBinding(),
-    ),
 
     GetPage(
       name: Routes.PRODUCT_SEARCH,

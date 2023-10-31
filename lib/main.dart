@@ -30,51 +30,53 @@ void main() async {
           'https://5019d3dc513f036f269fc73c18c719cd@o4504808028569600.ingest.sentry.io/4506109723148288';
     },
     // Init your App.
-    appRunner: () => runApp(
-      DevicePreview(
-        //enabled: !kReleaseMode,
-        enabled: false,
-        builder: (context) => GestureDetector(
-          onTap: () {
-            FocusScopeNode currentFocus = FocusScope.of(Get.context!);
-            currentFocus.unfocus();
-          },
-          child: GetMaterialApp(
-            title: 'كرز',
-            debugShowCheckedModeBanner: false,
-            textDirection: TextDirection.rtl,
-            theme: ThemeData(
-              fontFamily: "effra",
-              scaffoldBackgroundColor: Colors.white,
-              appBarTheme: const AppBarTheme(
-                systemOverlayStyle: SystemUiOverlayStyle.dark,
+    appRunner: () {
+      // print('isLoggedIn => ${Get.find<AuthenticationController>().isLoggedIn}');
+      runApp(
+        DevicePreview(
+          //enabled: !kReleaseMode,
+          enabled: false,
+          builder: (context) => GestureDetector(
+            onTap: () {
+              FocusScopeNode currentFocus = FocusScope.of(Get.context!);
+              currentFocus.unfocus();
+            },
+            child: GetMaterialApp(
+              title: 'كرز',
+              debugShowCheckedModeBanner: false,
+              textDirection: TextDirection.rtl,
+              theme: ThemeData(
+                fontFamily: "effra",
+                scaffoldBackgroundColor: Colors.white,
+                appBarTheme: const AppBarTheme(
+                  systemOverlayStyle: SystemUiOverlayStyle.dark,
+                ),
               ),
-            ),
-            locale: const Locale('ar_EG'),
-            initialRoute: AppPages.INITIAL,
-            getPages: AppPages.routes,
-            builder: EasyLoading.init(),
-            initialBinding: BindingsBuilder(
-              () {
-                Get.put(AuthenticationController());
-                Get.put(StaticPageService());
-                Get.put(MyBottomNavigationController());
-                Get.put(SplashController());
-                Get.put(AppointmentController());
-                Get.put(OfferServiceController());
-                Get.put(OfferProductController());
-                if (Get.find<AuthenticationController>().isLoggedIn)
+              locale: const Locale('ar_EG'),
+              initialRoute: AppPages.INITIAL,
+              getPages: AppPages.routes,
+              builder: EasyLoading.init(),
+              initialBinding: BindingsBuilder(
+                () {
+                  Get.put(AuthenticationController());
+                  Get.put(StaticPageService());
+                  Get.put(MyBottomNavigationController());
+                  Get.put(SplashController());
+                  Get.put(AppointmentController());
+                  Get.put(OfferServiceController());
+                  Get.put(OfferProductController());
                   Get.put(ShoppintCartController());
-                // Get.put(AppVersionService());
-                // Get.put(ComplaintController());
-              },
+                  // Get.put(AppVersionService());
+                  // Get.put(ComplaintController());
+                },
+              ),
+              navigatorObservers: [
+                SentryNavigatorObserver(),
+              ],
             ),
-            navigatorObservers: [
-              SentryNavigatorObserver(),
-            ],
           ),
         ),
-      ),
-    ),
+      );
+    },
   );
 }

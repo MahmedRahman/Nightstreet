@@ -26,6 +26,7 @@ import 'package:krzv2/component/views/tabs/base_switch_3_tap.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/product_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
@@ -37,6 +38,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
   ProductDetailsView({Key? key}) : super(key: key);
   final similarProductController = Get.put(SimilarProductController());
   final controller = Get.put(ProductDetailsController());
+  final authController = Get.put(AuthenticationController());
 
   void customInit() {
     // Get.put(SimilarProductController());
@@ -66,20 +68,22 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
         titleText: 'تفاصيل المنتج',
         onBackTapped: () => Get.back(result: favId.value),
         actions: [
-          GetBuilder<ShoppintCartController>(
-            builder: (controller) {
-              return CustomIconButton(
-                onTap: () => Get.toNamed(Routes.SHOPPINT_CART),
-                iconPath: AppSvgAssets.cartIcon,
-                count: controller.productCount,
-              );
-            },
-          ),
-          CustomIconButton(
-            onTap: () {},
-            iconPath: AppSvgAssets.notificationIcon,
-            count: 0,
-          ),
+          if (authController.isLoggedIn || authController.isGuestUser)
+            GetBuilder<ShoppintCartController>(
+              builder: (controller) {
+                return CustomIconButton(
+                  onTap: () => Get.toNamed(Routes.SHOPPINT_CART),
+                  iconPath: AppSvgAssets.cartIcon,
+                  count: controller.productCount,
+                );
+              },
+            ),
+          if (authController.isLoggedIn)
+            CustomIconButton(
+              onTap: () {},
+              iconPath: AppSvgAssets.notificationIcon,
+              count: 0,
+            ),
           SizedBox(width: 20),
         ],
       ),
@@ -101,6 +105,11 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                 children: [
                   FavoriteIconView(
                     onFavoriteTapped: () {
+                      if (Get.put(AuthenticationController().isLoggedIn) ==
+                          false) {
+                        return AppDialogs.showToast(
+                            message: 'الرجاء تسجيل الدخول');
+                      }
                       final favCon = Get.put<ProductFavoriteController>(
                         ProductFavoriteController(),
                       );
@@ -144,7 +153,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
             children: [
               PriceWithDiscountView(
                 price: product.price.toString(),
-                hasDiscount: product.oldPrice.toString() != '',
+                hasDiscount: product.oldPrice.toInt().toString() != '0',
                 oldPrice: product.oldPrice.toString(),
               ),
               AppSpacers.width10,
@@ -219,6 +228,17 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
           final cartController = Get.put<ShoppintCartController>(
             ShoppintCartController(),
           );
+
+          final isGuest = Get.find<AuthenticationController>().isGuestUser;
+
+          if (isGuest) {
+            cartController.addToGuestCart(
+              productId: product.id.toString(),
+              quantity: controller.productCount.value.toString(),
+              isNew: true,
+            );
+            return;
+          }
 
           if (product.variants.isNotEmpty && variantId == '') {
             AppDialogs.showToast(message: 'الرجاء تحديد اللون');

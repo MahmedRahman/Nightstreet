@@ -7,9 +7,11 @@ import 'package:krzv2/app/modules/home_page_products/controllers/home_page_most_
 import 'package:krzv2/app/modules/home_page_products/controllers/home_page_products_slider_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/component/views/app_bar_search_view.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_banner_view.dart';
 import 'package:krzv2/component/views/home_categories_list_view.dart';
 import 'package:krzv2/component/views/icon_button_component.dart';
+import 'package:krzv2/component/views/notification_icon_view.dart';
 import 'package:krzv2/component/views/products_hotizontal_list_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
@@ -39,17 +41,12 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
     return BaseScaffold(
       appBar: AppBarSerechView(
         placeHolder: 'ما الذي تريد البحث عنه ؟',
-        actions: authController.isLoggedIn
-            ? [
-                ShoppingCartIconView(),
-                CustomIconButton(
-                  onTap: () => Get.toNamed(Routes.notificationPage),
-                  iconPath: AppSvgAssets.notificationIcon,
-                  count: 2,
-                ),
-                AppSpacers.width20,
-              ]
-            : [],
+        actions: [
+          if (authController.isLoggedIn || authController.isGuestUser)
+            ShoppingCartIconView(),
+          if (authController.isLoggedIn) NotificationIconView(),
+          AppSpacers.width20,
+        ],
         onTap: () async {
           final shoudRefresh = await Get.toNamed(Routes.PRODUCT_SEARCH);
           if (shoudRefresh != null) {
@@ -114,6 +111,17 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                   productsList: productsList ?? [],
                   onShowMoreTapped: () => Get.toNamed(Routes.PRODUCTS_LIST),
                   onAddToCartTapped: (int productId) {
+                    final isGuest =
+                        Get.find<AuthenticationController>().isGuestUser;
+
+                    if (isGuest) {
+                      cartController.addToGuestCart(
+                        productId: productId.toString(),
+                        quantity: '1',
+                        isNew: true,
+                      );
+                      return;
+                    }
                     cartController.addToCart(
                       productId: productId.toString(),
                       quantity: '1',
@@ -121,6 +129,12 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                     );
                   },
                   onFavoriteTapped: (int productId) {
+                    if (Get.put(AuthenticationController().isLoggedIn) ==
+                        false) {
+                      return AppDialogs.showToast(
+                          message: 'الرجاء تسجيل الدخول');
+                    }
+
                     final favCon = Get.put<ProductFavoriteController>(
                       ProductFavoriteController(),
                     );
@@ -169,8 +183,29 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
               (List<ProductModel>? productsList) {
                 return ProductsHotizontalListView.exclusiveOffers(
                   productsList: productsList ?? [],
+                  onTap: (int id) async {
+                    final awaitId = await Get.toNamed(
+                      Routes.PRODUCT_DETAILS,
+                      arguments: id.toString(),
+                    );
+
+                    if (awaitId != null && awaitId != '') {
+                      mostSelleerProductController.toggleFavorite(id);
+                    }
+                  },
                   onShowMoreTapped: () => Get.toNamed(Routes.PRODUCTS_LIST),
                   onAddToCartTapped: (int productId) {
+                    final isGuest =
+                        Get.find<AuthenticationController>().isGuestUser;
+
+                    if (isGuest) {
+                      cartController.addToGuestCart(
+                        productId: productId.toString(),
+                        quantity: '1',
+                        isNew: true,
+                      );
+                      return;
+                    }
                     cartController.addToCart(
                       productId: productId.toString(),
                       quantity: '1',
@@ -178,6 +213,11 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                     );
                   },
                   onFavoriteTapped: (int productId) {
+                    if (Get.put(AuthenticationController().isLoggedIn) ==
+                        false) {
+                      return AppDialogs.showToast(
+                          message: 'الرجاء تسجيل الدخول');
+                    }
                     final favCon = Get.put<ProductFavoriteController>(
                       ProductFavoriteController(),
                     );

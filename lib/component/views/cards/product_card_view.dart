@@ -88,7 +88,7 @@ class ProductCardView extends GetView {
             AppSpacers.height10, // Group: Group 21784
             PriceWithDiscountView(
               price: price,
-              hasDiscount: oldPrice != '0.0',
+              hasDiscount: hasDiscount,
               oldPrice: oldPrice,
             ),
             AppSpacers.height10,
@@ -115,8 +115,9 @@ class ProductCardView extends GetView {
             imageUrl: imageUrl,
             boxFit: BoxFit.cover,
           ),
-          Padding(
-            padding: const EdgeInsets.all(5),
+          Positioned(
+            top: 5,
+            right: 5,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

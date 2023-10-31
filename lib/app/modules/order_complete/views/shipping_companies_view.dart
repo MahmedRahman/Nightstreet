@@ -70,6 +70,12 @@ class ShippingCompaniesView extends GetView<ShippingCompaniesController> {
                 );
               },
               onLoading: onLoading(),
+              onError: (String? error) => Center(
+                child: Text(
+                  '${error.toString()}\nاختر عنوان اخر',
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
           ],
         ),

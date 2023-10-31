@@ -27,24 +27,29 @@ class AppointmentMangmentController extends GetxController
       page: currentPage,
     );
 
-    if (responseModel.data['success'] == true) {
-      final fetchedAppointments = List<AppointmentModel>.from(
-        responseModel.data['data']['data']
-            .map((item) => AppointmentModel.fromJson(item)),
-      );
+    try {
+      if (responseModel.data['success'] == true) {
+        final fetchedAppointments = List<AppointmentModel>.from(
+          responseModel.data['data']['data']
+              .map((item) => AppointmentModel.fromJson(item)),
+        );
 
-      _appointments.addAll(fetchedAppointments);
+        _appointments.addAll(fetchedAppointments);
 
-      if (_appointments.isEmpty) {
-        change([], status: RxStatus.empty());
-        return;
+        if (_appointments.isEmpty) {
+          change([], status: RxStatus.empty());
+          return;
+        }
+
+        await Future.delayed(const Duration(milliseconds: 500));
+        change(_appointments, status: RxStatus.success());
+
+        isPagination =
+            responseModel.data['data']['pagination']['is_pagination'] as bool;
       }
-
-      await Future.delayed(const Duration(milliseconds: 500));
-      change(_appointments, status: RxStatus.success());
-
-      isPagination =
-          responseModel.data['data']['pagination']['is_pagination'] as bool;
+    } catch (e, st) {
+      print('list error $e');
+      print('list st $st');
     }
   }
 

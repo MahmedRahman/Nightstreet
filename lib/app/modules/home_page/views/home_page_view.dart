@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
@@ -9,6 +12,7 @@ import 'package:krzv2/app/modules/home_page/controllers/home_page_service_contro
 import 'package:krzv2/app/modules/home_page/controllers/home_page_slider_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_app_bar_view.dart';
 import 'package:krzv2/component/views/product_categories_list_view.dart';
 import 'package:krzv2/component/views/product_service_button_view.dart';
@@ -16,12 +20,14 @@ import 'package:krzv2/component/views/products_hotizontal_list_view.dart';
 import 'package:krzv2/component/views/recommended_services_list_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/service_categories_list_view.dart';
+import 'package:krzv2/component/views/services_categories_view.dart';
 import 'package:krzv2/component/views/shimmers/home_categories_shimmer.dart';
 import 'package:krzv2/component/views/slider_view.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/product_model.dart';
 import 'package:krzv2/models/service_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
@@ -37,18 +43,13 @@ class HomePageView extends GetView {
 
   @override
   Widget build(BuildContext context) {
+
     recommendedProductController.onInit();
     servicesController.onInit();
     return WillPopScope(
       onWillPop: () async => false,
       child: BaseScaffold(
-        appBar: HomeAppBarView(
-          onCartTapped: () => Get.toNamed(Routes.SHOPPINT_CART),
-          onNotificationTapped: () {
-            Get.toNamed(Routes.notificationPage);
-          },
-          notificationCounter: 1,
-        ),
+        appBar: HomeAppBarView(),
         actions: [],
         body: ListView(
           padding: AppDimension.appPadding,
@@ -91,13 +92,16 @@ class HomePageView extends GetView {
               (servicesList) {
                 return ServiceCategoriesListView(
                   serviceCategoriesList: servicesList,
-                  onTap: () async {
-                    final shoudRefresh =
-                        await Get.toNamed(Routes.SERVICES_SEARCH);
+                  onTap: (index) async {
+                    Get.find<MyBottomNavigationController>()
+                        .currentIndex
+                        .value = 1;
+                    KselectedCategoryId.value = index;
+                    // final shoudRefresh = await Get.toNamed(Routes.SERVICES_SEARCH);
 
-                    if (shoudRefresh != null) {
-                      servicesController.onInit();
-                    }
+                    // if (shoudRefresh != null) {
+                    //   servicesController.onInit();
+                    // }
                   },
                 );
               },
@@ -146,6 +150,19 @@ class HomePageView extends GetView {
                   productsList: productsList ?? [],
                   onShowMoreTapped: () => Get.toNamed(Routes.PRODUCTS_LIST),
                   onAddToCartTapped: (int productId) {
+                    final isGuest =
+                        Get.find<AuthenticationController>().isGuestUser;
+
+                    if (isGuest) {
+                      cartController.addToGuestCart(
+                        productId: productId.toString(),
+                        quantity: '1',
+                        isNew: true,
+                      );
+
+                      return;
+                    }
+
                     cartController.addToCart(
                       productId: productId.toString(),
                       quantity: '1',
@@ -191,7 +208,14 @@ class HomePageView extends GetView {
             servicesController.obx(
               (List<ServiceModel>? servicesList) {
                 return RecommendedServicesListView(
-                  onShowMoreTapped: () => Get.toNamed(Routes.SERVICES_SEARCH),
+                  onShowMoreTapped: () {
+                    Get.find<MyBottomNavigationController>()
+                        .currentIndex
+                        .value = 1;
+                    KselectedCategoryId.value = 0;
+
+                    // Get.toNamed(Routes.SERVICES_CATEGORIES);
+                  },
                   recommendedServicesList: servicesList ?? [],
                   onFavoriteTapped: (int serviceId) {
                     final favCon = Get.put<OfferFavoriteController>(

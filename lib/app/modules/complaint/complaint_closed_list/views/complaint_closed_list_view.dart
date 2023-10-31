@@ -31,7 +31,12 @@ class ComplaintClosedListView extends GetView<ComplaintClosedListController> {
                 isActiveComplaint: false,
                 statusTitle: complaint.status,
                 onTap: () {
-                  Get.to(ComplaintDetailsView(complaint.id.toString()));
+                  print('com id ${complaint.id}');
+                  Get.to(
+                    ComplaintDetailsView(
+                      complaint.id.toString(),
+                    ),
+                  );
                 },
               ),
             );

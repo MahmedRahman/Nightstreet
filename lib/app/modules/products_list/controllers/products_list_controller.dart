@@ -15,7 +15,17 @@ class ProductsListController extends GetxController
   ProductQueryParameters queryParams = ProductQueryParameters();
   @override
   void onInit() {
-    getProducts();
+    final categoryId = (Get.arguments ?? '') as String;
+    if (categoryId != '') {
+      print('cat id => ${categoryId}');
+      queryParams.categoryId = categoryId;
+
+      productFilter();
+      update();
+    } else {
+      getProducts();
+    }
+
     super.onInit();
   }
 

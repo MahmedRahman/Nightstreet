@@ -23,8 +23,8 @@ class AppointmentModel {
     return AppointmentModel(
       offer: Offer.fromJson(json['offer']),
       status: json['status'],
-      doctorName: json['doctor']['name'],
-      doctorId: json['doctor']['id'].toString(),
+      doctorName: json['doctor'] == null ? '' : json['doctor']['name'],
+      doctorId: json['doctor'] == null ? '' : json['doctor']['id'].toString(),
       ClinicName: json['branch']['name'],
       datetime: json['datetime'],
       id: json['id'],

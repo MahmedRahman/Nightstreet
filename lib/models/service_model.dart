@@ -63,6 +63,7 @@ class ServiceModel {
     clinic: ServiceClinicModel(
         id: 1,
         name: 'sample clinic',
+        desc: '',
         image: ''), // Create a dummy ServiceClinicModel object
     branches: [
       ServiceBranchModel(

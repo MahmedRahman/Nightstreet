@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/shipping_item_view.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
@@ -37,11 +39,32 @@ class ShoppingCartView extends GetView<ShoppintCartController> {
                     name: product.productName,
                     oldPrice: product.oldPrice.toString(),
                     amount: product.quantity.toString(),
-                    onDeleteTapped: () => controller.deleteItemFromCart(
-                      productId: product.cartItemId.toString(),
-                    ),
+                    onDeleteTapped: () {
+                      if (Get.find<AuthenticationController>().isGuestUser) {
+                        controller.deleteGuestProductCart(
+                          productId: product.cartItemId.toString(),
+                        );
+                        return;
+                      }
+                      controller.deleteItemFromCart(
+                        productId: product.cartItemId.toString(),
+                      );
+                    },
                     onIncrement: () {
                       int newQuantity = product.quantity;
+
+                      if (Get.find<AuthenticationController>().isGuestUser) {
+                        controller.addToGuestCart(
+                          isNew: false,
+                          productId: product.productId.toString(),
+                          quantity: '${++newQuantity}',
+                          variantId: product.variantId == null
+                              ? ''
+                              : product.variantId.toString(),
+                        );
+                        return;
+                      }
+
                       controller.addToCart(
                         isNew: false,
                         productId: product.productId.toString(),
@@ -53,6 +76,19 @@ class ShoppingCartView extends GetView<ShoppintCartController> {
                     },
                     ondecrement: () {
                       int newQuantity = product.quantity;
+
+                      if (Get.find<AuthenticationController>().isGuestUser) {
+                        controller.addToGuestCart(
+                          isNew: false,
+                          productId: product.productId.toString(),
+                          quantity: '${++newQuantity}',
+                          variantId: product.variantId == null
+                              ? ''
+                              : product.variantId.toString(),
+                        );
+                        return;
+                      }
+
                       controller.addToCart(
                         isNew: false,
                         productId: product.productId.toString(),
@@ -75,15 +111,23 @@ class ShoppingCartView extends GetView<ShoppintCartController> {
                 summary(
                   cartCount:
                       controller.cartSummaryModel.value!.cartCount.toString(),
-                  total: controller.cartSummaryModel.value!.cartTotalPrice,
+                  total: controller.cartSummaryModel.value!.cartPrice,
                 ),
                 AppSpacers.height12,
                 CustomBtnCompenent.main(
-                  text: "استكمل عملية الشراء",
-                  onTap: () => Get.toNamed(
-                    Routes.ORDER_COMPLETE,
-                    arguments: controller.cartSummaryModel.value,
-                  ),
+                  text: "إستكمل عملية الشراء",
+                  onTap: () {
+                    if (Get.find<AuthenticationController>().isGuestUser) {
+                      AppDialogs.showToast(
+                        message: 'الرجاء تسجيل الدخول لإستكمل الطلب',
+                      );
+                      return;
+                    }
+                    Get.toNamed(
+                      Routes.ORDER_COMPLETE,
+                      arguments: controller.cartSummaryModel.value,
+                    );
+                  },
                 ),
               ],
             ),

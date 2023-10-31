@@ -27,7 +27,7 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: CustomAppBar(
-        titleText: 'احجـز موعـد',
+        titleText: ' موعـد',
       ),
       body: ListView(
         padding: AppDimension.appPadding,
@@ -36,8 +36,10 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
           ServiceInformationView(
             serviceName: Get.find<AppointmentController>().service["name"],
             doctorName: Get.find<AppointmentController>().service["name"],
-            clinicName: Get.find<AppointmentController>().service["clinic"]["name"],
-            clinicAddress: Get.find<AppointmentController>().service["clinic"]["desc"],
+            clinicName: Get.find<AppointmentController>().service["clinic"]
+                ["name"],
+            clinicAddress: Get.find<AppointmentController>().service["clinic"]
+                ["desc"],
           ),
           AppSpacers.height12,
           Divider(),
@@ -116,7 +118,8 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
                   ),
                   Obx(() {
                     return InkWell(
-                      overlayColor: MaterialStatePropertyAll(Colors.transparent),
+                      overlayColor:
+                          MaterialStatePropertyAll(Colors.transparent),
                       onTap: () {
                         KCardStatus.value = !KCardStatus.value;
                         KWalletStatus.value = false;
@@ -174,12 +177,14 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
                   AppSpacers.height16,
                   paymentSumaryItem(
                     title: "المجموع الكلي",
-                    value: "${Get.find<AppointmentController>().service["clinic"]["name"]} رس",
+                    value:
+                        "${Get.find<AppointmentController>().service["clinic"]["name"]} رس",
                   ),
                   AppSpacers.height16,
                   paymentSumaryItem(
                     title: "ما سيتم دفعه الان",
-                    value: "${Get.find<AppointmentController>().service["amount_to_pay"]} رس",
+                    value:
+                        "${Get.find<AppointmentController>().service["amount_to_pay"]} رس",
                   ),
                   AppSpacers.height12,
                   DottedLine(
@@ -229,6 +234,9 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
                     AppDialogs.showToast(message: "برجاء اختيار طريقه الدفع");
                     return;
                   }
+
+                  print(payment_type.toString());
+
                   Get.find<AppointmentController>().bookAppointment(
                     payment_type: payment_type.toString(),
                   );

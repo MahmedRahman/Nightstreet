@@ -24,7 +24,7 @@ class ComplaintDetailsController extends GetxController with StateMixin {
     if (responseModel.data["success"]) {
       change(responseModel.data["data"], status: RxStatus.success());
       await Future.delayed(Duration(microseconds: 100));
-      scrollController!.jumpTo(scrollController!.position.maxScrollExtent);
+      // scrollController!.jumpTo(scrollController!.position.maxScrollExtent);
 
       return;
     }

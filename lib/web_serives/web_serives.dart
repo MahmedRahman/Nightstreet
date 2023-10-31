@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/multipart/form_data.dart';
 import 'package:get/get_connect/http/src/multipart/multipart_file.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:krzv2/models/branch_url_model.dart';
 import 'package:krzv2/models/product_search_query.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/web_serives/api_constant.dart';
 import 'package:krzv2/web_serives/api_manger.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
@@ -31,12 +34,16 @@ class WebServices {
     required String phone,
     required String code,
   }) async {
+    final authController = Get.put(AuthenticationController());
+
     return await ApiManger().execute(
       url: "${ApiConstant.baseUrl}/auth/login",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: {
         "phone": phone,
         "code": code,
+        "guest_token":
+            authController.isGuestUser ? authController.guestToken : '',
       },
     );
   }
@@ -48,6 +55,7 @@ class WebServices {
     return await ApiManger().execute(
       url: "${ApiConstant.baseUrl}/auth/update-phone",
       HTTPRequestMethod: HTTPRequestEnum.POST,
+      isAuth: true,
       query: {
         "phone": phone,
         "code": code,
@@ -91,6 +99,7 @@ class WebServices {
     return await ApiManger().execute(
       url: "${ApiConstant.baseUrl}/auth/send-otp-update-phone",
       HTTPRequestMethod: HTTPRequestEnum.POST,
+      isAuth: true,
       query: {
         "phone": phone,
       },
@@ -390,11 +399,27 @@ class WebServices {
     required String payment_type,
     required int offer_id,
     required int branch_id,
-    required int doctor_id,
+    required int? doctor_id,
     required String date_time,
     required String time,
     required String notes,
   }) async {
+    if (doctor_id == null) {
+      return await ApiManger().execute(
+        url: "${ApiConstant.baseUrl}/appointments/book-appointment",
+        HTTPRequestMethod: HTTPRequestEnum.POST,
+        isAuth: true,
+        query: {
+          "payment_type": "$payment_type",
+          "offer_id": offer_id,
+          "branch_id": branch_id,
+          "date_time": "$date_time",
+          "time": "$time",
+          "notes": "$notes",
+        },
+      );
+    }
+
     return await ApiManger().execute(
       url: "${ApiConstant.baseUrl}/appointments/book-appointment",
       HTTPRequestMethod: HTTPRequestEnum.POST,
@@ -451,9 +476,18 @@ class WebServices {
   Future<ResponseModel> getAvailableOfferTimes({
     required int offerId,
     required int branchId,
-    required int doctorId,
+    required int? doctorId,
     required String dateTime,
   }) async {
+    if (doctorId == null) {
+      return await ApiManger().execute(
+        url:
+            "${ApiConstant.baseUrl}/appointments/get-available-offer-times?offer_id=${offerId}&branch_id=${branchId}&date_time=${dateTime}",
+        HTTPRequestMethod: HTTPRequestEnum.GET,
+        isAuth: true,
+      );
+    }
+
     return await ApiManger().execute(
       url:
           "${ApiConstant.baseUrl}/appointments/get-available-offer-times?offer_id=${offerId}&branch_id=${branchId}&doctor_id=${doctorId}&date_time=${dateTime}",
@@ -844,6 +878,45 @@ class WebServices {
     );
   }
 
+  Future<ResponseModel> addToGuestCart({
+    required String productId,
+    required String quantity,
+    required bool isNew,
+    String? variantId,
+  }) async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/cart/add-to-guest-cart",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      query: {
+        "product_id": productId,
+        "quantity": quantity,
+        "variant_id": variantId,
+        "is_new": isNew,
+        "guest_token": Get.find<AuthenticationController>().guestToken,
+      },
+    );
+  }
+
+  Future<ResponseModel> getGuestCart() async {
+    return await ApiManger().execute(
+      url:
+          "${ApiConstant.baseUrl}/cart/get-guest-cart?guest_token=${Get.find<AuthenticationController>().guestToken}",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+    );
+  }
+
+  Future<ResponseModel> deleteGuestProductCart(
+      {required String productId}) async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/cart/delete-from-guest-cart",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      query: {
+        "id": productId,
+        "guest_token": Get.find<AuthenticationController>().guestToken,
+      },
+    );
+  }
+
   //Future<ResponseModel> getShippingCompanies({required String addressId}) async {
   Future<ResponseModel> requestOrder({
     required String partnerId,
@@ -995,9 +1068,10 @@ class WebServices {
 
   Future<ResponseModel> getOffersByBranchesId({
     required int branchesId,
+    required int page,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/offers/get?branch_id=$branchesId",
+      url: "${ApiConstant.baseUrl}/offers/get?branch_id=$branchesId&page=$page&limit=50",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );

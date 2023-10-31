@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/show_more_button_view.dart';
 import 'package:krzv2/models/product_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
 class ProductsHotizontalListView extends GetView {
@@ -89,7 +91,12 @@ class ProductsHotizontalListView extends GetView {
                 oldPrice: product.oldPrice.toString(),
                 price: product.price.toString(),
                 onAddToCartTapped: () => onAddToCartTapped!(product.id),
-                onFavoriteTapped: () => onFavoriteTapped!(product.id),
+                onFavoriteTapped: () {
+                  if (Get.put(AuthenticationController().isLoggedIn) == false) {
+                    return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                  }
+                  onFavoriteTapped!(product.id);
+                },
                 isFavorite: product.isFavorite,
                 isLimitedQuantity: product.quantity < 10,
                 onTap: () => onTap!(product.id),

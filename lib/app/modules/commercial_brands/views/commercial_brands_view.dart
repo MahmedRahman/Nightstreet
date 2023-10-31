@@ -7,8 +7,10 @@ import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/component/views/gift_card_builder_view.dart';
 import 'package:krzv2/component/views/icon_button_component.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
+import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
 import 'package:krzv2/models/product_brand_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
@@ -23,6 +25,8 @@ class CommercialBrandsView extends GetView<ProductsBrandController> {
   final List<int> initSelectedIds;
   final selectedIds = Rx<List<int>>([]);
   final ValueChanged<List<int>> onChanged;
+
+  final authController = Get.find<AuthenticationController>();
   @override
   Widget build(BuildContext context) {
     if (initSelectedIds.isNotEmpty) {
@@ -33,11 +37,8 @@ class CommercialBrandsView extends GetView<ProductsBrandController> {
       appBar: CustomAppBar(
         titleText: 'الماركات التجارية',
         actions: [
-          CustomIconButton(
-            onTap: () => Get.toNamed(Routes.SHOPPINT_CART),
-            iconPath: AppSvgAssets.cartIcon,
-            count: 2,
-          ),
+          if (authController.isLoggedIn || authController.isGuestUser)
+            ShoppingCartIconView(),
           AppSpacers.width20,
         ],
       ),
