@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:krzv2/app/modules/Appointment_mangment/controllers/appointment_mangment_controller.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/models/appointment_model.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
@@ -10,14 +12,17 @@ class EditAppointmentController extends GetxController {
   String? selectTime = "";
   String? selectNote = "";
 
-  RxString? selectTimeUI = "".obs;
+  RxString selectTimeUI = "".obs;
   RxList AppointmentDataList = [].obs;
+
+  RxString selectDateUI = ''.obs;
 
   @override
   void onInit() {
     appointment = Get.arguments;
     selectData = appointment["date_time"];
     selectTime = appointment["time_format"];
+    selectTimeUI.value = appointment["time_format"];
     selectNote = appointment["notes"];
     getAvailableOfferTimes();
     // print(selectData.toString().split(" ")[0]);
@@ -57,5 +62,15 @@ class EditAppointmentController extends GetxController {
       dateTime: dateTime,
       notes: notes,
     );
+
+    if (responseModel.data["success"]) {
+      AppDialogs.showToast(message: responseModel.data["message"]);
+     
+
+      Get.back(result: "Done");
+      return;
+    } else {
+      AppDialogs.showToast(message: responseModel.data["message"]);
+    }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
+import 'package:krzv2/app/modules/offer_list/views/offer_product_view.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
@@ -52,8 +53,7 @@ class ProductsListView extends GetView<ProductsListController> {
             ProductCategoriesView(
               initalValue: (Get.arguments ?? '') as String,
               onTap: (String selectedCategoryId) {
-                controller.queryParams.categoryId =
-                    selectedCategoryId.toString();
+                controller.queryParams.categoryId = selectedCategoryId.toString();
 
                 controller.productFilter();
               },
@@ -115,8 +115,7 @@ class ProductsListView extends GetView<ProductsListController> {
 
                   return;
                 }
-                final isGuest =
-                    Get.find<AuthenticationController>().isGuestUser;
+                final isGuest = Get.find<AuthenticationController>().isGuestUser;
 
                 if (isGuest) {
                   cartController.addToGuestCart(
@@ -142,8 +141,7 @@ class ProductsListView extends GetView<ProductsListController> {
                   productId: product.id,
                 );
               },
-              isFavorite:
-                  controller.productFavoriteIds.value!.contains(product.id),
+              isFavorite: controller.productFavoriteIds.value!.contains(product.id),
               onTap: () async {
                 Get.toNamed(
                   Routes.PRODUCT_DETAILS,
@@ -192,14 +190,14 @@ class ProductListAppBar extends StatelessWidget implements PreferredSizeWidget {
         Get.back(result: true);
       },
       actions: [
-        if (authController.isLoggedIn || authController.isGuestUser)
-          ShoppingCartIconView(),
+        if (authController.isLoggedIn || authController.isGuestUser) ShoppingCartIconView(),
         CustomIconButton(
           onTap: () {
             Get.bottomSheet(
               ProductFilterBottomSheetView(
                 onChanged: onChanged,
                 productQuery: controller.queryParams,
+                max: KProductHighestPrice.value,
                 onResetTapped: () {
                   controller.onInit();
                 },

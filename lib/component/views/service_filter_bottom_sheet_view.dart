@@ -13,9 +13,12 @@ import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
 class ServiceFilterBottomSheetView extends GetView {
-  const ServiceFilterBottomSheetView({
+  ServiceFilterBottomSheetView({
     Key? key,
+    required int this.max,
   }) : super(key: key);
+
+  final max;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +71,7 @@ class ServiceFilterBottomSheetView extends GetView {
                 AppSpacers.height16,
                 PriceRangeSliderView(
                   min: 0,
-                  max: 1000,
+                  max: max,
                   onChanged: (RangeValues value) {},
                 ),
                 AppSpacers.height50,

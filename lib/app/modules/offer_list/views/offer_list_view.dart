@@ -38,10 +38,13 @@ class OfferListView extends GetView<OfferListController> {
             onTap: () {
               Get.bottomSheet(
                 selectTab == 0
-                    ? ServiceFilterBottomSheetView()
+                    ? ServiceFilterBottomSheetView(
+                        max: KOfferHighestPrice.value,
+                      )
                     : ProductFilterBottomSheetView(
                         onChanged: (ProductQueryParameters value) {},
                         productQuery: ProductQueryParameters(),
+                        max: KProductHighestPrice.value,
                         onResetTapped: () {},
                       ),
                 backgroundColor: Colors.white,

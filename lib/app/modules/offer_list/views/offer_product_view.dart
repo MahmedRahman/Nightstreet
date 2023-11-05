@@ -9,6 +9,8 @@ import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
+RxInt KProductHighestPrice = 0.obs;
+
 class OfferProductController extends GetxController with StateMixin<List> {
   @override
   void onInit() {
@@ -23,6 +25,9 @@ class OfferProductController extends GetxController with StateMixin<List> {
         change(null, status: RxStatus.empty());
         return;
       }
+
+      KProductHighestPrice.value = responseModel.data["data"]["highest_price"];
+
       change(responseModel.data["data"]["data"], status: RxStatus.success());
       return;
     }
@@ -62,8 +67,7 @@ class OfferProductView extends GetView<OfferProductController> {
                   isAvailable: snapshot[index]["quantity"] > 1,
                   price: snapshot[index]["price"].toString(),
                   oldPrice: snapshot[index]["old_price"].toString(),
-                  isFavorite: favoriteController
-                      .productIsFavorite(snapshot[index]["id"] as int),
+                  isFavorite: favoriteController.productIsFavorite(snapshot[index]["id"] as int),
                   onAddToCartTapped: () {
                     cartController.addToCart(
                       productId: snapshot[index]["id"].toString(),
@@ -72,10 +76,8 @@ class OfferProductView extends GetView<OfferProductController> {
                     );
                   },
                   onFavoriteTapped: () {
-                    if (Get.put(AuthenticationController().isLoggedIn) ==
-                        false) {
-                      return AppDialogs.showToast(
-                          message: 'الرجاء تسجيل الدخول');
+                    if (Get.put(AuthenticationController().isLoggedIn) == false) {
+                      return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                     }
                     final favCon = Get.put<ProductFavoriteController>(
                       ProductFavoriteController(),

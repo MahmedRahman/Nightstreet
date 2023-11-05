@@ -8,6 +8,8 @@ import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
+RxInt KOfferHighestPrice = 0.obs;
+
 class OfferServiceController extends GetxController with StateMixin<List> {
   @override
   void onInit() {
@@ -22,6 +24,7 @@ class OfferServiceController extends GetxController with StateMixin<List> {
         change(null, status: RxStatus.empty());
         return;
       }
+      KOfferHighestPrice.value = responseModel.data["data"]["highest_price"];
       change(responseModel.data["data"]["data"], status: RxStatus.success());
       return;
     }
@@ -55,10 +58,8 @@ class OfferServiceView extends GetView<OfferServiceController> {
                       oldPrice: snapshot[index]["old_price"].toString(),
                       hasDiscount: false,
                       onFavoriteTapped: () {
-                        if (Get.put(AuthenticationController().isLoggedIn) ==
-                            false) {
-                          return AppDialogs.showToast(
-                              message: 'الرجاء تسجيل الدخول');
+                        if (Get.put(AuthenticationController().isLoggedIn) == false) {
+                          return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                         }
 
                         final favCon = Get.put<OfferFavoriteController>(
@@ -77,8 +78,7 @@ class OfferServiceView extends GetView<OfferServiceController> {
                       },
                       rate: snapshot[index]["total_rate_count"].toString(),
                       totalRate: snapshot[index]["total_rate_avg"].toString(),
-                      isFavorite: favoriteController
-                          .offerIsFavorite(snapshot[index]["id"]),
+                      isFavorite: favoriteController.offerIsFavorite(snapshot[index]["id"]),
                     );
                   },
                 ),

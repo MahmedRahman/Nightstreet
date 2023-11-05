@@ -15,6 +15,8 @@ class ProductBrandFieldView extends GetView<ProductsBrandController> {
     required this.onChanged,
   }) : super(key: key);
 
+  ProductsBrandController controller = Get.put(ProductsBrandController());
+
   final List<int> initBandsIds;
   final _selectedIds = Rx<List<int>>([]);
   final ValueChanged<List<int>> onChanged;
@@ -86,9 +88,8 @@ class ProductBrandFieldView extends GetView<ProductsBrandController> {
         /// display selected brands
         controller.obx(
           (brands) {
-            List<ProuctBrandModel> selectedList = brands!
-                .where((item) => _selectedIds.value.contains(item.id))
-                .toList();
+            List<ProuctBrandModel> selectedList =
+                brands!.where((item) => _selectedIds.value.contains(item.id)).toList();
 
             return Wrap(
               spacing: 2,
