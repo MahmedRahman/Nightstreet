@@ -24,11 +24,20 @@ import '../controllers/edit_appointment_controller.dart';
 class EditAppointmentView extends GetView<EditAppointmentController> {
   EditAppointmentController controller = Get.put(EditAppointmentController());
 
+  // EditAppointmentView() {
+  //   Get.find<AppointmentController>().selectData = "";
+  //   Get.find<AppointmentController>().selectTime = "";
+  //   Get.find<AppointmentController>().selectTimeUI.value = "";
+  //   Get.find<AppointmentController>().selectDateUI.value = "";
+
+  //   Get.find<AppointmentController>().selectNote = "";
+  // }
+
   TextEditingController longText = TextEditingController(
     text: Get.find<EditAppointmentController>().appointment["notes"],
   );
-  String? selectDate = "";
-  String? selectTime = "";
+  // String? selectDate = "";
+  // String? selectTime = "";
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +71,10 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
 
                     String valData = "${value.year}-${month}-${day}";
 
-                    print(valData.toString());
                     Get.find<EditAppointmentController>().selectData = valData.toString();
                     Get.find<EditAppointmentController>().selectTime = "";
+                    Get.find<EditAppointmentController>().selectTimeUI.value = "";
+
                     Get.find<EditAppointmentController>().getAvailableOfferTimes();
 
                     //Get.find<EditAppointmentController>(). selectDate = value.toString().substring(0, 10);
@@ -154,15 +164,16 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
                                                 onTap: (p0) {
                                                   Get.find<EditAppointmentController>().selectTime =
                                                       controller.AppointmentDataList[index]["time"];
-                                                  Get.find<EditAppointmentController>().selectTimeUI!.value =
+                                                  Get.find<EditAppointmentController>().selectTimeUI.value =
                                                       controller.AppointmentDataList[index]["time"];
-                                                  // isSelect: false
-
-                                                  controller.AppointmentDataList.refresh();
+                                                  Get.find<EditAppointmentController>().AppointmentDataList.refresh();
+                                                  Get.back();
                                                 },
-                                                time: controller.AppointmentDataList[index]["time"],
-                                                isSelect: controller.AppointmentDataList[index]["time"] ==
-                                                    Get.find<AppointmentController>().selectTime,
+                                                time: Get.find<EditAppointmentController>().AppointmentDataList[index]
+                                                    ["time"],
+                                                isSelect: Get.find<EditAppointmentController>()
+                                                        .AppointmentDataList[index]["time"] ==
+                                                    Get.find<EditAppointmentController>().selectTime,
                                               );
                                             },
                                           ),
@@ -209,14 +220,16 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
                             SizedBox(
                               width: 15,
                             ),
-                            Text(
-                              controller.selectTime.toString(),
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                color: AppColors.greyColor,
-                                letterSpacing: 0.48,
-                              ),
-                            ),
+                            Obx(() {
+                              return Text(
+                                controller.selectTimeUI.value.toString(),
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: AppColors.greyColor,
+                                  letterSpacing: 0.48,
+                                ),
+                              );
+                            }),
                           ],
                         ),
                       ),
@@ -262,7 +275,7 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
                   }
 
                   controller.editAppointments(
-                    appointmentID: controller.appointment["id"],
+                    appointmentID: controller.appointment["id"].toString(),
                     time: controller.selectTime.toString(),
                     dateTime: controller.selectData.toString(),
                     notes: controller.selectData.toString(),

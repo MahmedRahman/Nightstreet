@@ -18,8 +18,9 @@ class ProductFilterBottomSheetView extends GetView {
     required this.onChanged,
     required this.productQuery,
     required this.onResetTapped,
+    required this.max,
   }) : super(key: key);
-
+  final int max;
   final ValueChanged<ProductQueryParameters> onChanged;
   final selectedFilterType = Rx<ProductFilterModel?>(null);
   final princeRangeRx = Rx<RangeValues?>(null);
@@ -33,11 +34,7 @@ class ProductFilterBottomSheetView extends GetView {
     if (productQuery.filter != '' && productQuery.filter != null) {
       selectedFilterType.value = ProductFilterModel(
         searchKey: productQuery.filter ?? '',
-        title: productFilterItems
-                .firstWhereOrNull(
-                    (element) => element.searchKey == productQuery.filter)
-                ?.title ??
-            '',
+        title: productFilterItems.firstWhereOrNull((element) => element.searchKey == productQuery.filter)?.title ?? '',
       );
     }
     // end init rate
@@ -152,13 +149,11 @@ class ProductFilterBottomSheetView extends GetView {
                       child: CustomBtnCompenent.main(
                         text: "فلترة النتائج",
                         onTap: () {
-                          productQuery.filter =
-                              selectedFilterType.value?.searchKey;
+                          productQuery.filter = selectedFilterType.value?.searchKey;
 
                           productQuery.startPrice = princeRangeRx.value?.start;
                           productQuery.endPrice = princeRangeRx.value?.end;
-                          productQuery.brandIds =
-                              brandIds.value?.map((e) => e.toString()).toList();
+                          productQuery.brandIds = brandIds.value?.map((e) => e.toString()).toList();
 
                           onChanged(productQuery);
                           Get.back();

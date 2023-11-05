@@ -1089,7 +1089,7 @@ class WebServices {
     required String notes,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/appointments/update-appointment1",
+      url: "${ApiConstant.baseUrl}/appointments/update-appointment",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: {
         "appointment_id": appointmentID,
@@ -1097,6 +1097,7 @@ class WebServices {
         "time": time,
         "notes": notes,
       },
+      isAuth: true,
     );
   }
 }

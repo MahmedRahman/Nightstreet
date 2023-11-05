@@ -10,8 +10,6 @@ import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
 class ClosedAppointmentListView extends GetView<AppointmentMangmentController> {
-  const ClosedAppointmentListView({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return controller.obx(
@@ -31,10 +29,12 @@ class ClosedAppointmentListView extends GetView<AppointmentMangmentController> {
             dateTime: appointment.datetime,
             mainButtonText: "تقييم الخدمة",
             secondButtonText: "تحميل الفاتورة",
-            mainButtonOnTap: () => Get.toNamed(
-              Routes.SERVICE_REVIEW,
-              arguments: appointment,
-            ),
+            mainButtonOnTap: () {
+              Get.toNamed(
+                Routes.SERVICE_REVIEW,
+                arguments: appointment,
+              );
+            },
             secondButtonOnTap: () {},
             id: appointment.id.toString(),
           ).paddingOnly(bottom: 10);
@@ -48,8 +48,7 @@ class ClosedAppointmentListView extends GetView<AppointmentMangmentController> {
       ),
       onEmpty: AppPageEmpty.appointment(
         title: 'لا توجد مواعيد منتهية',
-        description:
-            "لم يتم تسجيل أي مواعيد. يمكنك الآن الحجز \n والاستفادة من العروض شكرًا لاختيار خدماتنا.",
+        description: "لم يتم تسجيل أي مواعيد. يمكنك الآن الحجز \n والاستفادة من العروض شكرًا لاختيار خدماتنا.",
       ),
     );
   }

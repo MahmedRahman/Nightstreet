@@ -181,11 +181,13 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                                                       controller.AppointmentDataList[index]["time"];
                                                   Get.find<AppointmentController>().selectTimeUI.value =
                                                       controller.AppointmentDataList[index]["time"];
-                                                  controller.AppointmentDataList.refresh();
+                                                  Get.find<AppointmentController>().AppointmentDataList.refresh();
                                                   Get.back();
                                                 },
-                                                time: controller.AppointmentDataList[index]["time"],
-                                                isSelect: controller.AppointmentDataList[index]["time"] ==
+                                                time: Get.find<AppointmentController>().AppointmentDataList[index]
+                                                    ["time"],
+                                                isSelect: Get.find<AppointmentController>().AppointmentDataList[index]
+                                                        ["time"] ==
                                                     Get.find<AppointmentController>().selectTime,
                                               );
                                             },
