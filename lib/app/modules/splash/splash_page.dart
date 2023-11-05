@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/google_map/controllers/google_map_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
@@ -18,6 +19,9 @@ class SplashController extends GetxController with StateMixin {
   final cartController = Get.put<ShoppintCartController>(
     ShoppintCartController(),
   );
+  final mapController = Get.put<GoogleMapViewController>(
+    GoogleMapViewController(),
+  );
 
   @override
   void onInit() {
@@ -27,6 +31,7 @@ class SplashController extends GetxController with StateMixin {
 
   void Init() async {
     change(null, status: RxStatus.loading());
+    mapController.askPermissionAndGetCurrentLocation();
 
     ResponseModel responseModel = await WebServices().getSetting();
 

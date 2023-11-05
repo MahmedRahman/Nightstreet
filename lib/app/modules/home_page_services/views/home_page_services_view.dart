@@ -3,6 +3,7 @@ import 'package:focus_detector/focus_detector.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/clinic_info/views/clinic_info_view.dart';
 import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
+import 'package:krzv2/app/modules/google_map/controllers/google_map_controller.dart';
 import 'package:krzv2/app/modules/home_page_services/controllers/hom_page_service_slider_controller.dart';
 import 'package:krzv2/component/views/app_bar_search_view.dart';
 import 'package:krzv2/component/views/branches_sort_box_view.dart';
@@ -20,6 +21,7 @@ import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
+import 'package:location/location.dart';
 
 import '../controllers/home_page_services_controller.dart';
 
@@ -33,13 +35,38 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
 
   final sliderController = Get.put(HomePageServiceSliderController());
   final servicesController = Get.put(HomePageServicesController());
+  final mapController = Get.find<GoogleMapViewController>();
 
   @override
   Widget build(BuildContext context) {
     return FocusDetector(
-      onForegroundGained: () {
+      onForegroundGained: () async {
         if (controller.shouldWatchFocus) {
           controller.navigateToSettings();
+        }
+
+        if (mapController.shouldWatchFocus) {
+          final latlng = mapController.currentLocation.value;
+
+          if (latlng.latitude == 0 && latlng.longitude == 0) {
+            print('latlng = 0');
+            final LocationData? latlng =
+                await mapController.getCurrentLocation();
+            controller.queryParams.lat = latlng!.latitude;
+            controller.queryParams.lng = latlng.longitude;
+            controller.fiterBrancher();
+            Future.delayed(const Duration(milliseconds: 200));
+            Get.back();
+            return;
+          }
+
+          if (latlng.latitude != 0 && latlng.longitude != 0) {
+            controller.queryParams.lat = latlng.latitude;
+            controller.queryParams.lng = latlng.longitude;
+            controller.fiterBrancher();
+            Future.delayed(const Duration(milliseconds: 200));
+            Get.back();
+          }
         }
       },
       child: BaseScaffold(
@@ -89,7 +116,8 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
               ),
               ServicesCategoriesView(
                 onTap: (int selectedCategoryId) {
-                  controller.queryParams.categoryId = selectedCategoryId.toString();
+                  controller.queryParams.categoryId =
+                      selectedCategoryId.toString();
                   controller.fiterBrancher();
                 },
               ),
@@ -145,10 +173,13 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                   onLoading: ListView.builder(
                     itemCount: 10,
                     itemBuilder: (context, index) {
-                      return ClinicCardView.dummy().paddingOnly(bottom: 10).shimmer();
+                      return ClinicCardView.dummy()
+                          .paddingOnly(bottom: 10)
+                          .shimmer();
                     },
                   ),
-                  onError: (String? error) => Text(error ?? 'حدث خطا في الفروع'),
+                  onError: (String? error) =>
+                      Text(error ?? 'حدث خطا في الفروع'),
                   onEmpty: AppPageEmpty.branches(),
                 ),
               )
@@ -160,15 +191,33 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
   }
 
   void showBranchSortBottomSheet(HomePageServicesController controller) {
-    print('init show beranch=> ${controller.queryParams.filter}');
-    final initialSelectedSort = getInitialSelectedSort(controller.queryParams.filter);
+    final initialSelectedSort =
+        getInitialSelectedSort(controller.queryParams.filter);
 
     Get.bottomSheet(
       BranchesSortBoxView(
         initialSelectedSort: initialSelectedSort,
         onSortSelected: (BranchSortEnum value) async {
           final selectedSort = mapBranchSortToQueryParam(value);
+
           if (selectedSort != null) {
+            if (selectedSort == '1') {
+              mapController.askPermissionAndGetCurrentLocation(
+                forceNavigateToSettingIfDenied: true,
+              );
+
+              final latlng = mapController.currentLocation.value;
+              if (latlng.latitude != 0 && latlng.longitude != 0) {
+                controller.queryParams.lat = latlng.latitude;
+                controller.queryParams.lng = latlng.longitude;
+                controller.fiterBrancher();
+              }
+
+              await Future.delayed(const Duration(milliseconds: 200));
+
+              return;
+            }
+
             controller.queryParams.filter = selectedSort;
             controller.fiterBrancher();
             await Future.delayed(const Duration(milliseconds: 200));

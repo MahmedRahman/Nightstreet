@@ -8,7 +8,9 @@ import 'package:krzv2/utils/app_colors.dart';
 import '../controllers/google_map_controller.dart';
 
 class GoogleMapView extends GetView<GoogleMapViewController> {
-  GoogleMapView({Key? key}) : super(key: key);
+  GoogleMapView({Key? key}) {
+    controller.enableLocationService();
+  }
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(

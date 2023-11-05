@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:krzv2/app/modules/google_map/controllers/google_map_controller.dart';
 import 'package:krzv2/models/branch_model.dart';
 import 'package:krzv2/models/branch_url_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
@@ -23,6 +24,15 @@ class HomePageServicesController extends GetxController
   @override
   void onInit() async {
     change([], status: RxStatus.loading());
+    final mapController = Get.find<GoogleMapViewController>();
+    final latlng = mapController.currentLocation.value;
+    if (latlng.latitude != 0 && latlng.longitude != 0) {
+      queryParams.lat = latlng.latitude;
+      queryParams.lng = latlng.longitude;
+      update();
+    }
+
+    print('queryParams ${queryParams.toMap()}');
     await fetchBranches();
     super.onInit();
   }

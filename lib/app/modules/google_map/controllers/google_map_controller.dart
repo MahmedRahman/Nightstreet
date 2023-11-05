@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart' as place;
 import 'package:krzv2/models/map_prediction_model.dart';
+import 'package:krzv2/services/permissions_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
@@ -16,7 +18,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GoogleMapViewController extends GetxController with StateMixin {
-  Rx<LatLng> currentLocation = LatLng(0.0, 0.0).obs;
+  Rx<LatLng> currentLocation = LatLng(0, 0).obs;
   var hasPermission = false.obs;
 
   // GoogleMapController? mapController;
@@ -35,7 +37,7 @@ class GoogleMapViewController extends GetxController with StateMixin {
     super.onInit();
     change(null, status: RxStatus.success());
 
-    enableLocationService();
+    // enableLocationService();
   }
 
   Future<void> enableLocationService() async {
@@ -43,7 +45,7 @@ class GoogleMapViewController extends GetxController with StateMixin {
       final serviceEnabled = await _checkAndEnableLocationService();
 
       if (serviceEnabled) {
-        final loc.LocationData? locationData = await _getCurrentLocation();
+        final loc.LocationData? locationData = await getCurrentLocation();
 
         currentLocation.value = LatLng(
           locationData!.latitude!,
@@ -71,7 +73,7 @@ class GoogleMapViewController extends GetxController with StateMixin {
     return true;
   }
 
-  Future<loc.LocationData?> _getCurrentLocation() async {
+  Future<loc.LocationData?> getCurrentLocation() async {
     loc.LocationData? locationData;
     try {
       locationData = await location.getLocation();
@@ -107,7 +109,7 @@ class GoogleMapViewController extends GetxController with StateMixin {
     );
 
     if (confirmed) {
-      await location.requestService();
+
     }
   }
 
@@ -216,6 +218,57 @@ class GoogleMapViewController extends GetxController with StateMixin {
       currentLocation.value = LatLng(lat, lng);
 
       addMarker(currentLocation.value);
+    }
+  }
+
+  bool shouldWatchFocus = false;
+  askPermissionAndGetCurrentLocation({
+    bool? forceNavigateToSettingIfDenied = false,
+  }) async {
+    final locationStatus = await PermissionsHelper.requestLocationPermission();
+
+    shouldWatchFocus = false;
+    print('locationStatus $locationStatus');
+
+    if (locationStatus == PermissionStatus.granted) {
+      final loc.LocationData? locationData = await location.getLocation();
+
+      currentLocation.value = LatLng(
+        locationData!.latitude!,
+        locationData.longitude!,
+      );
+
+      update();
+      return;
+    }
+
+    print('forceNavigateToSettingIfDenied $forceNavigateToSettingIfDenied');
+    print('locationStatus $locationStatus');
+
+    if (locationStatus == PermissionStatus.permanentlyDenied &&
+        forceNavigateToSettingIfDenied == true) {
+      print('start get location');
+      try {
+        await Get.defaultDialog(
+          title: 'Search Location Issue',
+          middleText: 'This serive require location permission',
+          textConfirm: 'Open Settings',
+          textCancel: 'Cancel',
+          barrierDismissible: false,
+          onCancel: () => Get.back(),
+          onConfirm: () async {
+            shouldWatchFocus = true;
+            await Geolocator.openLocationSettings();
+            Get.back();
+          },
+          buttonColor: AppColors.mainColor,
+          confirmTextColor: Colors.white,
+          cancelTextColor: AppColors.mainColor,
+        );
+      } catch (e, st) {
+        print('eee $e');
+        print('stac $st');
+      }
     }
   }
 }
