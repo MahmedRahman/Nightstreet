@@ -94,7 +94,7 @@ class GoogleMapView extends GetView<GoogleMapViewController> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 50),
+        padding: const EdgeInsets.only(bottom: 80),
         child: FloatingActionButton(
           onPressed: () {
             controller.enableLocationService();

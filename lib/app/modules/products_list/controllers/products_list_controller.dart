@@ -1,14 +1,16 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/offer_list/views/offer_product_view.dart';
 import 'package:krzv2/models/product_model.dart';
 import 'package:krzv2/models/product_search_query.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-class ProductsListController extends GetxController
-    with StateMixin<List<ProductModel>>, ScrollMixin {
+class ProductsListController extends GetxController with StateMixin<List<ProductModel>>, ScrollMixin {
   final productList = Rx<List<ProductModel>?>([]);
   int currentPage = 1;
   bool? isPagination;
@@ -39,8 +41,7 @@ class ProductsListController extends GetxController
 
     if (responseModel.data["success"]) {
       final List<ProductModel> productDataList = List<ProductModel>.from(
-        responseModel.data['data']['data']
-            .map((category) => ProductModel.fromJson(category)),
+        responseModel.data['data']['data'].map((category) => ProductModel.fromJson(category)),
       );
 
       productList.value?.addAll(productDataList);
@@ -50,9 +51,10 @@ class ProductsListController extends GetxController
         return;
       }
 
+      KProductHighestPrice.value = responseModel.data["data"]["highest_price"];
+
       change(productList.value!, status: RxStatus.success());
-      isPagination =
-          responseModel.data['data']['pagination']['is_pagination'] as bool;
+      isPagination = responseModel.data['data']['pagination']['is_pagination'] as bool;
       return;
     }
 
