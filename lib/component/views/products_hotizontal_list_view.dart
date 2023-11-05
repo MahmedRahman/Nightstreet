@@ -110,7 +110,7 @@ class ProductsHotizontalListView extends GetView {
                     isLimitedQuantity: product.quantity < 10,
                     isAvailable: product.quantity > 1,
                     onTap: () => onTap!(product.id),
-                  );
+                  ).paddingOnly(left: 8);
                 },
               );
             },

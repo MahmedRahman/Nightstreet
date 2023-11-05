@@ -98,6 +98,7 @@ class FavoriteProducts extends GetView<ProductFavoriteController> {
             hasDiscount: product.oldPrice.toInt() != 0,
             isAvailable: product.quantity > 1,
             price: product.price.toString(),
+            oldPrice: product.oldPrice.toString(),
             onAddToCartTapped: () {
               if (product.variants.isNotEmpty) {
                 AppDialogs.showToast(

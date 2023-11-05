@@ -102,6 +102,7 @@ class ProductsListView extends GetView<ProductsListController> {
               name: product.name,
               hasDiscount: product.oldPrice != 0,
               price: product.price.toString(),
+              oldPrice: product.oldPrice.toString(),
               onAddToCartTapped: () {
                 if (product.variants.isNotEmpty) {
                   AppDialogs.showToast(
