@@ -11,6 +11,7 @@ import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/favorite_icon_view.dart';
 import 'package:krzv2/component/views/icon_button_component.dart';
 import 'package:krzv2/component/views/image_swpier_view.dart';
+import 'package:krzv2/component/views/notification_icon_view.dart';
 import 'package:krzv2/component/views/on_product_loading_view.dart';
 import 'package:krzv2/component/views/price_with_discount_view.dart';
 import 'package:krzv2/component/views/product_brand_image_view.dart';
@@ -80,12 +81,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                 );
               },
             ),
-          if (authController.isLoggedIn)
-            CustomIconButton(
-              onTap: () {},
-              iconPath: AppSvgAssets.notificationIcon,
-              count: 0,
-            ),
+          if (authController.isLoggedIn) NotificationIconView(),
           SizedBox(width: 20),
         ],
       ),
@@ -107,10 +103,8 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                 children: [
                   FavoriteIconView(
                     onFavoriteTapped: () {
-                      if (Get.put(AuthenticationController().isLoggedIn) ==
-                          false) {
-                        return AppDialogs.showToast(
-                            message: 'الرجاء تسجيل الدخول');
+                      if (Get.put(AuthenticationController().isLoggedIn) == false) {
+                        return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                       }
                       final favCon = Get.put<ProductFavoriteController>(
                         ProductFavoriteController(),
@@ -215,14 +209,18 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
             (products) => ProductsHotizontalListView.similarproducts(
               productsList: products ?? [],
               onTap: (int productId) async {
-                final awaitId = await Get.toNamed(
+                //AppDialogs.showToast(message: "message");
+
+                controller.fetchProductDetails(productId: productId.toString());
+                Get.toNamed(
                   Routes.PRODUCT_DETAILS,
                   arguments: productId.toString(),
                 );
+                // final awaitId = await
 
-                if (awaitId != null && awaitId != '') {
-                  similarProductController.toggleFavorite(productId);
-                }
+                // if (awaitId != null && awaitId != '') {
+                //   similarProductController.toggleFavorite(productId);
+                // }
               },
               onShowMoreTapped: () async {
                 final shoudRefresh = await Get.toNamed(
@@ -234,8 +232,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                 }
               },
               onAddToCartTapped: (ProductModel product) {
-                final isGuest =
-                    Get.find<AuthenticationController>().isGuestUser;
+                final isGuest = Get.find<AuthenticationController>().isGuestUser;
 
                 if (isGuest) {
                   cartController.addToGuestCart(
@@ -333,8 +330,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                 onDecrementTapped: controller.decrement,
                 onIncrementTapped: () {
                   if (productQuantity == controller.productCount.value) {
-                    AppDialogs.showToast(
-                        message: 'الحد المسموح به هو $productQuantity');
+                    AppDialogs.showToast(message: 'الحد المسموح به هو $productQuantity');
                     return;
                   }
                   controller.increment();

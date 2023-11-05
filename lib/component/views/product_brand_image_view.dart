@@ -13,7 +13,7 @@ class ProductBrandImageView extends GetView {
   @override
   Widget build(BuildContext context) {
     return DecoratedContainer(
-      height: 40,
+      //height: 40,
       width: 90,
       child: Padding(
         padding: const EdgeInsets.symmetric(
