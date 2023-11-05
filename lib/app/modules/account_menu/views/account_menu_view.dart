@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
+import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
+import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/app/modules/wallet/components/decorated_container_component.dart';
 import 'package:krzv2/component/views/app_bar.dart';
@@ -121,7 +124,22 @@ class AccountMenuView extends GetView<AccountMenuController> {
                 child: _CustomListTile(
                   title: 'تسجيل خروج',
                   iconPath: AppSvgAssets.logOutIcon,
-                  onTap: () => authController.logout(),
+                  onTap: () => authController.logout(
+                    onSuccess: () {
+                      Get.find<ProductFavoriteController>()
+                          .productFavoriteIds
+                          .value
+                          ?.clear();
+                      Get.find<OfferFavoriteController>()
+                          .offerFavoriteIds
+                          .value
+                          ?.clear();
+                      Get.find<CliniFavoriteController>()
+                          .clinicsFavoriteIds
+                          .value
+                          ?.clear();
+                    },
+                  ),
                 ),
               ),
             AppSpacers.height12,

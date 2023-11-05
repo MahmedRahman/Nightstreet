@@ -33,9 +33,14 @@ class CurrentAppointmentListView
             mainButtonText: "تعديل الموعد",
             secondButtonText: "الغاء الخدمة",
             mainButtonOnTap: () {
+              if (controller.myappointments.elementAt(index)["can_update"] == false) {
+                AppDialogs.showToast(message: "لا يممكن تعديل هذا المعاد");
+                return;
+              }
+
               Get.toNamed(
                 Routes.EDIT_APPOINTMENT,
-                arguments: appointment,
+                arguments: controller.myappointments.elementAt(index),
               );
             },
             secondButtonOnTap: () {

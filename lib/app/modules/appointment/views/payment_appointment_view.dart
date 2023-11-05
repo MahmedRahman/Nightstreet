@@ -12,6 +12,8 @@ import 'package:krzv2/component/views/custom_radio_view.dart';
 import 'package:krzv2/component/views/custom_toggle_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/service_information_view.dart';
+import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
@@ -25,9 +27,11 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
 
   @override
   Widget build(BuildContext context) {
+    print(Get.find<AppointmentController>().service.toString());
+
     return BaseScaffold(
       appBar: CustomAppBar(
-        titleText: ' موعـد',
+        titleText: 'موعـد',
       ),
       body: ListView(
         padding: AppDimension.appPadding,
@@ -35,11 +39,11 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
           AppSpacers.height12,
           ServiceInformationView(
             serviceName: Get.find<AppointmentController>().service["name"],
-            doctorName: Get.find<AppointmentController>().service["name"],
-            clinicName: Get.find<AppointmentController>().service["clinic"]
-                ["name"],
-            clinicAddress: Get.find<AppointmentController>().service["clinic"]
-                ["desc"],
+            doctorName: GetUtils.isNullOrBlank(Get.find<AppointmentController>().selectDoctor) == true
+                ? ""
+                : Get.find<AppointmentController>().selectDoctor["name"],
+            clinicName: Get.find<AppointmentController>().service["clinic"]["name"],
+            clinicAddress: Get.find<AppointmentController>().service["clinic"]["desc"],
           ),
           AppSpacers.height12,
           Divider(),
@@ -66,60 +70,65 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Divider(),
-                  ),
-                  Obx(() {
-                    return Row(
-                      children: [
-                        CustomToggleView(
-                          activeColor: AppColors.mainColor,
-                          deactivateColor: Colors.white,
-                          Kselected: KWalletStatus.value,
-                          onChanged: (bool vlu) {
-                            print('data => $vlu');
+                  Get.find<AuthenticationController>().userData!.walletBalance == "0"
+                      ? SizedBox.shrink()
+                      : Obx(() {
+                          return Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 5),
+                                child: Divider(),
+                              ),
+                              Row(
+                                children: [
+                                  CustomToggleView(
+                                    activeColor: AppColors.mainColor,
+                                    deactivateColor: Colors.white,
+                                    Kselected: KWalletStatus.value,
+                                    onChanged: (bool vlu) {
+                                      print('data => $vlu');
 
-                            if (vlu == true) {
-                              payment_type = "wallet";
-                              KWalletStatus.value = true;
-                              KCardStatus.value = false;
-                            } else {
-                              payment_type = "card";
-                              KWalletStatus.value = false;
-                              KCardStatus.value = true;
-                            }
-                          },
-                        ),
-                        AppSpacers.width10,
-                        Text(
-                          'محفظة كرز',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: AppColors.blackColor,
-                            letterSpacing: 0.28,
-                          ),
-                        ),
-                        Spacer(),
-                        // Text(
-                        //   'رصيدك الحالي : 120',
-                        //   style: TextStyle(
-                        //     fontSize: 12.0,
-                        //     color: AppColors.greyColor,
-                        //     letterSpacing: 0.18,
-                        //   ),
-                        // ),
-                      ],
-                    );
-                  }),
+                                      if (vlu == true) {
+                                        payment_type = "wallet";
+                                        KWalletStatus.value = true;
+                                        KCardStatus.value = false;
+                                      } else {
+                                        payment_type = "card";
+                                        KWalletStatus.value = false;
+                                        KCardStatus.value = true;
+                                      }
+                                    },
+                                  ),
+                                  AppSpacers.width10,
+                                  Text(
+                                    'محفظة كرز',
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: AppColors.blackColor,
+                                      letterSpacing: 0.28,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Text(
+                                    'رصيدك الحالي : ${Get.find<AuthenticationController>().userData!.walletBalance}',
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      color: AppColors.greyColor,
+                                      letterSpacing: 0.18,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        }),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5),
                     child: Divider(),
                   ),
                   Obx(() {
                     return InkWell(
-                      overlayColor:
-                          MaterialStatePropertyAll(Colors.transparent),
+                      overlayColor: MaterialStatePropertyAll(Colors.transparent),
                       onTap: () {
                         KCardStatus.value = !KCardStatus.value;
                         KWalletStatus.value = false;
@@ -152,10 +161,6 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
               ),
             ),
           ),
-          // AppSpacers.height16,
-          // CouponForm(
-          //   onTap: (String code) {},
-          // ),
           AppSpacers.height12,
           Divider(),
           AppSpacers.height12,
@@ -177,14 +182,12 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
                   AppSpacers.height16,
                   paymentSumaryItem(
                     title: "المجموع الكلي",
-                    value:
-                        "${Get.find<AppointmentController>().service["clinic"]["name"]} رس",
+                    value: "${Get.find<AppointmentController>().service["price"]} رس",
                   ),
                   AppSpacers.height16,
                   paymentSumaryItem(
                     title: "ما سيتم دفعه الان",
-                    value:
-                        "${Get.find<AppointmentController>().service["amount_to_pay"]} رس",
+                    value: "${Get.find<AppointmentController>().service["amount_to_pay"]} رس",
                   ),
                   AppSpacers.height12,
                   DottedLine(
@@ -196,17 +199,14 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
                   AppSpacers.height12,
                   paymentSumaryItem(
                     title: "المبلغ المتبقي",
-                    //value: "1000 رس",
-
                     value:
                         "${Get.find<AppointmentController>().service["price"] - Get.find<AppointmentController>().service["amount_to_pay"]} رس",
-
                     textColor: AppColors.mainColor,
                   ),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
       bottomBarHeight: 155,
@@ -230,6 +230,12 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
               child: CustomBtnCompenent.main(
                 text: "تأكيد الدفع",
                 onTap: () {
+                  if (Get.find<AuthenticationController>().userData!.completeProfile == false) {
+                    AppDialogs.showToast(message: "برجاء استكمال الملف الشخصي");
+                    Get.toNamed(Routes.updateProfile);
+                    return;
+                  }
+
                   if (payment_type == null) {
                     AppDialogs.showToast(message: "برجاء اختيار طريقه الدفع");
                     return;

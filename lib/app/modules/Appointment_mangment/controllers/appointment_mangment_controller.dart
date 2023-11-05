@@ -9,6 +9,9 @@ import 'package:krzv2/web_serives/web_serives.dart';
 class AppointmentMangmentController extends GetxController
     with ScrollMixin, StateMixin<List<AppointmentModel>> {
   final List<AppointmentModel> _appointments = [];
+
+  List myappointments = [];
+
   int currentPage = 1;
   bool? isPagination;
   RxInt rxAppointmentType = 1.obs;
@@ -29,6 +32,7 @@ class AppointmentMangmentController extends GetxController
 
     try {
       if (responseModel.data['success'] == true) {
+        myappointments = responseModel.data['data']['data'];
         final fetchedAppointments = List<AppointmentModel>.from(
           responseModel.data['data']['data']
               .map((item) => AppointmentModel.fromJson(item)),

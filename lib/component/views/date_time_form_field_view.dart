@@ -14,8 +14,13 @@ class DateTimeFormFieldView extends GetView {
     required this.firstDate,
   }) {
     if (initialDateTime != '') {
+      print("nnnn ${initialDateTime.toString()}");
+
       var parsedDate = DateTime.parse('$initialDateTime');
+      print("mmm ${parsedDate.toString()}");
       selectedDate.value = parsedDate;
+
+      print("selectedDate ${selectedDate.value.toString()}");
     }
   }
 
@@ -65,7 +70,7 @@ class DateTimeFormFieldView extends GetView {
                       onTap: () async {
                         DateTime? pickedDate = await showDatePicker(
                           context: context,
-                          initialDate: DateTime.now(),
+                          initialDate: selectedDate.value ?? DateTime.now(),
                           firstDate: firstDate,
                           lastDate: DateTime(2101),
                           confirmText: "تحديد",

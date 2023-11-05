@@ -52,51 +52,47 @@ class OfferProductView extends GetView<OfferProductController> {
           ),
           itemCount: snapshot!.length,
           itemBuilder: (_, index) {
-            return ProductCardView(
-              imageUrl: snapshot[index]["image"].toString(),
-              name: snapshot[index]["name"].toString(),
-              hasDiscount: snapshot[index]["old_price"] != 0,
-              price: snapshot[index]["price"].toString(),
-              oldPrice: snapshot[index]["old_price"].toString(),
-              isFavorite: snapshot[index]['is_favorite'],
-              onAddToCartTapped: () {
-                cartController.addToCart(
-                  productId: snapshot[index]["id"].toString(),
-                  quantity: '1',
-                  isNew: true,
-                );
-              },
-              onFavoriteTapped: () {
-                if (Get.put(AuthenticationController().isLoggedIn) == false) {
-                  return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
-                }
-                final favCon = Get.put<ProductFavoriteController>(
-                  ProductFavoriteController(),
-                );
+            return GetBuilder<ProductFavoriteController>(
+              init: ProductFavoriteController(),
+              builder: (favoriteController) {
+                return ProductCardView(
+                  imageUrl: snapshot[index]["image"].toString(),
+                  name: snapshot[index]["name"].toString(),
+                  hasDiscount: snapshot[index]["old_price"] != 0,
+                  isAvailable: snapshot[index]["quantity"] > 1,
+                  price: snapshot[index]["price"].toString(),
+                  oldPrice: snapshot[index]["old_price"].toString(),
+                  isFavorite: favoriteController
+                      .productIsFavorite(snapshot[index]["id"] as int),
+                  onAddToCartTapped: () {
+                    cartController.addToCart(
+                      productId: snapshot[index]["id"].toString(),
+                      quantity: '1',
+                      isNew: true,
+                    );
+                  },
+                  onFavoriteTapped: () {
+                    if (Get.put(AuthenticationController().isLoggedIn) ==
+                        false) {
+                      return AppDialogs.showToast(
+                          message: 'الرجاء تسجيل الدخول');
+                    }
+                    final favCon = Get.put<ProductFavoriteController>(
+                      ProductFavoriteController(),
+                    );
 
-                snapshot[index]['is_favorite'] =
-                    !snapshot[index]['is_favorite'];
-                controller.update();
-
-                favCon.addRemoveProductFromFavorite(
-                  productId: snapshot[index]["id"],
-                  onError: () {
-                    snapshot[index]['is_favorite'] =
-                        !snapshot[index]['is_favorite'];
-                    controller.update();
+                    favCon.addRemoveProductFromFavorite(
+                      productId: snapshot[index]["id"],
+                    );
+                  },
+                  //, product.isFavorite,
+                  onTap: () {
+                    Get.toNamed(
+                      Routes.PRODUCT_DETAILS,
+                      arguments: snapshot[index]["id"].toString(),
+                    );
                   },
                 );
-              },
-              //, product.isFavorite,
-              onTap: () async {
-                final awaitId = await Get.toNamed(
-                  Routes.PRODUCT_DETAILS,
-                  arguments: snapshot[index]["id"].toString(),
-                );
-
-                if (awaitId != null && awaitId != '') {
-                  toggleFavorite(snapshot[index]["id"], snapshot);
-                }
               },
             );
           },

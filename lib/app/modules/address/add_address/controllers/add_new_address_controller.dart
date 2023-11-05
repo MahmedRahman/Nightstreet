@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/address/list_addresses/controllers/delivery_addresses_controller.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
@@ -10,6 +11,7 @@ import 'package:krzv2/web_serives/web_serives.dart';
 class AddNewAddressController extends GetxController with StateMixin {
   @override
   void onInit() async {
+    change(null, status: RxStatus.success());
     super.onInit();
   }
 
@@ -23,7 +25,10 @@ class AddNewAddressController extends GetxController with StateMixin {
     required String isDefault,
     required String previousRoute,
   }) async {
+    // EasyLoading.show();
+
     print(cityId.toString());
+    AppDialogs.addAddressSuccess();
     change(null, status: RxStatus.loading());
     ResponseModel responseModel = await WebServices().saveAddresses(
       cityId: cityId.toString(),
@@ -36,7 +41,6 @@ class AddNewAddressController extends GetxController with StateMixin {
     );
 
     if (responseModel.data["success"]) {
-      AppDialogs.loginSuccess();
       await Future.delayed(
         const Duration(seconds: 1),
         () {

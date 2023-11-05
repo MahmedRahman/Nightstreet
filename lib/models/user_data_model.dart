@@ -11,6 +11,7 @@ class UserData {
   final String walletBalance;
   final int notificationsCount;
   final int cartCount;
+  final bool completeProfile;
 
   UserData({
     required this.id,
@@ -19,6 +20,7 @@ class UserData {
     required this.phone,
     required this.image,
     required this.type,
+    required this.completeProfile,
     required this.active,
     required this.gender,
     required this.birthDate,
@@ -40,6 +42,7 @@ class UserData {
       birthDate: json['birth_date'] ?? '',
       walletBalance: json['wallet_balance'],
       notificationsCount: json['notifications_count'],
+      completeProfile: json['complete_profile'],
       cartCount: json['cart_count'],
     );
   }

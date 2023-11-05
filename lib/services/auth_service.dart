@@ -82,14 +82,13 @@ class AuthenticationController extends GetxController with CacheManager {
     await saveUserType(UserType.registered.name);
     await removeGuestToken();
 
-    final cartController = Get.find<ShoppintCartController>();
-    cartController.onInit();
+    Get.find<ShoppintCartController>().getCartProducts();
 
     _userData = UserData.fromJson(response.data["data"]);
 
     AppDialogs.loginSuccess();
     await Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(milliseconds: 500),
       () => Get.offAndToNamed(Routes.LAYOUT),
     );
   }
@@ -134,7 +133,7 @@ class AuthenticationController extends GetxController with CacheManager {
     sendVerificationCode(phoneNumber: phoneNumber);
   }
 
-  void logout() async {
+  void logout({required Function() onSuccess}) async {
     EasyLoading.show();
     ResponseModel response = await WebServices().authLogout();
 
@@ -148,6 +147,7 @@ class AuthenticationController extends GetxController with CacheManager {
     await removeUserToken();
     await removeFirebaseToken();
     showToast(message: 'تم تسجيل الخروج بنجاح');
+    onSuccess();
     Get.offAndToNamed(Routes.LAYOUT);
 
     _userData = null;
@@ -195,6 +195,7 @@ class AuthenticationController extends GetxController with CacheManager {
     showToast(message: response.data["message"]);
     _userData = UserData.fromJson(response.data["data"]);
     update();
+    Get.back();
     return;
   }
 

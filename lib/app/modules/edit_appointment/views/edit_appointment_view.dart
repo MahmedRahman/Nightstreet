@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/appointment/appointment_address_controller.dart';
 import 'package:krzv2/app/modules/appointment/views/appointment_booking_view.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
@@ -12,13 +14,21 @@ import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
+import 'package:krzv2/utils/app_svg_paths.dart';
 
 import '../controllers/edit_appointment_controller.dart';
 
+// EditAppointmentView({
+//   required this.initialDateTime,
+// });
 class EditAppointmentView extends GetView<EditAppointmentController> {
-  EditAppointmentView({Key? key}) : super(key: key);
+  EditAppointmentController controller = Get.put(EditAppointmentController());
 
-  TextEditingController longText = TextEditingController();
+  TextEditingController longText = TextEditingController(
+    text: Get.find<EditAppointmentController>().appointment["notes"],
+  );
+  String? selectDate = "";
+  String? selectTime = "";
 
   @override
   Widget build(BuildContext context) {
@@ -29,90 +39,200 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
       body: ListView(
         padding: AppDimension.appPadding,
         children: [
-          // AppSpacers.height12,
-          // monthSelector(
-          //   onMonthChanged: (String) {},
-          // ),
-          // AppSpacers.height19,
-          // daySelector(
-          //   onDayChanged: (int) {},
-          // ),
-          // AppSpacers.height25,
-          // appointmentSelector(
-          //   onDayChanged: (int) {},
-          // ),
-          // AppSpacers.height25,
-          // TextFieldComponent.longMessage(
-          //   controller: TextEditingController(),
-          //   outLineText: "تفاصيل إضافية",
-          //   hintText: "أكتب التفاصيل هنا",
-          // )
-          //title: "",
+          AppSpacers.height12,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: DateTimeFormFieldView(
+                  title: "تاريخ ",
+                  initialDateTime: controller.selectData,
+                  firstDate: DateTime.now(),
+                  onDateChanged: (DateTime value) {
+                    var month = value.month.toString();
 
-          DateTimeFormFieldView(
-            title: "التاريخ",
-            initialDateTime: DateTime.now().toString(),
-            firstDate: DateTime.now(),
-            onDateChanged: (DateTime value) {
-              //print(formattedDate.toString());
-              // String valData = "${value.year}-${value.month}-${value.day}";
-              // Get.find<AppointmentController>().selectData = valData.toString();
-              // Get.find<AppointmentController>().selectTime = "";
-              // Get.find<AppointmentController>().getAvailableOfferTimes();
+                    if (month.length == 1) {
+                      month = "0${month}";
+                    }
+                    var day = value.day.toString();
 
-              //birthDateController.text = value.toString().substring(0, 10);
-            },
-          ),
-          AppSpacers.height19,
-          Text(controller.appointment!.datetime.toString()),
-          AppSpacers.height19,
+                    if (day.length == 1) {
+                      day = "0${day}";
+                    }
 
-          Obx(() {
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: AppColors.mainColor,
+                    String valData = "${value.year}-${month}-${day}";
+
+                    print(valData.toString());
+                    Get.find<EditAppointmentController>().selectData = valData.toString();
+                    Get.find<EditAppointmentController>().selectTime = "";
+                    Get.find<EditAppointmentController>().getAvailableOfferTimes();
+
+                    //Get.find<EditAppointmentController>(). selectDate = value.toString().substring(0, 10);
+                  },
                 ),
               ),
-              child: controller.AppointmentDataList.length == 0
-                  ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Text("لا يوجد مواعيد"),
-                      ),
-                    )
-                  : Wrap(
-                      children: List.generate(
-                        controller.AppointmentDataList.length,
-                        (index) {
-                          return timeCard(
-                            onTap: (p0) {
-                              // Get.find<AppointmentController>().selectTime =
-                              //     controller.AppointmentDataList[index]["time"];
-                              // controller.AppointmentDataList.refresh();
-                            },
-                            time: controller.AppointmentDataList[index]["time"],
-                            isSelect: true,
+              AppSpacers.width10,
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    if (controller.selectData == "") {
+                      return AppDialogs.showToast(message: 'اختيار تاريخ');
+                    }
 
-                            //  controller.AppointmentDataList[index]["time"] ==
-                            //     Get.find<AppointmentController>().selectTime,
-                          );
-                        },
+                    if (controller.AppointmentDataList.length == 0) {
+                      return AppDialogs.showToast(message: 'لا يوجود مواعيد');
+                    }
+
+                    Get.generalDialog(
+                      barrierDismissible: true,
+                      barrierLabel: MaterialLocalizations.of(Get.context!).modalBarrierDismissLabel,
+                      barrierColor: Colors.black45,
+                      transitionDuration: const Duration(milliseconds: 200),
+                      pageBuilder:
+                          (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+                        return Center(
+                          child: Container(
+                            width: Get.width * .8,
+                            constraints: BoxConstraints(
+                              maxHeight: Get.height * 0.8,
+                            ),
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25.0),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'اختر الموعد المناسب',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: AppColors.blackColor,
+                                        letterSpacing: 0.3,
+                                      ),
+                                      textAlign: TextAlign.right,
+                                    ),
+                                    Spacer(),
+                                    InkWell(
+                                      onTap: () => Get.back(),
+                                      child: Container(
+                                        alignment: Alignment(0.03, 0.0),
+                                        width: 28.0,
+                                        height: 28.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: AppColors.greyColor4,
+                                        ),
+                                        child: Icon(
+                                          Icons.close,
+                                          color: AppColors.greyColor,
+                                          size: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Divider(),
+                                AppSpacers.height25,
+                                controller.AppointmentDataList.length == 0
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Center(
+                                          child: Text("لا يوجد مواعيد"),
+                                        ),
+                                      )
+                                    : Obx(
+                                        () => Wrap(
+                                          children: List.generate(
+                                            controller.AppointmentDataList.length,
+                                            (index) {
+                                              return timeCard(
+                                                onTap: (p0) {
+                                                  Get.find<EditAppointmentController>().selectTime =
+                                                      controller.AppointmentDataList[index]["time"];
+                                                  Get.find<EditAppointmentController>().selectTimeUI!.value =
+                                                      controller.AppointmentDataList[index]["time"];
+                                                  // isSelect: false
+
+                                                  controller.AppointmentDataList.refresh();
+                                                },
+                                                time: controller.AppointmentDataList[index]["time"],
+                                                isSelect: controller.AppointmentDataList[index]["time"] ==
+                                                    Get.find<AppointmentController>().selectTime,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  overlayColor: MaterialStatePropertyAll(Colors.transparent),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'الموعد',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: AppColors.blackColor,
+                          letterSpacing: 0.32,
+                          fontWeight: FontWeight.w500,
+                          height: 0.75,
+                        ),
+                        textAlign: TextAlign.right,
                       ),
-                    ),
-            );
-          }),
-          AppSpacers.height25,
-          // appointmentSelector(
-          //   onDayChanged: (int) {},
-          // ),
-          AppSpacers.height25,
+                      AppSpacers.height10,
+                      Container(
+                        width: double.infinity,
+                        height: 52.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Color(0xffF5F6FA),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 20,
+                            ),
+                            SvgPicture.asset(AppSvgAssets.timeIcon),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              controller.selectTime.toString(),
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                color: AppColors.greyColor,
+                                letterSpacing: 0.48,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+          AppSpacers.height12,
           TextFieldComponent.longMessage(
             controller: longText,
             outLineText: "تفاصيل إضافية",
             hintText: "أكتب التفاصيل هنا",
-          )
+          ),
+          AppSpacers.height12,
         ],
       ),
       bottomBarHeight: 155,
@@ -135,7 +255,21 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
               flex: 3,
               child: CustomBtnCompenent.main(
                 text: "تأكيد الموعد",
-                onTap: () => AppDialogs.appointmentUpdateBookingSuccess(),
+                onTap: () {
+                  if (controller.appointment["can_update"] == false) {
+                    AppDialogs.showToast(message: "برجاء التواصل مع الاداره للتعديل المعاد");
+                    return;
+                  }
+
+                  controller.editAppointments(
+                    appointmentID: controller.appointment["id"],
+                    time: controller.selectTime.toString(),
+                    dateTime: controller.selectData.toString(),
+                    notes: controller.selectData.toString(),
+                  );
+
+                  // () => AppDialogs.appointmentUpdateBookingSuccess()
+                },
               ),
             ),
           ],

@@ -23,8 +23,10 @@ import 'package:krzv2/component/views/tabs/base_switch_3_tap.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
+import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../controllers/service_detail_controller.dart';
 
@@ -49,36 +51,38 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
       body: controller.obx(
         (data) {
           return Scaffold(
-              bottomSheet: Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 20,
-                  top: 20,
-                ),
-                child: CustomBtnCompenent.main(
-                  text: 'احجز موعد الآن',
-                  onTap: () {
-                    if (Get.put(AuthenticationController().isLoggedIn) ==
-                        false) {
-                      return AppDialogs.showToast(
-                          message: 'الرجاء تسجيل الدخول');
-                    }
-                    if (data["branches"].length == 0) {
-                      AppDialogs.showToast(message: "لا يوجد فروع");
-                    }
+              // backgroundColor: Colors.transparent,
+              bottomSheet: Container(
+                // color: Colors.red,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                    top: 5,
+                    bottom: 5,
+                  ),
+                  child: CustomBtnCompenent.main(
+                    text: 'احجز موعد الآن',
+                    onTap: () {
+                      if (Get.put(AuthenticationController().isLoggedIn) == false) {
+                        return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                      }
+                      if (data["branches"].length == 0) {
+                        AppDialogs.showToast(message: "لا يوجد فروع");
+                      }
 
-                    Get.find<AppointmentController>().service = data;
-                    Get.find<AppointmentController>().selectBranch =
-                        data["branches"][0];
+                      Get.find<AppointmentController>().service = data;
+                      Get.find<AppointmentController>().selectBranch = data["branches"][0];
 
-                    Get.to(
-                      AppointmentAddressView(),
-                    );
-                  },
+                      Get.to(
+                        AppointmentAddressView(),
+                      );
+                    },
+                  ),
                 ),
               ),
               body: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: AppDimension.appPadding,
                 child: ListView(
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -96,10 +100,8 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                       isFavorite: data['is_favorite'],
                       title: data["clinic"]["name"],
                       onFavoriteTap: () {
-                        if (Get.put(AuthenticationController().isLoggedIn) ==
-                            false) {
-                          return AppDialogs.showToast(
-                              message: 'الرجاء تسجيل الدخول');
+                        if (Get.put(AuthenticationController().isLoggedIn) == false) {
+                          return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                         }
                         final favCon = Get.put<OfferFavoriteController>(
                           OfferFavoriteController(),
@@ -117,7 +119,12 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                         );
                         controller.update();
                       },
-                      onUploadTap: () {},
+                      onUploadTap: () {
+                        Share.share(
+                          'https://krz.sa/',
+                          subject: data["name"],
+                        );
+                      },
                     ),
                     Divider(),
                     Text(

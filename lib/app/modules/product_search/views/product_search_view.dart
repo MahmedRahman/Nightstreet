@@ -65,54 +65,65 @@ class ProductSearchView extends GetView<ProductSearchController> {
       ),
       itemBuilder: (_, index) {
         final product = products?.elementAt(index);
-        return ProductCardView(
-          imageUrl: product!.image,
-          name: product.name,
-          hasDiscount: product.oldPrice != 0,
-          price: product.price.toString(),
-          onAddToCartTapped: () {
-            final isGuest = Get.find<AuthenticationController>().isGuestUser;
+        return GetBuilder<ProductFavoriteController>(
+          init: ProductFavoriteController(),
+          builder: (controller) {
+            return ProductCardView(
+              imageUrl: product!.image,
+              name: product.name,
+              isAvailable: product.quantity > 1,
+              hasDiscount: product.oldPrice != 0,
+              price: product.price.toString(),
+              onAddToCartTapped: () {
+                if (product.variants.isNotEmpty) {
+                  AppDialogs.showToast(
+                    message: 'هذا المنتج يحتوى على الوان يجب اختيار اللون',
+                  );
+                  Get.toNamed(
+                    Routes.PRODUCT_DETAILS,
+                    arguments: product.id.toString(),
+                  );
 
-            if (isGuest) {
-              cartController.addToGuestCart(
-                productId: product.id.toString(),
-                quantity: '1',
-                isNew: true,
-              );
-              return;
-            }
-            cartController.addToCart(
-              productId: product.id.toString(),
-              quantity: '1',
-              isNew: true,
-            );
-          },
-          onFavoriteTapped: () {
-            if (Get.put(AuthenticationController().isLoggedIn) == false) {
-              return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
-            }
-            final favCon = Get.put<ProductFavoriteController>(
-              ProductFavoriteController(),
-            );
-            controller.toggleFavorite(product.id);
+                  return;
+                }
+                final isGuest =
+                    Get.find<AuthenticationController>().isGuestUser;
 
-            favCon.addRemoveProductFromFavorite(
-              productId: product.id,
-              onError: () {
-                controller.toggleFavorite(product.id);
+                if (isGuest) {
+                  cartController.addToGuestCart(
+                    productId: product.id.toString(),
+                    quantity: '1',
+                    isNew: true,
+                  );
+                  return;
+                }
+                cartController.addToCart(
+                  productId: product.id.toString(),
+                  quantity: '1',
+                  isNew: true,
+                );
+              },
+              onFavoriteTapped: () {
+                if (Get.put(AuthenticationController().isLoggedIn) == false) {
+                  return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                }
+                final favCon = Get.put<ProductFavoriteController>(
+                  ProductFavoriteController(),
+                );
+
+                favCon.addRemoveProductFromFavorite(
+                  productId: product.id,
+                );
+              },
+              isFavorite:
+                  controller.productFavoriteIds.value!.contains(product.id),
+              onTap: () async {
+                Get.toNamed(
+                  Routes.PRODUCT_DETAILS,
+                  arguments: product.id.toString(),
+                );
               },
             );
-          },
-          isFavorite: product.isFavorite,
-          onTap: () async {
-            final awaitId = await Get.toNamed(
-              Routes.PRODUCT_DETAILS,
-              arguments: product.id.toString(),
-            );
-
-            if (awaitId != null && awaitId != '') {
-              controller.toggleFavorite(product.id);
-            }
           },
         );
       },

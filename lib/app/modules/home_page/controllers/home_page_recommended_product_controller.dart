@@ -36,12 +36,4 @@ class RecommendedProductController extends GetxController
 
     change([], status: RxStatus.error(responseModel.data["message"]));
   }
-
-  void toggleFavorite(int productId) {
-    final product = productList.value!.firstWhere(
-      (p) => p.id == productId,
-    );
-    product.isFavorite = !product.isFavorite;
-    update();
-  }
 }

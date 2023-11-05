@@ -46,6 +46,8 @@ class LoginView extends GetView<LoginController> {
                   CustomBtnCompenent.main(
                     text: "تسجيل دخول",
                     onTap: () async {
+                      FocusManager.instance.primaryFocus?.unfocus();
+
                       if (!formKey.currentState!.validate()) {
                         return;
                       }
@@ -61,13 +63,15 @@ class LoginView extends GetView<LoginController> {
                   CustomBtnCompenent.secondary(
                     text: "الدخول كزائز",
                     onTap: () async {
+                      FocusManager.instance.primaryFocus?.unfocus();
+
                       if (authenticationController.isLoggedIn) {
-                        authenticationController.logout();
+                        authenticationController.logout(
+                          onSuccess: () {},
+                        );
                       }
                       authenticationController.loginAsGuest(
-                        firebaseToken: authenticationController
-                            .getFirebaseToken()
-                            .toString(),
+                        firebaseToken: authenticationController.getFirebaseToken().toString(),
                       );
                     },
                   ),

@@ -17,6 +17,7 @@ class ProductCardView extends GetView {
   final String rate;
   final bool isLimitedQuantity;
   final bool isFavorite;
+  final bool isAvailable;
 
   final void Function()? onAddToCartTapped;
   final void Function()? onFavoriteTapped;
@@ -32,6 +33,7 @@ class ProductCardView extends GetView {
     required this.onFavoriteTapped,
     required this.isFavorite,
     required this.onTap,
+    required this.isAvailable,
     this.oldPrice = '',
     this.rate = '',
     this.isLimitedQuantity = false,
@@ -47,6 +49,7 @@ class ProductCardView extends GetView {
         onFavoriteTapped = null,
         isFavorite = false,
         oldPrice = '',
+        isAvailable = true,
         isLimitedQuantity = true;
 
   @override
@@ -57,7 +60,7 @@ class ProductCardView extends GetView {
       child: Container(
         width: 150.0,
         padding: const EdgeInsets.all(8),
-        margin: const EdgeInsets.only(left: 8),
+        // margin: const EdgeInsets.only(left: 8),
         // constraints: BoxConstraints(
         //   maxHeight: 300,
         // ),
@@ -219,7 +222,11 @@ class ProductCardView extends GetView {
   InkWell _addToCart() {
     return InkWell(
       overlayColor: MaterialStatePropertyAll(Colors.transparent),
-      onTap: onAddToCartTapped,
+      onTap: () {
+        if (isAvailable == true) {
+          onAddToCartTapped!();
+        }
+      },
       child: Container(
         alignment: const Alignment(0.07, 0.0),
         width: 100.0,
@@ -232,8 +239,8 @@ class ProductCardView extends GetView {
             color: AppColors.borderColor2,
           ),
         ),
-        child: const Text(
-          'إضافة للسلة',
+        child: Text(
+          isAvailable ? 'إضافة للسلة' : "سيتوفر قريبا",
           style: TextStyle(
             fontSize: 13.0,
             color: AppColors.blackColor,

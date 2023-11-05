@@ -22,12 +22,19 @@ import 'package:krzv2/utils/app_svg_paths.dart';
 
 import '../controllers/clinic_info_controller.dart';
 
+String KPageTitle = 'مركز';
+
 class ClinicInfoView extends GetView {
   const ClinicInfoView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(titleText: "مركز طيبة للتجميل"),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60),
+        child: CustomAppBar(
+          titleText: KPageTitle,
+        ),
+      ),
       body: Padding(
         padding: AppDimension.appPadding,
         child: Column(
@@ -51,39 +58,40 @@ class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
   @override
   Widget build(BuildContext context) {
     return controller.obx((branch) {
+      //PageTitle.value = branch!.name.toString();
       return SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClinicCardView(
-              distance: branch!.distance,
-              isFavorite: branch.isFavorite,
-              imageUrl: branch.clinic.image,
-              name: branch.name,
-              onTap: () {},
-              onFavoriteTapped: () {
-                if (Get.put(AuthenticationController().isLoggedIn) == false) {
-                  return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
-                }
+            GetBuilder<CliniFavoriteController>(
+              init: CliniFavoriteController(),
+              builder: (favoriteController) {
+                return ClinicCardView(
+                  distance: branch!.distance,
+                  isFavorite: favoriteController.clinicIsFavorite(branch.id),
+                  imageUrl: branch.clinic.image,
+                  name: branch.name,
+                  onTap: () {},
+                  onFavoriteTapped: () {
+                    if (Get.put(AuthenticationController().isLoggedIn) ==
+                        false) {
+                      return AppDialogs.showToast(
+                          message: 'الرجاء تسجيل الدخول');
+                    }
 
-                final favCon = Get.put<CliniFavoriteController>(
-                  CliniFavoriteController(),
-                );
+                    final favCon = Get.put<CliniFavoriteController>(
+                      CliniFavoriteController(),
+                    );
 
-                branch.isFavorite != branch.isFavorite;
-                controller.update();
-
-                favCon.addRemoveBranchFromFavorite(
-                  branchId: branch.id,
-                  onError: () {
-                    branch.isFavorite != branch.isFavorite;
-                    controller.update();
+                    favCon.addRemoveBranchFromFavorite(
+                      branchId: branch.id,
+                    );
                   },
-                );
+                  rate: branch.totalRateAvg.toString(),
+                  totalRate: branch.totalRateCount.toString(),
+                ).paddingOnly(bottom: 10);
               },
-              rate: branch.totalRateAvg.toString(),
-              totalRate: branch.totalRateCount.toString(),
-            ).paddingOnly(bottom: 10),
+            ),
             SizedBox(
               height: 10,
             ),
@@ -103,7 +111,7 @@ class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
             ),
             Divider(),
             Html(
-              data: branch.clinic.desc,
+              data: branch!.clinic.desc,
             ),
             SizedBox(
               height: 10,
@@ -132,8 +140,7 @@ class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
                       padding: const EdgeInsets.only(bottom: 10),
                       child: addressCard(
                         address: branch.otherBranches!.elementAt(index).name,
-                        isCurrentAddress:
-                            branch.otherBranches!.elementAt(index).current,
+                        isCurrentAddress: branch.otherBranches!.elementAt(index).current,
                       ),
                     );
                   },
@@ -213,39 +220,35 @@ class ClinicServicesPage extends GetView<ClinicServicesController> {
                 padding: const EdgeInsets.only(
                   bottom: 8,
                 ),
-                child: ServiceCardView(
-                  imageUrl: offer.image,
-                  name: offer.name,
-                  hasDiscount: offer.oldPrice != 0,
-                  price: offer.price.toString(),
-                  oldPrice: offer.oldPrice.toString(),
-                  onFavoriteTapped: () {
-                    final favCon = Get.put<OfferFavoriteController>(
-                      OfferFavoriteController(),
-                    );
+                child: GetBuilder<OfferFavoriteController>(
+                  init: OfferFavoriteController(),
+                  builder: (favoriteController) {
+                    return ServiceCardView(
+                      imageUrl: offer.image,
+                      name: offer.name,
+                      hasDiscount: offer.oldPrice != 0,
+                      price: offer.price.toString(),
+                      oldPrice: offer.oldPrice.toString(),
+                      onFavoriteTapped: () {
+                        final favCon = Get.put<OfferFavoriteController>(
+                          OfferFavoriteController(),
+                        );
 
-                    controller.toggleFavorite(offer.id);
-
-                    favCon.addRemoveOfferFromFavorite(
-                      offerId: offer.id,
-                      onError: () {
-                        controller.toggleFavorite(offer.id);
+                        favCon.addRemoveOfferFromFavorite(
+                          offerId: offer.id,
+                        );
                       },
+                      isFavorite: favoriteController.offerIsFavorite(offer.id),
+                      onTapped: () {
+                        Get.toNamed(
+                          Routes.SERVICE_DETAIL,
+                          arguments: offer.id.toString(),
+                        );
+                      },
+                      rate: offer.totalRateCount.toString(),
+                      totalRate: offer.totalRateAvg.toString(),
                     );
                   },
-                  isFavorite: offer.isFavorite,
-                  onTapped: () async {
-                    final awaitId = await Get.toNamed(
-                      Routes.SERVICE_DETAIL,
-                      arguments: offer.id.toString(),
-                    );
-
-                    if (awaitId != null && awaitId != '') {
-                      controller.toggleFavorite(offer.id);
-                    }
-                  },
-                  rate: offer.totalRateCount.toString(),
-                  totalRate: offer.totalRateAvg.toString(),
                 ),
               );
             },

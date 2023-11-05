@@ -7,6 +7,9 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:krzv2/app/modules/appointment/appointment_address_controller.dart';
+import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
+import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
+import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
 import 'package:krzv2/app/modules/offer_list/views/offer_product_view.dart';
 import 'package:krzv2/app/modules/offer_list/views/offer_service_view.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
@@ -59,6 +62,9 @@ void main() async {
               initialBinding: BindingsBuilder(
                 () {
                   Get.put(AuthenticationController());
+                  Get.put(ProductFavoriteController());
+                  Get.put(OfferFavoriteController());
+                  Get.put(CliniFavoriteController());
                   Get.put(StaticPageService());
                   Get.put(MyBottomNavigationController());
                   Get.put(SplashController());

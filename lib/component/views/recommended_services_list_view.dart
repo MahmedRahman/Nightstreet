@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
 import 'package:krzv2/component/views/cards/service_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/show_more_button_view.dart';
@@ -38,23 +39,31 @@ class RecommendedServicesListView extends GetView {
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               final service = recommendedServicesList.elementAt(index);
-              return ServiceCardView(
-                imageUrl: service.image,
-                name: service.name,
-                hasDiscount: service.oldPrice.toString() != '0.0',
-                price: service.price.toString(),
-                oldPrice: service.oldPrice.toString(),
-                onFavoriteTapped: () {
-                  if (Get.put(AuthenticationController().isLoggedIn) == false) {
-                    return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
-                  }
-                  return onFavoriteTapped(service.id);
-                },
-                rate: service.totalRateAvg.toString(),
-                totalRate: service.totalRateCount.toString(),
-                isFavorite: service.isFavorite,
-                onTapped: () {
-                  onTap(service.id);
+              return GetBuilder<OfferFavoriteController>(
+                init: OfferFavoriteController(),
+                initState: (_) {},
+                builder: (favoriteController) {
+                  return ServiceCardView(
+                    imageUrl: service.image,
+                    name: service.name,
+                    hasDiscount: service.oldPrice.toString() != '0.0',
+                    price: service.price.toString(),
+                    oldPrice: service.oldPrice.toString(),
+                    onFavoriteTapped: () {
+                      if (Get.put(AuthenticationController().isLoggedIn) ==
+                          false) {
+                        return AppDialogs.showToast(
+                            message: 'الرجاء تسجيل الدخول');
+                      }
+                      return onFavoriteTapped(service.id);
+                    },
+                    rate: service.totalRateAvg.toString(),
+                    totalRate: service.totalRateCount.toString(),
+                    isFavorite: favoriteController.offerIsFavorite(service.id),
+                    onTapped: () {
+                      onTap(service.id);
+                    },
+                  );
                 },
               );
             },

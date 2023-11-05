@@ -14,6 +14,8 @@ class AppointmentController extends GetxController {
   String? selectData;
   String? selectTime;
   RxString selectTimeUI = ''.obs;
+  RxString selectDateUI = ''.obs;
+
   String? selectNote;
 
   var service;
@@ -50,8 +52,6 @@ class AppointmentController extends GetxController {
   void getAvailableOfferTimes() async {
     ResponseModel responseModel;
 
-    //print(selectDoctor);
-
     responseModel = await WebServices().getAvailableOfferTimes(
       offerId: service["id"],
       branchId: selectBranch["id"],
@@ -60,35 +60,9 @@ class AppointmentController extends GetxController {
     );
     print("selectDoctor");
     if (responseModel.data["success"]) {
-      // Get.defaultDialog(
-      //   title: "مواعيد",
-      //   content: Container(
-      //     child: Wrap(
-      //       children: List.generate(
-      //         AppointmentDataList.length,
-      //         (index) {
-      //           return timeCard(
-      //             onTap: (p0) {
-      //               Get.find<AppointmentController>().selectTime = AppointmentDataList[index]["time"];
-      //               AppointmentDataList.refresh();
-      //             },
-      //             time: AppointmentDataList[index]["time"],
-      //             isSelect: AppointmentDataList[index]["time"] == Get.find<AppointmentController>().selectTime,
-      //           );
-      //         },
-      //       ),
-      //     ),
-      //   ),
-      // );
-
       AppointmentDataList.value = responseModel.data["data"];
       update();
     } else {
-      // Get.defaultDialog(
-      //   title: "مواعيد",
-      //   content: Text("لا يوجد مواعيد"),
-      // );
-
       AppointmentDataList.value = [];
       update();
     }
@@ -116,17 +90,26 @@ class AppointmentController extends GetxController {
         Get.to(
           AppPaymentPage(
             PaymentUrl: responseModel.data["data"],
-            FailedPaymentUrl:
-                "${ApiConstant.baseUrl}/appointments/rajhi-failed-callback",
-            SuccessPaymentUrl:
-                "${ApiConstant.baseUrl}/appointments/rajhi-success-callback",
+            FailedPaymentUrl: "${ApiConstant.baseUrl}/appointments/rajhi-failed-callback",
+            SuccessPaymentUrl: "${ApiConstant.baseUrl}/appointments/rajhi-success-callback",
+            onFailed: () {
+              Get.back();
+              return;
+            },
+            onSuccess: () {
+              clearText();
+              Get.offAll(PaymentSuccessPage());
+            },
           ),
         );
-        clearText();
+
         return;
       }
-      clearText();
-      Get.offAll(PaymentSuccessPage());
+
+      if (payment_type == "wallet") {
+        clearText();
+        Get.offAll(PaymentSuccessPage());
+      }
 
       return;
     }

@@ -110,26 +110,37 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                 return ProductsHotizontalListView.mostWanted(
                   productsList: productsList ?? [],
                   onShowMoreTapped: () => Get.toNamed(Routes.PRODUCTS_LIST),
-                  onAddToCartTapped: (int productId) {
+                  onAddToCartTapped: (ProductModel product) {
+                    if (product.variants.isNotEmpty) {
+                      AppDialogs.showToast(
+                        message: 'هذا المنتج يحتوى على الوان يجب اختيار اللون',
+                      );
+                      Get.toNamed(
+                        Routes.PRODUCT_DETAILS,
+                        arguments: product.id.toString(),
+                      );
+
+                      return;
+                    }
                     final isGuest =
                         Get.find<AuthenticationController>().isGuestUser;
 
                     if (isGuest) {
                       cartController.addToGuestCart(
-                        productId: productId.toString(),
+                        productId: product.id.toString(),
                         quantity: '1',
                         isNew: true,
                       );
                       return;
                     }
                     cartController.addToCart(
-                      productId: productId.toString(),
+                      productId: product.id.toString(),
                       quantity: '1',
                       isNew: true,
                     );
                   },
                   onFavoriteTapped: (int productId) {
-                    if (Get.put(AuthenticationController().isLoggedIn) ==
+                    if (Get.find<AuthenticationController>().isLoggedIn ==
                         false) {
                       return AppDialogs.showToast(
                           message: 'الرجاء تسجيل الدخول');
@@ -138,24 +149,16 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                     final favCon = Get.put<ProductFavoriteController>(
                       ProductFavoriteController(),
                     );
-                    mostSelleerProductController.toggleFavorite(productId);
 
                     favCon.addRemoveProductFromFavorite(
                       productId: productId,
-                      onError: () {
-                        mostSelleerProductController.toggleFavorite(productId);
-                      },
                     );
                   },
-                  onTap: (int id) async {
-                    final awaitId = await Get.toNamed(
+                  onTap: (int id) {
+                    Get.toNamed(
                       Routes.PRODUCT_DETAILS,
                       arguments: id.toString(),
                     );
-
-                    if (awaitId != null && awaitId != '') {
-                      mostSelleerProductController.toggleFavorite(id);
-                    }
                   },
                 );
               },
@@ -194,20 +197,31 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                     }
                   },
                   onShowMoreTapped: () => Get.toNamed(Routes.PRODUCTS_LIST),
-                  onAddToCartTapped: (int productId) {
+                  onAddToCartTapped: (ProductModel product) {
+                    if (product.variants.isNotEmpty) {
+                      AppDialogs.showToast(
+                        message: 'هذا المنتج يحتوى على الوان يجب اختيار اللون',
+                      );
+                      Get.toNamed(
+                        Routes.PRODUCT_DETAILS,
+                        arguments: product.id.toString(),
+                      );
+
+                      return;
+                    }
                     final isGuest =
                         Get.find<AuthenticationController>().isGuestUser;
 
                     if (isGuest) {
                       cartController.addToGuestCart(
-                        productId: productId.toString(),
+                        productId: product.id.toString(),
                         quantity: '1',
                         isNew: true,
                       );
                       return;
                     }
                     cartController.addToCart(
-                      productId: productId.toString(),
+                      productId: product.id.toString(),
                       quantity: '1',
                       isNew: true,
                     );

@@ -35,63 +35,58 @@ class OfferServiceView extends GetView<OfferServiceController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: controller.obx((snapshot) {
-        return ListView.builder(
-          padding: EdgeInsets.zero,
-          itemCount: snapshot!.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(
-                bottom: 8,
-              ),
-              child: ServiceCardView(
-                name: snapshot[index]["name"].toString(),
-                imageUrl: snapshot[index]["image"].toString(),
-                price: snapshot[index]["price"].toString(),
-                oldPrice: snapshot[index]["old_price"].toString(),
-                hasDiscount: false,
-                onFavoriteTapped: () {
-                  if (Get.put(AuthenticationController().isLoggedIn) == false) {
-                    return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
-                  }
+      body: controller.obx(
+        (snapshot) {
+          return ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: snapshot!.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 8,
+                ),
+                child: GetBuilder<OfferFavoriteController>(
+                  init: OfferFavoriteController(),
+                  builder: (favoriteController) {
+                    return ServiceCardView(
+                      name: snapshot[index]["name"].toString(),
+                      imageUrl: snapshot[index]["image"].toString(),
+                      price: snapshot[index]["price"].toString(),
+                      oldPrice: snapshot[index]["old_price"].toString(),
+                      hasDiscount: false,
+                      onFavoriteTapped: () {
+                        if (Get.put(AuthenticationController().isLoggedIn) ==
+                            false) {
+                          return AppDialogs.showToast(
+                              message: 'الرجاء تسجيل الدخول');
+                        }
 
-                  final favCon = Get.put<OfferFavoriteController>(
-                    OfferFavoriteController(),
-                  );
+                        final favCon = Get.put<OfferFavoriteController>(
+                          OfferFavoriteController(),
+                        );
 
-                  snapshot[index]["is_favorite"] =
-                      !snapshot[index]["is_favorite"];
-                  controller.update();
-
-                  favCon.addRemoveOfferFromFavorite(
-                    offerId: snapshot[index]["id"] as int,
-                    onError: () {
-                      snapshot[index]["is_favorite"] =
-                          !snapshot[index]["is_favorite"];
-                      controller.update();
-                    },
-                  );
-                },
-                onTapped: () async {
-                  final awaitId = await Get.toNamed(
-                    Routes.SERVICE_DETAIL,
-                    arguments: snapshot[index]["id"].toString(),
-                  );
-
-                  if (awaitId != null && awaitId != '') {
-                    snapshot[index]["is_favorite"] =
-                        !snapshot[index]["is_favorite"];
-                    controller.update();
-                  }
-                },
-                rate: snapshot[index]["total_rate_count"].toString(),
-                totalRate: snapshot[index]["total_rate_avg"].toString(),
-                isFavorite: snapshot[index]["is_favorite"],
-              ),
-            );
-          },
-        );
-      }),
+                        favCon.addRemoveOfferFromFavorite(
+                          offerId: snapshot[index]["id"] as int,
+                        );
+                      },
+                      onTapped: () async {
+                        Get.toNamed(
+                          Routes.SERVICE_DETAIL,
+                          arguments: snapshot[index]["id"].toString(),
+                        );
+                      },
+                      rate: snapshot[index]["total_rate_count"].toString(),
+                      totalRate: snapshot[index]["total_rate_avg"].toString(),
+                      isFavorite: favoriteController
+                          .offerIsFavorite(snapshot[index]["id"]),
+                    );
+                  },
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

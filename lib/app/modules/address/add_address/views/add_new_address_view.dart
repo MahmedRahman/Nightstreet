@@ -12,6 +12,7 @@ import 'package:krzv2/component/views/custom_drop_menu_view.dart';
 import 'package:krzv2/component/views/custom_text_field_component.dart';
 import 'package:krzv2/component/views/custom_toggle_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
@@ -25,8 +26,12 @@ class AddNewAddressView extends GetView<AddNewAddressController> {
   final addressController = TextEditingController(
     text: kDebugMode ? "Cairo" : "",
   );
+
+  final noteController = TextEditingController(
+    text: kDebugMode ? "المنزل" : "",
+  );
   final phoneController = TextEditingController(
-    text: kDebugMode ? "0512345678" : "",
+    text: Get.find<AuthenticationController>().userData!.phone.toString(),
   );
   String? cityId = dataCity.elementAt(0)["id"].toString();
   RxInt IsSelect = 0.obs;
@@ -39,74 +44,81 @@ class AddNewAddressView extends GetView<AddNewAddressController> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: CustomAppBar(titleText: 'إضافة عنوان جديد'),
-      body: Form(
-        key: formKey,
-        child: ListView(
-          padding: AppDimension.appPadding,
-          children: [
-            AppSpacers.height25,
-            Text(
-              'حدد الموقع المراد التوصيل له',
-              style: TextStyle(
-                fontFamily: 'Effra',
-                fontSize: 16.0,
-                color: AppColors.greyColor,
-                letterSpacing: 0.32,
+      body: controller.obx((snapshot) {
+        return Form(
+          key: formKey,
+          child: ListView(
+            padding: AppDimension.appPadding,
+            children: [
+              AppSpacers.height25,
+              Text(
+                'حدد الموقع المراد التوصيل له',
+                style: TextStyle(
+                  fontFamily: 'Effra',
+                  fontSize: 16.0,
+                  color: AppColors.greyColor,
+                  letterSpacing: 0.32,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Divider(),
-            ),
-            selectAdressCategory(),
-            AppSpacers.height25,
-            SelectorView(
-              title: "اختر المدينة",
-              dataList: dataCity,
-              onChanged: (data) {
-                cityId = data['id'].toString();
-              },
-            ),
-            AppSpacers.height25,
-            TextFieldComponent.address(
-              controller: addressController,
-            ),
-            AppSpacers.height25,
-            TextFieldComponent.phone(
-              controller: phoneController,
-              iconPath: '',
-            ),
-            AppSpacers.height16,
-            Row(
-              children: [
-                Text(
-                  'افتراضي',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: AppColors.blackColor,
-                    letterSpacing: 0.28,
-                    height: 0.86,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Divider(),
+              ),
+              TextFieldComponent.text(
+                outLineText: "علامه مميزه",
+                controller: noteController,
+              ),
+              //selectAdressCategory(),
+              AppSpacers.height25,
+              SelectorView(
+                title: "اختر المدينة",
+                defaultValue: "اختير المدينه",
+                dataList: dataCity,
+                onChanged: (data) {
+                  cityId = data['id'].toString();
+                },
+              ),
+              AppSpacers.height25,
+              TextFieldComponent.address(
+                controller: addressController,
+              ),
+              AppSpacers.height25,
+              TextFieldComponent.phone(
+                controller: phoneController,
+                iconPath: '',
+              ),
+              AppSpacers.height16,
+              Row(
+                children: [
+                  Text(
+                    'افتراضي',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: AppColors.blackColor,
+                      letterSpacing: 0.28,
+                      height: 0.86,
+                    ),
+                    textAlign: TextAlign.right,
                   ),
-                  textAlign: TextAlign.right,
-                ),
-                AppSpacers.width10,
-                CustomToggleView(
-                  activeColor: AppColors.mainColor,
-                  deactivateColor: Colors.white,
-                  Kselected: false,
-                  onChanged: (bool vlu) {
-                    if (vlu) {
-                      isDefault = 1;
-                      return;
-                    }
-                    isDefault = 0;
-                  },
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
+                  AppSpacers.width10,
+                  CustomToggleView(
+                    activeColor: AppColors.mainColor,
+                    deactivateColor: Colors.white,
+                    Kselected: false,
+                    onChanged: (bool vlu) {
+                      if (vlu) {
+                        isDefault = 1;
+                        return;
+                      }
+                      isDefault = 0;
+                    },
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      }),
       bottomBarHeight: 143,
       bottomNavigationBar: Padding(
         padding: AppDimension.appPadding,
@@ -127,12 +139,6 @@ class AddNewAddressView extends GetView<AddNewAddressController> {
               name: "",
               previousRoute: (Get.arguments ?? '') as String,
             );
-
-            // AppDialogs.loginSuccess();
-            // await Future.delayed(
-            //   const Duration(seconds: 2),
-            //   () => Get.offAndToNamed(Routes.LAYOUT),
-            // );
           },
         ),
       ),
@@ -298,11 +304,14 @@ class SelectorView extends GetView {
   SelectorView({
     Key? key,
     required this.dataList,
+    required this.defaultValue,
     required this.onChanged,
     required this.title,
   }) : super(key: key);
 
   final String title;
+  final String defaultValue;
+
   final selectedIndex = Rx<int>(0);
   final List<dynamic> dataList;
   final ValueChanged<dynamic> onChanged;
@@ -340,12 +349,13 @@ class SelectorView extends GetView {
                   children: List<Widget>.generate(
                     dataList.length,
                     (int index) {
+                      if (index == 0) return Center(child: Text(defaultValue));
                       return Center(child: Text(dataList[index]["name"]));
                     },
                   ),
                   onSelectedItemChanged: (int selectedItemIndex) {
                     selectedIndex.value = selectedItemIndex;
-                    log(selectedItemIndex.toString());
+
                     //log(dataList[selectedItemIndex]);
                     onChanged(dataList[selectedItemIndex]);
                   },

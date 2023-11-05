@@ -47,7 +47,7 @@ class DeliveryAddressesController extends GetxController with StateMixin<List> {
     ResponseModel responseModel = await WebServices().activationAddresses(
       id: id,
     );
-
+//change(null, status: RxStatus.lo());
     if (responseModel.data["success"]) {
       getAddress();
       //change(null, status: RxStatus.success());

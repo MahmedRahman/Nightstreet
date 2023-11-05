@@ -11,11 +11,14 @@ class AppPaymentPage extends GetView {
   final String PaymentUrl;
   final String FailedPaymentUrl;
   final String SuccessPaymentUrl;
-
+  Function onFailed;
+  Function onSuccess;
   AppPaymentPage({
     required this.PaymentUrl,
     required this.FailedPaymentUrl,
     required this.SuccessPaymentUrl,
+    required this.onFailed,
+    required this.onSuccess,
   });
   final flutterWebviewPlugin = new FlutterWebviewPlugin();
 
@@ -25,12 +28,14 @@ class AppPaymentPage extends GetView {
       (String url) {
         log(url.toString());
         if (url == FailedPaymentUrl) {
-          Get.offAll(PaymentFailedPage());
+          onFailed.call();
+          //Get.offAll(PaymentFailedPage());
         }
 
         if (url == SuccessPaymentUrl) {
           print("PaymentSuccess");
-          Get.offAll(PaymentSuccessPage());
+          onSuccess.call();
+          //Get.offAll(PaymentSuccessPage());
         }
       },
     );

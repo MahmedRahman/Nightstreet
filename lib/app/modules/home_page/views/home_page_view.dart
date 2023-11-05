@@ -43,7 +43,6 @@ class HomePageView extends GetView {
 
   @override
   Widget build(BuildContext context) {
-
     recommendedProductController.onInit();
     servicesController.onInit();
     return WillPopScope(
@@ -149,13 +148,24 @@ class HomePageView extends GetView {
                 return ProductsHotizontalListView.recommended(
                   productsList: productsList ?? [],
                   onShowMoreTapped: () => Get.toNamed(Routes.PRODUCTS_LIST),
-                  onAddToCartTapped: (int productId) {
+                  onAddToCartTapped: (ProductModel product) {
+                    if (product.variants.isNotEmpty) {
+                      AppDialogs.showToast(
+                        message: 'هذا المنتج يحتوى على الوان يجب اختيار اللون',
+                      );
+                      Get.toNamed(
+                        Routes.PRODUCT_DETAILS,
+                        arguments: product.id.toString(),
+                      );
+
+                      return;
+                    }
                     final isGuest =
                         Get.find<AuthenticationController>().isGuestUser;
 
                     if (isGuest) {
                       cartController.addToGuestCart(
-                        productId: productId.toString(),
+                        productId: product.id.toString(),
                         quantity: '1',
                         isNew: true,
                       );
@@ -164,7 +174,7 @@ class HomePageView extends GetView {
                     }
 
                     cartController.addToCart(
-                      productId: productId.toString(),
+                      productId: product.id.toString(),
                       quantity: '1',
                       isNew: true,
                     );
@@ -173,24 +183,16 @@ class HomePageView extends GetView {
                     final favCon = Get.put<ProductFavoriteController>(
                       ProductFavoriteController(),
                     );
-                    recommendedProductController.toggleFavorite(productId);
 
                     favCon.addRemoveProductFromFavorite(
                       productId: productId,
-                      onError: () {
-                        recommendedProductController.toggleFavorite(productId);
-                      },
                     );
                   },
-                  onTap: (int id) async {
-                    final awaitId = await Get.toNamed(
+                  onTap: (int id) {
+                    Get.toNamed(
                       Routes.PRODUCT_DETAILS,
                       arguments: id.toString(),
                     );
-
-                    if (awaitId != null && awaitId != '') {
-                      recommendedProductController.toggleFavorite(id);
-                    }
                   },
                 );
               },
@@ -221,24 +223,16 @@ class HomePageView extends GetView {
                     final favCon = Get.put<OfferFavoriteController>(
                       OfferFavoriteController(),
                     );
-                    servicesController.toggleFavorite(serviceId);
 
                     favCon.addRemoveOfferFromFavorite(
                       offerId: serviceId,
-                      onError: () {
-                        servicesController.toggleFavorite(serviceId);
-                      },
                     );
                   },
                   onTap: (int id) async {
-                    final awaitId = await Get.toNamed(
+                    Get.toNamed(
                       Routes.SERVICE_DETAIL,
                       arguments: id.toString(),
                     );
-
-                    if (awaitId != null && awaitId != '') {
-                      servicesController.toggleFavorite(id);
-                    }
                   },
                 );
               },

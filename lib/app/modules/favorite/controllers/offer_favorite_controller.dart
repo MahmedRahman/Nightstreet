@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/toast_component.dart';
 import 'package:krzv2/models/service_model.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_enums.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
@@ -11,13 +12,14 @@ import 'package:krzv2/web_serives/web_serives.dart';
 class OfferFavoriteController extends GetxController
     with ScrollMixin, StateMixin<List<ServiceModel>> {
   final List<ServiceModel> _offers = [];
+  final offerFavoriteIds = Rx<List<int>?>([]);
   int currentPage = 1;
   bool? isPagination;
   RxString searchQuery = ''.obs;
 
   @override
   void onInit() {
-    getFavorite();
+    if (Get.find<AuthenticationController>().isLoggedIn) getFavorite();
     super.onInit();
   }
 
@@ -28,7 +30,10 @@ class OfferFavoriteController extends GetxController
   }
 
   getFavorite() async {
-    if (currentPage == 1) change([], status: RxStatus.loading());
+    if (currentPage == 1) {
+      change([], status: RxStatus.loading());
+      offerFavoriteIds.value?.clear();
+    }
 
     ResponseModel responseModel = await WebServices().getFavorites(
       type: FavoriteEnum.offer.name,
@@ -42,6 +47,7 @@ class OfferFavoriteController extends GetxController
       );
 
       _offers.addAll(productDataList);
+      _offers.map((e) => offerFavoriteIds.value?.add(e.id)).toList();
 
       if (_offers.isEmpty) {
         change([], status: RxStatus.empty());
@@ -67,11 +73,22 @@ class OfferFavoriteController extends GetxController
 
     if (response.data["success"] == false) {
       if (onError != null) onError();
+      addRemoveLocalList(offerId);
       showToast(message: response.data["message"]);
       return;
     }
-
+    addRemoveLocalList(offerId);
     if (onSuccess != null) onSuccess();
+  }
+
+  void addRemoveLocalList(int offerId) {
+    if (offerFavoriteIds.value?.contains(offerId) ?? false) {
+      offerFavoriteIds.value?.remove(offerId);
+      update();
+      return;
+    }
+    offerFavoriteIds.value?.add(offerId);
+    update();
   }
 
   void toggleFavorite(int offerId) {
@@ -94,6 +111,8 @@ class OfferFavoriteController extends GetxController
     update();
   }
 
+  bool offerIsFavorite(int serviceId) =>
+      offerFavoriteIds.value!.contains(serviceId);
   @override
   Future<void> onEndScroll() async {
     if (isPagination == false) return;

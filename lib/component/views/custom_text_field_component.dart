@@ -119,8 +119,8 @@ class TextFieldComponent extends StatelessWidget {
     this.maxLines = 1,
     this.isReadOnly = false,
     this.isRequired = true,
-  })  : outLineText = "نص",
-        hintText = "ادخل النص",
+    this.outLineText,
+  })  : hintText = "ادخل النص",
         keyboardType = TextInputType.name,
         iconPath = AppSvgAssets.userIcon,
         validator = customValidator(

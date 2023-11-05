@@ -6,6 +6,7 @@ import 'package:krzv2/web_serives/web_serives.dart';
 
 class SimilarProductController extends GetxController
     with StateMixin<List<ProductModel>> {
+  final productList = Rx<List<ProductModel>?>([]);
   void getMostSimilarProducts({required String categoryId}) async {
     change(null, status: RxStatus.loading());
     ResponseModel responseModel = await WebServices().getProducts(
@@ -15,20 +16,30 @@ class SimilarProductController extends GetxController
     );
 
     if (responseModel.data["success"]) {
+      productList.value!.clear();
       final List<ProductModel> productDataList = List<ProductModel>.from(
         responseModel.data['data']['data']
             .map((category) => ProductModel.fromJson(category)),
       );
+      productList.value?.addAll(productDataList);
 
-      if (productDataList.isEmpty) {
+      if (productList.value!.isEmpty) {
         change([], status: RxStatus.empty());
         return;
       }
 
-      change(productDataList, status: RxStatus.success());
+      change(productList.value, status: RxStatus.success());
       return;
     }
 
     change([], status: RxStatus.error(responseModel.data["message"]));
+  }
+
+  void toggleFavorite(int productId) {
+    final product = productList.value!.firstWhere(
+      (p) => p.id == productId,
+    );
+    product.isFavorite = !product.isFavorite;
+    update();
   }
 }

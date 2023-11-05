@@ -8,6 +8,7 @@ import 'package:krzv2/component/views/cards/clinic_card_view.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/component/views/cards/service_card_view.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/tabs/base_switch_3_tap.dart';
@@ -94,9 +95,21 @@ class FavoriteProducts extends GetView<ProductFavoriteController> {
           return ProductCardView(
             imageUrl: product.image,
             name: product.name,
-            hasDiscount: product.oldPrice != 0,
+            hasDiscount: product.oldPrice.toInt() != 0,
+            isAvailable: product.quantity > 1,
             price: product.price.toString(),
             onAddToCartTapped: () {
+              if (product.variants.isNotEmpty) {
+                AppDialogs.showToast(
+                  message: 'هذا المنتج يحتوى على الوان يجب اختيار اللون',
+                );
+                Get.toNamed(
+                  Routes.PRODUCT_DETAILS,
+                  arguments: product.id.toString(),
+                );
+
+                return;
+              }
               final cartController = Get.put<ShoppintCartController>(
                 ShoppintCartController(),
               );
@@ -122,13 +135,9 @@ class FavoriteProducts extends GetView<ProductFavoriteController> {
               final favCon = Get.put<ProductFavoriteController>(
                 ProductFavoriteController(),
               );
-              controller.toggleFavorite(product.id);
 
               favCon.addRemoveProductFromFavorite(
                 productId: product.id,
-                onError: () {
-                  controller.toggleFavorite(product.id);
-                },
                 onSuccess: () => controller.removeProductFromList(product.id),
               );
             },
@@ -176,30 +185,32 @@ class FavoriteService extends GetView<OfferFavoriteController> {
                 padding: const EdgeInsets.only(
                   bottom: 8,
                 ),
-                child: ServiceCardView(
-                  imageUrl: offer.image,
-                  name: offer.name,
-                  hasDiscount: offer.oldPrice != 0,
-                  price: offer.price.toString(),
-                  oldPrice: offer.oldPrice.toString(),
-                  onFavoriteTapped: () {
-                    final favCon = Get.put<OfferFavoriteController>(
-                      OfferFavoriteController(),
-                    );
-                    controller.toggleFavorite(offer.id);
+                child: GetBuilder<OfferFavoriteController>(
+                  init: OfferFavoriteController(),
+                  builder: (favoriteController) {
+                    return ServiceCardView(
+                      imageUrl: offer.image,
+                      name: offer.name,
+                      hasDiscount: offer.oldPrice != 0,
+                      price: offer.price.toString(),
+                      oldPrice: offer.oldPrice.toString(),
+                      onFavoriteTapped: () {
+                        final favCon = Get.put<OfferFavoriteController>(
+                          OfferFavoriteController(),
+                        );
 
-                    favCon.addRemoveOfferFromFavorite(
-                      offerId: offer.id,
-                      onError: () {
-                        controller.toggleFavorite(offer.id);
+                        favCon.addRemoveOfferFromFavorite(
+                          offerId: offer.id,
+                          onSuccess: () =>
+                              controller.removeOfferFromList(offer.id),
+                        );
                       },
-                      onSuccess: () => controller.removeOfferFromList(offer.id),
+                      isFavorite: favoriteController.offerIsFavorite(offer.id),
+                      onTapped: () {},
+                      rate: offer.totalRateAvg.toString(),
+                      totalRate: offer.totalRateCount.toString(),
                     );
                   },
-                  isFavorite: offer.isFavorite,
-                  onTapped: () {},
-                  rate: offer.totalRateAvg.toString(),
-                  totalRate: offer.totalRateCount.toString(),
                 ),
               );
             },
@@ -242,9 +253,7 @@ class FavoriteClinic extends GetView<CliniFavoriteController> {
               child: ClinicCardView(
                 isFavorite: clinic!.isFavorite,
                 imageUrl: clinic.clinic.image,
-                onTap: () {
-                  
-                },
+                onTap: () {},
                 name: clinic.name,
                 onFavoriteTapped: () {
                   controller.toggleFavorite(clinic.id);

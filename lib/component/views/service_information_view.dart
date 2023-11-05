@@ -84,16 +84,18 @@ class ServiceInformationView extends GetView {
               )
             else
               SizedBox(),
-            Text(
-              'اسم الطبيب : $doctorName',
-              style: TextStyle(
-                fontSize: 16.0,
-                color: AppColors.blackColor,
-                letterSpacing: 0.32,
-                height: 1.56,
-              ),
-              textAlign: TextAlign.right,
-            ),
+            doctorName == ""
+                ? SizedBox.shrink()
+                : Text(
+                    'اسم الطبيب : $doctorName',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: AppColors.blackColor,
+                      letterSpacing: 0.32,
+                      height: 1.56,
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
           ],
         ),
       ),

@@ -44,6 +44,8 @@ class VerifyPhoneView extends GetView<VerifyPhoneController> {
                 PinCodeField(
                   otpController: optController,
                   onCompleted: (String value) async {
+                    FocusManager.instance.primaryFocus?.unfocus();
+
                     if (!formKey.currentState!.validate()) {
                       return;
                     }

@@ -26,6 +26,13 @@ class AppointmentBookingView extends GetView<AppointmentController> {
   AppointmentBookingView({
     required this.isDoctorSelect,
   }) {
+    Get.find<AppointmentController>().selectData = "";
+    Get.find<AppointmentController>().selectTime = "";
+    Get.find<AppointmentController>().selectTimeUI.value = "";
+    Get.find<AppointmentController>().selectDateUI.value = "";
+
+    Get.find<AppointmentController>().selectNote = "";
+
     serves = Get.find<AppointmentController>().service;
     selectDoctor = Get.find<AppointmentController>().selectDoctor;
   }
@@ -56,51 +63,58 @@ class AppointmentBookingView extends GetView<AppointmentController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: DateTimeFormFieldView(
-                  title: "تاريخ ",
-                  initialDateTime: "",
-                  firstDate: DateTime.now(),
-                  onDateChanged: (DateTime value) {
-                    var month = value.month.toString();
+                child: Obx(() {
+                  return DateTimeFormFieldView(
+                    title: "تاريخ ",
+                    initialDateTime: Get.find<AppointmentController>().selectDateUI.value,
+                    firstDate: DateTime.now(),
+                    onDateChanged: (DateTime value) {
+                      Get.find<AppointmentController>().selectDateUI.value = value.toString();
 
-                    if (month.length == 1) {
-                      month = "0${month}";
-                    }
-                    var day = value.day.toString();
+                      var month = value.month.toString();
 
-                    if (day.length == 1) {
-                      day = "0${day}";
-                    }
+                      if (month.length == 1) {
+                        month = "0${month}";
+                      }
+                      var day = value.day.toString();
 
-                    String valData = "${value.year}-${month}-${day}";
+                      if (day.length == 1) {
+                        day = "0${day}";
+                      }
 
-                    print(valData.toString());
-                    Get.find<AppointmentController>().selectData =
-                        valData.toString();
-                    Get.find<AppointmentController>().selectTime = "";
-                    Get.find<AppointmentController>().getAvailableOfferTimes();
+                      String valData = "${value.year}-${month}-${day}";
 
-                    //birthDateController.text = value.toString().substring(0, 10);
-                  },
-                ),
+                      print(valData.toString());
+                      Get.find<AppointmentController>().selectData = valData.toString();
+                      Get.find<AppointmentController>().selectTime = "";
+                      Get.find<AppointmentController>().selectTimeUI.value = "";
+
+                      Get.find<AppointmentController>().getAvailableOfferTimes();
+
+                      //birthDateController.text = value.toString().substring(0, 10);
+                    },
+                  );
+                }),
               ),
               AppSpacers.width10,
               Expanded(
                 child: InkWell(
                   onTap: () {
-                    if (controller.AppointmentDataList.length == 0) {
+                    if (controller.selectData == "") {
                       return AppDialogs.showToast(message: 'حدد التاريخ اولا');
+                    }
+
+                    if (controller.AppointmentDataList.length == 0) {
+                      return AppDialogs.showToast(message: 'لا يوجد مواعيد');
                     }
 
                     Get.generalDialog(
                       barrierDismissible: true,
-                      barrierLabel: MaterialLocalizations.of(Get.context!)
-                          .modalBarrierDismissLabel,
+                      barrierLabel: MaterialLocalizations.of(Get.context!).modalBarrierDismissLabel,
                       barrierColor: Colors.black45,
                       transitionDuration: const Duration(milliseconds: 200),
-                      pageBuilder: (BuildContext context,
-                          Animation<double> animation,
-                          Animation<double> secondaryAnimation) {
+                      pageBuilder:
+                          (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
                         return Center(
                           child: Container(
                             width: Get.width * .8,
@@ -159,34 +173,20 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                                     : Obx(
                                         () => Wrap(
                                           children: List.generate(
-                                            controller
-                                                .AppointmentDataList.length,
+                                            controller.AppointmentDataList.length,
                                             (index) {
                                               return timeCard(
                                                 onTap: (p0) {
-                                                  Get.find<
-                                                          AppointmentController>()
-                                                      .selectTime = controller
-                                                          .AppointmentDataList[
-                                                      index]["time"];
-                                                  Get.find<
-                                                          AppointmentController>()
-                                                      .selectTimeUI
-                                                      .value = controller
-                                                          .AppointmentDataList[
-                                                      index]["time"];
-                                                  controller.AppointmentDataList
-                                                      .refresh();
+                                                  Get.find<AppointmentController>().selectTime =
+                                                      controller.AppointmentDataList[index]["time"];
+                                                  Get.find<AppointmentController>().selectTimeUI.value =
+                                                      controller.AppointmentDataList[index]["time"];
+                                                  controller.AppointmentDataList.refresh();
+                                                  Get.back();
                                                 },
-                                                time: controller
-                                                        .AppointmentDataList[
-                                                    index]["time"],
-                                                isSelect: controller
-                                                            .AppointmentDataList[
-                                                        index]["time"] ==
-                                                    Get.find<
-                                                            AppointmentController>()
-                                                        .selectTime,
+                                                time: controller.AppointmentDataList[index]["time"],
+                                                isSelect: controller.AppointmentDataList[index]["time"] ==
+                                                    Get.find<AppointmentController>().selectTime,
                                               );
                                             },
                                           ),
@@ -235,13 +235,8 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                             ),
                             Obx(
                               () => Text(
-                                Get.find<AppointmentController>()
-                                            .selectTimeUI
-                                            .value !=
-                                        ''
-                                    ? Get.find<AppointmentController>()
-                                        .selectTimeUI
-                                        .value
+                                Get.find<AppointmentController>().selectTimeUI.value != ''
+                                    ? Get.find<AppointmentController>().selectTimeUI.value
                                     : 'اختر الوقت',
                                 style: TextStyle(
                                   fontSize: 16.0,
@@ -385,10 +380,8 @@ class AppointmentBookingView extends GetView<AppointmentController> {
               child: CustomBtnCompenent.main(
                 text: 'مواصلة الحجز',
                 onTap: () {
-                  print(
-                      'time => ${Get.find<AppointmentController>().selectTime}');
-                  print(
-                      'date => ${Get.find<AppointmentController>().selectData}');
+                  print('time => ${Get.find<AppointmentController>().selectTime}');
+                  print('date => ${Get.find<AppointmentController>().selectData}');
 
                   if (Get.find<AppointmentController>().selectData == null ||
                       Get.find<AppointmentController>().selectData == '') {
@@ -397,8 +390,7 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                   }
                   if (Get.find<AppointmentController>().selectTime == null ||
                       Get.find<AppointmentController>().selectTime == '') {
-                    AppDialogs.showToast(
-                        message: "برجاء اختيار المعاد المناسب");
+                    AppDialogs.showToast(message: "برجاء اختيار المعاد المناسب");
                     return;
                   }
 
@@ -452,9 +444,7 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: selectedDay.value == index
-                            ? AppColors.mainColor
-                            : AppColors.greyColor4,
+                        color: selectedDay.value == index ? AppColors.mainColor : AppColors.greyColor4,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 19),
@@ -464,9 +454,7 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                               '${index + 1}',
                               style: TextStyle(
                                 fontSize: 22.0,
-                                color: selectedDay.value == index
-                                    ? Colors.white
-                                    : AppColors.blackColor,
+                                color: selectedDay.value == index ? Colors.white : AppColors.blackColor,
                                 fontWeight: FontWeight.w500,
                                 height: 1.95,
                               ),
@@ -476,9 +464,7 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                               'السبت',
                               style: TextStyle(
                                 fontSize: 14.0,
-                                color: selectedDay.value == index
-                                    ? Colors.white
-                                    : AppColors.blackColor,
+                                color: selectedDay.value == index ? Colors.white : AppColors.blackColor,
                                 letterSpacing: 0.35000000000000003,
                                 height: 1.64,
                               ),
@@ -535,9 +521,7 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: selectedDay.value == index
-                            ? AppColors.mainColor
-                            : AppColors.greyColor4,
+                        color: selectedDay.value == index ? AppColors.mainColor : AppColors.greyColor4,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 19),
@@ -546,9 +530,7 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                             '0${index + 4}:00 ص',
                             style: TextStyle(
                               fontSize: 14.0,
-                              color: selectedDay.value == index
-                                  ? Colors.white
-                                  : AppColors.blackColor,
+                              color: selectedDay.value == index ? Colors.white : AppColors.blackColor,
                               letterSpacing: 0.35000000000000003,
                             ),
                             textAlign: TextAlign.center,

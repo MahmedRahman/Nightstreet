@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:focus_detector/focus_detector.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/clinic_info/views/clinic_info_view.dart';
 import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
 import 'package:krzv2/app/modules/home_page_services/controllers/hom_page_service_slider_controller.dart';
 import 'package:krzv2/component/views/app_bar_search_view.dart';
@@ -88,8 +89,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
               ),
               ServicesCategoriesView(
                 onTap: (int selectedCategoryId) {
-                  controller.queryParams.categoryId =
-                      selectedCategoryId.toString();
+                  controller.queryParams.categoryId = selectedCategoryId.toString();
                   controller.fiterBrancher();
                 },
               ),
@@ -104,51 +104,51 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                     itemBuilder: (context, index) {
                       final branch = branches.elementAt(index);
 
-                      return ClinicCardView(
-                        distance: branch.distance,
-                        isFavorite: branch.isFavorite,
-                        imageUrl: branch.clinic.image,
-                        name: branch.name,
-                        onTap: () {
-                          Get.toNamed(
-                            Routes.CLINIC_INFO,
-                            arguments: branch.id,
-                          );
-                        },
-                        onFavoriteTapped: () {
-                          if (Get.put(AuthenticationController().isLoggedIn) ==
-                              false) {
-                            return AppDialogs.showToast(
-                                message: 'الرجاء تسجيل الدخول');
-                          }
-
-                          final favCon = Get.put<CliniFavoriteController>(
-                            CliniFavoriteController(),
-                          );
-                          controller.toggleFavorite(branch.id);
-
-                          favCon.addRemoveBranchFromFavorite(
-                            branchId: branch.id,
-                            onError: () {
-                              servicesController.toggleFavorite(branch.id);
+                      return GetBuilder<CliniFavoriteController>(
+                        init: CliniFavoriteController(),
+                        builder: (favoriteController) {
+                          return ClinicCardView(
+                            distance: branch.distance,
+                            isFavorite:
+                                favoriteController.clinicIsFavorite(branch.id),
+                            imageUrl: branch.clinic.image,
+                            name: branch.name,
+                            onTap: () {
+                              Get.toNamed(
+                                Routes.CLINIC_INFO,
+                                arguments: branch.id,
+                              );
                             },
-                          );
+                            onFavoriteTapped: () {
+                              if (Get.put(
+                                      AuthenticationController().isLoggedIn) ==
+                                  false) {
+                                return AppDialogs.showToast(
+                                    message: 'الرجاء تسجيل الدخول');
+                              }
+
+                              final favCon = Get.put<CliniFavoriteController>(
+                                CliniFavoriteController(),
+                              );
+
+                              favCon.addRemoveBranchFromFavorite(
+                                branchId: branch.id,
+                              );
+                            },
+                            rate: branch.totalRateAvg.toString(),
+                            totalRate: branch.totalRateCount.toString(),
+                          ).paddingOnly(bottom: 10);
                         },
-                        rate: branch.totalRateAvg.toString(),
-                        totalRate: branch.totalRateCount.toString(),
-                      ).paddingOnly(bottom: 10);
+                      );
                     },
                   ),
                   onLoading: ListView.builder(
                     itemCount: 10,
                     itemBuilder: (context, index) {
-                      return ClinicCardView.dummy()
-                          .paddingOnly(bottom: 10)
-                          .shimmer();
+                      return ClinicCardView.dummy().paddingOnly(bottom: 10).shimmer();
                     },
                   ),
-                  onError: (String? error) =>
-                      Text(error ?? 'حدث خطا في الفروع'),
+                  onError: (String? error) => Text(error ?? 'حدث خطا في الفروع'),
                   onEmpty: AppPageEmpty.branches(),
                 ),
               )
@@ -160,8 +160,8 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
   }
 
   void showBranchSortBottomSheet(HomePageServicesController controller) {
-    final initialSelectedSort =
-        getInitialSelectedSort(controller.queryParams.filter);
+    print('init show beranch=> ${controller.queryParams.filter}');
+    final initialSelectedSort = getInitialSelectedSort(controller.queryParams.filter);
 
     Get.bottomSheet(
       BranchesSortBoxView(
@@ -181,8 +181,8 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
 
   BranchSortEnum? getInitialSelectedSort(String? filter) {
     final Map<String, BranchSortEnum> filterToSortMap = {
-      'by rate': BranchSortEnum.topRated,
-      'nearest': BranchSortEnum.nearest,
+      '1': BranchSortEnum.nearest,
+      '2': BranchSortEnum.topRated,
     };
 
     return filterToSortMap[filter] ?? null;
@@ -190,8 +190,8 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
 
   String? mapBranchSortToQueryParam(BranchSortEnum value) {
     final Map<BranchSortEnum, String> sortToQueryParamMap = {
-      BranchSortEnum.nearest: 'nearest',
-      BranchSortEnum.topRated: 'by rate',
+      BranchSortEnum.nearest: '1',
+      BranchSortEnum.topRated: '2',
     };
 
     return sortToQueryParamMap[value];

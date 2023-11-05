@@ -9,6 +9,7 @@ import 'package:krzv2/component/views/icon_button_component.dart';
 import 'package:krzv2/component/views/product_filter_bottom_sheet_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/service_filter_bottom_sheet_view.dart';
+import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
 import 'package:krzv2/component/views/tabs/base_switch_tap.dart';
 import 'package:krzv2/models/product_search_query.dart';
 import 'package:krzv2/routes/app_pages.dart';
@@ -32,12 +33,7 @@ class OfferListView extends GetView<OfferListController> {
         titleText: 'استكشــف',
         subTitle: 'أقوى العروض',
         actions: [
-          if (authController.isLoggedIn || authController.isGuestUser)
-            CustomIconButton(
-              onTap: () => Get.toNamed(Routes.SHOPPINT_CART),
-              iconPath: AppSvgAssets.cartIcon,
-              count: 2,
-            ),
+          if (authController.isLoggedIn || authController.isGuestUser) ShoppingCartIconView(),
           CustomIconButton(
             onTap: () {
               Get.bottomSheet(

@@ -67,6 +67,7 @@ class editAddressView extends GetView<editAddressController> {
               child: Divider(),
             ),
             TextFieldComponent.text(
+              outLineText: "علامه مميزه",
               controller: noteController,
             ),
             AppSpacers.height25,

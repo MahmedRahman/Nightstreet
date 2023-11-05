@@ -16,12 +16,6 @@ class ShoppintCartController extends GetxController
 
   @override
   void onInit() {
-    print(
-        'cart , isLoggedIn => ${Get.find<AuthenticationController>().isLoggedIn}');
-    print(
-        'cart , isGuestUser => ${Get.find<AuthenticationController>().isGuestUser}');
-    print(
-        'cart , guestToken => ${Get.find<AuthenticationController>().guestToken}');
     if (Get.find<AuthenticationController>().isLoggedIn) getCartProducts();
     if (Get.find<AuthenticationController>().isGuestUser) getGuestCart();
     super.onInit();

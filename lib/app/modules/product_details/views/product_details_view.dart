@@ -33,6 +33,7 @@ import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
 
 import '../controllers/product_details_controller.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ProductDetailsView extends GetView<ProductDetailsController> {
   ProductDetailsView({Key? key}) : super(key: key);
@@ -63,6 +64,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
 
   BaseScaffold buildBody(ProductModel? product) {
     final similarProductController = Get.find<SimilarProductController>();
+    final cartController = Get.put(ShoppintCartController());
     return BaseScaffold(
       appBar: CustomAppBar(
         titleText: 'تفاصيل المنتج',
@@ -130,7 +132,12 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                   ),
                   AppSpacers.width10,
                   ShareIconView(
-                    onShareTapped: () {},
+                    onShareTapped: () {
+                      Share.share(
+                        'https://krz.sa/',
+                        subject: product.name,
+                      );
+                    },
                   ),
                 ],
               ),
@@ -207,7 +214,58 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
           similarProductController.obx(
             (products) => ProductsHotizontalListView.similarproducts(
               productsList: products ?? [],
-              onShowMoreTapped: () {},
+              onTap: (int productId) async {
+                final awaitId = await Get.toNamed(
+                  Routes.PRODUCT_DETAILS,
+                  arguments: productId.toString(),
+                );
+
+                if (awaitId != null && awaitId != '') {
+                  similarProductController.toggleFavorite(productId);
+                }
+              },
+              onShowMoreTapped: () async {
+                final shoudRefresh = await Get.toNamed(
+                  Routes.PRODUCTS_LIST,
+                  arguments: product.categories.first.id.toString(),
+                );
+                if (shoudRefresh != null) {
+                  similarProductController.onInit();
+                }
+              },
+              onAddToCartTapped: (ProductModel product) {
+                final isGuest =
+                    Get.find<AuthenticationController>().isGuestUser;
+
+                if (isGuest) {
+                  cartController.addToGuestCart(
+                    productId: product.id.toString(),
+                    quantity: '1',
+                    isNew: true,
+                  );
+
+                  return;
+                }
+
+                cartController.addToCart(
+                  productId: product.id.toString(),
+                  quantity: '1',
+                  isNew: true,
+                );
+              },
+              onFavoriteTapped: (int productId) {
+                final favCon = Get.put<ProductFavoriteController>(
+                  ProductFavoriteController(),
+                );
+                similarProductController.toggleFavorite(productId);
+
+                favCon.addRemoveProductFromFavorite(
+                  productId: productId,
+                  onError: () {
+                    similarProductController.toggleFavorite(productId);
+                  },
+                );
+              },
             ),
             onLoading: ProductsHotizontalListView.similarproducts(
               productsList: [

@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/toast_component.dart';
 import 'package:krzv2/models/branch_model.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_enums.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
@@ -11,13 +12,14 @@ import 'package:krzv2/web_serives/web_serives.dart';
 class CliniFavoriteController extends GetxController
     with ScrollMixin, StateMixin<List<BranchModel>> {
   final List<BranchModel> clinics = [];
+  final clinicsFavoriteIds = Rx<List<int>?>([]);
   int currentPage = 1;
   bool? isPagination;
   RxString searchQuery = ''.obs;
 
   @override
   void onInit() {
-    getFavorite();
+    if (Get.find<AuthenticationController>().isLoggedIn) getFavorite();
     super.onInit();
   }
 
@@ -28,7 +30,10 @@ class CliniFavoriteController extends GetxController
   }
 
   getFavorite() async {
-    if (currentPage == 1) change([], status: RxStatus.loading());
+    if (currentPage == 1) {
+      change([], status: RxStatus.loading());
+      clinicsFavoriteIds.value?.clear();
+    }
 
     ResponseModel responseModel = await WebServices().getFavorites(
       type: FavoriteEnum.branch.name,
@@ -42,6 +47,7 @@ class CliniFavoriteController extends GetxController
       );
 
       clinics.addAll(productDataList);
+      clinics.map((e) => clinicsFavoriteIds.value?.add(e.id)).toList();
 
       if (clinics.isEmpty) {
         change([], status: RxStatus.empty());
@@ -67,18 +73,33 @@ class CliniFavoriteController extends GetxController
 
     if (response.data["success"] == false) {
       if (onError != null) onError();
+      addRemoveLocalList(branchId);
       showToast(message: response.data["message"]);
       return;
     }
 
+    addRemoveLocalList(branchId);
     if (onSuccess != null) onSuccess();
   }
+
+  bool clinicIsFavorite(int clinicId) =>
+      clinicsFavoriteIds.value!.contains(clinicId);
 
   void toggleFavorite(int offerId) {
     final clinic = clinics.firstWhere(
       (p) => p.id == offerId,
     );
     clinic.isFavorite = !clinic.isFavorite;
+    update();
+  }
+
+  void addRemoveLocalList(int clinicId) {
+    if (clinicsFavoriteIds.value?.contains(clinicId) ?? false) {
+      clinicsFavoriteIds.value?.remove(clinicId);
+      update();
+      return;
+    }
+    clinicsFavoriteIds.value?.add(clinicId);
     update();
   }
 

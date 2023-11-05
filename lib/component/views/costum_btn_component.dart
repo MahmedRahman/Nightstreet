@@ -81,7 +81,7 @@ class CustomBtnCompenent extends StatelessWidget {
                 color: titleColor,
                 fontSize: 18.0,
                 fontWeight: FontWeight.w500,
-                height: 1.0,
+                height: 1,
               ),
             ),
           ],
@@ -90,8 +90,7 @@ class CustomBtnCompenent extends StatelessWidget {
     );
   }
 
-  MaterialStateProperty<OutlinedBorder> get btnShape =>
-      MaterialStateProperty.resolveWith<OutlinedBorder>(
+  MaterialStateProperty<OutlinedBorder> get btnShape => MaterialStateProperty.resolveWith<OutlinedBorder>(
         (_) => RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
