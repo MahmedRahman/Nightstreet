@@ -30,6 +30,7 @@ class ClosedAppointmentListView extends GetView<AppointmentMangmentController> {
             mainButtonText: "تقييم الخدمة",
             secondButtonText: "تحميل الفاتورة",
             mainButtonOnTap: () {
+              
               Get.toNamed(
                 Routes.SERVICE_REVIEW,
                 arguments: appointment,
