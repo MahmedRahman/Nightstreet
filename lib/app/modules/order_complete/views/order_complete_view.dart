@@ -32,11 +32,15 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
     DeliveryAddressesController(),
   );
   final cartController = Get.find<ShoppintCartController>();
+  final favCon = Get.put<OrderCompleteController>(
+    OrderCompleteController(),
+  );
   final selectedShippingCompany = Rx<ShippingCompaniesModel?>(null);
   final authController = Get.find<AuthenticationController>();
   RxBool payWithCredit = false.obs;
   RxBool payWithWallet = false.obs;
   RxString addressId = ''.obs;
+  final selectedAddress = Rx<dynamic>(null);
   @override
   Widget build(BuildContext context) {
     final cartSummary = cartController.cartSummaryModel.value;
@@ -44,17 +48,17 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
       builder: (controller) {
         final addresse = controller.addresses.value;
         final isEmpty = controller.addresses.value!.length == 0;
-        final defaultAddress = Get.previousRoute == '/add-new-address'
+        selectedAddress.value = Get.previousRoute == '/add-new-address'
             ? addresse?.last
             : addresse!
                 .firstWhereOrNull((address) => address['is_default'] == 1);
         final shippingController = Get.put(ShippingCompaniesController());
 
-        if (defaultAddress != null) {
+        if (selectedAddress.value != null) {
           shippingController.getShppingCompanies(
-            addressId: defaultAddress['id'].toString(),
+            addressId: selectedAddress.value['id'].toString(),
           );
-          addressId.value = defaultAddress['id'].toString();
+          addressId.value = selectedAddress.value['id'].toString();
         }
 
         if (controller.status.isLoading) {
@@ -85,16 +89,14 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
           body: ListView(
             padding: AppDimension.appPadding,
             children: [
-              addressWidget(
-                address:
-                    '${defaultAddress['city']['name'].toString()} - ${defaultAddress['address'].toString()}',
-                onEditAddressTapped: () {
-                  Get.to(
-                    () => editAddressView(
-                      data: defaultAddress,
-                    ),
-                  );
-                },
+              Obx(
+                () => addressWidget(
+                  address:
+                      '${selectedAddress.value['city']['name'].toString()} - ${selectedAddress.value['address'].toString()}',
+                  onEditAddressTapped: () {
+                    editAnotherAddress(addresse);
+                  },
+                ),
               ),
               AppSpacers.height10,
               addNewAddressBtn(
@@ -413,5 +415,187 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
         ),
       ],
     );
+  }
+
+  editAnotherAddress(List<dynamic>? addresses) {
+    Get.generalDialog(
+      barrierDismissible: true,
+      barrierLabel:
+          MaterialLocalizations.of(Get.context!).modalBarrierDismissLabel,
+      barrierColor: Colors.black45,
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation) {
+        return Center(
+          child: Container(
+            width: Get.width * .8,
+            height: 400,
+            constraints: BoxConstraints(
+              maxHeight: Get.height * 0.8,
+            ),
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25.0),
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'اختر عنوان',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: AppColors.blackColor,
+                        letterSpacing: 0.3,
+                      ),
+                      textAlign: TextAlign.right,
+                    ),
+                    Spacer(),
+                    InkWell(
+                      onTap: () => Get.back(),
+                      child: Container(
+                        alignment: Alignment(0.03, 0.0),
+                        width: 28.0,
+                        height: 28.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.greyColor4,
+                        ),
+                        child: Icon(
+                          Icons.close,
+                          color: AppColors.greyColor,
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Divider(),
+                AppSpacers.height25,
+                Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: addresses!.length,
+                    itemBuilder: (context, index) {
+                      return Obx(
+                        () => customListTile(
+                          onTap: () async {
+                            try {
+                              selectedAddress.value = addresses[index];
+                              controller.update();
+                              addressId.value =
+                                  addresses[index]['id'].toString();
+                              await Future.delayed(
+                                  const Duration(milliseconds: 100));
+                              Get.back();
+                            } catch (e, st) {
+                              print('errr $e');
+                              print('stack $st');
+                            }
+                          },
+                          leading: Container(
+                            width: 54.0,
+                            height: 54.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                width: 1.0,
+                                color: addresses[index]["is_default"] == 1
+                                    ? AppColors.mainColor
+                                    : AppColors.borderColor2,
+                              ),
+                              color: addresses[index]["is_default"] == 1
+                                  ? AppColors.mainColor
+                                  : AppColors.greyColor4,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: SvgPicture.asset(
+                                getIconByNotes(
+                                  addresses[index]["notes"] ?? '',
+                                ),
+                                color: addresses[index]["is_default"] == 1
+                                    ? Colors.white
+                                    : AppColors.blackColor,
+                              ),
+                            ),
+                          ),
+                          title: addresses[index]["notes"] ?? '',
+                          subTitle: addresses[index]["address"],
+                          trailing: addresses[index]["id"] ==
+                                  selectedAddress.value['id']
+                              ? DecoratedContainer(
+                                  width: 20,
+                                  height: 20,
+                                  child: Icon(
+                                    Icons.check,
+                                    color: AppColors.mainColor,
+                                    size: 14,
+                                  ),
+                                )
+                              : SizedBox(),
+                        ),
+                      );
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+Widget customListTile({
+  required Widget leading,
+  required String title,
+  required String subTitle,
+  required Widget trailing,
+  required void Function()? onTap,
+}) {
+  return ListTile(
+    leading: leading,
+    onTap: onTap,
+    contentPadding: EdgeInsets.zero,
+    title: Text(
+      title,
+      style: TextStyle(
+        fontSize: 14.0,
+        color: AppColors.blackColor,
+        letterSpacing: 0.28,
+        fontWeight: FontWeight.w500,
+      ),
+      textAlign: TextAlign.right,
+    ),
+    subtitle: Text(
+      subTitle,
+      style: TextStyle(
+        fontSize: 14.0,
+        color: AppColors.greyColor,
+        letterSpacing: 0.28,
+      ),
+      textAlign: TextAlign.right,
+    ),
+    trailing: trailing,
+  );
+}
+
+String getIconByNotes(String notes) {
+  switch (notes) {
+    case "المنزل":
+      return AppSvgAssets.homeIcon;
+    case "العمل":
+      return AppSvgAssets.workIcon;
+    case "العائلة":
+      return AppSvgAssets.familyIcon;
+    case "الاستراحة":
+      return AppSvgAssets.restIcon;
+    default:
+      return AppSvgAssets.homeIcon;
   }
 }

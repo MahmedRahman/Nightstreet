@@ -96,6 +96,7 @@ class DeliveryAddressesView extends GetView<DeliveryAddressesController> {
                               )),
                   ),
                 );
+           
               },
             ),
           );

@@ -200,6 +200,7 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                         );
                       },
                     );
+             
                   },
                   overlayColor: MaterialStatePropertyAll(Colors.transparent),
                   child: Column(
