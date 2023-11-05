@@ -130,7 +130,7 @@ class AppointmentCardView extends GetView {
                     // )
                   ],
                 ),
-                AppSpacers.height12,
+                AppSpacers.height5,
               ],
             ),
           ),
