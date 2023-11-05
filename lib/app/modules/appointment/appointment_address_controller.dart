@@ -4,6 +4,7 @@ import 'package:krzv2/app/modules/appointment/views/appointment_choose_a_doctor_
 import 'package:krzv2/app/modules/payment_bank/payment_page.dart';
 import 'package:krzv2/app/modules/payment_bank/payment_success_page.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/web_serives/api_constant.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
@@ -20,6 +21,8 @@ class AppointmentController extends GetxController {
 
   var service;
   RxList AppointmentDataList = [].obs;
+
+  final authController = Get.find<AuthenticationController>();
 
   void branchOfferDoctors() async {
     ResponseModel responseModel = await WebServices().getBranchOfferDoctors(
@@ -90,8 +93,10 @@ class AppointmentController extends GetxController {
         Get.to(
           AppPaymentPage(
             PaymentUrl: responseModel.data["data"],
-            FailedPaymentUrl: "${ApiConstant.baseUrl}/appointments/rajhi-failed-callback",
-            SuccessPaymentUrl: "${ApiConstant.baseUrl}/appointments/rajhi-success-callback",
+            FailedPaymentUrl:
+                "${ApiConstant.baseUrl}/appointments/rajhi-failed-callback",
+            SuccessPaymentUrl:
+                "${ApiConstant.baseUrl}/appointments/rajhi-success-callback",
             onFailed: () {
               Get.back();
               return;
@@ -109,6 +114,7 @@ class AppointmentController extends GetxController {
       if (payment_type == "wallet") {
         clearText();
         Get.offAll(PaymentSuccessPage());
+        authController.getProfile();
       }
 
       return;

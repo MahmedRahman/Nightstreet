@@ -4,10 +4,12 @@ import 'package:krzv2/app/modules/orders_list/controllers/orders_list_controller
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
 class OrderCancelController extends GetxController with StateMixin {
+  final authController = Get.find<AuthenticationController>();
   @override
   void onInit() {
     orderCancelReasons();
@@ -47,10 +49,12 @@ class OrderCancelController extends GetxController with StateMixin {
 
     if (responseModel.data["success"]) {
       AppDialogs.showToast(message: responseModel.data["message"]);
+      authController.getProfile();
 
       Get.find<OrdersListController>().refreshList();
 
-      Get.toNamed(Routes.ORDERS_LIST);
+      // Get.toNamed(Routes.ORDERS_LIST);
+      Get.back(closeOverlays: true);
 
       return;
     }
