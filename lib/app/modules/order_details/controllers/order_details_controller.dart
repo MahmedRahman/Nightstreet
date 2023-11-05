@@ -1,5 +1,6 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/models/order_model.dart';
@@ -44,11 +45,13 @@ class OrderDetailsController extends GetxController
     if (responseModel.data["success"]) {
       final bottomNavigationController =
           Get.find<MyBottomNavigationController>();
+      final cartController = Get.find<ShoppintCartController>();
 
       AppDialogs.showToast(message: responseModel.data["message"]);
 
-      bottomNavigationController.changePage(4);
-      Get.toNamed(Routes.ORDERS_LIST);
+      bottomNavigationController.changePage(0);
+      cartController.onInit();
+      Get.toNamed(Routes.SHOPPINT_CART);
 
       return;
     }
