@@ -50,8 +50,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
 
           if (latlng.latitude == 0 && latlng.longitude == 0) {
             print('latlng = 0');
-            final LocationData? latlng =
-                await mapController.getCurrentLocation();
+            final LocationData? latlng = await mapController.getCurrentLocation();
             controller.queryParams.lat = latlng!.latitude;
             controller.queryParams.lng = latlng.longitude;
             controller.fiterBrancher();
@@ -116,8 +115,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
               ),
               ServicesCategoriesView(
                 onTap: (int selectedCategoryId) {
-                  controller.queryParams.categoryId =
-                      selectedCategoryId.toString();
+                  controller.queryParams.categoryId = selectedCategoryId.toString();
                   controller.fiterBrancher();
                 },
               ),
@@ -137,22 +135,19 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                         builder: (favoriteController) {
                           return ClinicCardView(
                             distance: branch.distance,
-                            isFavorite:
-                                favoriteController.clinicIsFavorite(branch.id),
+                            isFavorite: favoriteController.clinicIsFavorite(branch.id),
                             imageUrl: branch.clinic.image,
                             name: branch.name,
                             onTap: () {
+                              KPageTitle = branch.name;
                               Get.toNamed(
                                 Routes.CLINIC_INFO,
                                 arguments: branch.id,
                               );
                             },
                             onFavoriteTapped: () {
-                              if (Get.put(
-                                      AuthenticationController().isLoggedIn) ==
-                                  false) {
-                                return AppDialogs.showToast(
-                                    message: 'الرجاء تسجيل الدخول');
+                              if (Get.put(AuthenticationController().isLoggedIn) == false) {
+                                return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                               }
 
                               final favCon = Get.put<CliniFavoriteController>(
@@ -173,13 +168,10 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                   onLoading: ListView.builder(
                     itemCount: 10,
                     itemBuilder: (context, index) {
-                      return ClinicCardView.dummy()
-                          .paddingOnly(bottom: 10)
-                          .shimmer();
+                      return ClinicCardView.dummy().paddingOnly(bottom: 10).shimmer();
                     },
                   ),
-                  onError: (String? error) =>
-                      Text(error ?? 'حدث خطا في الفروع'),
+                  onError: (String? error) => Text(error ?? 'حدث خطا في الفروع'),
                   onEmpty: AppPageEmpty.branches(),
                 ),
               )
@@ -191,8 +183,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
   }
 
   void showBranchSortBottomSheet(HomePageServicesController controller) {
-    final initialSelectedSort =
-        getInitialSelectedSort(controller.queryParams.filter);
+    final initialSelectedSort = getInitialSelectedSort(controller.queryParams.filter);
 
     Get.bottomSheet(
       BranchesSortBoxView(
