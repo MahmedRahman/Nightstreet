@@ -7,6 +7,7 @@ class AppointmentModel {
   final int id;
   final int? branchId;
   final String datetime;
+  final bool? can_rate;
 
   const AppointmentModel({
     required this.offer,
@@ -16,6 +17,7 @@ class AppointmentModel {
     required this.ClinicName,
     required this.datetime,
     required this.id,
+    required this.can_rate,
     this.branchId,
   });
 
@@ -28,6 +30,7 @@ class AppointmentModel {
       ClinicName: json['branch']['name'],
       datetime: json['datetime'],
       id: json['id'],
+      can_rate: json['can_rate'],
       branchId: json['branch']['id'],
     );
   }

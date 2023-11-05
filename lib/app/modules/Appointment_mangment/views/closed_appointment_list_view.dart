@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/appointment_mangment/controllers/appointment_mangment_controller.dart';
 import 'package:krzv2/component/views/appointment_card_view.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/appointment_model.dart';
@@ -30,7 +31,11 @@ class ClosedAppointmentListView extends GetView<AppointmentMangmentController> {
             mainButtonText: "تقييم الخدمة",
             secondButtonText: "تحميل الفاتورة",
             mainButtonOnTap: () {
-              
+              if (appointment.can_rate == false) {
+                AppDialogs.showToast(message: "يتم التقيم بعد الزياره");
+                return;
+              }
+
               Get.toNamed(
                 Routes.SERVICE_REVIEW,
                 arguments: appointment,
