@@ -11,5 +11,6 @@ showToast({required String message}) {
       message: message,
       backgroundColor: AppColors.mainColor,
     ),
+    displayDuration: Duration(milliseconds: 200),
   );
 }

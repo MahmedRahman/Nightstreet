@@ -21,6 +21,7 @@ class AppDialogs {
         message: message,
         backgroundColor: AppColors.mainColor,
       ),
+      displayDuration: Duration(milliseconds: 200),
     );
   }
 
@@ -348,7 +349,6 @@ class AppDialogs {
         );
       },
     );
-
   }
 
   // void _loginSuccessDialog() {
