@@ -26,7 +26,12 @@ import 'package:krzv2/utils/app_svg_paths.dart';
 import '../controllers/order_complete_controller.dart';
 
 class OrderCompleteView extends GetView<OrderCompleteController> {
-  OrderCompleteView({Key? key}) : super(key: key);
+  OrderCompleteView({Key? key}) {
+    selectedShippingCompany.value = null;
+    addressId.value = '';
+    payWithCredit.value = false;
+    payWithWallet.value = false;
+  }
 
   final delivery = Get.put<DeliveryAddressesController>(
     DeliveryAddressesController(),
@@ -37,9 +42,9 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
   );
   final selectedShippingCompany = Rx<ShippingCompaniesModel?>(null);
   final authController = Get.find<AuthenticationController>();
-  RxBool payWithCredit = false.obs;
-  RxBool payWithWallet = false.obs;
-  RxString addressId = ''.obs;
+  final RxBool payWithCredit = false.obs;
+  final RxBool payWithWallet = false.obs;
+  final RxString addressId = ''.obs;
   final selectedAddress = Rx<dynamic>(null);
   @override
   Widget build(BuildContext context) {
@@ -211,7 +216,7 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                   text: "تأكيد الطلب",
                   onTap: () {
                     print(
-                        'selectedShippingCompany => ${selectedShippingCompany.value!.id}');
+                        'selectedShippingCompany => ${selectedShippingCompany.value?.id}');
                     print('address => ${addressId.value}');
 
                     final controller = Get.find<OrderCompleteController>();

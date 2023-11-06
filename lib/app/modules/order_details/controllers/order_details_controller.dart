@@ -12,15 +12,15 @@ class OrderDetailsController extends GetxController
     with StateMixin<OrderModel> {
   @override
   void onInit() {
-    getOrderDetails();
+    getOrderDetails(Get.arguments as int);
     super.onInit();
   }
 
-  getOrderDetails() async {
+  getOrderDetails(int orderId) async {
     change(null, status: RxStatus.loading());
 
     ResponseModel responseModel = await WebServices().getOrderDetails(
-      orderId: Get.arguments as int,
+      orderId: orderId,
     );
 
     if (responseModel.data["success"]) {

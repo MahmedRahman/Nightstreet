@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/splash/splash_page.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
@@ -23,7 +24,8 @@ class FaqPage extends StatelessWidget {
           (index) {
             return _FaqBuilder(
               title: AppGlobal.KSettingData["faq"][index]["name"].toString(),
-              description: AppGlobal.KSettingData["faq"][index]["desc"].toString(),
+              description:
+                  AppGlobal.KSettingData["faq"][index]["desc"].toString(),
             );
           },
         ),
@@ -84,18 +86,10 @@ class _FaqBuilder extends StatelessWidget {
                     child: Row(
                       children: [
                         SizedBox(
-                          width: 300,
-                          child: Text(
-                            description,
-                            maxLines: 3,
-                            style: const TextStyle(
-                              fontSize: 14.0,
-                              color: AppColors.blackColor,
-                              height: 1.79,
-                              overflow: TextOverflow.fade,
-                            ),
-                          ),
-                        ),
+                            width: 300,
+                            child: Html(
+                              data: description,
+                            )),
                       ],
                     ),
                   ),
