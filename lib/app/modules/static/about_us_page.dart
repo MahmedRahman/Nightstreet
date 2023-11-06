@@ -7,6 +7,7 @@ import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/services/static_page_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
+import 'package:krzv2/utils/app_launcuer.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
 
@@ -25,7 +26,8 @@ class AboutUsPage extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
           child: Html(
-              data: AppGlobal.KSettingData["about_application"]["desc"] //staticPageService.aboutApplication.toString(),
+              data: AppGlobal.KSettingData["about_application"]
+                  ["desc"] //staticPageService.aboutApplication.toString(),
               ),
         ),
       ),
@@ -51,18 +53,61 @@ class AboutUsPage extends StatelessWidget {
               AppSpacers.height19,
               Row(
                 children: [
-                  SvgPicture.asset(AppSvgAssets.facebookIcon),
-                  AppSpacers.width10,
-                  SvgPicture.asset(AppSvgAssets.twitterIcon),
-                  AppSpacers.width10,
-                  SvgPicture.asset(AppSvgAssets.whatsappIcon),
-                  AppSpacers.width10,
-                  SvgPicture.asset(AppSvgAssets.linkedInIcon),
+                  _socialMediaButton(
+                    socialMediaLink: AppGlobal.KSettingData['facebook'],
+                    socialMediaIcon: AppSvgAssets.facebookIcon,
+                    onTap: () {
+                      print(AppGlobal.KSettingData['facebook']);
+                      urlLauncher(AppGlobal.KSettingData['facebook']);
+                    },
+                  ),
+                  _socialMediaButton(
+                    socialMediaLink: AppGlobal.KSettingData['twitter'],
+                    socialMediaIcon: AppSvgAssets.twitterIcon,
+                    onTap: () {
+                      print(AppGlobal.KSettingData['twitter']);
+                      urlLauncher(AppGlobal.KSettingData['twitter']);
+                    },
+                  ),
+                  _socialMediaButton(
+                    socialMediaLink: AppGlobal.KSettingData['whatsapp'],
+                    socialMediaIcon: AppSvgAssets.whatsappIcon,
+                    onTap: () {
+                      print(AppGlobal.KSettingData['whatsapp']);
+                      urlLauncher(AppGlobal.KSettingData['whatsapp']);
+                    },
+                  ),
+                  _socialMediaButton(
+                    socialMediaLink: AppGlobal.KSettingData['linkedin'],
+                    socialMediaIcon: AppSvgAssets.linkedInIcon,
+                    onTap: () {
+                      print(AppGlobal.KSettingData['linkedin']);
+                      urlLauncher(AppGlobal.KSettingData['linkedin']);
+                    },
+                  ),
                 ],
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _socialMediaButton({
+    required String socialMediaLink,
+    required String socialMediaIcon,
+    required void Function()? onTap,
+  }) {
+    return Visibility(
+      visible: socialMediaLink != '',
+      child: GestureDetector(
+        onTap: onTap,
+        child: SvgPicture.asset(
+          socialMediaIcon,
+        ),
+      ).paddingOnly(
+        left: 10,
       ),
     );
   }
