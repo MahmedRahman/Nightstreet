@@ -56,13 +56,8 @@ class HomePageView extends GetView {
             AppSpacers.height10,
             sliderController.obx(
               (slidersList) {
-                return InkWell(
-                  onTap: () {
-                    AppDialogs.showToast(message: 'test');
-                  },
-                  child: SliderView(
-                    images: slidersList!.map((slider) => slider.image).toList(),
-                  ),
+                return SliderView(
+                  images: slidersList!.map((slider) => slider.image).toList(),
                 );
               },
               onLoading: Container(
