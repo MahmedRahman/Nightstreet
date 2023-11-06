@@ -24,6 +24,8 @@ class OrderPaymentMethodsView extends GetView {
   @override
   Widget build(BuildContext context) {
     final authController = Get.find<AuthenticationController>();
+    final walletIsGreaterThanZero =
+        int.parse(authController.userData?.walletBalance ?? '0') != 0;
     return DecoratedContainer(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -50,40 +52,42 @@ class OrderPaymentMethodsView extends GetView {
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Divider(),
             ),
-            Row(
-              children: [
-                CustomToggleView(
-                  activeColor: AppColors.mainColor,
-                  deactivateColor: Colors.white,
-                  Kselected: false,
-                  onChanged: (bool vlu) {
-                    payWithWallet(vlu);
-                  },
-                ),
-                AppSpacers.width10,
-                Text(
-                  'محفظة كرز',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: AppColors.blackColor,
-                    letterSpacing: 0.28,
+            if (walletIsGreaterThanZero) ...[
+              Row(
+                children: [
+                  CustomToggleView(
+                    activeColor: AppColors.mainColor,
+                    deactivateColor: Colors.white,
+                    Kselected: false,
+                    onChanged: (bool vlu) {
+                      payWithWallet(vlu);
+                    },
                   ),
-                ),
-                Spacer(),
-                Text(
-                  'رصيدك الحالي : ${authController.userData?.walletBalance ?? ''}',
-                  style: TextStyle(
-                    fontSize: 12.0,
-                    color: AppColors.greyColor,
-                    letterSpacing: 0.18,
+                  AppSpacers.width10,
+                  Text(
+                    'محفظة كرز',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: AppColors.blackColor,
+                      letterSpacing: 0.28,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              child: Divider(),
-            ),
+                  Spacer(),
+                  Text(
+                    'رصيدك الحالي : ${authController.userData?.walletBalance ?? ''}',
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      color: AppColors.greyColor,
+                      letterSpacing: 0.18,
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: Divider(),
+              ),
+            ],
             Obx(
               () => InkWell(
                 overlayColor: MaterialStatePropertyAll(Colors.transparent),
