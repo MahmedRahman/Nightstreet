@@ -86,17 +86,7 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
                                     deactivateColor: Colors.white,
                                     Kselected: KWalletStatus.value,
                                     onChanged: (bool vlu) {
-                                      print('data => $vlu');
-
-                                      if (vlu == true) {
-                                        payment_type = "wallet";
-                                        KWalletStatus.value = true;
-                                        KCardStatus.value = false;
-                                      } else {
-                                        payment_type = "card";
-                                        KWalletStatus.value = false;
-                                        KCardStatus.value = true;
-                                      }
+                                      KWalletStatus.value = !KWalletStatus.value;
                                     },
                                   ),
                                   AppSpacers.width10,
@@ -131,8 +121,6 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
                       overlayColor: MaterialStatePropertyAll(Colors.transparent),
                       onTap: () {
                         KCardStatus.value = !KCardStatus.value;
-                        KWalletStatus.value = false;
-                        payment_type = "card";
                       },
                       child: Row(
                         children: [
@@ -169,11 +157,6 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  // paymentSumaryItem(
-                  //   title: "رقم الحجز",
-                  //   value: '#13776',
-                  // ),
-
                   AppSpacers.height16,
                   paymentSumaryItem(
                     title: "موعد الحجز",
@@ -236,9 +219,21 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
                     return;
                   }
 
-                  if (payment_type == null) {
+                  if (KCardStatus.value == false && KWalletStatus.value == false) {
                     AppDialogs.showToast(message: "برجاء اختيار طريقه الدفع");
                     return;
+                  }
+
+                  if (KCardStatus.value == true && KWalletStatus.value == true) {
+                    payment_type = "wallet_card";
+                  }
+
+                  if (KCardStatus.value == true && KWalletStatus.value == false) {
+                    payment_type = "card";
+                  }
+
+                  if (KCardStatus.value == false && KWalletStatus.value == true) {
+                    payment_type = "wallet";
                   }
 
                   print(payment_type.toString());

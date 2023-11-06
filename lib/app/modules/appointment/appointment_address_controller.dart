@@ -93,10 +93,8 @@ class AppointmentController extends GetxController {
         Get.to(
           AppPaymentPage(
             PaymentUrl: responseModel.data["data"],
-            FailedPaymentUrl:
-                "${ApiConstant.baseUrl}/appointments/rajhi-failed-callback",
-            SuccessPaymentUrl:
-                "${ApiConstant.baseUrl}/appointments/rajhi-success-callback",
+            FailedPaymentUrl: "${ApiConstant.baseUrl}/appointments/rajhi-failed-callback",
+            SuccessPaymentUrl: "${ApiConstant.baseUrl}/appointments/rajhi-success-callback",
             onFailed: () {
               Get.back();
               return;
@@ -115,6 +113,26 @@ class AppointmentController extends GetxController {
         clearText();
         Get.offAll(PaymentSuccessPage());
         authController.getProfile();
+      }
+
+      if (payment_type == "wallet_card") {
+        Get.to(
+          AppPaymentPage(
+            PaymentUrl: responseModel.data["data"],
+            FailedPaymentUrl: "${ApiConstant.baseUrl}/appointments/rajhi-failed-callback",
+            SuccessPaymentUrl: "${ApiConstant.baseUrl}/appointments/rajhi-success-callback",
+            onFailed: () {
+              Get.back();
+              return;
+            },
+            onSuccess: () {
+              clearText();
+              Get.offAll(PaymentSuccessPage());
+            },
+          ),
+        );
+
+        return;
       }
 
       return;
