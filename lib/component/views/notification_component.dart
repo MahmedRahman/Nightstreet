@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:intl/intl.dart';
 import 'package:krzv2/app/modules/notification/controller/notifications_controller.dart';
@@ -50,12 +51,17 @@ class NotificationBuilderWidget extends StatelessWidget {
             ],
           ),
           AppSpacers.height19,
-          Text(
-            notificationDescription!,
-            style: const TextStyle(
-              fontSize: 14.0,
-              color: AppColors.greyColor,
-              height: 1.79,
+          Container(
+            width: Get.width * .8,
+            child: Text(
+              notificationDescription!,
+              maxLines: 1,
+              style: const TextStyle(
+                overflow: TextOverflow.ellipsis,
+                fontSize: 14.0,
+                color: AppColors.greyColor,
+                height: 1.79,
+              ),
             ),
           ),
         ],

@@ -55,7 +55,11 @@ class NotificationPage extends GetView<NotificationController> {
                   }
 
                   if (notifications[index].clickAction == "orders") {
-                    Get.toNamed(Routes.ORDERS_LIST);
+                    Get.toNamed(
+                      Routes.ORDER_DETAILS_DELIVERED,
+                      arguments: notifications[index].redirectId,
+                    );
+                    //OrderDetailsDeliveredView
                     return;
                   }
 
