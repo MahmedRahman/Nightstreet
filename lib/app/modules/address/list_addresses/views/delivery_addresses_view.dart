@@ -47,13 +47,9 @@ class DeliveryAddressesView extends GetView<DeliveryAddressesController> {
                       shape: BoxShape.circle,
                       border: Border.all(
                         width: 1.0,
-                        color: data[index]["is_default"] == 1
-                            ? AppColors.mainColor
-                            : AppColors.borderColor2,
+                        color: data[index]["is_default"] == 1 ? AppColors.mainColor : AppColors.borderColor2,
                       ),
-                      color: data[index]["is_default"] == 1
-                          ? AppColors.mainColor
-                          : AppColors.greyColor4,
+                      color: data[index]["is_default"] == 1 ? AppColors.mainColor : AppColors.greyColor4,
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(15),
@@ -61,14 +57,12 @@ class DeliveryAddressesView extends GetView<DeliveryAddressesController> {
                         getIconByNotes(
                           data[index]["notes"] ?? '',
                         ),
-                        color: data[index]["is_default"] == 1
-                            ? Colors.white
-                            : AppColors.blackColor,
+                        color: data[index]["is_default"] == 1 ? Colors.white : AppColors.blackColor,
                       ),
                     ),
                   ),
                   title: data[index]["notes"] ?? '',
-                  subTitle: data[index]["address"],
+                  subTitle: data[index]["city"]["name"],
                   trailing: DecoratedContainer(
                     child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -85,8 +79,7 @@ class DeliveryAddressesView extends GetView<DeliveryAddressesController> {
                               )
                             : DecoratedContainer(
                                 child: InkWell(
-                                  child: SvgPicture.asset(
-                                      AppSvgAssets.outlineDeleteIcon),
+                                  child: SvgPicture.asset(AppSvgAssets.outlineDeleteIcon),
                                   onTap: () {
                                     controller.activationAddresses(
                                       id: data[index]["id"].toString(),
@@ -96,7 +89,6 @@ class DeliveryAddressesView extends GetView<DeliveryAddressesController> {
                               )),
                   ),
                 );
-           
               },
             ),
           );
