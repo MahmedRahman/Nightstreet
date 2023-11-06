@@ -54,7 +54,8 @@ class OrderCancelController extends GetxController with StateMixin {
       Get.find<OrdersListController>().refreshList();
 
       // Get.toNamed(Routes.ORDERS_LIST);
-      Get.back(closeOverlays: true);
+
+      Get.back(closeOverlays: true, result: orderId);
 
       return;
     }
