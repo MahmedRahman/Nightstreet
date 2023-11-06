@@ -97,7 +97,8 @@ class ServiceCardView extends GetView {
                   showFavoriteIcon
                       ? InkWell(
                           onTap: onFavoriteTapped,
-                          overlayColor: MaterialStatePropertyAll(Colors.transparent),
+                          overlayColor:
+                              MaterialStatePropertyAll(Colors.transparent),
                           child: Container(
                             width: 22.0,
                             height: 22.0,
@@ -112,7 +113,9 @@ class ServiceCardView extends GetView {
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: SvgPicture.asset(
-                                isFavorite ? AppSvgAssets.solidHeartIcon : AppSvgAssets.heartIcon,
+                                isFavorite
+                                    ? AppSvgAssets.solidHeartIcon
+                                    : AppSvgAssets.heartIcon,
                               ),
                             ),
                           ),

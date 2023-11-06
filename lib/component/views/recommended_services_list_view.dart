@@ -43,26 +43,30 @@ class RecommendedServicesListView extends GetView {
                 init: OfferFavoriteController(),
                 initState: (_) {},
                 builder: (favoriteController) {
-                  return ServiceCardView(
-                    imageUrl: service.image,
-                    name: service.name,
-                    hasDiscount: service.oldPrice.toString() != '0.0',
-                    price: service.price.toString(),
-                    oldPrice: service.oldPrice.toString(),
-                    onFavoriteTapped: () {
-                      if (Get.put(AuthenticationController().isLoggedIn) ==
-                          false) {
-                        return AppDialogs.showToast(
-                            message: 'الرجاء تسجيل الدخول');
-                      }
-                      return onFavoriteTapped(service.id);
-                    },
-                    rate: service.totalRateAvg.toString(),
-                    totalRate: service.totalRateCount.toString(),
-                    isFavorite: favoriteController.offerIsFavorite(service.id),
-                    onTapped: () {
-                      onTap(service.id);
-                    },
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: ServiceCardView(
+                      imageUrl: service.image,
+                      name: service.name,
+                      hasDiscount: service.oldPrice.toString() != '0.0',
+                      price: service.price.toString(),
+                      oldPrice: service.oldPrice.toString(),
+                      onFavoriteTapped: () {
+                        if (Get.put(AuthenticationController().isLoggedIn) ==
+                            false) {
+                          return AppDialogs.showToast(
+                              message: 'الرجاء تسجيل الدخول');
+                        }
+                        return onFavoriteTapped(service.id);
+                      },
+                      rate: service.totalRateAvg.toString(),
+                      totalRate: service.totalRateCount.toString(),
+                      isFavorite:
+                          favoriteController.offerIsFavorite(service.id),
+                      onTapped: () {
+                        onTap(service.id);
+                      },
+                    ),
                   );
                 },
               );
