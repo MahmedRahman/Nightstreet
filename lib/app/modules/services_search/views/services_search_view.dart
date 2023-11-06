@@ -110,6 +110,7 @@ class ServiceSearchView extends GetView<ServicesSearchController> {
                 name: service.name,
                 hasDiscount: service.oldPrice != 0,
                 price: service.price.toString(),
+                oldPrice: service.oldPrice.toString(),
                 onFavoriteTapped: () {
                   if (Get.put(AuthenticationController().isLoggedIn) == false) {
                     return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
