@@ -92,62 +92,70 @@ class FavoriteProducts extends GetView<ProductFavoriteController> {
         ),
         itemBuilder: (_, index) {
           final product = productList!.elementAt(index);
-          return ProductCardView(
-            imageUrl: product.image,
-            name: product.name,
-            hasDiscount: product.oldPrice.toInt() != 0,
-            isAvailable: product.quantity > 1,
-            price: product.price.toString(),
-            oldPrice: product.oldPrice.toString(),
-            onAddToCartTapped: () {
-              if (product.variants.isNotEmpty) {
-                AppDialogs.showToast(
-                  message: 'هذا المنتج يحتوى على الوان يجب اختيار اللون',
-                );
-                Get.toNamed(
+          return GetBuilder<ProductFavoriteController>(
+            init: ProductFavoriteController(),
+            builder: (controller) {
+              return ProductCardView(
+                imageUrl: product.image,
+                name: product.name,
+                hasDiscount: product.oldPrice.toInt() != 0,
+                isAvailable: product.quantity > 1,
+                price: product.price.toString(),
+                oldPrice: product.oldPrice.toString(),
+                onAddToCartTapped: () {
+                  if (product.variants.isNotEmpty) {
+                    AppDialogs.showToast(
+                      message: 'هذا المنتج يحتوى على الوان يجب اختيار اللون',
+                    );
+                    Get.toNamed(
+                      Routes.PRODUCT_DETAILS,
+                      arguments: product.id.toString(),
+                    );
+
+                    return;
+                  }
+                  final cartController = Get.put<ShoppintCartController>(
+                    ShoppintCartController(),
+                  );
+
+                  final isGuest =
+                      Get.find<AuthenticationController>().isGuestUser;
+
+                  if (isGuest) {
+                    cartController.addToGuestCart(
+                      productId: product.id.toString(),
+                      quantity: '1',
+                      isNew: true,
+                    );
+                    return;
+                  }
+
+                  cartController.addToCart(
+                    productId: product.id.toString(),
+                    quantity: '1',
+                    isNew: true,
+                  );
+                },
+                onFavoriteTapped: () {
+                  final favCon = Get.put<ProductFavoriteController>(
+                    ProductFavoriteController(),
+                  );
+
+                  favCon.addRemoveProductFromFavorite(
+                    productId: product.id,
+                    onSuccess: () =>
+                        controller.removeProductFromList(product.id),
+                  );
+                },
+                isFavorite:
+                    controller.productFavoriteIds.value!.contains(product.id),
+                isLimitedQuantity: product.quantity < 10,
+                onTap: () => Get.toNamed(
                   Routes.PRODUCT_DETAILS,
                   arguments: product.id.toString(),
-                );
-
-                return;
-              }
-              final cartController = Get.put<ShoppintCartController>(
-                ShoppintCartController(),
-              );
-
-              final isGuest = Get.find<AuthenticationController>().isGuestUser;
-
-              if (isGuest) {
-                cartController.addToGuestCart(
-                  productId: product.id.toString(),
-                  quantity: '1',
-                  isNew: true,
-                );
-                return;
-              }
-
-              cartController.addToCart(
-                productId: product.id.toString(),
-                quantity: '1',
-                isNew: true,
+                ),
               );
             },
-            onFavoriteTapped: () {
-              final favCon = Get.put<ProductFavoriteController>(
-                ProductFavoriteController(),
-              );
-
-              favCon.addRemoveProductFromFavorite(
-                productId: product.id,
-                onSuccess: () => controller.removeProductFromList(product.id),
-              );
-            },
-            isFavorite: product.isFavorite,
-            isLimitedQuantity: product.quantity < 10,
-            onTap: () => Get.toNamed(
-              Routes.PRODUCT_DETAILS,
-              arguments: product.id.toString(),
-            ),
           );
         },
       ),
