@@ -43,11 +43,28 @@ class NotificationController extends GetxController with StateMixin<List<Notific
     }
   }
 
-  readAllNotifaction() async {
+  readNotifications(int id) async {
+    final ResponseModel responseModel = await WebServices().readNotifications(
+      id: id,
+    );
+
+    if (responseModel.data['success'] == true) {
+      //AppDialogs.showToast(message: responseModel.data['message']);
+      _notifications.clear();
+      fetchNotifications();
+      Get.find<AuthenticationController>().getProfile();
+      return;
+    }
+
+    AppDialogs.showToast(message: responseModel.data['message']);
+    return;
+  }
+
+  readAllNotifications() async {
     final ResponseModel responseModel = await WebServices().readAllNotifications();
 
     if (responseModel.data['success'] == true) {
-      AppDialogs.showToast(message: responseModel.data['message']);
+      //AppDialogs.showToast(message: responseModel.data['message']);
       _notifications.clear();
       fetchNotifications();
       Get.find<AuthenticationController>().getProfile();

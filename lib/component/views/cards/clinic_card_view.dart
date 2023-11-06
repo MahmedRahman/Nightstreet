@@ -90,25 +90,27 @@ class ClinicCardView extends GetView {
                       ignoreGestures: true,
                     ),
                     AppSpacers.height5,
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/svg/maps.svg"),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          '$distance كم',
-                          style: TextStyle(
-                            fontFamily: 'SF Pro',
-                            fontSize: 12.0,
-                            color: AppColors.greyColor,
-                            fontWeight: FontWeight.w500,
-                            height: 1.58,
+                    (int.tryParse(distance) == 0)
+                        ? SizedBox.shrink()
+                        : Row(
+                            children: [
+                              SvgPicture.asset("assets/svg/maps.svg"),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                '$distance كم',
+                                style: TextStyle(
+                                  fontFamily: 'SF Pro',
+                                  fontSize: 12.0,
+                                  color: AppColors.greyColor,
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.58,
+                                ),
+                                textAlign: TextAlign.right,
+                              ),
+                            ],
                           ),
-                          textAlign: TextAlign.right,
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ],

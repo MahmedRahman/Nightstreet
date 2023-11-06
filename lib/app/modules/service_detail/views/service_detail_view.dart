@@ -200,17 +200,7 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                     AppSpacers.height12,
                     Divider(),
                     AppSpacers.height12,
-                    Text(
-                      'الأطباء الذين يقدمون هذه الخدمة',
-                      style: TextStyle(
-                        fontFamily: 'Effra',
-                        fontSize: 16.0,
-                        letterSpacing: 0.24,
-                        fontWeight: FontWeight.w500,
-                        height: 0.75,
-                      ),
-                      textAlign: TextAlign.right,
-                    ),
+                 
                     DoctorListView(),
                     AppSpacers.height60,
                   ],

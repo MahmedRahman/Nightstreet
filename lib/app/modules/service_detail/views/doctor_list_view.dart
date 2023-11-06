@@ -14,17 +14,32 @@ class DoctorListView extends GetView {
         print(snapshot!.length.toString());
 
         return Column(
-          children: List.generate(
-            snapshot.length,
-            (index) {
-              return DoctorCardView(
-                doctorName: snapshot.elementAt(index)["name"],
-                doctorJob: snapshot.elementAt(index)["speciality"],
-                doctorImage: snapshot.elementAt(index)["image"],
-                onTap: () {},
-              );
-            },
-          ),
+          children: [
+            Text(
+              'الأطباء الذين يقدمون هذه الخدمة',
+              style: TextStyle(
+                fontFamily: 'Effra',
+                fontSize: 16.0,
+                letterSpacing: 0.24,
+                fontWeight: FontWeight.w500,
+                height: 0.75,
+              ),
+              textAlign: TextAlign.right,
+            ),
+            Column(
+              children: List.generate(
+                snapshot.length,
+                (index) {
+                  return DoctorCardView(
+                    doctorName: snapshot.elementAt(index)["name"],
+                    doctorJob: snapshot.elementAt(index)["speciality"],
+                    doctorImage: snapshot.elementAt(index)["image"],
+                    onTap: () {},
+                  );
+                },
+              ),
+            ),
+          ],
         );
       },
       onLoading: DoctorCardView.dummy().shimmer(),

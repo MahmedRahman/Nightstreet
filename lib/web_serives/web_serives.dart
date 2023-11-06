@@ -187,15 +187,18 @@ class WebServices {
     );
   }
 
-  // Future<ResponseModel> readAllNotifications({
-  //   required int page,
-  // }) async {
-  //   return await ApiManger().execute(
-  //     url: "${ApiConstant.baseUrl}/notifications/read-all",
-  //     HTTPRequestMethod: HTTPRequestEnum.POST,
-  //     isAuth: true,
-  //   );
-  // }
+  Future<ResponseModel> readNotifications({
+    required int id,
+  }) async {
+    return await ApiManger().execute(
+      url: "${ApiConstant.baseUrl}/notifications/read-one",
+      HTTPRequestMethod: HTTPRequestEnum.POST,
+      isAuth: true,
+      query: {
+        "id": id,
+      },
+    );
+  }
 
   Future<ResponseModel> getComplaintsCategories() async {
     return await ApiManger().execute(

@@ -13,6 +13,7 @@ class NotificationBuilderWidget extends StatelessWidget {
     this.notificationDescription,
     this.notificationTime,
     this.isRead,
+    this.onTap,
   });
 
   final String notificationTitle;
@@ -20,42 +21,45 @@ class NotificationBuilderWidget extends StatelessWidget {
   final String? notificationDescription;
   final String? notificationTime;
   final bool? isRead;
-
+  final Function()? onTap;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Row(
-              children: [
-                SizedBox(
-                  width: 52,
-                  height: 52,
-                  child: iconPath == null ? const SizedBox.shrink() : Image.network(iconPath ?? ''),
-                ),
-                AppSpacers.width10,
-                _buildNotificationTitleTime(),
-              ],
-            ),
-            const Spacer(),
-            Visibility(
-              visible: !isRead!,
-              child: _buildNotificationStatus(),
-            ),
-          ],
-        ),
-        AppSpacers.height19,
-        Text(
-          notificationDescription!,
-          style: const TextStyle(
-            fontSize: 14.0,
-            color: AppColors.greyColor,
-            height: 1.79,
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    width: 52,
+                    height: 52,
+                    child: iconPath == null ? const SizedBox.shrink() : Image.network(iconPath ?? ''),
+                  ),
+                  AppSpacers.width10,
+                  _buildNotificationTitleTime(),
+                ],
+              ),
+              const Spacer(),
+              Visibility(
+                visible: !isRead!,
+                child: _buildNotificationStatus(),
+              ),
+            ],
           ),
-        ),
-      ],
+          AppSpacers.height19,
+          Text(
+            notificationDescription!,
+            style: const TextStyle(
+              fontSize: 14.0,
+              color: AppColors.greyColor,
+              height: 1.79,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

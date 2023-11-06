@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
+import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/component/views/notification_component.dart';
 import 'package:krzv2/app/modules/notification/controller/notifications_controller.dart';
@@ -18,16 +19,16 @@ class NotificationPage extends GetView<NotificationController> {
       appBar: CustomAppBar(
         titleText: "الإشعارات",
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: IconButton(
-              onPressed: () {
-                controller.readAllNotifaction();
-                return;
-              },
-              icon: Icon(Icons.done_all, color: AppColors.mainColor),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: IconButton(
+          //     onPressed: () {
+          //       controller.readAllNotifaction();
+          //       return;
+          //     },
+          //     icon: Icon(Icons.done_all, color: AppColors.mainColor),
+          //   ),
+          // ),
         ],
       ),
       body: controller.obx(
@@ -36,13 +37,32 @@ class NotificationPage extends GetView<NotificationController> {
             controller: controller.scroll,
             itemCount: notifications!.length,
             padding: AppDimension.appPadding + const EdgeInsets.symmetric(vertical: 30),
-            itemBuilder: (context, index) => NotificationBuilderWidget(
-              iconPath: notifications[index].icon,
-              notificationTitle: notifications[index].title,
-              notificationDescription: notifications[index].body,
-              notificationTime: notifications[index].createdAt.toString(),
-              isRead: notifications[index].isRead == 1 ? true : false,
-            ),
+            itemBuilder: (context, index) {
+              return NotificationBuilderWidget(
+                iconPath: notifications[index].icon,
+                notificationTitle: notifications[index].title,
+                notificationDescription: notifications[index].body,
+                notificationTime: notifications[index].createdAt.toString(),
+                isRead: notifications[index].isRead == 1 ? true : false,
+                onTap: () {
+                  if (notifications[index].isRead == 0) {
+                    controller.readNotifications(notifications[index].id);
+                  }
+
+                  if (notifications[index].clickAction == "appointments") {
+                    Get.toNamed(Routes.APPOINTMENT_MANGMENT);
+                    return;
+                  }
+
+                  if (notifications[index].clickAction == "orders") {
+                    Get.toNamed(Routes.ORDERS_LIST);
+                    return;
+                  }
+
+                  return;
+                },
+              );
+            },
             separatorBuilder: (_, __) => const Padding(
               padding: EdgeInsets.symmetric(vertical: 15),
               child: Divider(),

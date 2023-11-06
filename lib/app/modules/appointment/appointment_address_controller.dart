@@ -16,9 +16,7 @@ class AppointmentController extends GetxController {
   String? selectTime;
   RxString selectTimeUI = ''.obs;
   RxString selectDateUI = ''.obs;
-
   String? selectNote;
-
   var service;
   RxList AppointmentDataList = [].obs;
 
