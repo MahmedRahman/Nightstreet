@@ -42,6 +42,7 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
   );
   final selectedShippingCompany = Rx<ShippingCompaniesModel?>(null);
   final authController = Get.find<AuthenticationController>();
+  final shippingController = Get.put(ShippingCompaniesController());
   final RxBool payWithCredit = false.obs;
   final RxBool payWithWallet = false.obs;
   final RxString addressId = ''.obs;
@@ -57,7 +58,6 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
             ? addresse?.last
             : addresse!
                 .firstWhereOrNull((address) => address['is_default'] == 1);
-        final shippingController = Get.put(ShippingCompaniesController());
 
         if (selectedAddress.value != null) {
           shippingController.getShppingCompanies(
@@ -491,6 +491,10 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                             try {
                               selectedAddress.value = addresses[index];
                               controller.update();
+                              shippingController.getShppingCompanies(
+                                addressId:
+                                    selectedAddress.value['id'].toString(),
+                              );
                               addressId.value =
                                   addresses[index]['id'].toString();
                               await Future.delayed(
