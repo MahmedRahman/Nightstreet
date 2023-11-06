@@ -50,8 +50,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
 
           if (latlng.latitude == 0 && latlng.longitude == 0) {
             print('latlng = 0');
-            final LocationData? latlng =
-                await mapController.getCurrentLocation();
+            final LocationData? latlng = await mapController.getCurrentLocation();
             controller.queryParams.lat = latlng!.latitude;
             controller.queryParams.lng = latlng.longitude;
             controller.fiterBrancher();
@@ -116,8 +115,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
               ),
               ServicesCategoriesView(
                 onTap: (int selectedCategoryId) {
-                  controller.queryParams.categoryId =
-                      selectedCategoryId.toString();
+                  controller.queryParams.categoryId = selectedCategoryId.toString();
                   controller.fiterBrancher();
                 },
               ),
@@ -137,8 +135,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                         builder: (favoriteController) {
                           return ClinicCardView(
                             distance: branch.distance,
-                            isFavorite:
-                                favoriteController.clinicIsFavorite(branch.id),
+                            isFavorite: favoriteController.clinicIsFavorite(branch.id),
                             imageUrl: branch.clinic.image,
                             name: branch.name,
                             onTap: () {
@@ -149,11 +146,8 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                               );
                             },
                             onFavoriteTapped: () {
-                              if (Get.put(
-                                      AuthenticationController().isLoggedIn) ==
-                                  false) {
-                                return AppDialogs.showToast(
-                                    message: 'الرجاء تسجيل الدخول');
+                              if (Get.put(AuthenticationController().isLoggedIn) == false) {
+                                return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                               }
 
                               final favCon = Get.put<CliniFavoriteController>(
@@ -174,13 +168,10 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                   onLoading: ListView.builder(
                     itemCount: 10,
                     itemBuilder: (context, index) {
-                      return ClinicCardView.dummy()
-                          .paddingOnly(bottom: 10)
-                          .shimmer();
+                      return ClinicCardView.dummy().paddingOnly(bottom: 10).shimmer();
                     },
                   ),
-                  onError: (String? error) =>
-                      Text(error ?? 'حدث خطا في الفروع'),
+                  onError: (String? error) => Text(error ?? 'حدث خطا في الفروع'),
                   onEmpty: AppPageEmpty.branches(),
                 ),
               )
@@ -192,8 +183,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
   }
 
   void showBranchSortBottomSheet(HomePageServicesController controller) {
-    final initialSelectedSort =
-        getInitialSelectedSort(controller.queryParams.filter);
+    final initialSelectedSort = getInitialSelectedSort(controller.queryParams.filter);
 
     Get.bottomSheet(
       BranchesSortBoxView(
@@ -204,7 +194,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
           if (selectedSort != null) {
             controller.queryParams.filter = selectedSort;
 
-            if (selectedSort == '1') {
+            if (selectedSort == '2') {
               mapController.askPermissionAndGetCurrentLocation(
                 forceNavigateToSettingIfDenied: true,
               );
@@ -232,8 +222,8 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
 
   BranchSortEnum? getInitialSelectedSort(String? filter) {
     final Map<String, BranchSortEnum> filterToSortMap = {
-      '1': BranchSortEnum.nearest,
-      '2': BranchSortEnum.topRated,
+      '2': BranchSortEnum.nearest,
+      '1': BranchSortEnum.topRated,
     };
 
     return filterToSortMap[filter] ?? null;
@@ -241,8 +231,8 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
 
   String? mapBranchSortToQueryParam(BranchSortEnum value) {
     final Map<BranchSortEnum, String> sortToQueryParamMap = {
-      BranchSortEnum.nearest: '1',
-      BranchSortEnum.topRated: '2',
+      BranchSortEnum.nearest: '2',
+      BranchSortEnum.topRated: '1',
     };
 
     return sortToQueryParamMap[value];
