@@ -103,8 +103,10 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                 children: [
                   FavoriteIconView(
                     onFavoriteTapped: () {
-                      if (Get.put(AuthenticationController().isLoggedIn) == false) {
-                        return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                      if (Get.put(AuthenticationController().isLoggedIn) ==
+                          false) {
+                        return AppDialogs.showToast(
+                            message: 'الرجاء تسجيل الدخول');
                       }
                       final favCon = Get.put<ProductFavoriteController>(
                         ProductFavoriteController(),
@@ -171,6 +173,8 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
           ProductColorSelectorView(
             onChanged: (String id) {
               variantId = id;
+              print('variant Id => $variantId');
+              print(' Id => $id');
             },
             variants: product.variants,
           ),
@@ -232,7 +236,8 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                 }
               },
               onAddToCartTapped: (ProductModel product) {
-                final isGuest = Get.find<AuthenticationController>().isGuestUser;
+                final isGuest =
+                    Get.find<AuthenticationController>().isGuestUser;
 
                 if (isGuest) {
                   cartController.addToGuestCart(
@@ -286,17 +291,18 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
 
           final isGuest = Get.find<AuthenticationController>().isGuestUser;
 
+          if (product.variants.isNotEmpty && variantId == '') {
+            AppDialogs.showToast(message: 'الرجاء تحديد اللون');
+            return;
+          }
+
           if (isGuest) {
             cartController.addToGuestCart(
               productId: product.id.toString(),
               quantity: controller.productCount.value.toString(),
+              variantId: variantId,
               isNew: true,
             );
-            return;
-          }
-
-          if (product.variants.isNotEmpty && variantId == '') {
-            AppDialogs.showToast(message: 'الرجاء تحديد اللون');
             return;
           }
 
@@ -330,7 +336,8 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                 onDecrementTapped: controller.decrement,
                 onIncrementTapped: () {
                   if (productQuantity == controller.productCount.value) {
-                    AppDialogs.showToast(message: 'الحد المسموح به هو $productQuantity');
+                    AppDialogs.showToast(
+                        message: 'الحد المسموح به هو $productQuantity');
                     return;
                   }
                   controller.increment();
