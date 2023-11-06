@@ -10,6 +10,7 @@ import 'package:krzv2/web_serives/web_serives.dart';
 class editAddressController extends GetxController with StateMixin {
   @override
   void onInit() async {
+    change(null, status: RxStatus.success());
     super.onInit();
   }
 

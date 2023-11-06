@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:krzv2/app/modules/address/list_addresses/controllers/delivery_addresses_controller.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/custom_drop_menu_view.dart';
 import 'package:krzv2/component/views/custom_text_field_component.dart';
 import 'package:krzv2/component/views/custom_toggle_view.dart';
@@ -23,27 +24,30 @@ import '../controllers/add_new_address_controller.dart';
 class AddNewAddressView extends GetView<AddNewAddressController> {
   final formKey = GlobalKey<FormState>();
 
-  final addressController = TextEditingController(
-    text: kDebugMode ? "Cairo" : "",
-  );
+  final specialController = TextEditingController();
 
-  final noteController = TextEditingController(
-    text: kDebugMode ? "المنزل" : "",
-  );
+  //String? cityId = dataCity.elementAt(0)["id"].toString();
+  String? cityId = "-1";
+
+  final addressController = TextEditingController();
+
   final phoneController = TextEditingController(
     text: Get.find<AuthenticationController>().userData!.phone.toString(),
   );
-  String? cityId = dataCity.elementAt(0)["id"].toString();
-  RxInt IsSelect = 0.obs;
-  String selectAddressCategory = "المنزل";
+
   int isDefault = 0;
+
+  RxInt IsSelect = 0.obs;
+  //String selectAddressCategory = "المنزل";
 
   AddNewAddressController controller = Get.put(AddNewAddressController());
 
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      appBar: CustomAppBar(titleText: 'إضافة عنوان جديد'),
+      appBar: CustomAppBar(
+        titleText: 'إضافة عنوان جديد',
+      ),
       body: controller.obx((snapshot) {
         return Form(
           key: formKey,
@@ -66,13 +70,12 @@ class AddNewAddressView extends GetView<AddNewAddressController> {
               ),
               TextFieldComponent.text(
                 outLineText: "علامه مميزه",
-                controller: noteController,
+                controller: specialController,
               ),
-              //selectAdressCategory(),
               AppSpacers.height25,
               SelectorView(
-                title: "اختر المدينة",
-                defaultValue: "اختير المدينه",
+                title: "اختيار المدينه",
+                defaultValue: "اختيار المدينه",
                 dataList: dataCity,
                 onChanged: (data) {
                   cityId = data['id'].toString();
@@ -80,6 +83,7 @@ class AddNewAddressView extends GetView<AddNewAddressController> {
               ),
               AppSpacers.height25,
               TextFieldComponent.address(
+                //outLineText: "العنوان",
                 controller: addressController,
               ),
               AppSpacers.height25,
@@ -88,33 +92,7 @@ class AddNewAddressView extends GetView<AddNewAddressController> {
                 iconPath: '',
               ),
               AppSpacers.height16,
-              Row(
-                children: [
-                  Text(
-                    'افتراضي',
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: AppColors.blackColor,
-                      letterSpacing: 0.28,
-                      height: 0.86,
-                    ),
-                    textAlign: TextAlign.right,
-                  ),
-                  AppSpacers.width10,
-                  CustomToggleView(
-                    activeColor: AppColors.mainColor,
-                    deactivateColor: Colors.white,
-                    Kselected: false,
-                    onChanged: (bool vlu) {
-                      if (vlu) {
-                        isDefault = 1;
-                        return;
-                      }
-                      isDefault = 0;
-                    },
-                  ),
-                ],
-              )
+              customToggle()
             ],
           ),
         );
@@ -129,11 +107,16 @@ class AddNewAddressView extends GetView<AddNewAddressController> {
               return;
             }
 
+            if (cityId == "-1") {
+              AppDialogs.showToast(message: "برجاء اختيار المدينه");
+              return;
+            }
+
             controller.addNewAddress(
               cityId: cityId.toString(),
               phone: phoneController.text.toString(),
               address: addressController.text.toString(),
-              notes: selectAddressCategory.toString(),
+              notes: specialController.text.toString(),
               isDefault: isDefault.toString(),
               email: "",
               name: "",
@@ -145,49 +128,34 @@ class AddNewAddressView extends GetView<AddNewAddressController> {
     );
   }
 
-  Obx selectAdressCategory() {
-    return Obx(() {
-      return Row(
-        children: [
-          customBnt(
-            title: "المنزل",
-            imagePath: AppSvgAssets.homeIcon,
-            isSelect: (IsSelect.value == 0),
-            onTap: () {
-              IsSelect.value = 0;
-              selectAddressCategory = "المنزل";
-            },
+  Widget customToggle() {
+    return Row(
+      children: [
+        Text(
+          'افتراضي',
+          style: TextStyle(
+            fontSize: 14.0,
+            color: AppColors.blackColor,
+            letterSpacing: 0.28,
+            height: 0.86,
           ),
-          customBnt(
-            title: "العمل",
-            imagePath: AppSvgAssets.workIcon,
-            isSelect: IsSelect.value == 1,
-            onTap: () {
-              IsSelect.value = 1;
-              selectAddressCategory = "العمل";
-            },
-          ),
-          customBnt(
-            title: "العائلة",
-            imagePath: AppSvgAssets.familyIcon,
-            isSelect: IsSelect.value == 2,
-            onTap: () {
-              IsSelect.value = 2;
-              selectAddressCategory = "العائلة";
-            },
-          ),
-          customBnt(
-            title: "الاستراحة",
-            imagePath: AppSvgAssets.restIcon,
-            isSelect: IsSelect.value == 3,
-            onTap: () {
-              IsSelect.value = 3;
-              selectAddressCategory = "الاستراحة";
-            },
-          ),
-        ],
-      );
-    });
+          textAlign: TextAlign.right,
+        ),
+        AppSpacers.width10,
+        CustomToggleView(
+          activeColor: AppColors.mainColor,
+          deactivateColor: Colors.white,
+          Kselected: false,
+          onChanged: (bool vlu) {
+            if (vlu) {
+              isDefault = 1;
+              return;
+            }
+            isDefault = 0;
+          },
+        ),
+      ],
+    );
   }
 
   Widget customBnt({
@@ -349,14 +317,12 @@ class SelectorView extends GetView {
                   children: List<Widget>.generate(
                     dataList.length,
                     (int index) {
-                      if (index == 0) return Center(child: Text(defaultValue));
+                      // if (index == 0) return Center(child: Text(defaultValue));
                       return Center(child: Text(dataList[index]["name"]));
                     },
                   ),
                   onSelectedItemChanged: (int selectedItemIndex) {
                     selectedIndex.value = selectedItemIndex;
-
-                    //log(dataList[selectedItemIndex]);
                     onChanged(dataList[selectedItemIndex]);
                   },
                 ),
@@ -413,3 +379,52 @@ class SelectorView extends GetView {
     );
   }
 }
+
+
+
+/*
+ Obx selectAdressCategory() {
+    return Obx(() {
+      return Row(
+        children: [
+          customBnt(
+            title: "المنزل",
+            imagePath: AppSvgAssets.homeIcon,
+            isSelect: (IsSelect.value == 0),
+            onTap: () {
+              IsSelect.value = 0;
+              selectAddressCategory = "المنزل";
+            },
+          ),
+          customBnt(
+            title: "العمل",
+            imagePath: AppSvgAssets.workIcon,
+            isSelect: IsSelect.value == 1,
+            onTap: () {
+              IsSelect.value = 1;
+              selectAddressCategory = "العمل";
+            },
+          ),
+          customBnt(
+            title: "العائلة",
+            imagePath: AppSvgAssets.familyIcon,
+            isSelect: IsSelect.value == 2,
+            onTap: () {
+              IsSelect.value = 2;
+              selectAddressCategory = "العائلة";
+            },
+          ),
+          customBnt(
+            title: "الاستراحة",
+            imagePath: AppSvgAssets.restIcon,
+            isSelect: IsSelect.value == 3,
+            onTap: () {
+              IsSelect.value = 3;
+              selectAddressCategory = "الاستراحة";
+            },
+          ),
+        ],
+      );
+    });
+  }
+*/

@@ -38,6 +38,12 @@ class DeliveryAddressesController extends GetxController with StateMixin<List> {
     ResponseModel responseModel = await WebServices().getCities();
     if (responseModel.data["success"]) {
       dataCity = responseModel.data["data"];
+      dataCity.insert(0, {
+        "id": -1,
+        "name": "اختيار المدينه",
+        "active": -1,
+        "torod_city_id": -1,
+      });
     }
   }
 

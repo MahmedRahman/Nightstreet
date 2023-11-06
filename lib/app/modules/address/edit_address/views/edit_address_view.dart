@@ -23,7 +23,7 @@ class editAddressView extends GetView<editAddressController> {
 
   final addressController = TextEditingController();
   final phoneController = TextEditingController();
-  final noteController = TextEditingController();
+  final specialController = TextEditingController();
   final isDefaultCon = TextEditingController();
   int cityId = 0;
 
@@ -31,12 +31,12 @@ class editAddressView extends GetView<editAddressController> {
     required this.data,
   }) {
     Future.delayed(Duration.zero, () async {
-      print('dataaaa $data');
       addressController.text = data["address"];
       phoneController.text = data["phone"];
-      noteController.text = data["notes"] ?? '';
+      specialController.text = data["notes"] ?? '';
       cityId = data["city"]["id"];
       isDefaultCon.text = data["is_default"].toString();
+      print("cityId ${cityId.toString()}");
       controller.update();
     });
   }
@@ -47,80 +47,82 @@ class editAddressView extends GetView<editAddressController> {
     print(' data["is_default"]; ${data["is_default"]}');
     return BaseScaffold(
       appBar: CustomAppBar(titleText: 'تعديل العنوان'),
-      body: Form(
-        key: formKey,
-        child: ListView(
-          padding: AppDimension.appPadding,
-          children: [
-            AppSpacers.height16,
-            Text(
-              'حدد الموقع المراد التوصيل له',
-              style: TextStyle(
-                fontFamily: 'Effra',
-                fontSize: 16.0,
-                color: AppColors.greyColor,
-                letterSpacing: 0.32,
+      body: controller.obx((data) {
+        return Form(
+          key: formKey,
+          child: ListView(
+            padding: AppDimension.appPadding,
+            children: [
+              AppSpacers.height16,
+              Text(
+                'حدد الموقع المراد التوصيل له',
+                style: TextStyle(
+                  fontFamily: 'Effra',
+                  fontSize: 16.0,
+                  color: AppColors.greyColor,
+                  letterSpacing: 0.32,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Divider(),
-            ),
-            TextFieldComponent.text(
-              outLineText: "علامه مميزه",
-              controller: noteController,
-            ),
-            AppSpacers.height25,
-            SelectorView(
-              title: "اختر المدينة",
-              selectedIndexValue: cityId,
-              dataList: dataCity,
-              onChanged: (data) {
-                cityId = data['id'];
-              },
-            ),
-            AppSpacers.height25,
-            TextFieldComponent.address(
-              controller: addressController,
-            ),
-            AppSpacers.height25,
-            TextFieldComponent.phone(
-              controller: phoneController,
-              iconPath: '',
-            ),
-            AppSpacers.height16,
-            Row(
-              children: [
-                Text(
-                  'افتراضي',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: AppColors.blackColor,
-                    letterSpacing: 0.28,
-                    height: 0.86,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Divider(),
+              ),
+              TextFieldComponent.text(
+                outLineText: "علامه مميزه",
+                controller: specialController,
+              ),
+              AppSpacers.height25,
+              SelectorView(
+                title: "اختر المدينة",
+                selectedIndexValue: cityId,
+                dataList: dataCity,
+                onChanged: (data) {
+                  cityId = data['id'];
+                },
+              ),
+              AppSpacers.height25,
+              TextFieldComponent.address(
+                controller: addressController,
+              ),
+              AppSpacers.height25,
+              TextFieldComponent.phone(
+                controller: phoneController,
+                iconPath: '',
+              ),
+              AppSpacers.height16,
+              Row(
+                children: [
+                  Text(
+                    'افتراضي',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: AppColors.blackColor,
+                      letterSpacing: 0.28,
+                      height: 0.86,
+                    ),
+                    textAlign: TextAlign.right,
                   ),
-                  textAlign: TextAlign.right,
-                ),
-                AppSpacers.width10,
-                CustomToggleView(
-                  activeColor: AppColors.mainColor,
-                  deactivateColor: Colors.white,
-                  Kselected: int.tryParse(isDefaultCon.text) == 1,
-                  onChanged: (bool vlu) {
-                    if (vlu) {
-                      isDefaultCon.text = '1';
+                  AppSpacers.width10,
+                  CustomToggleView(
+                    activeColor: AppColors.mainColor,
+                    deactivateColor: Colors.white,
+                    Kselected: int.tryParse(isDefaultCon.text) == 1,
+                    onChanged: (bool vlu) {
+                      if (vlu) {
+                        isDefaultCon.text = '1';
 
-                      return;
-                    }
+                        return;
+                      }
 
-                    isDefaultCon.text = '0';
-                  },
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
+                      isDefaultCon.text = '0';
+                    },
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      }),
       bottomBarHeight: 143,
       bottomNavigationBar: Padding(
         padding: AppDimension.appPadding,
@@ -136,7 +138,7 @@ class editAddressView extends GetView<editAddressController> {
               cityId: cityId.toString(),
               phone: phoneController.text.toString(),
               address: addressController.text.toString(),
-              notes: noteController.text.toString(),
+              notes: specialController.text.toString(),
               isDefault: isDefaultCon.text.toString(),
               previousRoute: Get.previousRoute,
             );
@@ -145,47 +147,6 @@ class editAddressView extends GetView<editAddressController> {
       ),
     );
   }
-
-  // Obx selectAdressCategory() {
-  //   return Obx(() {
-  //     return Row(
-  //       children: [
-  //         customBnt(
-  //           title: "المنزل",
-  //           isSelect: (IsSelect.value == 0),
-  //           onTap: () {
-  //             IsSelect.value = 0;
-  //             selectAddressCategory = "المنزل";
-  //           },
-  //         ),
-  //         customBnt(
-  //           title: "العمل",
-  //           isSelect: IsSelect.value == 1,
-  //           onTap: () {
-  //             IsSelect.value = 1;
-  //             selectAddressCategory = "العمل";
-  //           },
-  //         ),
-  //         customBnt(
-  //           title: "العائلة",
-  //           isSelect: IsSelect.value == 2,
-  //           onTap: () {
-  //             IsSelect.value = 2;
-  //             selectAddressCategory = "العائلة";
-  //           },
-  //         ),
-  //         customBnt(
-  //           title: "الاستراحة",
-  //           isSelect: IsSelect.value == 3,
-  //           onTap: () {
-  //             IsSelect.value = 3;
-  //             selectAddressCategory = "الاستراحة";
-  //           },
-  //         ),
-  //       ],
-  //     );
-  //   });
-  // }
 
   Widget customBnt({
     required String title,
@@ -261,14 +222,24 @@ class SelectorView extends GetView {
   final selectedIndex = Rx<int>(0);
   final List<dynamic> dataList;
   final ValueChanged<dynamic> onChanged;
-
+  var selectItem = "";
   SelectorView({
     required this.dataList,
     required this.onChanged,
     required this.title,
     required this.selectedIndexValue,
   }) {
-    selectedIndex.value = selectedIndexValue;
+    print("val ${selectedIndexValue.toString()}");
+
+    final city = dataList.where((element) => element["id"] == selectedIndexValue).first;
+
+    final index = dataList.indexOf(city);
+
+    print("index ${index.toString()}");
+
+    selectedIndex.value = index;
+
+    //selectedIndex.value = selectedIndexValue;
   }
 
   @override
@@ -310,9 +281,12 @@ class SelectorView extends GetView {
                   ),
                   onSelectedItemChanged: (int selectedItemIndex) {
                     selectedIndex.value = selectedItemIndex;
-                    log(selectedItemIndex.toString());
+                    // log(selectedIndex.value.toString());
                     //log(dataList[selectedItemIndex]);
-                    onChanged(dataList[selectedItemIndex]);
+
+                    onChanged(dataList.elementAt(selectedItemIndex));
+
+                    // onChanged(dataList.where((element) => element["id"] == selectedIndex.value).first);
                   },
                 ),
               );
@@ -328,7 +302,8 @@ class SelectorView extends GetView {
                 children: [
                   AppSpacers.width20,
                   Text(
-                    dataList[selectedIndex.value]["name"],
+                    dataList.elementAt(selectedIndex.value)["name"],
+                    //dataList.where((element) => element["id"] == selectedIndex.value).first["name"],
                     style: TextStyle(
                       fontFamily: 'Effra',
                       fontSize: 16.0,

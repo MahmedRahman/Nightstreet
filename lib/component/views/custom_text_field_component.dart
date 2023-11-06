@@ -165,6 +165,7 @@ class TextFieldComponent extends StatelessWidget {
         validator = customValidator(
           rules: [
             isRequired ? IsRequired(message: 'حقل مطلوب') : IsOptional(),
+            IsBetween(min: 5, max: 30),
           ],
         );
 

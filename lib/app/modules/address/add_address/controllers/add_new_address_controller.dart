@@ -25,10 +25,8 @@ class AddNewAddressController extends GetxController with StateMixin {
     required String isDefault,
     required String previousRoute,
   }) async {
-    // EasyLoading.show();
-
-    print(cityId.toString());
-    AppDialogs.addAddressSuccess();
+    //print(cityId.toString());
+    //AppDialogs.addAddressSuccess();
     change(null, status: RxStatus.loading());
     ResponseModel responseModel = await WebServices().saveAddresses(
       cityId: cityId.toString(),
@@ -41,6 +39,7 @@ class AddNewAddressController extends GetxController with StateMixin {
     );
 
     if (responseModel.data["success"]) {
+      AppDialogs.addAddressSuccess();
       await Future.delayed(
         const Duration(seconds: 1),
         () {
@@ -59,6 +58,8 @@ class AddNewAddressController extends GetxController with StateMixin {
       AppDialogs.showToast(
         message: responseModel.data["message"],
       );
+      change(null, status: RxStatus.success());
+      return;
     }
 
     change(null, status: RxStatus.error());
