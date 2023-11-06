@@ -14,8 +14,7 @@ class IsBetween extends TextValidationRule {
   bool isValid(String input) => isBetween(input, min, max);
 
   @override
-  String? get errorMessage =>
-      message ?? 'اسم المستخدم يتراوح من $min إلى $max حرفًا';
+  String? get errorMessage => message ?? 'النص يتراوح من $min إلى $max حرفًا';
 }
 
 bool isBetween(String input, int min, int max) {
