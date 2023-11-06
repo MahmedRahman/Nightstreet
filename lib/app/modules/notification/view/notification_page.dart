@@ -15,16 +15,27 @@ class NotificationPage extends GetView<NotificationController> {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         titleText: "الإشعارات",
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              onPressed: () {
+                controller.readAllNotifaction();
+                return;
+              },
+              icon: Icon(Icons.done_all, color: AppColors.mainColor),
+            ),
+          ),
+        ],
       ),
       body: controller.obx(
         (notifications) {
           return ListView.separated(
             controller: controller.scroll,
             itemCount: notifications!.length,
-            padding: AppDimension.appPadding +
-                const EdgeInsets.symmetric(vertical: 30),
+            padding: AppDimension.appPadding + const EdgeInsets.symmetric(vertical: 30),
             itemBuilder: (context, index) => NotificationBuilderWidget(
               iconPath: notifications[index].icon,
               notificationTitle: notifications[index].title,

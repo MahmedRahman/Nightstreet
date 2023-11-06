@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/notification/model/notification_model.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-class NotificationController extends GetxController
-    with StateMixin<List<NotificationModel>>, ScrollMixin {
+class NotificationController extends GetxController with StateMixin<List<NotificationModel>>, ScrollMixin {
   final List<NotificationModel> _notifications = [];
   int currentPage = 1;
   int? totalRemotePage;
@@ -26,8 +27,7 @@ class NotificationController extends GetxController
 
     if (responseModel.data['success'] == true) {
       final fetchedNotifications = List<NotificationModel>.from(
-        responseModel.data['data']['data']
-            .map((item) => NotificationModel.fromJson(item)),
+        responseModel.data['data']['data'].map((item) => NotificationModel.fromJson(item)),
       );
 
       _notifications.addAll(fetchedNotifications);
@@ -41,6 +41,21 @@ class NotificationController extends GetxController
       change(_notifications, status: RxStatus.success());
       totalRemotePage = responseModel.data['data']['pagination']['total_pages'];
     }
+  }
+
+  readAllNotifaction() async {
+    final ResponseModel responseModel = await WebServices().readAllNotifications();
+
+    if (responseModel.data['success'] == true) {
+      AppDialogs.showToast(message: responseModel.data['message']);
+      _notifications.clear();
+      fetchNotifications();
+      Get.find<AuthenticationController>().getProfile();
+      return;
+    }
+
+    AppDialogs.showToast(message: responseModel.data['message']);
+    return;
   }
 
   @override
