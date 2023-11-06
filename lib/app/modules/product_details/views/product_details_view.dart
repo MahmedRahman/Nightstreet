@@ -48,7 +48,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
   }
 
   String variantId = '';
-  RxString favId = ''.obs;
+
   @override
   Widget build(BuildContext context) {
     customInit();
@@ -69,7 +69,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
     return BaseScaffold(
       appBar: CustomAppBar(
         titleText: 'تفاصيل المنتج',
-        onBackTapped: () => Get.back(result: favId.value),
+        onBackTapped: () => Get.back(result: true),
         actions: [
           if (authController.isLoggedIn || authController.isGuestUser)
             GetBuilder<ShoppintCartController>(
@@ -112,13 +112,11 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                         ProductFavoriteController(),
                       );
                       product.isFavorite = !product.isFavorite;
-                      favId.value = product.id.toString();
 
                       favCon.addRemoveProductFromFavorite(
                         productId: product.id,
                         onError: () {
                           product.isFavorite = !product.isFavorite;
-                          favId.value = '';
                         },
                       );
 
