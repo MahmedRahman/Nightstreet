@@ -104,34 +104,36 @@ class OrderDetailsUnderwayView extends GetView<OrderDetailsController> {
                       },
                     ),
                   ),
-                  AppSpacers.width20,
-                  Expanded(
-                    child: InkWell(
-                      onTap: () async {
-                        final id = await Get.toNamed(
-                          Routes.ORDER_CANCEL,
-                          arguments: order.id.toString(),
-                        );
-                        if (id != null) {
-                          controller.getOrderDetails(int.parse(id));
-                        }
-                      },
-                      child: DecoratedContainer(
-                        height: 52,
-                        child: Center(
-                          child: Text(
-                            "الغاء الطلب",
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: AppColors.blackColor,
-                              fontWeight: FontWeight.w500,
+                  if (order.canCancel) ...[
+                    AppSpacers.width20,
+                    Expanded(
+                      child: InkWell(
+                        onTap: () async {
+                          final id = await Get.toNamed(
+                            Routes.ORDER_CANCEL,
+                            arguments: order.id.toString(),
+                          );
+                          if (id != null) {
+                            controller.getOrderDetails(int.parse(id));
+                          }
+                        },
+                        child: DecoratedContainer(
+                          height: 52,
+                          child: Center(
+                            child: Text(
+                              "الغاء الطلب",
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                color: AppColors.blackColor,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
                     ),
-                  ),
+                  ]
                 ],
               )
             ],
