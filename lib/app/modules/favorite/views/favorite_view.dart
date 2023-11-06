@@ -150,10 +150,15 @@ class FavoriteProducts extends GetView<ProductFavoriteController> {
                 isFavorite:
                     controller.productFavoriteIds.value!.contains(product.id),
                 isLimitedQuantity: product.quantity < 10,
-                onTap: () => Get.toNamed(
-                  Routes.PRODUCT_DETAILS,
-                  arguments: product.id.toString(),
-                ),
+                onTap: () async {
+                  await Get.toNamed(
+                    Routes.PRODUCT_DETAILS,
+                    arguments: product.id.toString(),
+                  );
+
+                  controller.resetPaginationValues();
+                  controller.onInit();
+                },
               );
             },
           );

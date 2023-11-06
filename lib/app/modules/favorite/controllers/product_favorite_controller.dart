@@ -13,6 +13,7 @@ class ProductFavoriteController extends GetxController
     with ScrollMixin, StateMixin<List<ProductModel>> {
   final List<ProductModel> _products = [];
   final productFavoriteIds = Rx<List<int>?>([]);
+
   int currentPage = 1;
   bool? isPagination;
   RxString searchQuery = ''.obs;
@@ -96,6 +97,13 @@ class ProductFavoriteController extends GetxController
     productFavoriteIds.value?.add(productId);
     update();
     print('fav ids list => ${productFavoriteIds.value?.length}');
+  }
+
+  checkListIsEmpty() {
+    if (productFavoriteIds.value!.isEmpty) {
+      change([], status: RxStatus.empty());
+      update();
+    }
   }
 
   void removeProductFromList(int productId) {
