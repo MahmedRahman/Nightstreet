@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/cashed_network_image_view.dart';
+import 'package:krzv2/component/views/favorite_icon_view.dart';
 import 'package:krzv2/component/views/rating_bar_view.dart';
-import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
@@ -57,6 +57,7 @@ class ClinicCardView extends GetView {
           ),
         ),
         child: Stack(
+          alignment: Alignment.topLeft,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,31 +113,12 @@ class ClinicCardView extends GetView {
                 ),
               ],
             ),
-            Positioned(
-              left: 8,
-              top: 8,
-              child: InkWell(
-                onTap: onFavoriteTapped,
-                overlayColor: MaterialStatePropertyAll(Colors.transparent),
-                child: Container(
-                  width: 22.0,
-                  height: 22.0,
-                  margin: EdgeInsets.only(
-                    right: 10,
-                    top: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.greyColor4,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: SvgPicture.asset(
-                      isFavorite ? AppSvgAssets.solidHeartIcon : AppSvgAssets.heartIcon,
-                    ),
-                  ),
-                ),
-              ),
+            FavoriteIconView(
+              width: 35,
+              height: 35,
+              isFavorite: isFavorite,
+              onFavoriteTapped: onFavoriteTapped,
+              backgroundColor: Colors.transparent,
             ),
           ],
         ),

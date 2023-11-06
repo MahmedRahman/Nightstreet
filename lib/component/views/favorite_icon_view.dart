@@ -10,18 +10,26 @@ class FavoriteIconView extends GetView {
     Key? key,
     required this.isFavorite,
     required this.onFavoriteTapped,
+    this.width = 40,
+    this.height = 40,
+    this.backgroundColor,
   }) : super(key: key);
 
-  final Function() onFavoriteTapped;
+  final Function()? onFavoriteTapped;
+  final Color? backgroundColor;
+
   final bool isFavorite;
+  final double? width;
+  final double? height;
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onFavoriteTapped,
       overlayColor: MaterialStatePropertyAll(Colors.transparent),
       child: DecoratedContainer(
-        width: 40,
-        height: 40,
+        backgroundColor: backgroundColor,
+        width: width,
+        height: height,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SvgPicture.asset(
