@@ -52,6 +52,9 @@ class SplashController extends GetxController with StateMixin {
       return;
     }
 
+    authenticationController.loginAsGuest(
+      firebaseToken: authenticationController.getFirebaseToken().toString(),
+    );
     Get.offAllNamed(Routes.LAYOUT);
     change([], status: RxStatus.success());
 
