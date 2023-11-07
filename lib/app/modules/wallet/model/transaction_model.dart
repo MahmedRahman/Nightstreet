@@ -22,11 +22,9 @@ class Transaction {
 }
 
 class TransactionData {
-  double walletBalance;
   List<Transaction> transactions;
 
   TransactionData({
-    required this.walletBalance,
     required this.transactions,
   });
 
@@ -36,7 +34,6 @@ class TransactionData {
         .toList();
 
     return TransactionData(
-      walletBalance: double.parse(json['wallet_balance']),
       transactions: transactionsList,
     );
   }
@@ -64,6 +61,5 @@ final List<Transaction> transactions1 = [
 ];
 
 final TransactionData transactionData1 = TransactionData(
-  walletBalance: 500.0,
   transactions: transactions1,
 );

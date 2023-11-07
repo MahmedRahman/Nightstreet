@@ -28,26 +28,29 @@ class WalletController extends GetxController with StateMixin<TransactionData> {
       return;
     }
 
-    final data = TransactionData.fromJson(response.data['data']);
-    change(data, status: RxStatus.success());
+    try {
+      final data = TransactionData.fromJson(response.data['data']);
+      change(data, status: RxStatus.success());
 
-    final trasMapList = (response.data['data']['transactions']['data'] as List);
+      final trasMapList =
+          (response.data['data']['transactions']['data'] as List);
 
-    // final totalDataLength =
-    //     response.data['data']['transactions']['pagination']['total'];
+      transactions.clear();
 
-    transactions.clear();
-
-    transactions.addAll(
-      List.generate(
-        trasMapList.length,
-        (index) => {
-          "operation": trasMapList[index]['type'],
-          "description": trasMapList[index]['description'],
-          "amount": trasMapList[index]['amount'],
-        },
-      ),
-    );
+      transactions.addAll(
+        List.generate(
+          trasMapList.length,
+          (index) => {
+            "operation": trasMapList[index]['type'],
+            "description": trasMapList[index]['description'],
+            "amount": trasMapList[index]['amount'],
+          },
+        ),
+      );
+    } catch (e, st) {
+      print('error $e');
+      print('stack $st');
+    }
   }
 
   void onPagedChanged(int page) {
