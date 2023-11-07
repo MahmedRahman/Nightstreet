@@ -10,6 +10,7 @@ class DateTimeFormFieldView extends GetView {
     Key? key,
     required this.onDateChanged,
     this.initialDateTime,
+    this.lastDate,
     this.title = "تاريخ الميلاد",
     required this.firstDate,
   }) {
@@ -28,6 +29,7 @@ class DateTimeFormFieldView extends GetView {
   final String? initialDateTime;
   final String? title;
   DateTime firstDate;
+  DateTime? lastDate;
   final selectedDate = Rx<DateTime?>(null);
 
   @override
@@ -72,7 +74,7 @@ class DateTimeFormFieldView extends GetView {
                           context: context,
                           initialDate: selectedDate.value ?? DateTime.now(),
                           firstDate: firstDate,
-                          lastDate: DateTime(2101),
+                          lastDate: lastDate ?? DateTime(2101),
                           confirmText: "تحديد",
                           cancelText: 'رجوع',
                           builder: (context, child) {
@@ -108,7 +110,9 @@ class DateTimeFormFieldView extends GetView {
                           borderRadius: BorderRadius.circular(10.0),
                           color: Color(0xffF5F6FA),
                           border: Border.all(
-                            color: field.hasError ? Colors.red : Colors.transparent,
+                            color: field.hasError
+                                ? Colors.red
+                                : Colors.transparent,
                           ),
                         ),
                         child: Row(
