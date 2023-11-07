@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/rating_bar_view.dart';
+import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
@@ -73,6 +74,40 @@ class ReviewCardView extends GetView {
           ),
           textAlign: TextAlign.right,
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Divider(),
+        ),
+      ],
+    );
+  }
+}
+
+class ReviewShimer extends StatelessWidget {
+  const ReviewShimer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 70,
+          height: 10,
+          color: Colors.black,
+        ).shimmer(),
+        AppSpacers.height10,
+        Container(
+          width: 60,
+          height: 10,
+          color: Colors.black,
+        ).shimmer(),
+        AppSpacers.height16,
+        Container(
+          width: 130,
+          height: 10,
+          color: Colors.black,
+        ).shimmer(),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Divider(),
