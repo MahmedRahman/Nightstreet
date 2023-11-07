@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
-import 'package:krzv2/component/views/toast_component.dart';
 import 'package:krzv2/models/user_data_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/cache_service.dart';
@@ -71,7 +70,7 @@ class AuthenticationController extends GetxController with CacheManager {
     EasyLoading.dismiss();
 
     if (response.data["success"] == false) {
-      showToast(
+      AppDialogs.showToast(
         message: response.data["message"].toString(),
       );
 
@@ -113,7 +112,7 @@ class AuthenticationController extends GetxController with CacheManager {
         return;
       }
 
-      showToast(
+      AppDialogs.showToast(
         message: response.data["message"].toString(),
       );
 
@@ -124,7 +123,7 @@ class AuthenticationController extends GetxController with CacheManager {
       Routes.VERIFY_PHONE,
       arguments: phoneNumber,
     );
-    showToast(
+    AppDialogs.showToast(
       message: response.data["message"].toString(),
     );
   }
@@ -140,14 +139,14 @@ class AuthenticationController extends GetxController with CacheManager {
 
     EasyLoading.dismiss();
     if (response.data["success"] == false) {
-      showToast(
+      AppDialogs.showToast(
         message: response.data["message"].toString(),
       );
       return;
     }
     await removeUserToken();
     await removeFirebaseToken();
-    showToast(message: 'تم تسجيل الخروج بنجاح');
+    AppDialogs.showToast(message: 'تم تسجيل الخروج بنجاح');
     onSuccess();
     Get.offAndToNamed(Routes.LAYOUT);
 
@@ -160,14 +159,14 @@ class AuthenticationController extends GetxController with CacheManager {
 
     EasyLoading.dismiss();
     if (response.data["success"] == false) {
-      showToast(
+      AppDialogs.showToast(
         message: response.data["message"].toString(),
       );
       return;
     }
     await removeUserToken();
     await removeFirebaseToken();
-    showToast(message: 'تم حذف الحساب بنجاح');
+    AppDialogs.showToast(message: 'تم حذف الحساب بنجاح');
     Get.offAndToNamed(Routes.LAYOUT);
 
     _userData = null;
@@ -189,11 +188,11 @@ class AuthenticationController extends GetxController with CacheManager {
     EasyLoading.dismiss();
 
     if (response.data["success"] == false) {
-      showToast(message: response.data["message"]);
+      AppDialogs.showToast(message: response.data["message"]);
       return;
     }
 
-    showToast(message: response.data["message"]);
+    AppDialogs.showToast(message: response.data["message"]);
     _userData = UserData.fromJson(response.data["data"]);
     update();
     Get.back();
@@ -204,7 +203,7 @@ class AuthenticationController extends GetxController with CacheManager {
     ResponseModel response = await WebServices().getAuthProfile();
 
     if (response.data["success"] == false) {
-      showToast(message: response.data["message"]);
+      AppDialogs.showToast(message: response.data["message"]);
       return;
     }
 
@@ -229,7 +228,7 @@ class AuthenticationController extends GetxController with CacheManager {
 
     EasyLoading.dismiss();
     if (response.data["success"] == false) {
-      showToast(
+      AppDialogs.showToast(
         message: response.data["message"].toString(),
       );
 

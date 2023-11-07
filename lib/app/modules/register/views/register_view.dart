@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:krzv2/component/views/auth_header_component.dart';
 import 'package:krzv2/component/views/checkbox_component.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/custom_rich_text_component.dart';
 import 'package:krzv2/component/views/custom_text_field_component.dart';
-import 'package:krzv2/component/views/toast_component.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
@@ -75,7 +75,7 @@ class RegisterView extends GetView<RegisterController> {
                       }
 
                       if (isTermsConfirmed.value == false) {
-                        showToast(
+                        AppDialogs.showToast(
                           message: "الرجاء الموافقة على كافة الشروط والأحكام",
                         );
 

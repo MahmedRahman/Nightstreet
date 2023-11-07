@@ -30,6 +30,12 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Program requires GPS to make search with location</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Turning on location service to search with location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Turning on location service to search with location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>App needs access to photo lib for get compliant image</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
@@ -45,22 +51,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Program requires GPS to make search with location</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Turning on location service to search with location</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Turning on location service to search with location</string>
 </dict>
 </plist>

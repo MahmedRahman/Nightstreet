@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:krzv2/component/views/toast_component.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 
 class PickerService {
   static Future<XFile?> pickImage({
@@ -23,7 +23,7 @@ class PickerService {
 
       pickedFile = file;
     } on PlatformException catch (e) {
-      showToast(message: e.message!);
+      AppDialogs.showToast(message: e.message!);
     } catch (e) {
       print('error getImage => $e');
     }
@@ -42,7 +42,7 @@ class PickerService {
 
       pickedFile = result;
     } on PlatformException catch (e) {
-      showToast(message: e.message!);
+      AppDialogs.showToast(message: e.message!);
     } catch (e) {
       log('Unsupported operation' + e.toString());
     }

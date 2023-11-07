@@ -2,7 +2,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 import 'package:get/state_manager.dart';
-import 'package:krzv2/component/views/toast_component.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/app/modules/wallet/model/transaction_model.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
@@ -64,13 +64,13 @@ class WalletController extends GetxController with StateMixin<TransactionData> {
     EasyLoading.dismiss();
 
     if (response.data['success'] == false) {
-      showToast(
+      AppDialogs.showToast(
         message: response.data["message"].toString(),
       );
       return;
     }
 
-    showToast(message: response.data["message"].toString());
+    AppDialogs.showToast(message: response.data["message"].toString());
     final authController = Get.find<AuthenticationController>();
     Future.wait([
       onInit(),

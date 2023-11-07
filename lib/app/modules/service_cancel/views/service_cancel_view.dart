@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:krzv2/component/views/cancel_card_view.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
-import 'package:krzv2/component/views/toast_component.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
@@ -112,7 +112,7 @@ class ServiceCancelView extends GetView<ServiceCancelController> {
                 text: "إرسال",
                 onTap: () {
                   if ((selectedReasonsIds.value ?? []).isEmpty) {
-                    showToast(message: 'الرجاء تحديد اسباب الإلغاء');
+                    AppDialogs.showToast(message: 'الرجاء تحديد اسباب الإلغاء');
                     return;
                   }
 

@@ -113,7 +113,7 @@ class OrderDetailsUnderwayView extends GetView<OrderDetailsController> {
                             Routes.ORDER_CANCEL,
                             arguments: order.id.toString(),
                           );
-                          if (id != null) {
+                        if (id != null) {
                             controller.getOrderDetails(int.parse(id));
                           }
                         },

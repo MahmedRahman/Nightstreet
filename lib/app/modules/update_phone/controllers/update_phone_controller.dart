@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:krzv2/component/views/toast_component.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
@@ -18,13 +18,13 @@ class UpdatePhoneController extends GetxController {
 
     EasyLoading.dismiss();
     if (response.data["success"] == false) {
-      showToast(
+      AppDialogs.showToast(
         message: response.data["message"].toString(),
       );
 
       return;
     }
-    showToast(
+    AppDialogs.showToast(
       message: response.data["message"].toString(),
     );
     Get.toNamed(
@@ -46,7 +46,7 @@ class UpdatePhoneController extends GetxController {
     EasyLoading.dismiss();
 
     if (response.data["success"] == false) {
-      showToast(
+      AppDialogs.showToast(
         message: response.data["message"].toString(),
       );
 
@@ -54,7 +54,7 @@ class UpdatePhoneController extends GetxController {
       return;
     }
 
-    showToast(
+    AppDialogs.showToast(
       message: response.data["message"].toString(),
     );
 
