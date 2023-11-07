@@ -16,7 +16,7 @@ class ServiceClinicModel {
       id: json['id'],
       name: json['name'],
       image: json['image'],
-      desc: json['desc'],
+      desc: json['desc'] ?? '',
     );
   }
 }

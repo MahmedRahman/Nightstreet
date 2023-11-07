@@ -45,21 +45,27 @@ class HomePageServicesController extends GetxController
     );
 
     if (responseModel.data['success'] == true) {
-      final fetchedBranches = List<BranchModel>.from(
-        responseModel.data['data']['data']
-            .map((item) => BranchModel.fromJson(item)),
-      );
+      try {
+        final fetchedBranches = List<BranchModel>.from(
+          responseModel.data['data']['data']
+              .map((item) => BranchModel.fromJson(item)),
+        );
 
-      _branches.addAll(fetchedBranches);
+        _branches.addAll(fetchedBranches);
 
-      if (_branches.isEmpty) {
-        change([], status: RxStatus.empty());
-        return;
+        if (_branches.isEmpty) {
+          change([], status: RxStatus.empty());
+          return;
+        }
+
+        await Future.delayed(const Duration(milliseconds: 500));
+        change(_branches, status: RxStatus.success());
+        totalRemotePage =
+            responseModel.data['data']['pagination']['total_pages'];
+      } catch (e, st) {
+        print('get error $e');
+        print('get stack $st');
       }
-
-      await Future.delayed(const Duration(milliseconds: 500));
-      change(_branches, status: RxStatus.success());
-      totalRemotePage = responseModel.data['data']['pagination']['total_pages'];
     }
   }
 
