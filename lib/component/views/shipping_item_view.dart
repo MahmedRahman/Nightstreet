@@ -20,6 +20,7 @@ class ShippingItemView extends GetView {
     required this.onDeleteTapped,
     required this.onIncrement,
     required this.ondecrement,
+    required this.onTap,
   }) : super(key: key);
 
   final String image;
@@ -30,6 +31,7 @@ class ShippingItemView extends GetView {
   final void Function()? onDeleteTapped;
   final void Function()? onIncrement;
   final void Function()? ondecrement;
+  final void Function()? onTap;
 
   ShippingItemView.demmy()
       : image =
@@ -40,89 +42,93 @@ class ShippingItemView extends GetView {
         amount = '2',
         ondecrement = null,
         onDeleteTapped = null,
+        onTap = null,
         onIncrement = null;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 9),
-      margin: const EdgeInsets.only(bottom: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        color: AppColors.greyColor4.withOpacity(0.7),
-        border: Border.all(
-          width: 1.0,
-          color: AppColors.borderColor2,
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 9),
+        margin: const EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          color: AppColors.greyColor4.withOpacity(0.7),
+          border: Border.all(
+            width: 1.0,
+            color: AppColors.borderColor2,
+          ),
         ),
-      ),
-      child: Row(
-        children: [
-          AppSpacers.width10,
-          CashedNetworkImageView(width: 94, height: 100, imageUrl: image),
-          AppSpacers.width10,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.sizeOf(context).width * .5,
-                ),
-                child: Text(
-                  name,
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: const Color(0xFF1F1F1F),
-                    height: 1.5,
+        child: Row(
+          children: [
+            AppSpacers.width10,
+            CashedNetworkImageView(width: 94, height: 100, imageUrl: image),
+            AppSpacers.width10,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.sizeOf(context).width * .5,
                   ),
-                  textAlign: TextAlign.right,
-                ),
-              ),
-              AppSpacers.height5,
-              PriceWithDiscountView(
-                price: price,
-                hasDiscount: oldPrice != '' ? true : false,
-                oldPrice: oldPrice,
-              ),
-              AppSpacers.height5,
-              Row(
-                children: [
-                  CounterView(
-                    height: 30,
-                    borderRadius: 6,
-                    initValue: num.tryParse(amount.toString())!,
-                    onDecrementTapped: ondecrement,
-                    onIncrementTapped: onIncrement,
+                  child: Text(
+                    name,
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: const Color(0xFF1F1F1F),
+                      height: 1.5,
+                    ),
+                    textAlign: TextAlign.right,
                   ),
-                  AppSpacers.width10,
-                  InkWell(
-                    onTap: onDeleteTapped,
-                    overlayColor: MaterialStatePropertyAll(Colors.transparent),
-                    child: Container(
-                      width: 30.0,
-                      height: 30.0,
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6.0),
-                        color: AppColors.greyColor4,
-                        border: Border.all(
-                          width: 1.0,
-                          color: AppColors.borderColor2,
+                ),
+                AppSpacers.height5,
+                PriceWithDiscountView(
+                  price: price,
+                  hasDiscount: oldPrice != '' ? true : false,
+                  oldPrice: oldPrice,
+                ),
+                AppSpacers.height5,
+                Row(
+                  children: [
+                    CounterView(
+                      height: 30,
+                      borderRadius: 6,
+                      initValue: num.tryParse(amount.toString())!,
+                      onDecrementTapped: ondecrement,
+                      onIncrementTapped: onIncrement,
+                    ),
+                    AppSpacers.width10,
+                    InkWell(
+                      onTap: onDeleteTapped,
+                      overlayColor:
+                          MaterialStatePropertyAll(Colors.transparent),
+                      child: Container(
+                        width: 30.0,
+                        height: 30.0,
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6.0),
+                          color: AppColors.greyColor4,
+                          border: Border.all(
+                            width: 1.0,
+                            color: AppColors.borderColor2,
+                          ),
+                        ),
+                        child: SvgPicture.asset(
+                          AppSvgAssets.deleteIcon,
                         ),
                       ),
-                      child: SvgPicture.asset(
-                        AppSvgAssets.deleteIcon,
-                      ),
                     ),
-                  ),
-                ],
-              ),
-              //  AppSpacers.height10,
-            ],
-          ),
-        ],
+                  ],
+                ),
+                //  AppSpacers.height10,
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
-
 }

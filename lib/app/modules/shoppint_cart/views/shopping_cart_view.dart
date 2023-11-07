@@ -98,6 +98,12 @@ class ShoppingCartView extends GetView<ShoppintCartController> {
                             : product.variantId.toString(),
                       );
                     },
+                    onTap: () {
+                      Get.toNamed(
+                        Routes.PRODUCT_DETAILS,
+                        arguments: product.productId.toString(),
+                      );
+                    },
                   );
                 },
               );
