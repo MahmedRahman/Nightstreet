@@ -73,10 +73,8 @@ class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
                   name: branch.name,
                   onTap: () {},
                   onFavoriteTapped: () {
-                    if (Get.put(AuthenticationController().isLoggedIn) ==
-                        false) {
-                      return AppDialogs.showToast(
-                          message: 'الرجاء تسجيل الدخول');
+                    if (Get.put(AuthenticationController().isLoggedIn) == false) {
+                      return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                     }
 
                     final favCon = Get.put<CliniFavoriteController>(
@@ -254,7 +252,7 @@ class ClinicServicesPage extends GetView<ClinicServicesController> {
             },
           );
         },
-        onEmpty: AppPageEmpty.serviceSearch(),
+        onEmpty: AppPageEmpty.noServiceFound(),
       ),
     );
   }
