@@ -57,11 +57,6 @@ class SplashController extends GetxController with StateMixin {
     );
     Get.offAllNamed(Routes.LAYOUT);
     change([], status: RxStatus.success());
-
-    Timer(
-      const Duration(seconds: 12),
-      () {},
-    );
   }
 }
 

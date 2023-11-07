@@ -48,8 +48,6 @@ class AuthenticationController extends GetxController with CacheManager {
     await saveUserType(UserType.guest.name);
     _userData = null;
 
-    print('after new login guest token => ${guestToken}');
-
     await saveGuestToken(response.data['data']['token']);
     final cartController = Get.find<ShoppintCartController>();
     cartController.onInit();

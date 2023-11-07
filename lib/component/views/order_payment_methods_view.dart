@@ -25,7 +25,7 @@ class OrderPaymentMethodsView extends GetView {
   Widget build(BuildContext context) {
     final authController = Get.find<AuthenticationController>();
     final walletIsGreaterThanZero =
-        int.parse(authController.userData?.walletBalance ?? '0') != 0;
+        int.tryParse(authController.userData?.walletBalance ?? '0') != 0;
     return DecoratedContainer(
       child: Padding(
         padding: const EdgeInsets.all(16),
