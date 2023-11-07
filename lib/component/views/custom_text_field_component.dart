@@ -12,6 +12,7 @@ class TextFieldComponent extends StatelessWidget {
   final TextInputType? keyboardType;
 
   final String? Function(String?)? validator;
+  final void Function()? onTap;
   final List<TextInputFormatter>? inputFormatters;
   final ValueChanged<String>? onChanged;
   final TextEditingController controller;
@@ -29,6 +30,7 @@ class TextFieldComponent extends StatelessWidget {
     this.onChanged,
     required this.controller,
     this.validator,
+    this.onTap = null,
     this.maxLines = 1,
     this.inputFormatters,
     this.isRequired = true,
@@ -40,6 +42,7 @@ class TextFieldComponent extends StatelessWidget {
     super.key,
     this.onChanged,
     this.isReadOnly = false,
+    this.onTap = null,
     this.maxLines = 1,
     this.isRequired = true,
     this.iconPath = AppSvgAssets.phoneIcon,
@@ -60,6 +63,7 @@ class TextFieldComponent extends StatelessWidget {
     required this.controller,
     super.key,
     this.onChanged,
+    this.onTap = null,
     this.isReadOnly = false,
     this.maxLines = 1,
     this.isRequired = true,
@@ -84,6 +88,7 @@ class TextFieldComponent extends StatelessWidget {
     super.key,
     this.onChanged,
     this.isReadOnly = false,
+    this.onTap = null,
     this.maxLines = 7,
     this.isRequired = true,
     this.validator,
@@ -97,6 +102,7 @@ class TextFieldComponent extends StatelessWidget {
     required this.controller,
     this.inputFormatters,
     this.maxLines = 1,
+    this.onTap = null,
     this.isReadOnly = false,
     this.isRequired = true,
   })  : outLineText = "الإسـم بالكامل",
@@ -115,6 +121,7 @@ class TextFieldComponent extends StatelessWidget {
     super.key,
     this.onChanged,
     required this.controller,
+    this.onTap = null,
     this.inputFormatters,
     this.maxLines = 1,
     this.isReadOnly = false,
@@ -136,6 +143,7 @@ class TextFieldComponent extends StatelessWidget {
     this.onChanged,
     required this.controller,
     this.inputFormatters,
+    this.onTap = null,
     this.iconPath = '',
     this.maxLines = 1,
     this.isReadOnly = false,
@@ -155,6 +163,7 @@ class TextFieldComponent extends StatelessWidget {
     this.onChanged,
     required this.controller,
     this.inputFormatters,
+    this.onTap = null,
     this.maxLines = 1,
     this.isReadOnly = false,
     this.isRequired = true,
@@ -172,69 +181,72 @@ class TextFieldComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (outLineText != '')
-          Text(
-            outLineText ?? '',
-            style: const TextStyle(
-              fontSize: 16.0,
-              color: AppColors.blackColor,
-              letterSpacing: 0.32,
-              fontWeight: FontWeight.w500,
-              height: 0.75,
-            ),
-            textAlign: TextAlign.right,
-          ),
-        const SizedBox(
-          height: 10,
-        ),
-        TextFormField(
-          style: const TextStyle(
-            fontSize: 16,
-            color: AppColors.greyColor,
-          ),
-          inputFormatters: inputFormatters,
-          maxLines: maxLines,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          controller: controller,
-          keyboardType: keyboardType,
-          cursorColor: AppColors.mainColor,
-          onChanged: onChanged,
-          validator: validator,
-          readOnly: isReadOnly,
-          decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 20.0,
-                vertical: maxLines > 1 ? 20 : 0,
-              ),
-              border: outlineInputBorder,
-              enabledBorder: outlineInputBorder,
-              focusedBorder: outlineInputBorder,
-              hintText: hintText,
-              hintStyle: const TextStyle(
+    return InkWell(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (outLineText != '')
+            Text(
+              outLineText ?? '',
+              style: const TextStyle(
                 fontSize: 16.0,
-                color: AppColors.greyColor,
+                color: AppColors.blackColor,
+                letterSpacing: 0.32,
+                fontWeight: FontWeight.w500,
                 height: 0.75,
               ),
-              fillColor: const Color(0xffF5F6FA),
-              filled: true,
-              prefixIcon: iconPath != ''
-                  ? Container(
-                      padding: EdgeInsets.all(
-                        size.width * .04,
-                      ),
-                      child: SvgPicture.asset(
-                        iconPath,
-                        fit: BoxFit.fitHeight,
-                        width: 20,
-                        height: 20,
-                      ),
-                    )
-                  : null),
-        ),
-      ],
+              textAlign: TextAlign.right,
+            ),
+          const SizedBox(
+            height: 10,
+          ),
+          TextFormField(
+            onTap: onTap,
+            style: const TextStyle(
+              fontSize: 16,
+              color: AppColors.greyColor,
+            ),
+            inputFormatters: inputFormatters,
+            maxLines: maxLines,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            controller: controller,
+            keyboardType: keyboardType,
+            cursorColor: AppColors.mainColor,
+            onChanged: onChanged,
+            validator: validator,
+            readOnly: isReadOnly,
+            decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: maxLines > 1 ? 20 : 0,
+                ),
+                border: outlineInputBorder,
+                enabledBorder: outlineInputBorder,
+                focusedBorder: outlineInputBorder,
+                hintText: hintText,
+                hintStyle: const TextStyle(
+                  fontSize: 16.0,
+                  color: AppColors.greyColor,
+                  height: 0.75,
+                ),
+                fillColor: const Color(0xffF5F6FA),
+                filled: true,
+                prefixIcon: iconPath != ''
+                    ? Container(
+                        padding: EdgeInsets.all(
+                          size.width * .04,
+                        ),
+                        child: SvgPicture.asset(
+                          iconPath,
+                          fit: BoxFit.fitHeight,
+                          width: 20,
+                          height: 20,
+                        ),
+                      )
+                    : null),
+          ),
+        ],
+      ),
     );
   }
 
