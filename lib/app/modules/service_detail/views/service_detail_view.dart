@@ -13,6 +13,7 @@ import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/favorite_icon_view.dart';
 import 'package:krzv2/component/views/icon_button_component.dart';
 import 'package:krzv2/component/views/image_swpier_view.dart';
+import 'package:krzv2/component/views/notification_icon_view.dart';
 import 'package:krzv2/component/views/on_offer_loading.dart';
 import 'package:krzv2/component/views/price_with_discount_view.dart';
 import 'package:krzv2/component/views/product_cash_back_view.dart';
@@ -32,6 +33,8 @@ import '../controllers/service_detail_controller.dart';
 
 class ServiceDetailView extends GetView<ServiceDetailController> {
   final controller = Get.put(ServiceDetailController());
+  final authController = Get.find<AuthenticationController>();
+
   RxString favId = ''.obs;
   @override
   Widget build(BuildContext context) {
@@ -40,11 +43,14 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
         onBackTapped: () => Get.back(result: favId.value),
         titleText: "تفاصيل الخدمة",
         actions: [
-          CustomIconButton(
-            onTap: () {},
-            iconPath: AppSvgAssets.notificationIcon,
-            count: 0,
-          ),
+          if (authController.isLoggedIn) NotificationIconView(),
+          // CustomIconButton(
+          //   onTap: () {
+
+          //   },
+          //   iconPath: AppSvgAssets.notificationIcon,
+          //   count: 0,
+          // ),
           AppSpacers.width20,
         ],
       ),
@@ -200,7 +206,6 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                     AppSpacers.height12,
                     Divider(),
                     AppSpacers.height12,
-                 
                     DoctorListView(),
                     AppSpacers.height60,
                   ],

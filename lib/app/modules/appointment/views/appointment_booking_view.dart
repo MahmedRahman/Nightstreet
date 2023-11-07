@@ -200,7 +200,6 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                         );
                       },
                     );
-             
                   },
                   overlayColor: MaterialStatePropertyAll(Colors.transparent),
                   child: Column(
@@ -400,6 +399,15 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                   controller.AppointmentDataList.value = [];
 
                   Get.find<AppointmentController>().selectNote = longText.text;
+
+                  if (Get.find<AppointmentController>().service["amount_to_pay"] == 0) {
+                   
+                    Get.find<AppointmentController>().bookAppointment(
+                    payment_type: "free",
+                  );
+                    return;
+                  }
+
                   Get.toNamed(Routes.PAYMENT_APPOINTMENT);
                 },
               ),

@@ -107,7 +107,7 @@ class AppointmentController extends GetxController {
         return;
       }
 
-      if (payment_type == "wallet") {
+      if (payment_type == "wallet" || payment_type == "free") {
         clearText();
         Get.offAll(PaymentSuccessPage());
         authController.getProfile();
@@ -120,6 +120,7 @@ class AppointmentController extends GetxController {
             FailedPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-failed-callback",
             SuccessPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-success-callback",
             onFailed: () {
+              AppDialogs.showToast(message: "خطاء في عمليه الدفع");
               Get.back();
               return;
             },

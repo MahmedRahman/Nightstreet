@@ -45,106 +45,108 @@ class editAddressView extends GetView<editAddressController> {
   Widget build(BuildContext context) {
     print('isDefault ${isDefaultCon.text}');
     print(' data["is_default"]; ${data["is_default"]}');
-    return BaseScaffold(
-      appBar: CustomAppBar(titleText: 'تعديل العنوان'),
-      body: controller.obx((data) {
-        return Form(
-          key: formKey,
-          child: ListView(
-            padding: AppDimension.appPadding,
-            children: [
-              AppSpacers.height16,
-              Text(
-                'حدد الموقع المراد التوصيل له',
-                style: TextStyle(
-                  fontFamily: 'Effra',
-                  fontSize: 16.0,
-                  color: AppColors.greyColor,
-                  letterSpacing: 0.32,
+    return Scaffold(
+      body: controller.obx((snapshot) {
+        return BaseScaffold(
+          appBar: CustomAppBar(titleText: 'تعديل العنوان'),
+          body: Form(
+            key: formKey,
+            child: ListView(
+              padding: AppDimension.appPadding,
+              children: [
+                AppSpacers.height16,
+                Text(
+                  'حدد الموقع المراد التوصيل له',
+                  style: TextStyle(
+                    fontFamily: 'Effra',
+                    fontSize: 16.0,
+                    color: AppColors.greyColor,
+                    letterSpacing: 0.32,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Divider(),
-              ),
-              TextFieldComponent.text(
-                outLineText: "علامه مميزه",
-                controller: specialController,
-              ),
-              AppSpacers.height25,
-              SelectorView(
-                title: "اختر المدينة",
-                selectedIndexValue: cityId,
-                dataList: dataCity,
-                onChanged: (data) {
-                  cityId = data['id'];
-                },
-              ),
-              AppSpacers.height25,
-              TextFieldComponent.address(
-                controller: addressController,
-              ),
-              AppSpacers.height25,
-              TextFieldComponent.phone(
-                controller: phoneController,
-                iconPath: '',
-              ),
-              AppSpacers.height16,
-              Row(
-                children: [
-                  Text(
-                    'افتراضي',
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: AppColors.blackColor,
-                      letterSpacing: 0.28,
-                      height: 0.86,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Divider(),
+                ),
+                TextFieldComponent.text(
+                  outLineText: "علامه مميزه",
+                  controller: specialController,
+                ),
+                AppSpacers.height25,
+                SelectorView(
+                  title: "اختر المدينة",
+                  selectedIndexValue: cityId,
+                  dataList: dataCity,
+                  onChanged: (data) {
+                    cityId = data['id'];
+                  },
+                ),
+                AppSpacers.height25,
+                TextFieldComponent.address(
+                  controller: addressController,
+                ),
+                AppSpacers.height25,
+                TextFieldComponent.phone(
+                  controller: phoneController,
+                  iconPath: '',
+                ),
+                AppSpacers.height16,
+                Row(
+                  children: [
+                    Text(
+                      'افتراضي',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: AppColors.blackColor,
+                        letterSpacing: 0.28,
+                        height: 0.86,
+                      ),
+                      textAlign: TextAlign.right,
                     ),
-                    textAlign: TextAlign.right,
-                  ),
-                  AppSpacers.width10,
-                  CustomToggleView(
-                    activeColor: AppColors.mainColor,
-                    deactivateColor: Colors.white,
-                    Kselected: int.tryParse(isDefaultCon.text) == 1,
-                    onChanged: (bool vlu) {
-                      if (vlu) {
-                        isDefaultCon.text = '1';
+                    AppSpacers.width10,
+                    CustomToggleView(
+                      activeColor: AppColors.mainColor,
+                      deactivateColor: Colors.white,
+                      Kselected: int.tryParse(isDefaultCon.text) == 1,
+                      onChanged: (bool vlu) {
+                        if (vlu) {
+                          isDefaultCon.text = '1';
 
-                        return;
-                      }
+                          return;
+                        }
 
-                      isDefaultCon.text = '0';
-                    },
-                  ),
-                ],
-              )
-            ],
+                        isDefaultCon.text = '0';
+                      },
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          bottomBarHeight: 143,
+          bottomNavigationBar: Padding(
+            padding: AppDimension.appPadding,
+            child: CustomBtnCompenent.main(
+              text: "تعديل",
+              onTap: () async {
+                if (!formKey.currentState!.validate()) {
+                  return;
+                }
+
+                controller.editAddress(
+                  Id: data["id"],
+                  cityId: cityId.toString(),
+                  phone: phoneController.text.toString(),
+                  address: addressController.text.toString(),
+                  notes: specialController.text.toString(),
+                  isDefault: isDefaultCon.text.toString(),
+                  previousRoute: Get.previousRoute,
+                );
+              },
+            ),
           ),
         );
       }),
-      bottomBarHeight: 143,
-      bottomNavigationBar: Padding(
-        padding: AppDimension.appPadding,
-        child: CustomBtnCompenent.main(
-          text: "تعديل",
-          onTap: () async {
-            if (!formKey.currentState!.validate()) {
-              return;
-            }
-
-            controller.editAddress(
-              Id: data["id"],
-              cityId: cityId.toString(),
-              phone: phoneController.text.toString(),
-              address: addressController.text.toString(),
-              notes: specialController.text.toString(),
-              isDefault: isDefaultCon.text.toString(),
-              previousRoute: Get.previousRoute,
-            );
-          },
-        ),
-      ),
     );
   }
 

@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/custom_back_button_component.dart';
+import 'package:krzv2/component/views/custom_text_field_component.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
@@ -55,8 +56,10 @@ class ProductSearchAppBarView extends GetView implements PreferredSizeWidget {
         child: Row(
           children: [
             AppSpacers.width5,
+            TextFieldComponent.name(controller: controller),
             Expanded(
               child: TextField(
+                inputFormatters: [],
                 controller: textEditingController,
                 maxLines: 1,
                 autofocus: true,

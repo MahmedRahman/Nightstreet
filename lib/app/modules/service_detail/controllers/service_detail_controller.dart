@@ -19,6 +19,11 @@ class ServiceDetailController extends GetxController with StateMixin {
     );
 
     if (responseModel.data["success"]) {
+      // responseModel.data["data"]["data"]["images"].insert(
+      //   0,
+      //   responseModel.data["data"]["data"]["image"],
+      // );
+
       change(responseModel.data["data"], status: RxStatus.success());
     }
   }
