@@ -19,10 +19,10 @@ class ProductDetailsController extends GetxController with StateMixin<ProductMod
         categoryId: product.categories.first.id.toString(),
       );
 
-      product.images.insert(
-        0,
-        ProductImage(id: -1, image: product.image),
-      );
+      // product.images.insert(
+      //   0,
+      //   ProductImage(id: -1, image: product.image),
+      // );
 
       change(product, status: RxStatus.success());
       return;

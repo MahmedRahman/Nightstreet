@@ -60,6 +60,7 @@ class ProductSearchAppBarView extends GetView implements PreferredSizeWidget {
             AppSpacers.width5,
             Expanded(
               child: TextField(
+                inputFormatters: [],
                 controller: textEditingController,
                 maxLines: 1,
                 autofocus: true,

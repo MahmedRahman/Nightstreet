@@ -72,7 +72,7 @@ class ProductModel {
     ], // Create a dummy ProductCategory list
     images: [
       ProductImage(
-        id: 1,
+        //id: 1,
         image: '',
       )
     ], // Create va dummy ProductImage list
@@ -99,8 +99,7 @@ class ProductModel {
       cashback: json['cashback'],
       brand: Brand.fromJson(json['brand']),
       categories: List<ProductCategory>.from(
-        json['categories']
-            .map((category) => ProductCategory.fromJson(category)),
+        json['categories'].map((category) => ProductCategory.fromJson(category)),
       ),
       images: List<ProductImage>.from(
         json['images'].map((image) => ProductImage.fromJson(image)),

@@ -44,87 +44,89 @@ class AddNewAddressView extends GetView<AddNewAddressController> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
-      appBar: CustomAppBar(
-        titleText: 'إضافة عنوان جديد',
-      ),
+    return Scaffold(
       body: controller.obx((snapshot) {
-        return Form(
-          key: formKey,
-          child: ListView(
-            padding: AppDimension.appPadding,
-            children: [
-              AppSpacers.height25,
-              Text(
-                'حدد الموقع المراد التوصيل له',
-                style: TextStyle(
-                  fontFamily: 'Effra',
-                  fontSize: 16.0,
-                  color: AppColors.greyColor,
-                  letterSpacing: 0.32,
+        return BaseScaffold(
+          appBar: CustomAppBar(
+            titleText: 'إضافة عنوان جديد',
+          ),
+          body: Form(
+            key: formKey,
+            child: ListView(
+              padding: AppDimension.appPadding,
+              children: [
+                AppSpacers.height25,
+                Text(
+                  'حدد الموقع المراد التوصيل له',
+                  style: TextStyle(
+                    fontFamily: 'Effra',
+                    fontSize: 16.0,
+                    color: AppColors.greyColor,
+                    letterSpacing: 0.32,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Divider(),
-              ),
-              TextFieldComponent.text(
-                outLineText: "علامه مميزه",
-                controller: specialController,
-              ),
-              AppSpacers.height25,
-              SelectorView(
-                title: "اختيار المدينه",
-                defaultValue: "اختيار المدينه",
-                dataList: dataCity,
-                onChanged: (data) {
-                  cityId = data['id'].toString();
-                },
-              ),
-              AppSpacers.height25,
-              TextFieldComponent.address(
-                //outLineText: "العنوان",
-                controller: addressController,
-              ),
-              AppSpacers.height25,
-              TextFieldComponent.phone(
-                controller: phoneController,
-                iconPath: '',
-              ),
-              AppSpacers.height16,
-              customToggle()
-            ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Divider(),
+                ),
+                TextFieldComponent.text(
+                  outLineText: "علامه مميزه",
+                  controller: specialController,
+                ),
+                AppSpacers.height25,
+                SelectorView(
+                  title: "اختيار المدينه",
+                  defaultValue: "اختيار المدينه",
+                  dataList: dataCity,
+                  onChanged: (data) {
+                    cityId = data['id'].toString();
+                  },
+                ),
+                AppSpacers.height25,
+                TextFieldComponent.address(
+                  //outLineText: "العنوان",
+                  controller: addressController,
+                ),
+                AppSpacers.height25,
+                TextFieldComponent.phone(
+                  controller: phoneController,
+                  iconPath: '',
+                ),
+                AppSpacers.height16,
+                customToggle()
+              ],
+            ),
+          ),
+          bottomBarHeight: 143,
+          bottomNavigationBar: Padding(
+            padding: AppDimension.appPadding,
+            child: CustomBtnCompenent.main(
+              text: "حفظ",
+              onTap: () async {
+                if (!formKey.currentState!.validate()) {
+                  return;
+                }
+
+                if (cityId == "-1") {
+                  AppDialogs.showToast(message: "برجاء اختيار المدينه");
+                  return;
+                }
+
+                controller.addNewAddress(
+                  cityId: cityId.toString(),
+                  phone: phoneController.text.toString(),
+                  address: addressController.text.toString(),
+                  notes: specialController.text.toString(),
+                  isDefault: isDefault.toString(),
+                  email: "",
+                  name: "",
+                  previousRoute: (Get.arguments ?? '') as String,
+                );
+              },
+            ),
           ),
         );
       }),
-      bottomBarHeight: 143,
-      bottomNavigationBar: Padding(
-        padding: AppDimension.appPadding,
-        child: CustomBtnCompenent.main(
-          text: "حفظ",
-          onTap: () async {
-            if (!formKey.currentState!.validate()) {
-              return;
-            }
-
-            if (cityId == "-1") {
-              AppDialogs.showToast(message: "برجاء اختيار المدينه");
-              return;
-            }
-
-            controller.addNewAddress(
-              cityId: cityId.toString(),
-              phone: phoneController.text.toString(),
-              address: addressController.text.toString(),
-              notes: specialController.text.toString(),
-              isDefault: isDefault.toString(),
-              email: "",
-              name: "",
-              previousRoute: (Get.arguments ?? '') as String,
-            );
-          },
-        ),
-      ),
     );
   }
 
