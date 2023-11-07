@@ -16,6 +16,7 @@ class TextFieldComponent extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final ValueChanged<String>? onChanged;
   final TextEditingController controller;
+  final TextInputAction? textInputAction;
 
   final bool isRequired;
   final bool isReadOnly;
@@ -30,6 +31,7 @@ class TextFieldComponent extends StatelessWidget {
     this.onChanged,
     required this.controller,
     this.validator,
+    this.textInputAction,
     this.onTap = null,
     this.maxLines = 1,
     this.inputFormatters,
@@ -41,6 +43,7 @@ class TextFieldComponent extends StatelessWidget {
     required this.controller,
     super.key,
     this.onChanged,
+    this.textInputAction,
     this.isReadOnly = false,
     this.onTap = null,
     this.maxLines = 1,
@@ -63,6 +66,7 @@ class TextFieldComponent extends StatelessWidget {
     required this.controller,
     super.key,
     this.onChanged,
+    this.textInputAction,
     this.onTap = null,
     this.isReadOnly = false,
     this.maxLines = 1,
@@ -85,6 +89,7 @@ class TextFieldComponent extends StatelessWidget {
     required this.controller,
     required this.outLineText,
     required this.hintText,
+     this.textInputAction,
     super.key,
     this.onChanged,
     this.isReadOnly = false,
@@ -101,6 +106,7 @@ class TextFieldComponent extends StatelessWidget {
     this.onChanged,
     required this.controller,
     this.inputFormatters,
+    this.textInputAction,
     this.maxLines = 1,
     this.onTap = null,
     this.isReadOnly = false,
@@ -123,6 +129,7 @@ class TextFieldComponent extends StatelessWidget {
     required this.controller,
     this.onTap = null,
     this.inputFormatters,
+    this.textInputAction,
     this.maxLines = 1,
     this.isReadOnly = false,
     this.isRequired = true,
@@ -143,6 +150,7 @@ class TextFieldComponent extends StatelessWidget {
     this.onChanged,
     required this.controller,
     this.inputFormatters,
+    this.textInputAction,
     this.onTap = null,
     this.iconPath = '',
     this.maxLines = 1,
@@ -163,6 +171,7 @@ class TextFieldComponent extends StatelessWidget {
     this.onChanged,
     required this.controller,
     this.inputFormatters,
+    this.textInputAction,
     this.onTap = null,
     this.maxLines = 1,
     this.isReadOnly = false,
@@ -215,6 +224,7 @@ class TextFieldComponent extends StatelessWidget {
             onChanged: onChanged,
             validator: validator,
             readOnly: isReadOnly,
+            textInputAction: textInputAction,
             decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 20.0,

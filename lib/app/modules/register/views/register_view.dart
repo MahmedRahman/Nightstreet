@@ -26,6 +26,8 @@ class RegisterView extends GetView<RegisterController> {
 
   final registerController = Get.put(AuthenticationController());
   final GlobalKey globalKey = GlobalKey();
+  final phoneFocusNode = FocusNode();
+  final emailFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -49,17 +51,20 @@ class RegisterView extends GetView<RegisterController> {
                   TextFieldComponent.name(
                     controller: nameController,
                     onTap: onFieldTapped,
+                    textInputAction: TextInputAction.next,
                   ),
                   AppSpacers.height19,
                   TextFieldComponent.phone(
                     controller: phoneController,
                     onTap: onFieldTapped,
+                    textInputAction: TextInputAction.next,
                   ),
                   AppSpacers.height19,
                   TextFieldComponent.email(
                     controller: emailController,
                     isRequired: false,
                     onTap: onFieldTapped,
+                    textInputAction: TextInputAction.done,
                     //isRequired: false,
                   ),
                   AppSpacers.height12,
