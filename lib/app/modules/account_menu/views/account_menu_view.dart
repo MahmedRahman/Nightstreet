@@ -148,7 +148,10 @@ class AccountMenuView extends GetView<AccountMenuController> {
                 child: _loginButton(
                   title: 'تسجيل دخول',
                   iconPath: AppSvgAssets.loginIcon,
-                  onTap: () => Get.toNamed(Routes.LOGIN),
+                  onTap: () => Get.toNamed(
+                    Routes.REGISTER,
+                    arguments: '01115922240',
+                  ),
                 ),
               ),
             AppSpacers.height12,
