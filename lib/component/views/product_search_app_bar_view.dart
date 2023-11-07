@@ -4,12 +4,13 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/custom_back_button_component.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
 
 class ProductSearchAppBarView extends GetView implements PreferredSizeWidget {
-  const ProductSearchAppBarView({
+  ProductSearchAppBarView({
     Key? key,
     required this.textEditingController,
     required this.onSearchIconTapped,
@@ -24,6 +25,8 @@ class ProductSearchAppBarView extends GetView implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  final FocusNode _focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +64,13 @@ class ProductSearchAppBarView extends GetView implements PreferredSizeWidget {
                 maxLines: 1,
                 autofocus: true,
                 onChanged: onChanged,
+                focusNode: _focusNode,
                 onSubmitted: (_) {
+                  if (textEditingController.text.length < 3) {
+                    FocusScope.of(context).requestFocus(_focusNode);
+                    return AppDialogs.showToast(
+                        message: 'طول كلمه البحث يجب ان تكون اكثر من ٣ حروف');
+                  }
                   onSearchIconTapped();
                 },
                 decoration: InputDecoration(
@@ -72,7 +81,14 @@ class ProductSearchAppBarView extends GetView implements PreferredSizeWidget {
                       bottom: 3,
                     ),
                     child: InkWell(
-                      onTap: onSearchIconTapped,
+                      onTap: () {
+                        if (textEditingController.text.length < 3) {
+                          return AppDialogs.showToast(
+                              message:
+                                  'طول كلمه البحث يجب ان تكون اكثر من ٣ حروف');
+                        }
+                        onSearchIconTapped();
+                      },
                       child: SvgPicture.asset(
                         AppSvgAssets.searchIconIcon,
                       ),

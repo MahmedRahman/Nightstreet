@@ -9,4 +9,5 @@ export 'src/rules/is_optional.dart';
 export 'src/rules/is_saudi_phone.dart';
 export 'src/rules/max_length.dart';
 export 'src/rules/is_otp.dart';
+export 'src/rules/min_length.dart';
 export 'src/validate.dart';
