@@ -23,6 +23,8 @@ import 'package:krzv2/firebase_options.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/services/firebase_messaging_service.dart';
 import 'package:krzv2/services/static_page_service.dart';
+import 'package:krzv2/web_serives/api_manger.dart';
+import 'package:krzv2/web_serives/response_trake_page.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'routes/app_pages.dart';
@@ -45,8 +47,7 @@ void main() async {
 
   await SentryFlutter.init(
     (options) {
-      options.dsn =
-          'https://5019d3dc513f036f269fc73c18c719cd@o4504808028569600.ingest.sentry.io/4506109723148288';
+      options.dsn = 'https://5019d3dc513f036f269fc73c18c719cd@o4504808028569600.ingest.sentry.io/4506109723148288';
     },
     appRunner: () {
       runApp(
@@ -147,3 +148,73 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+/*
+ MaterialApp(
+          home: Scaffold(
+            appBar: false
+                ? PreferredSize(
+                    preferredSize: Size.zero,
+                    child: SizedBox.shrink(),
+                  )
+                : PreferredSize(
+                    preferredSize: Size.fromHeight(220),
+                    child: Scaffold(
+                      appBar: AppBar(
+                        title: Text("Debug"),
+                        actions: [
+                          IconButton(
+                            onPressed: () {
+                              ResponseModelList.clear();
+                            },
+                            icon: Icon(Icons.delete),
+                          )
+                        ],
+                      ),
+                      body: SafeArea(
+                        child: Container(
+                          //color: Colors.red,
+                          child: Obx(() {
+                            return ListView(
+                              //reverse: true,
+                              children: List.generate(ResponseModelList.length, (index) {
+                                return Card(
+                                  color: ResponseModelList.elementAt(index).statusCode == 200
+                                      ? Colors.green.withOpacity(.1)
+                                      : Colors.red.withOpacity(.1),
+                                  child: ListTile(
+                                    leading: (ResponseModelList.elementAt(index).httpRequest == HTTPRequestEnum.GET)
+                                        ? Text(
+                                            "Get",
+                                            style: TextStyle(
+                                              color: Colors.green,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          )
+                                        : Text(
+                                            "Post",
+                                            style: TextStyle(
+                                              color: Colors.yellow,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                    trailing: IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(Icons.copy_all),
+                                    ),
+                                    title: Text(
+                                      ResponseModelList.elementAt(index).url.toString(),
+                                      maxLines: 2,
+                                      style: TextStyle(),
+                                    ),
+                                  ),
+                                );
+                              }),
+                            );
+                          }),
+                        ),
+                      ),
+                    ),
+                  ),
+            body: 
+            */

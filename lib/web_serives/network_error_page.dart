@@ -13,10 +13,14 @@ class NetworkErrorPage extends GetView {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("error Page"),
+        title: Text("API Response Page"),
+        elevation: 0,
       ),
       body: Column(
         children: [
+          SizedBox(
+            height: 20,
+          ),
           Card(
             child: ListTile(
               title: Text("statusCode"),

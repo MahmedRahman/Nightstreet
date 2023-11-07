@@ -3,7 +3,7 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/payment_bank/payment_failed_page.dart';
 import 'package:krzv2/app/modules/payment_bank/payment_success_page.dart';
-import 'package:krzv2/web_serives/api_constant.dart';
+import 'package:krzv2/web_serives/api_manger.dart';
 
 class paymentPage extends GetView {
   final String PaymentUrl;
@@ -21,11 +21,11 @@ class paymentPage extends GetView {
 
     flutterWebviewPlugin.onUrlChanged.listen(
       (String url) {
-        if (url == "${ApiConstant.baseUrl}/coupons/rajhi-failed-callback") {
+        if (url == "${ApiConfig.baseUrl}/coupons/rajhi-failed-callback") {
           Get.offAll(PaymentFailedPage());
         }
 
-        if (url == "${ApiConstant.baseUrl}/coupons/rajhi-success-callback") {
+        if (url == "${ApiConfig.baseUrl}/coupons/rajhi-success-callback") {
           print("PaymentSuccess");
           Get.offAll(PaymentSuccessPage());
         }
@@ -34,7 +34,6 @@ class paymentPage extends GetView {
 
     return Scaffold(
       body: WebviewScaffold(
-        
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,

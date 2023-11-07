@@ -5,7 +5,6 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/payment_bank/payment_failed_page.dart';
 import 'package:krzv2/app/modules/payment_bank/payment_success_page.dart';
-import 'package:krzv2/web_serives/api_constant.dart';
 
 class AppPaymentPage extends GetView {
   final String PaymentUrl;

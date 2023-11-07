@@ -6,7 +6,7 @@ import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_contro
 //import 'package:krzv2/app/modules/gift_cards/views/payment_failed_page.dart';
 import 'package:krzv2/component/views/order_payment_success_view.dart';
 import 'package:krzv2/services/auth_service.dart';
-import 'package:krzv2/web_serives/api_constant.dart';
+import 'package:krzv2/web_serives/api_manger.dart';
 
 class OrderPaymentView extends GetView {
   final String PaymentUrl;
@@ -20,11 +20,11 @@ class OrderPaymentView extends GetView {
     flutterWebviewPlugin.onUrlChanged.listen(
       (String url) {
         print('url => $url');
-        if (url == "${ApiConstant.baseUrl}/orders/rajhi-failed-callback") {
+        if (url == "${ApiConfig.baseUrl}/orders/rajhi-failed-callback") {
           Get.offAll(PaymentFailedPage());
         }
 
-        if (url == "${ApiConstant.baseUrl}/orders/rajhi-success-callback") {
+        if (url == "${ApiConfig.baseUrl}/orders/rajhi-success-callback") {
           Get.offAll(OrderPaymentSuccessView());
           cartController.onInit();
           authController.getProfile();

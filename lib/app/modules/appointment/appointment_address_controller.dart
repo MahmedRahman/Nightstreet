@@ -5,7 +5,7 @@ import 'package:krzv2/app/modules/payment_bank/payment_page.dart';
 import 'package:krzv2/app/modules/payment_bank/payment_success_page.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/services/auth_service.dart';
-import 'package:krzv2/web_serives/api_constant.dart';
+import 'package:krzv2/web_serives/api_manger.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
@@ -91,8 +91,8 @@ class AppointmentController extends GetxController {
         Get.to(
           AppPaymentPage(
             PaymentUrl: responseModel.data["data"],
-            FailedPaymentUrl: "${ApiConstant.baseUrl}/appointments/rajhi-failed-callback",
-            SuccessPaymentUrl: "${ApiConstant.baseUrl}/appointments/rajhi-success-callback",
+            FailedPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-failed-callback",
+            SuccessPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-success-callback",
             onFailed: () {
               Get.back();
               return;
@@ -117,8 +117,8 @@ class AppointmentController extends GetxController {
         Get.to(
           AppPaymentPage(
             PaymentUrl: responseModel.data["data"],
-            FailedPaymentUrl: "${ApiConstant.baseUrl}/appointments/rajhi-failed-callback",
-            SuccessPaymentUrl: "${ApiConstant.baseUrl}/appointments/rajhi-success-callback",
+            FailedPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-failed-callback",
+            SuccessPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-success-callback",
             onFailed: () {
               Get.back();
               return;

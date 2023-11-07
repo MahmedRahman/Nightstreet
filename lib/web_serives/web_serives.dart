@@ -8,7 +8,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:krzv2/models/branch_url_model.dart';
 import 'package:krzv2/models/product_search_query.dart';
 import 'package:krzv2/services/auth_service.dart';
-import 'package:krzv2/web_serives/api_constant.dart';
 import 'package:krzv2/web_serives/api_manger.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 
@@ -18,14 +17,14 @@ class WebServices {
   WebServices();
   Future<ResponseModel> getSetting() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/setting/get-setting",
+      url: "${ApiConfig.baseUrl}/setting/get-setting",
       HTTPRequestMethod: HTTPRequestEnum.GET,
     );
   }
 
   Future<ResponseModel> getAppVersion() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/setting/app-version",
+      url: "${ApiConfig.baseUrl}/setting/app-version",
       HTTPRequestMethod: HTTPRequestEnum.GET,
     );
   }
@@ -37,7 +36,7 @@ class WebServices {
     final authController = Get.put(AuthenticationController());
 
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/auth/login",
+      url: "${ApiConfig.baseUrl}/auth/login",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: {
         "phone": phone,
@@ -52,7 +51,7 @@ class WebServices {
     required String code,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/auth/update-phone",
+      url: "${ApiConfig.baseUrl}/auth/update-phone",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
       query: {
@@ -69,7 +68,7 @@ class WebServices {
     required String firebasToken,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/auth/client-register",
+      url: "${ApiConfig.baseUrl}/auth/client-register",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: {
         "name": name,
@@ -84,7 +83,7 @@ class WebServices {
     required String phone,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/auth/send-otp",
+      url: "${ApiConfig.baseUrl}/auth/send-otp",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: {
         "phone": phone,
@@ -96,7 +95,7 @@ class WebServices {
     required String phone,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/auth/send-otp-update-phone",
+      url: "${ApiConfig.baseUrl}/auth/send-otp-update-phone",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
       query: {
@@ -107,7 +106,7 @@ class WebServices {
 
   Future<ResponseModel> getAuthProfile() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/auth/profile",
+      url: "${ApiConfig.baseUrl}/auth/profile",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -120,7 +119,7 @@ class WebServices {
     required String birthDate,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/auth/update-profile",
+      url: "${ApiConfig.baseUrl}/auth/update-profile",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
       query: {
@@ -138,7 +137,7 @@ class WebServices {
     required String confirmNewPassword,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/auth/change-password",
+      url: "${ApiConfig.baseUrl}/auth/change-password",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
       query: {
@@ -151,7 +150,7 @@ class WebServices {
 
   Future<ResponseModel> authLogout() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/auth/logout",
+      url: "${ApiConfig.baseUrl}/auth/logout",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
     );
@@ -161,7 +160,7 @@ class WebServices {
     required String firebasToken,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/auth/new-guest",
+      url: "${ApiConfig.baseUrl}/auth/new-guest",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: {
         "firebas_token": firebasToken,
@@ -171,7 +170,7 @@ class WebServices {
 
   Future<ResponseModel> deleteAccount() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/auth/delete-account",
+      url: "${ApiConfig.baseUrl}/auth/delete-account",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
     );
@@ -181,7 +180,7 @@ class WebServices {
     required int page,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/notifications/get?page=$page",
+      url: "${ApiConfig.baseUrl}/notifications/get?page=$page",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -191,7 +190,7 @@ class WebServices {
     required int id,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/notifications/read-one",
+      url: "${ApiConfig.baseUrl}/notifications/read-one",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
       query: {
@@ -202,7 +201,7 @@ class WebServices {
 
   Future<ResponseModel> getComplaintsCategories() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/complaints/categories",
+      url: "${ApiConfig.baseUrl}/complaints/categories",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -213,7 +212,7 @@ class WebServices {
     required int page,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/complaints/get?page&filter=${filter.toString()}&page=$page",
+      url: "${ApiConfig.baseUrl}/complaints/get?page&filter=${filter.toString()}&page=$page",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -223,7 +222,7 @@ class WebServices {
     required String complaintID,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/complaints/get-chats?complaint_id=${complaintID.toString()}",
+      url: "${ApiConfig.baseUrl}/complaints/get-chats?complaint_id=${complaintID.toString()}",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -234,7 +233,7 @@ class WebServices {
     required String complaintID,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/complaints/store-chat",
+      url: "${ApiConfig.baseUrl}/complaints/store-chat",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: {
         "message": "$message",
@@ -248,7 +247,7 @@ class WebServices {
     required String code,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/coupons/redeem",
+      url: "${ApiConfig.baseUrl}/coupons/redeem",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: {
         "code": code,
@@ -259,7 +258,7 @@ class WebServices {
 
   Future<ResponseModel> getTransactions({required int pageNo}) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/wallet/get-transactions?page=$pageNo",
+      url: "${ApiConfig.baseUrl}/wallet/get-transactions?page=$pageNo",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -267,7 +266,7 @@ class WebServices {
 
   Future<ResponseModel> getNotifications() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/notifications/get",
+      url: "${ApiConfig.baseUrl}/notifications/get",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -275,7 +274,7 @@ class WebServices {
 
   Future<ResponseModel> readAllNotifications() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/notifications/read-all",
+      url: "${ApiConfig.baseUrl}/notifications/read-all",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
     );
@@ -283,7 +282,7 @@ class WebServices {
 
   Future<ResponseModel> getCities() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/setting/cities",
+      url: "${ApiConfig.baseUrl}/setting/cities",
       HTTPRequestMethod: HTTPRequestEnum.GET,
     );
   }
@@ -293,7 +292,7 @@ class WebServices {
     required String category_id,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/complaints/categories?name={$name}&category_id={$category_id}",
+      url: "${ApiConfig.baseUrl}/complaints/categories?name={$name}&category_id={$category_id}",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -323,7 +322,7 @@ class WebServices {
     }
 
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/complaints/store",
+      url: "${ApiConfig.baseUrl}/complaints/store",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: _formData,
       isAuth: true,
@@ -343,14 +342,14 @@ class WebServices {
 
   Future<ResponseModel> getSliderSetting({required String type}) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/setting/slider?type=$type",
+      url: "${ApiConfig.baseUrl}/setting/slider?type=$type",
       HTTPRequestMethod: HTTPRequestEnum.GET,
     );
   }
 
   Future<ResponseModel> getAddresses() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/addresses/get",
+      url: "${ApiConfig.baseUrl}/addresses/get",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -366,7 +365,7 @@ class WebServices {
     required String isDefault,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/addresses/save",
+      url: "${ApiConfig.baseUrl}/addresses/save",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
       query: {
@@ -390,7 +389,7 @@ class WebServices {
     required String isDefault,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/addresses/update",
+      url: "${ApiConfig.baseUrl}/addresses/update",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
       query: {
@@ -415,7 +414,7 @@ class WebServices {
   }) async {
     if (doctor_id == null) {
       return await ApiManger().execute(
-        url: "${ApiConstant.baseUrl}/appointments/book-appointment",
+        url: "${ApiConfig.baseUrl}/appointments/book-appointment",
         HTTPRequestMethod: HTTPRequestEnum.POST,
         isAuth: true,
         query: {
@@ -430,7 +429,7 @@ class WebServices {
     }
 
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/appointments/book-appointment",
+      url: "${ApiConfig.baseUrl}/appointments/book-appointment",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
       query: {
@@ -449,7 +448,7 @@ class WebServices {
     required String id,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/addresses/activation",
+      url: "${ApiConfig.baseUrl}/addresses/activation",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
       query: {
@@ -463,7 +462,7 @@ class WebServices {
     String? categoryId = "",
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/products/categories?name=${name}&category_id=${categoryId}",
+      url: "${ApiConfig.baseUrl}/products/categories?name=${name}&category_id=${categoryId}",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -474,7 +473,7 @@ class WebServices {
     required int offerId,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/branches/branch-offer-doctors?branch_id=${branchId}&offer_id=${offerId}",
+      url: "${ApiConfig.baseUrl}/branches/branch-offer-doctors?branch_id=${branchId}&offer_id=${offerId}",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -489,7 +488,7 @@ class WebServices {
     if (doctorId == null) {
       return await ApiManger().execute(
         url:
-            "${ApiConstant.baseUrl}/appointments/get-available-offer-times?offer_id=${offerId}&branch_id=${branchId}&date_time=${dateTime}",
+            "${ApiConfig.baseUrl}/appointments/get-available-offer-times?offer_id=${offerId}&branch_id=${branchId}&date_time=${dateTime}",
         HTTPRequestMethod: HTTPRequestEnum.GET,
         isAuth: true,
       );
@@ -497,7 +496,7 @@ class WebServices {
 
     return await ApiManger().execute(
       url:
-          "${ApiConstant.baseUrl}/appointments/get-available-offer-times?offer_id=${offerId}&branch_id=${branchId}&doctor_id=${doctorId}&date_time=${dateTime}",
+          "${ApiConfig.baseUrl}/appointments/get-available-offer-times?offer_id=${offerId}&branch_id=${branchId}&doctor_id=${doctorId}&date_time=${dateTime}",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -508,7 +507,7 @@ class WebServices {
     String? categoryId = "",
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/offers/categories?name=${name}&category_id=${categoryId}",
+      url: "${ApiConfig.baseUrl}/offers/categories?name=${name}&category_id=${categoryId}",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -519,7 +518,7 @@ class WebServices {
     String? categoryId = "",
   }) async {
     return await ApiManger().execute(
-        url: "${ApiConstant.baseUrl}/appointments/book-appointment",
+        url: "${ApiConfig.baseUrl}/appointments/book-appointment",
         HTTPRequestMethod: HTTPRequestEnum.POST,
         isAuth: true,
         //query: {"payment_type": "", "offer_id": "", "branch_id": "", "doctor_id": "", "date_time": ""});
@@ -528,7 +527,7 @@ class WebServices {
 
   Future<ResponseModel> getProductsBrands() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/products/brands",
+      url: "${ApiConfig.baseUrl}/products/brands",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -540,7 +539,7 @@ class WebServices {
   }) async {
     return await ApiManger().execute(
       url: buildBranchesUrl(
-        ApiConstant.baseUrl,
+        ApiConfig.baseUrl,
         page,
         queryParams: queryParameters,
       ),
@@ -554,7 +553,7 @@ class WebServices {
   }) async {
     return await ApiManger().execute(
       url: buildProductUrl(
-        ApiConstant.baseUrl,
+        ApiConfig.baseUrl,
         page!,
         queryParams: queryParameters,
       ),
@@ -622,7 +621,7 @@ class WebServices {
 
     final queryString = Uri(queryParameters: queryParams).query;
 
-    final url = "${ApiConstant.baseUrl}/offers/get?$queryString";
+    final url = "${ApiConfig.baseUrl}/offers/get?$queryString";
 
     print('url => $url');
 
@@ -637,7 +636,7 @@ class WebServices {
     required String id,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/products/single?id=${id}",
+      url: "${ApiConfig.baseUrl}/products/single?id=${id}",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -647,7 +646,7 @@ class WebServices {
     required String id,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/offers/single?id=${id}",
+      url: "${ApiConfig.baseUrl}/offers/single?id=${id}",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -657,7 +656,7 @@ class WebServices {
     required String id,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/offers/offer-doctors?id=${id}",
+      url: "${ApiConfig.baseUrl}/offers/offer-doctors?id=${id}",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -667,7 +666,7 @@ class WebServices {
     required String id,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/offers/offer-rates?id=${id}",
+      url: "${ApiConfig.baseUrl}/offers/offer-rates?id=${id}",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -678,7 +677,7 @@ class WebServices {
     required String page,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/products/product-rates?id=${id}&page=$page",
+      url: "${ApiConfig.baseUrl}/products/product-rates?id=${id}&page=$page",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -689,7 +688,7 @@ class WebServices {
     required int pageNo,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/favorites/get?type=$type&page=$pageNo",
+      url: "${ApiConfig.baseUrl}/favorites/get?type=$type&page=$pageNo",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -700,7 +699,7 @@ class WebServices {
     required String type,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/favorites/favorite",
+      url: "${ApiConfig.baseUrl}/favorites/favorite",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
       query: {
@@ -713,7 +712,7 @@ class WebServices {
 //
   Future<ResponseModel> getCoupons() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/coupons/get?name&code",
+      url: "${ApiConfig.baseUrl}/coupons/get?name&code",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -728,7 +727,7 @@ class WebServices {
     required String themeId,
   }) async {
     return await ApiManger().execute(
-        url: "${ApiConstant.baseUrl}/coupons/save",
+        url: "${ApiConfig.baseUrl}/coupons/save",
         HTTPRequestMethod: HTTPRequestEnum.POST,
         isAuth: true,
         query: {
@@ -743,7 +742,7 @@ class WebServices {
 
   Future<ResponseModel> getCouponsThemes() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/coupons/themes",
+      url: "${ApiConfig.baseUrl}/coupons/themes",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -753,7 +752,7 @@ class WebServices {
     required String code,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/coupons/redeem",
+      url: "${ApiConfig.baseUrl}/coupons/redeem",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
       query: {
@@ -767,7 +766,7 @@ class WebServices {
     required int page,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/appointments/get-appointments?filter=$filter&page=$page",
+      url: "${ApiConfig.baseUrl}/appointments/get-appointments?filter=$filter&page=$page",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -775,7 +774,7 @@ class WebServices {
 
   Future<ResponseModel> getAppointmentsCancelReasons() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/appointments/cancel-reasons",
+      url: "${ApiConfig.baseUrl}/appointments/cancel-reasons",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -783,7 +782,7 @@ class WebServices {
 
   Future<ResponseModel> orderCancelReasons() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/orders/cancel-reasons",
+      url: "${ApiConfig.baseUrl}/orders/cancel-reasons",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -803,7 +802,7 @@ class WebServices {
     final String requestBodyJson = jsonEncode(requestBody);
 
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/orders/cancel-order",
+      url: "${ApiConfig.baseUrl}/orders/cancel-order",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
       query: requestBody,
@@ -821,7 +820,7 @@ class WebServices {
     };
 
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/appointments/cancel-appointment",
+      url: "${ApiConfig.baseUrl}/appointments/cancel-appointment",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
       query: requestBody,
@@ -845,7 +844,7 @@ class WebServices {
     String? variantId,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/cart/add-to-cart",
+      url: "${ApiConfig.baseUrl}/cart/add-to-cart",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
       query: {
@@ -859,7 +858,7 @@ class WebServices {
 
   Future<ResponseModel> getCartProducts() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/cart/get-cart",
+      url: "${ApiConfig.baseUrl}/cart/get-cart",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -867,7 +866,7 @@ class WebServices {
 
   Future<ResponseModel> deleteProductFromCart({required String productId}) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/cart/delete-from-cart",
+      url: "${ApiConfig.baseUrl}/cart/delete-from-cart",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
       query: {
@@ -883,7 +882,7 @@ class WebServices {
     String? variantId,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/cart/add-to-guest-cart",
+      url: "${ApiConfig.baseUrl}/cart/add-to-guest-cart",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: {
         "product_id": productId,
@@ -897,14 +896,14 @@ class WebServices {
 
   Future<ResponseModel> getGuestCart() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/cart/get-guest-cart?guest_token=${Get.find<AuthenticationController>().guestToken}",
+      url: "${ApiConfig.baseUrl}/cart/get-guest-cart?guest_token=${Get.find<AuthenticationController>().guestToken}",
       HTTPRequestMethod: HTTPRequestEnum.GET,
     );
   }
 
   Future<ResponseModel> deleteGuestProductCart({required String productId}) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/cart/delete-from-guest-cart",
+      url: "${ApiConfig.baseUrl}/cart/delete-from-guest-cart",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: {
         "id": productId,
@@ -920,7 +919,7 @@ class WebServices {
     required String paymentMethod,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/orders/request-order",
+      url: "${ApiConfig.baseUrl}/orders/request-order",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       isAuth: true,
       query: {
@@ -933,7 +932,7 @@ class WebServices {
 
   Future<ResponseModel> getShippingCompanies({required String addressId}) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/orders/get-shipping-companies?address_id=$addressId",
+      url: "${ApiConfig.baseUrl}/orders/get-shipping-companies?address_id=$addressId",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -941,7 +940,7 @@ class WebServices {
 
   Future<ResponseModel> getOrders({required int pageNo}) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/orders/get-orders?page=$pageNo",
+      url: "${ApiConfig.baseUrl}/orders/get-orders?page=$pageNo",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -949,7 +948,7 @@ class WebServices {
 
   Future<ResponseModel> getOrderDetails({required int orderId}) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/orders/get-order-details?id=$orderId",
+      url: "${ApiConfig.baseUrl}/orders/get-order-details?id=$orderId",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -957,7 +956,7 @@ class WebServices {
 
   Future<ResponseModel> reOrder({required int orderId}) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/orders/re-order",
+      url: "${ApiConfig.baseUrl}/orders/re-order",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: {
         "order_id": orderId,
@@ -973,7 +972,7 @@ class WebServices {
     String? message,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/orders/rate-order-product",
+      url: "${ApiConfig.baseUrl}/orders/rate-order-product",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: {
         "product_id": productId,
@@ -992,7 +991,7 @@ class WebServices {
     String? message,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/appointments/rate-appointment-offer",
+      url: "${ApiConfig.baseUrl}/appointments/rate-appointment-offer",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: {
         "offer_id": offerId,
@@ -1011,7 +1010,7 @@ class WebServices {
     String? message,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/appointments/rate-appointment-branch",
+      url: "${ApiConfig.baseUrl}/appointments/rate-appointment-branch",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: {
         "branch_id": branchId,
@@ -1030,7 +1029,7 @@ class WebServices {
     String? message,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/appointments/rate-appointment-doctor",
+      url: "${ApiConfig.baseUrl}/appointments/rate-appointment-doctor",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: {
         "doctor_id": doctorId,
@@ -1044,7 +1043,7 @@ class WebServices {
 
   // Future<ResponseModel> getBranches({required int pageNo}) async {
   //   return await ApiManger().execute(
-  //     url: "${ApiConstant.baseUrl}/branches/get",
+  //     url: "${ApiConfig.baseUrl}/branches/get",
   //     HTTPRequestMethod: HTTPRequestEnum.GET,
   //     isAuth: true,
   //   );
@@ -1054,7 +1053,7 @@ class WebServices {
     required int branchesId,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/branches/single?id=$branchesId",
+      url: "${ApiConfig.baseUrl}/branches/single?id=$branchesId",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -1065,7 +1064,7 @@ class WebServices {
     required int page,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/offers/get?branch_id=$branchesId&page=$page&limit=50",
+      url: "${ApiConfig.baseUrl}/offers/get?branch_id=$branchesId&page=$page&limit=50",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
@@ -1075,7 +1074,7 @@ class WebServices {
 //     required int branchesId,
 //   }) async {
 //     return await ApiManger().execute(
-//       url: "${ApiConstant.baseUrl}/offers/get?branch_id=$branchesId",
+//       url: "${ApiConfig.baseUrl}/offers/get?branch_id=$branchesId",
 //       HTTPRequestMethod: HTTPRequestEnum.GET,
 //       isAuth: true,
 //     );
@@ -1083,14 +1082,14 @@ class WebServices {
 
   Future<ResponseModel> getOffersService() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/offers/get?admin_featured=1",
+      url: "${ApiConfig.baseUrl}/offers/get?admin_featured=1",
       HTTPRequestMethod: HTTPRequestEnum.GET,
     );
   }
 
   Future<ResponseModel> getOffersProduct() async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/products/get?admin_featured=1",
+      url: "${ApiConfig.baseUrl}/products/get?admin_featured=1",
       HTTPRequestMethod: HTTPRequestEnum.GET,
     );
   }
@@ -1102,7 +1101,7 @@ class WebServices {
     required String notes,
   }) async {
     return await ApiManger().execute(
-      url: "${ApiConstant.baseUrl}/appointments/update-appointment",
+      url: "${ApiConfig.baseUrl}/appointments/update-appointment",
       HTTPRequestMethod: HTTPRequestEnum.POST,
       query: {
         "appointment_id": appointmentID,
