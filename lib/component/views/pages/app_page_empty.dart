@@ -45,6 +45,12 @@ class AppPageEmpty extends StatelessWidget {
         description = "جرب كلمة رئيسية أخرى , وحاول مرة اخرى.",
         imagePath = AppSvgAssets.emptySearchIcon;
 
+  AppPageEmpty.noServiceFound({
+    super.key,
+  })  : title = "لا يوجد خدمات متاحه",
+        description = "",
+        imagePath = "";
+
   AppPageEmpty.shoppingCart({
     super.key,
   })  : title = "سلة التسوق الخاصة بك فارغة",
@@ -60,8 +66,7 @@ class AppPageEmpty extends StatelessWidget {
   AppPageEmpty.ordersList({
     super.key,
   })  : title = "لم يتم العثور على طلبات !",
-        description =
-            "حاليا ليس لديك أي طلبات. عندما تطلب شيئًا \n \n \n ما. وسوف تظهر هنا ",
+        description = "حاليا ليس لديك أي طلبات. عندما تطلب شيئًا \n \n \n ما. وسوف تظهر هنا ",
         imagePath = AppSvgAssets.emptyOrdersIcon;
 
   AppPageEmpty.Favorite({

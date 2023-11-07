@@ -137,7 +137,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                             distance: branch.distance,
                             isFavorite: favoriteController.clinicIsFavorite(branch.id),
                             imageUrl: branch.clinic.image,
-                            name: branch.name,
+                            name: branch.cityName,
                             onTap: () {
                               KPageTitle = branch.name;
                               Get.toNamed(
