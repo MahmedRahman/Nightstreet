@@ -25,7 +25,9 @@ class RegisterView extends GetView<RegisterController> {
   final emailController = TextEditingController();
 
   final registerController = Get.put(AuthenticationController());
-
+  final GlobalKey globalKey = GlobalKey();
+  final phoneFocusNode = FocusNode();
+  final emailFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -48,15 +50,21 @@ class RegisterView extends GetView<RegisterController> {
                   AppSpacers.height60,
                   TextFieldComponent.name(
                     controller: nameController,
+                    onTap: onFieldTapped,
+                    textInputAction: TextInputAction.next,
                   ),
                   AppSpacers.height19,
                   TextFieldComponent.phone(
                     controller: phoneController,
+                    onTap: onFieldTapped,
+                    textInputAction: TextInputAction.next,
                   ),
                   AppSpacers.height19,
                   TextFieldComponent.email(
                     controller: emailController,
                     isRequired: false,
+                    onTap: onFieldTapped,
+                    textInputAction: TextInputAction.done,
                     //isRequired: false,
                   ),
                   AppSpacers.height12,
@@ -68,6 +76,7 @@ class RegisterView extends GetView<RegisterController> {
                   ),
                   AppSpacers.height60,
                   CustomBtnCompenent.main(
+                    key: globalKey,
                     text: "انشاء حساب",
                     onTap: () {
                       if (!formKey.currentState!.validate()) {
@@ -109,5 +118,11 @@ class RegisterView extends GetView<RegisterController> {
         ),
       ),
     );
+  }
+
+  void onFieldTapped() async {
+    await Future.delayed(Duration(milliseconds: 500));
+    RenderObject? object = globalKey.currentContext!.findRenderObject();
+    object!.showOnScreen(duration: Duration(milliseconds: 500));
   }
 }

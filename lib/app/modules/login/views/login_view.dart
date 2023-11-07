@@ -15,6 +15,7 @@ class LoginView extends GetView<LoginController> {
   final formKey = GlobalKey<FormState>();
   final phoneController = TextEditingController();
   final authenticationController = Get.find<AuthenticationController>();
+  final GlobalKey globalKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +41,13 @@ class LoginView extends GetView<LoginController> {
                   const AuthHeader.login(),
                   AppSpacers.height60,
                   TextFieldComponent.phone(
+                    onTap: () async {
+                      await Future.delayed(Duration(milliseconds: 500));
+                      RenderObject? object =
+                          globalKey.currentContext!.findRenderObject();
+                      object!
+                          .showOnScreen(duration: Duration(milliseconds: 500));
+                    },
                     controller: phoneController,
                   ),
                   AppSpacers.height60,
@@ -61,6 +69,7 @@ class LoginView extends GetView<LoginController> {
                     height: 16,
                   ),
                   CustomBtnCompenent.secondary(
+                    key: globalKey,
                     text: "الدخول كزائز",
                     onTap: () async {
                       FocusManager.instance.primaryFocus?.unfocus();
@@ -71,10 +80,13 @@ class LoginView extends GetView<LoginController> {
                         );
                       }
                       authenticationController.loginAsGuest(
-                        firebaseToken: authenticationController.getFirebaseToken().toString(),
+                        firebaseToken: authenticationController
+                            .getFirebaseToken()
+                            .toString(),
                       );
                     },
                   ),
+                  AppSpacers.height29,
                 ],
               ),
             ),

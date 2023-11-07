@@ -6,7 +6,8 @@ import 'package:krzv2/extensions/widget.dart';
 import '../controllers/review_Information_controller.dart';
 
 class ReviewInformationView extends GetView {
-  ReviewInformationController controller = Get.put(ReviewInformationController());
+  ReviewInformationController controller =
+      Get.put(ReviewInformationController());
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +25,12 @@ class ReviewInformationView extends GetView {
           },
         );
       },
-      onLoading: ReviewCardView(
-        name: 'آدم محمود',
-        rate: 4,
-        comment: 'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم\nتوليد هذا النص من مولد النص العربى',
-        date: "s",
-      ).shimmer(),
+      onLoading: ListView.builder(
+        itemCount: 2,
+        itemBuilder: (_, __) {
+          return ReviewShimer();
+        },
+      ),
       onEmpty: Container(
         child: Center(child: Text("لا يوجد تقيمات")),
       ),
