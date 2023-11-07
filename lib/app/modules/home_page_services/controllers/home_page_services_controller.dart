@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:krzv2/app/modules/google_map/controllers/google_map_controller.dart';
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/models/branch_model.dart';
 import 'package:krzv2/models/branch_url_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
@@ -127,21 +128,12 @@ class HomePageServicesController extends GetxController
         fiterBrancher();
       }
     } else if (status == PermissionStatus.permanentlyDenied) {
-      await Get.defaultDialog(
-        title: 'Search Location Issue',
-        middleText: 'This serive require location permission',
-        textConfirm: 'Open Settings',
-        textCancel: 'Cancel',
-        barrierDismissible: false,
-        onCancel: () => Get.back(),
-        onConfirm: () async {
+      AppDialogs.locationPermissionDialog(
+        onTap: () async {
           shouldWatchFocus = true;
           await Geolocator.openLocationSettings();
           Get.back();
         },
-        buttonColor: AppColors.mainColor,
-        confirmTextColor: Colors.white,
-        cancelTextColor: AppColors.mainColor,
       );
     }
   }

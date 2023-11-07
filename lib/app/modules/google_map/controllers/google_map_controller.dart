@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart' as place;
+import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/models/map_prediction_model.dart';
 import 'package:krzv2/services/permissions_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
@@ -108,9 +109,7 @@ class GoogleMapViewController extends GetxController with StateMixin {
       confirmTextColor: Colors.white,
     );
 
-    if (confirmed) {
-
-    }
+    if (confirmed) {}
   }
 
   Future<void> openLocationServiceSettings() async {
@@ -171,7 +170,6 @@ class GoogleMapViewController extends GetxController with StateMixin {
   Future<List<Prediction>> searchLocation({
     required String searchQuery,
   }) async {
-    print('searchQuery => $searchQuery');
     if (searchQuery.isEmpty) return [];
     ResponseModel responseModel =
         await WebServices().googleMapPlace(searchQuery: searchQuery);
@@ -183,20 +181,8 @@ class GoogleMapViewController extends GetxController with StateMixin {
             .map((category) => Prediction.fromJson(category)),
       );
       _predictionList.addAll(fetchedList);
-
-      print("first index => ${_predictionList.first.description}");
     } else {
-      Get.defaultDialog(
-        title: 'Search Location Issue',
-        middleText: '',
-        textConfirm: 'Try Again',
-        textCancel: 'Cancel',
-        barrierDismissible: false,
-        onCancel: () => Get.back(),
-        onConfirm: () => Get.back(),
-        buttonColor: AppColors.mainColor,
-        confirmTextColor: Colors.white,
-      );
+      AppDialogs.errorDialog(msg: 'حدث خطأ حاول مرة أخرى');
     }
 
     return _predictionList;
@@ -249,21 +235,12 @@ class GoogleMapViewController extends GetxController with StateMixin {
         forceNavigateToSettingIfDenied == true) {
       print('start get location');
       try {
-        await Get.defaultDialog(
-          title: 'Search Location Issue',
-          middleText: 'This serive require location permission',
-          textConfirm: 'Open Settings',
-          textCancel: 'Cancel',
-          barrierDismissible: false,
-          onCancel: () => Get.back(),
-          onConfirm: () async {
+        AppDialogs.locationPermissionDialog(
+          onTap: () async {
             shouldWatchFocus = true;
             await Geolocator.openLocationSettings();
             Get.back();
           },
-          buttonColor: AppColors.mainColor,
-          confirmTextColor: Colors.white,
-          cancelTextColor: AppColors.mainColor,
         );
       } catch (e, st) {
         print('eee $e');

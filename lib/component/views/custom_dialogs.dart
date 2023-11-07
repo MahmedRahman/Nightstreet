@@ -39,10 +39,17 @@ class AppDialogs {
   factory AppDialogs.errorDialog({required String msg}) {
     final appDialogs = AppDialogs._();
     appDialogs._dialog(
-      onTap: () {},
-      title: "",
-      subtitle: "",
-      image: "",
+      onTap: () => Get.back(),
+      title: "خطأ",
+      subtitle: msg,
+      image: AppSvgAssets.errorIconDialog,
+      imageWidth: 150,
+      imageHeight: 150,
+      child: CustomBtnCompenent.main(
+        text: 'رجوع',
+        width: 240,
+        onTap: () => Get.back(),
+      ),
     );
     return appDialogs;
   }
@@ -143,6 +150,37 @@ class AppDialogs {
             onTap: () {
               Get.offAndToNamed(Routes.LAYOUT);
             },
+          ),
+        ],
+      ),
+    );
+    return appDialogs;
+  }
+
+  factory AppDialogs.locationPermissionDialog(
+      {required void Function() onTap}) {
+    final appDialogs = AppDialogs._();
+    appDialogs._dialog(
+      onTap: () {},
+      title: "نتبية !!",
+      imageHeight: 100,
+      imageWidth: 100,
+      dialogHeight: 380,
+      subtitle: 'هذه الخدمة تتطلب إذن الموقع',
+      image: AppSvgAssets.locationServiceIcon,
+      barrierDismissible: true,
+      child: Column(
+        children: [
+          CustomBtnCompenent.main(
+            text: 'فتح الإعدادات',
+            width: 240,
+            onTap: onTap,
+          ),
+          AppSpacers.height12,
+          CustomBtnCompenent.secondary(
+            text: 'إلغاء',
+            width: 240,
+            onTap: () => Get.back(),
           ),
         ],
       ),
@@ -300,6 +338,9 @@ class AppDialogs {
     required String subtitle,
     required String image,
     Widget? child,
+    double? imageWidth,
+    double? imageHeight,
+    double? dialogHeight,
     bool barrierDismissible = true,
   }) {
     Get.generalDialog(
@@ -313,7 +354,7 @@ class AppDialogs {
         return Center(
           child: Container(
             width: Get.width * .8,
-            height: 440,
+            height: dialogHeight ?? 440,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(40.0),
               color: Colors.white,
@@ -322,12 +363,15 @@ class AppDialogs {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 AppSpacers.height25,
-                SvgPicture.asset(image),
+                SvgPicture.asset(
+                  image,
+                  width: imageWidth,
+                  height: imageHeight,
+                ),
                 AppSpacers.height19,
                 TitleBuilder(
                   title: title,
                 ),
-                AppSpacers.height19,
                 DescriptionBuilder(
                   description: subtitle,
                 ),
@@ -350,70 +394,6 @@ class AppDialogs {
       },
     );
   }
-
-  // void _loginSuccessDialog() {
-  //   Get.defaultDialog(
-  //     onWillPop: null,
-  //     contentPadding: AppDimension.appPadding,
-  //     titlePadding: EdgeInsets.zero,
-  //     title: "",
-  //     backgroundColor: Colors.white,
-  //     radius: 35,
-  //     content: Center(
-  //       child: Column(
-  //         children: [
-  //           SvgPicture.asset(SvgAssets.forceUpdateIcon),
-  //           Spacers.heigth19,
-  //           const TitleBuilder(
-  //             title: 'تهانينا !!',
-  //           ),
-  //           Spacers.heigth19,
-  //           const DescriptionBuilder(
-  //             description: 'حسابك جاهز للاستخدام ، ستتم إعادة توجيهك\nإلى الصفحة الرئيسية في بضع ثوان',
-  //           ),
-  //           Spacers.heigth19,
-  // const SpinKitCircle(
-  //   color: AppColors.mainColor,
-  //   size: 70,
-  // ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // void _customErrorDialog({
-  //   required String title,
-  // }) {
-  //   Get.defaultDialog(
-  //     onWillPop: null,
-  //     contentPadding: AppDimension.appPadding,
-  //     titlePadding: EdgeInsets.zero,
-  //     title: "",
-  //     backgroundColor: Colors.white,
-  //     radius: 35,
-  //     content: Center(
-  //       child: Column(
-  //         children: [
-  //           SvgPicture.asset(SvgAssets.forceUpdateIcon),
-  //           Spacers.heigth19,
-  //           const TitleBuilder(
-  //             title: 'ooops',
-  //           ),
-  //           Spacers.heigth19,
-  //           DescriptionBuilder(
-  //             description: title,
-  //           ),
-  //           Spacers.heigth19,
-  //           const SpinKitCircle(
-  //             color: AppColors.mainColor,
-  //             size: 70,
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 }
 
 class DescriptionBuilder extends StatelessWidget {

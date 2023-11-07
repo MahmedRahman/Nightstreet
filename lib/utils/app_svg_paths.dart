@@ -49,6 +49,8 @@ abstract class AppSvgAssets {
   static const String updatePhoneIcon = 'assets/svg/update_phone.svg';
   static const String searchIconIcon = 'assets/svg/search_icon.svg';
   static const String filterIcon = 'assets/svg/filter.svg';
+  static const String locationServiceIcon = 'assets/svg/location_icon.svg';
+  static const String errorIconDialog = 'assets/svg/error_icon_dialog.svg';
 
   /// bottom navigation bar icons ///
 
