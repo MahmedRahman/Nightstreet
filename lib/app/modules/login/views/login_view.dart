@@ -79,6 +79,9 @@ class LoginView extends GetView<LoginController> {
                           onSuccess: () {},
                         );
                       }
+
+                      FocusManager.instance.primaryFocus?.unfocus();
+
                       authenticationController.loginAsGuest(
                         firebaseToken: authenticationController
                             .getFirebaseToken()

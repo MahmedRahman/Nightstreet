@@ -29,7 +29,6 @@ class BottomNavigationBarView extends GetView<MyBottomNavigationController> {
   Widget build(BuildContext context) {
     return Obx(
       () => Container(
-        height: 80,
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
