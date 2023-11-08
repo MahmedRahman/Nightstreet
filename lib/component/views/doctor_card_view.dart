@@ -32,6 +32,7 @@ class DoctorCardView extends GetView {
     return ListTile(
       onTap: onTap,
       contentPadding: EdgeInsets.zero,
+      hoverColor: Colors.transparent,
       title: Padding(
         padding: const EdgeInsets.only(bottom: 9),
         child: Text(

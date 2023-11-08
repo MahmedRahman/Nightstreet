@@ -4,6 +4,7 @@ import 'package:krzv2/app/modules/service_detail/controllers/doctor_controller.d
 import 'package:krzv2/component/views/doctor_card_view.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/extensions/widget.dart';
+import 'package:krzv2/routes/app_pages.dart';
 
 class DoctorListView extends GetView {
   DoctorController controller = Get.put(DoctorController());
@@ -11,9 +12,8 @@ class DoctorListView extends GetView {
   Widget build(BuildContext context) {
     return controller.obx(
       (snapshot) {
-        print(snapshot!.length.toString());
-
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'الأطباء الذين يقدمون هذه الخدمة',
@@ -28,13 +28,18 @@ class DoctorListView extends GetView {
             ),
             Column(
               children: List.generate(
-                snapshot.length,
+                snapshot!.length,
                 (index) {
                   return DoctorCardView(
                     doctorName: snapshot.elementAt(index)["name"],
                     doctorJob: snapshot.elementAt(index)["speciality"],
                     doctorImage: snapshot.elementAt(index)["image"],
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(
+                        Routes.ABOUT_DOCTOR,
+                        arguments: snapshot.elementAt(index),
+                      );
+                    },
                   );
                 },
               ),
