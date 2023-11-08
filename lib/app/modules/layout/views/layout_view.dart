@@ -15,27 +15,25 @@ class LayoutView extends GetView<LayoutController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: WillPopScope(
-        onWillPop: () => Future.value(false),
-        child: Obx(
-          () {
-            {
-              switch (bottomNavigationBarController.currentIndex.value) {
-                case 0:
-                  return HomePageView();
-                case 1:
-                  return HomePageServicesView();
-                case 2:
-                  return HomePageProductsView();
-                case 3:
-                  return OfferListView();
-                default:
-                  return AccountMenuView();
-              }
+    return WillPopScope(
+      onWillPop: () => Future.value(false),
+      child: Obx(
+        () {
+          {
+            switch (bottomNavigationBarController.currentIndex.value) {
+              case 0:
+                return HomePageView();
+              case 1:
+                return HomePageServicesView();
+              case 2:
+                return HomePageProductsView();
+              case 3:
+                return OfferListView();
+              default:
+                return AccountMenuView();
             }
-          },
-        ),
+          }
+        },
       ),
     );
   }

@@ -27,21 +27,15 @@ class BaseScaffold extends StatelessWidget {
         ? Scaffold(
             appBar: appBar,
             body: body,
-            bottomNavigationBar: MediaQuery.removePadding(
-              context: context,
-              child: SizedBox(
-                height: bottomBarHeight,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: bottomNavigationBar ?? SizedBox.shrink(),
-                    ),
-                    BottomNavigationBarView(),
-                  ],
+            bottomNavigationBar: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: bottomNavigationBar ?? SizedBox.shrink(),
                 ),
-              ),
-              removeBottom: true,
+                BottomNavigationBarView(),
+              ],
             ),
           )
         : RefreshIndicator(
@@ -50,21 +44,15 @@ class BaseScaffold extends StatelessWidget {
             child: Scaffold(
               appBar: appBar,
               body: body,
-              bottomNavigationBar: MediaQuery.removePadding(
-                context: context,
-                child: SizedBox(
-                  height: bottomBarHeight,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: bottomNavigationBar ?? SizedBox.shrink(),
-                      ),
-                      BottomNavigationBarView(),
-                    ],
+              bottomNavigationBar: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: bottomNavigationBar ?? SizedBox.shrink(),
                   ),
-                ),
-                removeBottom: true,
+                  BottomNavigationBarView(),
+                ],
               ),
             ),
           );

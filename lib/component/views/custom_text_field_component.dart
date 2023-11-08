@@ -89,7 +89,7 @@ class TextFieldComponent extends StatelessWidget {
     required this.controller,
     required this.outLineText,
     required this.hintText,
-     this.textInputAction,
+    this.textInputAction,
     super.key,
     this.onChanged,
     this.isReadOnly = false,
