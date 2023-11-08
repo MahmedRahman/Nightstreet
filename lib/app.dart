@@ -89,15 +89,16 @@ class _MyAppState extends State<MyApp> {
           locale: const Locale('ar_EG'),
           initialRoute: AppPages.INITIAL,
           getPages: AppPages.routes,
-          builder: ((context, child) {
-            EasyLoading.init();
-            return ApiConfig.KDebugFlg
-                ? Scaffold(
-                    appBar: DebugView(),
-                    body: child!,
-                  )
-                : child!;
-          }),
+          // builder: ((context, child) {
+          //   EasyLoading.init();
+          //   return ApiConfig.KDebugFlg
+          //       ? Scaffold(
+          //           appBar: DebugView(),
+          //           body: child!,
+          //         )
+          //       : child!;
+          // }),
+          builder: EasyLoading.init(),
           initialBinding: BindingsBuilder(
             () {
               Get.put(AuthenticationController());
