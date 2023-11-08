@@ -42,6 +42,7 @@ class ComplaintDetailsView extends GetView {
             ),
             Expanded(
               child: RefreshIndicator(
+                color: AppColors.mainColor,
                 onRefresh: () async {
                   controller.getComplaintsDetails(complaintID: complaintID);
                 },
