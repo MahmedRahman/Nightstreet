@@ -12,40 +12,38 @@ class DoctorListView extends GetView {
   Widget build(BuildContext context) {
     return controller.obx(
       (snapshot) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'الأطباء الذين يقدمون هذه الخدمة',
-              style: TextStyle(
-                fontFamily: 'Effra',
-                fontSize: 16.0,
-                letterSpacing: 0.24,
-                fontWeight: FontWeight.w500,
-                height: 0.75,
-              ),
-              textAlign: TextAlign.right,
-            ),
-            Column(
-              children: List.generate(
-                snapshot!.length,
-                (index) {
-                  return DoctorCardView(
-                    doctorName: snapshot.elementAt(index)["name"],
-                    doctorJob: snapshot.elementAt(index)["speciality"],
-                    doctorImage: snapshot.elementAt(index)["image"],
-                    onTap: () {
-                      Get.toNamed(
-                        Routes.ABOUT_DOCTOR,
-                        arguments: snapshot.elementAt(index),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
-        );
+        print(snapshot!.length.toString());
+
+        return snapshot!.length == 0
+            ? SizedBox.shrink()
+            : Column(
+                children: [
+                  Text(
+                    'الأطباء الذين يقدمون هذه الخدمة',
+                    style: TextStyle(
+                      fontFamily: 'Effra',
+                      fontSize: 16.0,
+                      letterSpacing: 0.24,
+                      fontWeight: FontWeight.w500,
+                      height: 0.75,
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
+                  Column(
+                    children: List.generate(
+                      snapshot.length,
+                      (index) {
+                        return DoctorCardView(
+                          doctorName: snapshot.elementAt(index)["name"],
+                          doctorJob: snapshot.elementAt(index)["speciality"],
+                          doctorImage: snapshot.elementAt(index)["image"],
+                          onTap: () {},
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
       },
       onLoading: DoctorCardView.dummy().shimmer(),
       onEmpty: AppPageEmpty.ordersList(),

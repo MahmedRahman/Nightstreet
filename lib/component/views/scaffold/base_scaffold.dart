@@ -23,24 +23,39 @@ class BaseScaffold extends StatelessWidget {
   final Future<void> Function()? onRefresh;
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      color: AppColors.mainColor,
-      onRefresh: onRefresh ?? () async {},
-      child: Scaffold(
-        appBar: appBar,
-        body: body,
-        bottomNavigationBar: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: bottomNavigationBar ?? SizedBox.shrink(),
+    return onRefresh == null
+        ? Scaffold(
+            appBar: appBar,
+            body: body,
+            bottomNavigationBar: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: bottomNavigationBar ?? SizedBox.shrink(),
+                ),
+                BottomNavigationBarView(),
+              ],
             ),
-            BottomNavigationBarView(),
-          ],
-        ),
-      ),
-    );
+          )
+        : RefreshIndicator(
+            color: AppColors.mainColor,
+            onRefresh: onRefresh ?? () async {},
+            child: Scaffold(
+              appBar: appBar,
+              body: body,
+              bottomNavigationBar: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: bottomNavigationBar ?? SizedBox.shrink(),
+                  ),
+                  BottomNavigationBarView(),
+                ],
+              ),
+            ),
+          );
   }
 }
 

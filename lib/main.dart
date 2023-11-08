@@ -9,6 +9,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:krzv2/app.dart';
 import 'package:krzv2/app/modules/appointment/appointment_address_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
@@ -57,164 +58,64 @@ void main() async {
   );
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    requestPermission();
-
-    FirebaseMessaging.onMessage.listen(
-      (RemoteMessage message) {
-        print(
-            'title => ${message.notification?.title ?? "empty title"}, message => ${message.notification?.body ?? "empty body"}');
-      },
-    );
-    super.initState();
-  }
-
-  void requestPermission() async {
-    FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-    NotificationSettings settings = await _firebaseMessaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      sound: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-    );
-
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('user done permission');
-      PushNotificationService().getFCMToken();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return DevicePreview(
-      //enabled: !kReleaseMode,
-      enabled: false,
-      builder: (context) => GestureDetector(
-        onTap: () {
-          FocusScopeNode currentFocus = FocusScope.of(Get.context!);
-          currentFocus.unfocus();
-        },
-        child: GetMaterialApp(
-          title: 'كرز',
-          debugShowCheckedModeBanner: false,
-          textDirection: TextDirection.rtl,
-          theme: ThemeData(
-            fontFamily: "effra",
-            scaffoldBackgroundColor: Colors.white,
-            appBarTheme: const AppBarTheme(
-              systemOverlayStyle: SystemUiOverlayStyle.dark,
-            ),
-          ),
-          locale: const Locale('ar_EG'),
-          initialRoute: AppPages.INITIAL,
-          getPages: AppPages.routes,
-          builder: EasyLoading.init(),
-          initialBinding: BindingsBuilder(
-            () {
-              Get.put(AuthenticationController());
-              Get.put(ProductFavoriteController());
-              Get.put(OfferFavoriteController());
-              Get.put(CliniFavoriteController());
-              Get.put(StaticPageService());
-              Get.put(MyBottomNavigationController());
-              Get.put(SplashController());
-              Get.put(AppointmentController());
-              Get.put(OfferServiceController());
-              Get.put(OfferProductController());
-              Get.put(ShoppintCartController());
-              // Get.put(AppVersionService());
-              // Get.put(ComplaintController());
+PreferredSize DebugView() {
+  return PreferredSize(
+    preferredSize: Size.fromHeight(220),
+    child: Scaffold(
+      appBar: AppBar(
+        title: Text("Debug"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              ResponseModelList.clear();
             },
-          ),
-          navigatorObservers: [
-            SentryNavigatorObserver(),
-          ],
-        ),
+            icon: Icon(Icons.delete),
+          )
+        ],
       ),
-    );
-  }
-}
-
-/*
- MaterialApp(
-          home: Scaffold(
-            appBar: false
-                ? PreferredSize(
-                    preferredSize: Size.zero,
-                    child: SizedBox.shrink(),
-                  )
-                : PreferredSize(
-                    preferredSize: Size.fromHeight(220),
-                    child: Scaffold(
-                      appBar: AppBar(
-                        title: Text("Debug"),
-                        actions: [
-                          IconButton(
-                            onPressed: () {
-                              ResponseModelList.clear();
-                            },
-                            icon: Icon(Icons.delete),
+      body: SafeArea(
+        child: Container(
+          //color: Colors.red,
+          child: Obx(() {
+            return ListView(
+              //reverse: true,
+              children: List.generate(ResponseModelList.length, (index) {
+                return Card(
+                  color: ResponseModelList.elementAt(index).statusCode == 200
+                      ? Colors.green.withOpacity(.1)
+                      : Colors.red.withOpacity(.1),
+                  child: ListTile(
+                    leading: (ResponseModelList.elementAt(index).httpRequest == HTTPRequestEnum.GET)
+                        ? Text(
+                            "Get",
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold,
+                            ),
                           )
-                        ],
-                      ),
-                      body: SafeArea(
-                        child: Container(
-                          //color: Colors.red,
-                          child: Obx(() {
-                            return ListView(
-                              //reverse: true,
-                              children: List.generate(ResponseModelList.length, (index) {
-                                return Card(
-                                  color: ResponseModelList.elementAt(index).statusCode == 200
-                                      ? Colors.green.withOpacity(.1)
-                                      : Colors.red.withOpacity(.1),
-                                  child: ListTile(
-                                    leading: (ResponseModelList.elementAt(index).httpRequest == HTTPRequestEnum.GET)
-                                        ? Text(
-                                            "Get",
-                                            style: TextStyle(
-                                              color: Colors.green,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          )
-                                        : Text(
-                                            "Post",
-                                            style: TextStyle(
-                                              color: Colors.yellow,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                    trailing: IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.copy_all),
-                                    ),
-                                    title: Text(
-                                      ResponseModelList.elementAt(index).url.toString(),
-                                      maxLines: 2,
-                                      style: TextStyle(),
-                                    ),
-                                  ),
-                                );
-                              }),
-                            );
-                          }),
-                        ),
-                      ),
+                        : Text(
+                            "Post",
+                            style: TextStyle(
+                              color: Colors.yellow,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                    trailing: IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.copy_all),
+                    ),
+                    title: Text(
+                      ResponseModelList.elementAt(index).url.toString(),
+                      maxLines: 2,
+                      style: TextStyle(),
                     ),
                   ),
-            body: 
-            */
+                );
+              }),
+            );
+          }),
+        ),
+      ),
+    ),
+  );
+}
