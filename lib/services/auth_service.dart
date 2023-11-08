@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
+import 'package:krzv2/app/modules/shoppint_cart/views/shopping_cart_view.dart';
+import 'package:krzv2/app/modules/verify_phone/views/verify_phone_view.dart';
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/models/user_data_model.dart';
@@ -58,6 +60,7 @@ class AuthenticationController extends GetxController with CacheManager {
   Future<void> loginWithPhoneNumber({
     required String phoneNumber,
     required String verificationCode,
+    required String previousRoute,
     required Function() onError,
   }) async {
     EasyLoading.show();
@@ -87,7 +90,14 @@ class AuthenticationController extends GetxController with CacheManager {
     AppDialogs.loginSuccess();
     await Future.delayed(
       const Duration(milliseconds: 500),
-      () => Get.offAndToNamed(Routes.LAYOUT),
+      () {
+        if (previousRoute == Routes.SHOPPINT_CART) {
+          Get.back(closeOverlays: true);
+        } else {
+          print('navigate to layout');
+          Get.offAndToNamed(Routes.LAYOUT);
+        }
+      },
     );
   }
 
@@ -117,10 +127,13 @@ class AuthenticationController extends GetxController with CacheManager {
       return;
     }
 
-    Get.toNamed(
-      Routes.VERIFY_PHONE,
-      arguments: phoneNumber,
+    Get.off(
+      VerifyPhoneView(
+        phoneNumber: phoneNumber,
+        previousRoute: Get.previousRoute,
+      ),
     );
+
     AppDialogs.showToast(
       message: response.data["message"].toString(),
     );
@@ -233,9 +246,11 @@ class AuthenticationController extends GetxController with CacheManager {
       return;
     }
 
-    Get.toNamed(
-      Routes.VERIFY_PHONE,
-      arguments: phone,
+    Get.to(
+      VerifyPhoneView(
+        phoneNumber: phone,
+        previousRoute: Get.previousRoute,
+      ),
     );
   }
 }

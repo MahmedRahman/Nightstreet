@@ -180,11 +180,11 @@ class AppPages {
       page: () => LoginView(),
       binding: LoginBinding(),
     ),
-    GetPage(
-      name: Routes.VERIFY_PHONE,
-      page: () => VerifyPhoneView(),
-      binding: VerifyPhoneBinding(),
-    ),
+    // GetPage(
+    //   name: Routes.VERIFY_PHONE,
+    //   page: () => VerifyPhoneView(),
+    //   binding: VerifyPhoneBinding(),
+    // ),
     GetPage(
       name: Routes.REGISTER,
       page: () => RegisterView(),
