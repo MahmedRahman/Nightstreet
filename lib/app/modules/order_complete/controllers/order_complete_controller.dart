@@ -1,9 +1,12 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/payment_bank/payment_page_new.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
+import 'package:krzv2/component/views/order_payment_success_view.dart';
 import 'package:krzv2/component/views/order_payment_view.dart';
 import 'package:krzv2/services/auth_service.dart';
+import 'package:krzv2/web_serives/api_manger.dart';
 import 'package:krzv2/web_serives/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
@@ -34,9 +37,27 @@ class OrderCompleteController extends GetxController {
     }
 
     if (paymentMethod == "card" || paymentMethod == "wallet_card") {
+      // Get.to(
+      //   OrderPaymentView(
+      //     PaymentUrl: response.data["data"],
+      //   ),
+      // );
+
       Get.to(
-        OrderPaymentView(
+        AppPaymentNewPage(
           PaymentUrl: response.data["data"],
+          FailedPaymentUrl: "${ApiConfig.baseUrl}/orders/rajhi-failed-callback",
+          SuccessPaymentUrl: "${ApiConfig.baseUrl}/orders/rajhi-success-callback",
+          onFailed: () {
+            AppDialogs.showToast(message: "خطا في عمليه الدفع");
+            Get.back();
+            return;
+          },
+          onSuccess: () {
+            Get.offAll(OrderPaymentSuccessView());
+            cartController.onInit();
+            authController.getProfile();
+          },
         ),
       );
       return;
