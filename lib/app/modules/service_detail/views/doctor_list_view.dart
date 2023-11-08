@@ -4,6 +4,7 @@ import 'package:krzv2/app/modules/service_detail/controllers/doctor_controller.d
 import 'package:krzv2/component/views/doctor_card_view.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/extensions/widget.dart';
+import 'package:krzv2/routes/app_pages.dart';
 
 class DoctorListView extends GetView {
   DoctorController controller = Get.put(DoctorController());

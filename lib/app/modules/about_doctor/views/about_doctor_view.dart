@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/wallet/components/decorated_container_component.dart';
 import 'package:krzv2/component/views/cashed_network_image_view.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
-import 'package:krzv2/component/views/custom_check_view.dart';
 import 'package:krzv2/component/views/rating_bar_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/utils/app_colors.dart';
@@ -12,13 +12,11 @@ import 'package:krzv2/utils/app_spacers.dart';
 
 import '../controllers/about_doctor_controller.dart';
 
-var dummyText =
-    "هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات في الصفحة التي يقرأها. ولذلك يتم استخدام طريقة لوريم إيبسوم";
-
 class AboutDoctorView extends GetView<AboutDoctorController> {
   const AboutDoctorView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final doctor = Get.arguments;
     return BaseScaffold(
       appBar: CustomAppBar(
         titleText: 'عن الطبيب',
@@ -27,7 +25,7 @@ class AboutDoctorView extends GetView<AboutDoctorController> {
         padding: AppDimension.appPadding,
         children: [
           AppSpacers.height19,
-          doctorInfo(),
+          doctorInfo(doctor),
           AppSpacers.height16,
           Divider(),
           AppSpacers.height16,
@@ -44,25 +42,8 @@ class AboutDoctorView extends GetView<AboutDoctorController> {
                 ),
                 textAlign: TextAlign.right,
               ),
-              Text(
-                dummyText,
-                style: TextStyle(
-                  fontFamily: 'Effra',
-                  fontSize: 14.0,
-                  color: AppColors.blackColor,
-                  letterSpacing: 0.21,
-                  height: 2.5,
-                ),
-              ),
               AppSpacers.height25,
-              doctorPoint(),
-              doctorPoint(),
-              doctorPoint(),
-              doctorPoint(),
-              doctorPoint(),
-              doctorPoint(),
-              doctorPoint(),
-              doctorPoint(),
+              Html(data: doctor['description'] ?? 'لا توجد بيانات اضافيه')
             ],
           )
         ],
@@ -70,25 +51,25 @@ class AboutDoctorView extends GetView<AboutDoctorController> {
     );
   }
 
-  Widget doctorPoint() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 24),
-      child: Row(
-        children: [
-          CustomCheckView(
-            backgroundColor: AppColors.borderColor2,
-            iconColor: AppColors.greyColor,
-          ),
-          SizedBox(
-            width: 8,
-          ),
-          Text("خلافاَ للإعتقاد السائد فإن لوريم إيبسوم ليس نصاَ عشوائياً"),
-        ],
-      ),
-    );
-  }
+  // Widget doctorPoint() {
+  //   return Padding(
+  //     padding: const EdgeInsets.only(bottom: 24),
+  //     child: Row(
+  //       children: [
+  //         CustomCheckView(
+  //           backgroundColor: AppColors.borderColor2,
+  //           iconColor: AppColors.greyColor,
+  //         ),
+  //         SizedBox(
+  //           width: 8,
+  //         ),
+  //         Text("خلافاَ للإعتقاد السائد فإن لوريم إيبسوم ليس نصاَ عشوائياً"),
+  //       ],
+  //     ),
+  //   );
+  // }
 
-  Widget doctorInfo() {
+  Widget doctorInfo(final doctor) {
     return DecoratedContainer(
       child: Column(
         children: [
@@ -100,13 +81,12 @@ class AboutDoctorView extends GetView<AboutDoctorController> {
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: CashedNetworkImageView(
-              imageUrl:
-                  'https://cdn.vectorstock.com/i/1000x1000/78/32/male-doctor-with-stethoscope-avatar-vector-31657832.webp',
+              imageUrl: doctor['image'],
             ),
           ),
           AppSpacers.height10,
           Text(
-            'حسين محمد',
+            doctor['name'],
             style: TextStyle(
               fontSize: 18.0,
               color: AppColors.blackColor,
@@ -120,7 +100,7 @@ class AboutDoctorView extends GetView<AboutDoctorController> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'جراحة أسنان',
+                doctor['speciality'],
                 style: TextStyle(
                   fontFamily: 'Effra',
                   fontSize: 14.0,
@@ -138,8 +118,8 @@ class AboutDoctorView extends GetView<AboutDoctorController> {
               ),
               AppSpacers.width10,
               RatingBarView(
-                initRating: 4,
-                totalRate: 4,
+                initRating: doctor['total_rate_avg'],
+                totalRate: doctor['total_rate_count'],
               ),
             ],
           ),

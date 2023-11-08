@@ -11,21 +11,23 @@ import 'package:validator/validator.dart';
 
 import '../controllers/verify_phone_controller.dart';
 
-class VerifyPhoneView extends GetView<VerifyPhoneController> {
+class VerifyPhoneView extends GetView {
+  VerifyPhoneView({
+    required this.phoneNumber,
+    required this.previousRoute,
+  });
+  final String phoneNumber;
+  final String previousRoute;
   final formKey = GlobalKey<FormState>();
 
   final AuthenticationController authenticationController = Get.find();
+  final controller = Get.put<VerifyPhoneController>(
+    VerifyPhoneController(),
+  );
 
   final optController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    // if (kDebugMode) {
-    //   Get.find<AuthenticationController>().loginWithPhoneNumber(
-    //     phoneNumber: Get.arguments.toString(),
-    //     verificationCode: "741",
-    //   );
-    // }
-
     return Scaffold(
       body: ListView(
         padding: AppDimension.appPadding,
@@ -51,11 +53,12 @@ class VerifyPhoneView extends GetView<VerifyPhoneController> {
                     }
 
                     Get.find<AuthenticationController>().loginWithPhoneNumber(
-                      phoneNumber: Get.arguments.toString(),
+                      phoneNumber: phoneNumber,
                       verificationCode: value,
                       onError: () {
                         optController.clear();
                       },
+                      previousRoute: previousRoute,
                     );
                   },
                   validator: customValidator(

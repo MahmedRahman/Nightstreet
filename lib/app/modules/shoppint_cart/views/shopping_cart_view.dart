@@ -127,6 +127,7 @@ class ShoppingCartView extends GetView<ShoppintCartController> {
                       AppDialogs.showToast(
                         message: 'الرجاء تسجيل الدخول لإستكمل الطلب',
                       );
+                      Get.toNamed(Routes.LOGIN);
                       return;
                     }
                     Get.toNamed(
