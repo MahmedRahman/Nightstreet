@@ -20,49 +20,46 @@ class WalletPage extends GetView<WalletController> {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
+      onRefresh: () async => controller.onInit(),
       appBar: const CustomAppBar(
         titleText: "المحفظة",
       ),
-      body: RefreshIndicator(
-        color: AppColors.mainColor,
-        onRefresh: () async => controller.onInit(),
-        child: controller.obx(
-          (transaction) {
-            return ListView(
-              padding: AppDimension.appPadding,
-              children: [
-                AppSpacers.height25,
-                UserBalanceWidget(
-                  userBalance: '${authController.userData!.walletBalance}',
-                ),
-                _divider(),
-                TransactionTableComponent(
-                  transactionsList: transaction!.transactions,
-                ),
-                _divider(),
-                CouponForm(
-                  onTap: (String code) => controller.redeemWallet(
-                    code: code,
-                  ),
-                ),
-                _divider(),
-              ],
-            );
-          },
-          onLoading: const Center(
-            child: Center(
-              child: SpinKitCircle(
-                color: AppColors.mainColor,
-                size: 70,
+      body: controller.obx(
+        (transaction) {
+          return ListView(
+            padding: AppDimension.appPadding,
+            children: [
+              AppSpacers.height25,
+              UserBalanceWidget(
+                userBalance: '${authController.userData!.walletBalance}',
               ),
+              _divider(),
+              TransactionTableComponent(
+                transactionsList: transaction!.transactions,
+              ),
+              _divider(),
+              CouponForm(
+                onTap: (String code) => controller.redeemWallet(
+                  code: code,
+                ),
+              ),
+              _divider(),
+            ],
+          );
+        },
+        onLoading: const Center(
+          child: Center(
+            child: SpinKitCircle(
+              color: AppColors.mainColor,
+              size: 70,
             ),
           ),
-          onError: (error) => Center(
-            child: Text(
-              error.toString(),
-              style: const TextStyle(fontSize: 18),
-              textAlign: TextAlign.center,
-            ),
+        ),
+        onError: (error) => Center(
+          child: Text(
+            error.toString(),
+            style: const TextStyle(fontSize: 18),
+            textAlign: TextAlign.center,
           ),
         ),
       ),

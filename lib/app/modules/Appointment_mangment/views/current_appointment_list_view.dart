@@ -10,7 +10,8 @@ import 'package:krzv2/models/appointment_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
-class CurrentAppointmentListView extends GetView<AppointmentMangmentController> {
+class CurrentAppointmentListView
+    extends GetView<AppointmentMangmentController> {
   @override
   Widget build(BuildContext context) {
     return controller.obx(
@@ -31,7 +32,8 @@ class CurrentAppointmentListView extends GetView<AppointmentMangmentController> 
             mainButtonText: "تعديل الموعد",
             secondButtonText: "الغاء الخدمة",
             mainButtonOnTap: () async {
-              if (controller.myappointments.elementAt(index)["can_update"] == false) {
+              if (controller.myappointments.elementAt(index)["can_update"] ==
+                  false) {
                 AppDialogs.showToast(message: "لا يممكن تعديل هذا المعاد");
                 return;
               }
@@ -63,7 +65,8 @@ class CurrentAppointmentListView extends GetView<AppointmentMangmentController> 
       ),
       onEmpty: AppPageEmpty.appointment(
         title: 'لا توجد مواعيد حالية',
-        description: "لم يتم تسجيل أي مواعيد. يمكنك الآن الحجز \n والاستفادة من العروض شكرًا لاختيار خدماتنا.",
+        description:
+            "لم يتم تسجيل أي مواعيد. يمكنك الآن الحجز \n والاستفادة من العروض شكرًا لاختيار خدماتنا.",
       ),
     );
   }

@@ -14,9 +14,10 @@ class DoctorListView extends GetView {
       (snapshot) {
         print(snapshot!.length.toString());
 
-        return snapshot!.length == 0
+        return snapshot.length == 0
             ? SizedBox.shrink()
             : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'الأطباء الذين يقدمون هذه الخدمة',
@@ -37,7 +38,10 @@ class DoctorListView extends GetView {
                           doctorName: snapshot.elementAt(index)["name"],
                           doctorJob: snapshot.elementAt(index)["speciality"],
                           doctorImage: snapshot.elementAt(index)["image"],
-                          onTap: () {},
+                          onTap: () => Get.toNamed(
+                            Routes.ABOUT_DOCTOR,
+                            arguments: snapshot.elementAt(index),
+                          ),
                         );
                       },
                     ),
