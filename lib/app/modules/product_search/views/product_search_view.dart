@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
-import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
+import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
@@ -19,7 +19,7 @@ class ProductSearchView extends GetView<ProductSearchController> {
   ProductSearchView({Key? key}) : super(key: key);
 
   final searchTextController = TextEditingController();
-  final cartController = Get.put(ShoppintCartController());
+  final cartController = Get.put(ShoppingCartController());
   final double itemHeight = (Get.height - kToolbarHeight - 24) / 1;
   final double itemWidth = Get.width / 2;
   @override

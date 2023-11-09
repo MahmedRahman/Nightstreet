@@ -7,7 +7,7 @@ import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-class ShoppintCartController extends GetxController
+class ShoppingCartController extends GetxController
     with StateMixin<List<ProductCartModel>> {
   final List<ProductCartModel> _products = [];
   int get productCount => _products.length;

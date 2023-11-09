@@ -3,7 +3,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
 import 'package:krzv2/app/modules/product_details/controllers/similar_product_controller.dart';
-import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
+import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/counter_view.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
@@ -65,14 +65,14 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
 
   BaseScaffold buildBody(ProductModel? product) {
     final similarProductController = Get.find<SimilarProductController>();
-    final cartController = Get.put(ShoppintCartController());
+    final cartController = Get.put(ShoppingCartController());
     return BaseScaffold(
       appBar: CustomAppBar(
         titleText: 'تفاصيل المنتج',
         onBackTapped: () => Get.back(result: true),
         actions: [
           if (authController.isLoggedIn || authController.isGuestUser)
-            GetBuilder<ShoppintCartController>(
+            GetBuilder<ShoppingCartController>(
               builder: (controller) {
                 return CustomIconButton(
                   onTap: () => Get.toNamed(Routes.SHOPPINT_CART),
@@ -283,8 +283,8 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
         controller: controller,
         productQuantity: product.quantity,
         onAddToCart: () {
-          final cartController = Get.put<ShoppintCartController>(
-            ShoppintCartController(),
+          final cartController = Get.put<ShoppingCartController>(
+            ShoppingCartController(),
           );
 
           final isGuest = Get.find<AuthenticationController>().isGuestUser;

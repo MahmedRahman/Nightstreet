@@ -5,7 +5,7 @@ import 'package:krzv2/app/modules/home_page/controllers/home_page_product_catego
 import 'package:krzv2/app/modules/home_page_products/controllers/home_page_exclusive_offers_product_controller.dart';
 import 'package:krzv2/app/modules/home_page_products/controllers/home_page_most_seller_product_controller.dart';
 import 'package:krzv2/app/modules/home_page_products/controllers/home_page_products_slider_controller.dart';
-import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
+import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/component/views/app_bar_search_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_banner_view.dart';
@@ -31,7 +31,7 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
   final sliderController = Get.put(HomePageProductSliderController());
   final productCategoriesController = Get.put(ProductCategoriesController());
   final mostSelleerProductController = Get.put(MostSelleerProductController());
-  final cartController = Get.put(ShoppintCartController());
+  final cartController = Get.put(ShoppingCartController());
   final exclusiveOffersProductController =
       Get.put(ExclusiveOffersProductController());
   @override

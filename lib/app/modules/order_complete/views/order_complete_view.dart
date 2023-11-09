@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:krzv2/app/modules/address/list_addresses/controllers/delivery_addresses_controller.dart';
 import 'package:krzv2/app/modules/order_complete/controllers/shipping_companies_controller.dart';
 import 'package:krzv2/app/modules/order_complete/views/shipping_companies_view.dart';
-import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
+import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/app/modules/wallet/components/decorated_container_component.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
@@ -35,7 +35,7 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
   final delivery = Get.put<DeliveryAddressesController>(
     DeliveryAddressesController(),
   );
-  final cartController = Get.find<ShoppintCartController>();
+  final cartController = Get.find<ShoppingCartController>();
   final favCon = Get.put<OrderCompleteController>(
     OrderCompleteController(),
   );

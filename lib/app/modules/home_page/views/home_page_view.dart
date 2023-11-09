@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
@@ -8,7 +7,7 @@ import 'package:krzv2/app/modules/home_page/controllers/home_page_recommended_pr
 import 'package:krzv2/app/modules/home_page/controllers/home_page_service_categories.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_service_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_slider_controller.dart';
-import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
+import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_app_bar_view.dart';
@@ -31,7 +30,7 @@ import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
 class HomePageView extends GetView {
-  final cartController = Get.put(ShoppintCartController());
+  final cartController = Get.put(ShoppingCartController());
   final sliderController = Get.put(HomePageSliderController());
   final servicesController = Get.put(HomePageServiceController());
   final serviceCategoriesController = Get.put(ServiceCategoriesController());

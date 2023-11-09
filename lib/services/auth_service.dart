@@ -1,7 +1,6 @@
-
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
+import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/app/modules/verify_phone/views/verify_phone_view.dart';
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
@@ -49,7 +48,7 @@ class AuthenticationController extends GetxController with CacheManager {
     _userData = null;
 
     await saveGuestToken(response.data['data']['token']);
-    final cartController = Get.find<ShoppintCartController>();
+    final cartController = Get.find<ShoppingCartController>();
     cartController.onInit();
     Get.find<MyBottomNavigationController>().changePage(0);
     Get.offAndToNamed(Routes.LAYOUT);
@@ -81,7 +80,7 @@ class AuthenticationController extends GetxController with CacheManager {
     await saveUserType(UserType.registered.name);
     await removeGuestToken();
 
-    Get.find<ShoppintCartController>().getCartProducts();
+    Get.find<ShoppingCartController>().getCartProducts();
 
     _userData = UserData.fromJson(response.data["data"]);
 

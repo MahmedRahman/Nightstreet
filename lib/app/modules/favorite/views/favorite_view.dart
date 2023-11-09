@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
-import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
+import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/component/views/cards/clinic_card_view.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/component/views/cards/service_card_view.dart';
@@ -114,8 +114,8 @@ class FavoriteProducts extends GetView<ProductFavoriteController> {
 
                     return;
                   }
-                  final cartController = Get.put<ShoppintCartController>(
-                    ShoppintCartController(),
+                  final cartController = Get.put<ShoppingCartController>(
+                    ShoppingCartController(),
                   );
 
                   final isGuest =

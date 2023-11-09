@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
-import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
+import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/routes/app_pages.dart';
@@ -39,7 +39,7 @@ class OfferProductController extends GetxController with StateMixin<List> {
 class OfferProductView extends GetView<OfferProductController> {
   OfferProductView({Key? key}) : super(key: key);
   final controller = Get.put(OfferProductController());
-  final cartController = Get.put(ShoppintCartController());
+  final cartController = Get.put(ShoppingCartController());
   @override
   Widget build(BuildContext context) {
     final double itemHeight = (Get.height - kToolbarHeight - 24) / 1;
@@ -67,7 +67,8 @@ class OfferProductView extends GetView<OfferProductController> {
                   isAvailable: snapshot[index]["quantity"] > 1,
                   price: snapshot[index]["price"].toString(),
                   oldPrice: snapshot[index]["old_price"].toString(),
-                  isFavorite: favoriteController.productIsFavorite(snapshot[index]["id"] as int),
+                  isFavorite: favoriteController
+                      .productIsFavorite(snapshot[index]["id"] as int),
                   onAddToCartTapped: () {
                     cartController.addToCart(
                       productId: snapshot[index]["id"].toString(),
@@ -76,8 +77,10 @@ class OfferProductView extends GetView<OfferProductController> {
                     );
                   },
                   onFavoriteTapped: () {
-                    if (Get.put(AuthenticationController().isLoggedIn) == false) {
-                      return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                    if (Get.put(AuthenticationController().isLoggedIn) ==
+                        false) {
+                      return AppDialogs.showToast(
+                          message: 'الرجاء تسجيل الدخول');
                     }
                     final favCon = Get.put<ProductFavoriteController>(
                       ProductFavoriteController(),

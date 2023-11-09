@@ -79,7 +79,7 @@ import '../app/modules/services_reviews/bindings/services_reviews_binding.dart';
 import '../app/modules/services_reviews/views/services_reviews_view.dart';
 import '../app/modules/services_search/bindings/services_search_binding.dart';
 import '../app/modules/services_search/views/services_search_view.dart';
-import '../app/modules/shoppint_cart/bindings/shoppint_cart_binding.dart';
+import '../app/modules/shoppint_cart/bindings/shopping_cart_binding.dart';
 import '../app/modules/shoppint_cart/views/shopping_cart_view.dart';
 import '../app/modules/splash/splash_page.dart';
 import '../app/modules/static/about_us_page.dart';
@@ -291,7 +291,7 @@ class AppPages {
     GetPage(
       name: Routes.SHOPPINT_CART,
       page: () => const ShoppingCartView(),
-      binding: ShoppintCartBinding(),
+      binding: ShoppingCartBinding(),
     ),
     // GetPage(
     //   name: Routes.BOOKING_APPOINTMENT,

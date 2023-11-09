@@ -13,9 +13,9 @@ import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
-import '../controllers/shoppint_cart_controller.dart';
+import '../controllers/shopping_cart_controller.dart';
 
-class ShoppingCartView extends GetView<ShoppintCartController> {
+class ShoppingCartView extends GetView<ShoppingCartController> {
   const ShoppingCartView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
