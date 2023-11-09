@@ -3,6 +3,7 @@ import 'package:krzv2/app/modules/appointment/appointment_address_controller.dar
 import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
+import 'package:krzv2/app/modules/offer_list/controllers/offer_service_controller.dart';
 import 'package:krzv2/app/modules/offer_list/views/offer_product_view.dart';
 import 'package:krzv2/app/modules/offer_list/views/offer_service_view.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';

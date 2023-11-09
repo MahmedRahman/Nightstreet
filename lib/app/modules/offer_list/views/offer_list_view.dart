@@ -32,7 +32,8 @@ class OfferListView extends GetView<OfferListController> {
         titleText: 'استكشــف',
         subTitle: 'أقوى العروض',
         actions: [
-          if (authController.isLoggedIn || authController.isGuestUser) ShoppingCartIconView(),
+          if (authController.isLoggedIn || authController.isGuestUser)
+            ShoppingCartIconView(),
           CustomIconButton(
             onTap: () {
               Get.bottomSheet(

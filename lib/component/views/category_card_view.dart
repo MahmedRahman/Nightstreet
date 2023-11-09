@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/cashed_network_image_view.dart';
+
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
@@ -9,15 +10,20 @@ class CategoryCardView extends GetView {
   final String title;
   final String imageUrl;
   final VoidCallback? onTap;
+  final bool? isSelected;
   const CategoryCardView({
     super.key,
     required this.title,
     required this.imageUrl,
     required this.onTap,
+    this.isSelected = false,
   });
 
-  CategoryCardView.dummy({Key? key, this.onTap})
-      : this.title = 'title',
+  CategoryCardView.dummy({
+    Key? key,
+    this.onTap,
+    this.isSelected,
+  })  : this.title = 'title',
         this.imageUrl =
             'https://ipsf.net/wp-content/uploads/2021/12/dummy-image-square.webp';
 
@@ -34,7 +40,7 @@ class CategoryCardView extends GetView {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
-          color: Colors.white,
+          color: (isSelected ?? false) ? AppColors.mainColor : Colors.white,
           border: Border.all(
             width: 1.0,
             color: AppColors.greyColor2,
@@ -55,9 +61,11 @@ class CategoryCardView extends GetView {
               AppSpacers.height5,
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14.0,
-                  color: AppColors.blackColor,
+                  color: (isSelected ?? false)
+                      ? Colors.white
+                      : AppColors.blackColor,
                   height: 0.86,
                 ),
                 maxLines: 1,
