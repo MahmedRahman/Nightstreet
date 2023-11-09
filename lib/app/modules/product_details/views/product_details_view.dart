@@ -273,6 +273,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
       bottomBarHeight: 163,
       bottomNavigationBar: bottomNavigationBar(
         controller: controller,
+        isAvailable: product.quantity > 1,
         productQuantity: product.quantity,
         onAddToCart: () {
           final cartController = Get.put<ShoppingCartController>(
@@ -310,6 +311,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
   Padding bottomNavigationBar({
     required ProductDetailsController controller,
     required int productQuantity,
+    required bool isAvailable,
     required Function() onAddToCart,
   }) {
     return Padding(
@@ -340,8 +342,8 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
             flex: 2,
             child: CustomBtnCompenent.main(
               iconPath: AppSvgAssets.cartIcon,
-              text: "إضافة إلى سلة الشراء",
-              onTap: onAddToCart,
+              text: isAvailable ? "إضافة إلى سلة الشراء" : "سيتوفر قريبا",
+              onTap: isAvailable ? onAddToCart : () {},
             ),
           ),
         ],
