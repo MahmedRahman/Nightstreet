@@ -31,7 +31,7 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
   final sliderController = Get.put(HomePageProductSliderController());
   final productCategoriesController = Get.put(ProductCategoriesController());
   final mostSelleerProductController = Get.put(MostSelleerProductController());
-  final cartController = Get.put(ShoppingCartController());
+  final cartController = Get.find<ShoppingCartController>();
   final exclusiveOffersProductController =
       Get.put(ExclusiveOffersProductController());
   @override

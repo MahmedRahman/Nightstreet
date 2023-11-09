@@ -29,7 +29,7 @@ class ProductsListView extends GetView<ProductsListController> {
 
   final double itemHeight = (Get.height - kToolbarHeight - 24) / 1;
   final double itemWidth = Get.width / 2;
-  final cartController = Get.put(ShoppingCartController());
+  final cartController = Get.find<ShoppingCartController>();
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(

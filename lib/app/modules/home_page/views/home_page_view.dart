@@ -30,7 +30,7 @@ import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
 class HomePageView extends GetView {
-  final cartController = Get.put(ShoppingCartController());
+  final cartController = Get.find<ShoppingCartController>();
   final sliderController = Get.put(HomePageSliderController());
   final servicesController = Get.put(HomePageServiceController());
   final serviceCategoriesController = Get.put(ServiceCategoriesController());

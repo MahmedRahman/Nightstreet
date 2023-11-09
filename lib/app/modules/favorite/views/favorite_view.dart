@@ -77,6 +77,7 @@ class FavoriteView extends GetView {
 class FavoriteProducts extends GetView<ProductFavoriteController> {
   final double itemHeight = (Get.height - kToolbarHeight);
   final double itemWidth = Get.width / 2;
+  final cartController = Get.find<ShoppingCartController>();
 
   @override
   Widget build(BuildContext context) {
@@ -114,9 +115,6 @@ class FavoriteProducts extends GetView<ProductFavoriteController> {
 
                     return;
                   }
-                  final cartController = Get.put<ShoppingCartController>(
-                    ShoppingCartController(),
-                  );
 
                   final isGuest =
                       Get.find<AuthenticationController>().isGuestUser;

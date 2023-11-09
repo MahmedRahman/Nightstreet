@@ -20,10 +20,13 @@ class InitBindings extends Bindings {
     Get.put(CliniFavoriteController());
     Get.put(StaticPageService());
     Get.put(MyBottomNavigationController());
+    Get.put(
+      ShoppingCartController(),
+      permanent: true,
+    );
     Get.put(SplashController());
     Get.put(AppointmentController());
     Get.put(OfferServiceController());
     Get.put(OfferProductController());
-    Get.put(ShoppingCartController());
   }
 }

@@ -9,7 +9,6 @@ import 'package:krzv2/component/views/counter_view.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/favorite_icon_view.dart';
-import 'package:krzv2/component/views/icon_button_component.dart';
 import 'package:krzv2/component/views/image_swpier_view.dart';
 import 'package:krzv2/component/views/notification_icon_view.dart';
 import 'package:krzv2/component/views/on_product_loading_view.dart';
@@ -23,6 +22,7 @@ import 'package:krzv2/component/views/products_hotizontal_list_view.dart';
 import 'package:krzv2/component/views/rating_bar_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/share_icon_view.dart';
+import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
 import 'package:krzv2/component/views/tabs/base_switch_3_tap.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/product_model.dart';
@@ -41,13 +41,13 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
   final similarProductController = Get.put(SimilarProductController());
   final controller = Get.put(ProductDetailsController());
   final authController = Get.put(AuthenticationController());
+  final cartController = Get.find<ShoppingCartController>();
 
   void customInit() {
-    // Get.put(SimilarProductController());
     controller.fetchProductDetails(productId: Get.arguments as String);
   }
 
-  String variantId = '';
+  final RxString variantId = ''.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -65,22 +65,14 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
 
   BaseScaffold buildBody(ProductModel? product) {
     final similarProductController = Get.find<SimilarProductController>();
-    final cartController = Get.put(ShoppingCartController());
+
     return BaseScaffold(
       appBar: CustomAppBar(
         titleText: 'تفاصيل المنتج',
         onBackTapped: () => Get.back(result: true),
         actions: [
           if (authController.isLoggedIn || authController.isGuestUser)
-            GetBuilder<ShoppingCartController>(
-              builder: (controller) {
-                return CustomIconButton(
-                  onTap: () => Get.toNamed(Routes.SHOPPINT_CART),
-                  iconPath: AppSvgAssets.cartIcon,
-                  count: controller.productCount,
-                );
-              },
-            ),
+            ShoppingCartIconView(),
           if (authController.isLoggedIn) NotificationIconView(),
           SizedBox(width: 20),
         ],
@@ -170,7 +162,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
           AppSpacers.height10,
           ProductColorSelectorView(
             onChanged: (String id) {
-              variantId = id;
+              variantId.value = id;
               print('variant Id => $variantId');
               print(' Id => $id');
             },
@@ -298,7 +290,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
             cartController.addToGuestCart(
               productId: product.id.toString(),
               quantity: controller.productCount.value.toString(),
-              variantId: variantId,
+              variantId: variantId.value,
               isNew: true,
             );
             return;
@@ -307,7 +299,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
           cartController.addToCart(
             productId: product.id.toString(),
             quantity: controller.productCount.value.toString(),
-            variantId: variantId,
+            variantId: variantId.value,
             isNew: true,
           );
         },

@@ -19,7 +19,7 @@ class ProductSearchView extends GetView<ProductSearchController> {
   ProductSearchView({Key? key}) : super(key: key);
 
   final searchTextController = TextEditingController();
-  final cartController = Get.put(ShoppingCartController());
+  final cartController = Get.find<ShoppingCartController>();
   final double itemHeight = (Get.height - kToolbarHeight - 24) / 1;
   final double itemWidth = Get.width / 2;
   @override

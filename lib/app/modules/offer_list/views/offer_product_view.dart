@@ -39,7 +39,7 @@ class OfferProductController extends GetxController with StateMixin<List> {
 class OfferProductView extends GetView<OfferProductController> {
   OfferProductView({Key? key}) : super(key: key);
   final controller = Get.put(OfferProductController());
-  final cartController = Get.put(ShoppingCartController());
+  final cartController = Get.find<ShoppingCartController>();
   @override
   Widget build(BuildContext context) {
     final double itemHeight = (Get.height - kToolbarHeight - 24) / 1;
