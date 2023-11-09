@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:krzv2/web_serives/api_response_model.dart';
+import 'package:krzv2/web_serives/model/api_response_model.dart';
 
 class NetworkErrorPage extends GetView {
   ResponseModel responseModel;

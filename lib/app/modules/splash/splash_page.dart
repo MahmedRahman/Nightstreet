@@ -7,7 +7,7 @@ import 'package:krzv2/app/modules/google_map/controllers/google_map_controller.d
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
-import 'package:krzv2/web_serives/api_response_model.dart';
+import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
 class AppGlobal {

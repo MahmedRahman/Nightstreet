@@ -4,7 +4,7 @@ import 'package:krzv2/app/modules/payment_bank/payment_page_new.dart';
 import 'package:krzv2/app/modules/payment_bank/payment_success_page.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/web_serives/api_manger.dart';
-import 'package:krzv2/web_serives/api_response_model.dart';
+import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
 class GiftCardsController extends GetxController with StateMixin {

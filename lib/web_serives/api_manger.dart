@@ -5,8 +5,8 @@ import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
-import 'package:krzv2/web_serives/api_response_model.dart';
-import 'package:krzv2/web_serives/network_error_page.dart';
+import 'package:krzv2/web_serives/model/api_response_model.dart';
+import 'package:krzv2/web_serives/view/network_error_page.dart';
 import 'package:logger/logger.dart';
 
 class ApiConfig {

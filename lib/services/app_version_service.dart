@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
-import 'package:krzv2/web_serives/api_response_model.dart';
+import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 import 'dart:io';
 import 'package:package_info_plus/package_info_plus.dart';

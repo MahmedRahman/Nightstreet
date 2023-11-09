@@ -16,6 +16,7 @@ import 'package:krzv2/app/modules/offer_list/views/offer_service_view.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
 import 'package:krzv2/app/modules/splash/splash_page.dart';
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
+import 'package:krzv2/init_bindings.dart';
 import 'package:krzv2/main.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
@@ -68,7 +69,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return DevicePreview(
-      //enabled: !kReleaseMode,
       enabled: false,
       builder: (context) => GestureDetector(
         onTap: () {
@@ -89,33 +89,8 @@ class _MyAppState extends State<MyApp> {
           locale: const Locale('ar_EG'),
           initialRoute: AppPages.INITIAL,
           getPages: AppPages.routes,
-          // builder: ((context, child) {
-          //   EasyLoading.init();
-          //   return ApiConfig.KDebugFlg
-          //       ? Scaffold(
-          //           appBar: DebugView(),
-          //           body: child!,
-          //         )
-          //       : child!;
-          // }),
           builder: EasyLoading.init(),
-          initialBinding: BindingsBuilder(
-            () {
-              Get.put(AuthenticationController());
-              Get.put(ProductFavoriteController());
-              Get.put(OfferFavoriteController());
-              Get.put(CliniFavoriteController());
-              Get.put(StaticPageService());
-              Get.put(MyBottomNavigationController());
-              Get.put(SplashController());
-              Get.put(AppointmentController());
-              Get.put(OfferServiceController());
-              Get.put(OfferProductController());
-              Get.put(ShoppintCartController());
-              // Get.put(AppVersionService());
-              // Get.put(ComplaintController());
-            },
-          ),
+          initialBinding: InitBindings(),
           navigatorObservers: [
             SentryNavigatorObserver(),
           ],

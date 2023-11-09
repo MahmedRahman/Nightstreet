@@ -5,7 +5,7 @@ import 'package:get/state_manager.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/app/modules/wallet/model/transaction_model.dart';
 import 'package:krzv2/services/auth_service.dart';
-import 'package:krzv2/web_serives/api_response_model.dart';
+import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
 class WalletController extends GetxController with StateMixin<TransactionData> {

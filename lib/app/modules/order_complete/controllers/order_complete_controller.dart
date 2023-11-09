@@ -7,7 +7,7 @@ import 'package:krzv2/component/views/order_payment_success_view.dart';
 import 'package:krzv2/component/views/order_payment_view.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/web_serives/api_manger.dart';
-import 'package:krzv2/web_serives/api_response_model.dart';
+import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
 class OrderCompleteController extends GetxController {

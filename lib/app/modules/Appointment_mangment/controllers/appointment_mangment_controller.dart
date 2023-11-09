@@ -3,14 +3,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/models/appointment_model.dart';
 import 'package:krzv2/utils/app_colors.dart';
-import 'package:krzv2/web_serives/api_response_model.dart';
+import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-class AppointmentMangmentController extends GetxController
-    with ScrollMixin, StateMixin<List<AppointmentModel>> {
+class AppointmentMangmentController extends GetxController with ScrollMixin, StateMixin<List<AppointmentModel>> {
   final List<AppointmentModel> _appointments = [];
 
-  List myappointments = [];
+  List myAppointments = [];
 
   int currentPage = 1;
   bool? isPagination;
@@ -32,10 +31,9 @@ class AppointmentMangmentController extends GetxController
 
     try {
       if (responseModel.data['success'] == true) {
-        myappointments = responseModel.data['data']['data'];
+        myAppointments = responseModel.data['data']['data'];
         final fetchedAppointments = List<AppointmentModel>.from(
-          responseModel.data['data']['data']
-              .map((item) => AppointmentModel.fromJson(item)),
+          responseModel.data['data']['data'].map((item) => AppointmentModel.fromJson(item)),
         );
 
         _appointments.addAll(fetchedAppointments);
@@ -48,8 +46,7 @@ class AppointmentMangmentController extends GetxController
         await Future.delayed(const Duration(milliseconds: 500));
         change(_appointments, status: RxStatus.success());
 
-        isPagination =
-            responseModel.data['data']['pagination']['is_pagination'] as bool;
+        isPagination = responseModel.data['data']['pagination']['is_pagination'] as bool;
       }
     } catch (e, st) {
       print('list error $e');

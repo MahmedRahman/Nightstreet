@@ -5,11 +5,10 @@ import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/models/order_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
-import 'package:krzv2/web_serives/api_response_model.dart';
+import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-class OrderDetailsController extends GetxController
-    with StateMixin<OrderModel> {
+class OrderDetailsController extends GetxController with StateMixin<OrderModel> {
   @override
   void onInit() {
     getOrderDetails(Get.arguments as int);
@@ -24,8 +23,7 @@ class OrderDetailsController extends GetxController
     );
 
     if (responseModel.data["success"]) {
-      final OrderModel fetchedData =
-          OrderModel.fromJson(responseModel.data['data']);
+      final OrderModel fetchedData = OrderModel.fromJson(responseModel.data['data']);
 
       change(fetchedData, status: RxStatus.success());
 
@@ -43,8 +41,7 @@ class OrderDetailsController extends GetxController
     EasyLoading.dismiss();
 
     if (responseModel.data["success"]) {
-      final bottomNavigationController =
-          Get.find<MyBottomNavigationController>();
+      final bottomNavigationController = Get.find<MyBottomNavigationController>();
       final cartController = Get.find<ShoppintCartController>();
 
       AppDialogs.showToast(message: responseModel.data["message"]);

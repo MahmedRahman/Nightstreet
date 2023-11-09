@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
-import 'package:krzv2/web_serives/api_response_model.dart';
+import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
 class UpdatePhoneController extends GetxController {

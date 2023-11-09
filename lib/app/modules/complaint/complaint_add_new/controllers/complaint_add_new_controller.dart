@@ -6,7 +6,7 @@ import 'package:krzv2/app/modules/complaint/complaint_active_list/controllers/co
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/models/complaint_category_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
-import 'package:krzv2/web_serives/api_response_model.dart';
+import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
 class ComplaintAddNewController extends GetxController

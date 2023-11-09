@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:krzv2/app/modules/Appointment_mangment/controllers/appointment_mangment_controller.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/models/appointment_model.dart';
-import 'package:krzv2/web_serives/api_response_model.dart';
+import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
 class EditAppointmentController extends GetxController {
@@ -65,7 +65,6 @@ class EditAppointmentController extends GetxController {
 
     if (responseModel.data["success"]) {
       AppDialogs.showToast(message: responseModel.data["message"]);
-     
 
       Get.back(result: "Done");
       return;
