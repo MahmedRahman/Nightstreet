@@ -1,9 +1,7 @@
-import 'dart:developer';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shoppint_cart_controller.dart';
-import 'package:krzv2/app/modules/shoppint_cart/views/shopping_cart_view.dart';
 import 'package:krzv2/app/modules/verify_phone/views/verify_phone_view.dart';
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';

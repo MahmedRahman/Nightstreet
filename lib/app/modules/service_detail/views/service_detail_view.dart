@@ -11,7 +11,6 @@ import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/favorite_icon_view.dart';
-import 'package:krzv2/component/views/icon_button_component.dart';
 import 'package:krzv2/component/views/image_swpier_view.dart';
 import 'package:krzv2/component/views/notification_icon_view.dart';
 import 'package:krzv2/component/views/on_offer_loading.dart';
@@ -26,7 +25,6 @@ import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
-import 'package:krzv2/utils/app_svg_paths.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../controllers/service_detail_controller.dart';

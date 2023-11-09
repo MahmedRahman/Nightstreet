@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/product_details/controllers/product_review_controller.dart';
 import 'package:krzv2/component/views/review_card_view.dart';
-import 'package:krzv2/extensions/widget.dart';
 
 class ProductReviewsView extends GetView<ProductReviewController> {
   const ProductReviewsView({Key? key}) : super(key: key);

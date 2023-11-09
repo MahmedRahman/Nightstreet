@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/cashed_network_image_view.dart';
 import 'package:krzv2/component/views/favorite_icon_view.dart';
@@ -8,7 +7,6 @@ import 'package:krzv2/component/views/rating_bar_view.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
-import 'package:krzv2/utils/app_svg_paths.dart';
 
 class ServiceCardView extends GetView {
   final String imageUrl;

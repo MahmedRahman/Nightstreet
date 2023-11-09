@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
-import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/routes/app_pages.dart';
-import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
 
 class PaymentSuccessPage extends StatelessWidget {

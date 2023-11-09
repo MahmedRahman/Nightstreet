@@ -3,7 +3,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/models/branch_model.dart';
 import 'package:krzv2/models/branch_url_model.dart';
-import 'package:krzv2/models/service_clinic_model.dart';
 import 'package:krzv2/models/service_model.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';

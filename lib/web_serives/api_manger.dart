@@ -1,8 +1,5 @@
 import 'package:get/get.dart';
-import 'package:get/get_connect/connect.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
-import 'package:get/get_connect/http/src/response/response.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';

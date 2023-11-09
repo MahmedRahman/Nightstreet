@@ -1,7 +1,6 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
-import 'package:get/state_manager.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/app/modules/wallet/model/transaction_model.dart';
 import 'package:krzv2/services/auth_service.dart';

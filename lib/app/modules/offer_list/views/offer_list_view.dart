@@ -12,7 +12,6 @@ import 'package:krzv2/component/views/service_filter_bottom_sheet_view.dart';
 import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
 import 'package:krzv2/component/views/tabs/base_switch_tap.dart';
 import 'package:krzv2/models/product_search_query.dart';
-import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';

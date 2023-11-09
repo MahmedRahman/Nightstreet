@@ -57,7 +57,6 @@ import '../app/modules/order_complete/bindings/order_complete_binding.dart';
 import '../app/modules/order_complete/views/order_complete_view.dart';
 import '../app/modules/order_details/bindings/order_details_binding.dart';
 import '../app/modules/order_details/views/order_details_delivered_view.dart';
-import '../app/modules/order_details_cancelled/bindings/order_details_cancelled_binding.dart';
 import '../app/modules/order_details_cancelled/views/order_details_cancelled_view.dart';
 import '../app/modules/order_details_underway/views/order_details_underway_view.dart';
 import '../app/modules/orders_list/bindings/orders_list_binding.dart';
@@ -91,8 +90,6 @@ import '../app/modules/update_phone/bindings/update_phone_binding.dart';
 import '../app/modules/update_phone/views/update_phone_otp_view.dart';
 import '../app/modules/update_phone/views/update_phone_view.dart';
 import '../app/modules/update_profile/view/update_profile.dart';
-import '../app/modules/verify_phone/bindings/verify_phone_binding.dart';
-import '../app/modules/verify_phone/views/verify_phone_view.dart';
 import '../app/modules/wallet/controller/wallet_controller.dart';
 import '../app/modules/wallet/wallet_page.dart';
 

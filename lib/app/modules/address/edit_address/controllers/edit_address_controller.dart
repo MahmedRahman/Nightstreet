@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/address/list_addresses/controllers/delivery_addresses_controller.dart';

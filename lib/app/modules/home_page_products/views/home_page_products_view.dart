@@ -10,7 +10,6 @@ import 'package:krzv2/component/views/app_bar_search_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_banner_view.dart';
 import 'package:krzv2/component/views/home_categories_list_view.dart';
-import 'package:krzv2/component/views/icon_button_component.dart';
 import 'package:krzv2/component/views/notification_icon_view.dart';
 import 'package:krzv2/component/views/products_hotizontal_list_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
@@ -22,7 +21,6 @@ import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
-import 'package:krzv2/utils/app_svg_paths.dart';
 
 import '../controllers/home_page_products_controller.dart';
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/review_card_view.dart';
-import 'package:krzv2/extensions/widget.dart';
 
 import '../controllers/review_Information_controller.dart';
 

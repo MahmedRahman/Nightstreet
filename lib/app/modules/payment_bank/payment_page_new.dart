@@ -1,11 +1,6 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:get/get.dart';
-import 'package:krzv2/app/modules/payment_bank/payment_failed_page.dart';
-import 'package:krzv2/app/modules/payment_bank/payment_success_page.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class AppPaymentNewPage extends StatelessWidget {

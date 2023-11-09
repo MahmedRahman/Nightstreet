@@ -2,9 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/multipart/form_data.dart';
-import 'package:get/get_connect/http/src/multipart/multipart_file.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:krzv2/models/branch_url_model.dart';
 import 'package:krzv2/models/product_search_query.dart';
 import 'package:krzv2/services/auth_service.dart';

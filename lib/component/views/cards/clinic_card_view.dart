@@ -6,7 +6,6 @@ import 'package:krzv2/component/views/favorite_icon_view.dart';
 import 'package:krzv2/component/views/rating_bar_view.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
-import 'package:krzv2/utils/app_svg_paths.dart';
 
 class ClinicCardView extends GetView {
   final String imageUrl;

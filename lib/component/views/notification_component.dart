@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:intl/intl.dart';
 import 'package:krzv2/app/modules/notification/controller/notifications_controller.dart';
 import 'package:krzv2/utils/app_colors.dart';

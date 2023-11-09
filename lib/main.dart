@@ -1,14 +1,10 @@
 // @dart=2.12
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:krzv2/app.dart';
 import 'package:krzv2/firebase_options.dart';
-import 'package:krzv2/web_serives/api_manger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() async {

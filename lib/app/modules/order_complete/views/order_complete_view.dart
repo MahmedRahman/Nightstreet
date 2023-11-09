@@ -2,7 +2,6 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:krzv2/app/modules/address/edit_address/views/edit_address_view.dart';
 import 'package:krzv2/app/modules/address/list_addresses/controllers/delivery_addresses_controller.dart';
 import 'package:krzv2/app/modules/order_complete/controllers/shipping_companies_controller.dart';
 import 'package:krzv2/app/modules/order_complete/views/shipping_companies_view.dart';

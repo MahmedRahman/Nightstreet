@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:krzv2/app/modules/gift_cards/views/payment_page.dart';
 import 'package:krzv2/app/modules/payment_bank/payment_page_new.dart';
 import 'package:krzv2/app/modules/payment_bank/payment_success_page.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
