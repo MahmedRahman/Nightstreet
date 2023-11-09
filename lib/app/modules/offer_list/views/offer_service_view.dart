@@ -18,8 +18,12 @@ import 'package:krzv2/utils/app_spacers.dart';
 RxInt KOfferHighestPrice = 0.obs;
 
 class OfferServiceView extends GetView<OfferServiceController> {
-  final controller = Get.put(OfferServiceController());
-  final sliderController = Get.put(HomePageServiceSliderController());
+  OfferServiceView() {
+    controller.resetSearchValues();
+    controller.onInit();
+  }
+  final controller = Get.find<OfferServiceController>();
+  final sliderController = Get.find<HomePageServiceSliderController>();
   final serviceCategoriesController = Get.find<ServiceCategoriesController>();
   @override
   Widget build(BuildContext context) {
@@ -27,46 +31,11 @@ class OfferServiceView extends GetView<OfferServiceController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppSpacers.height10,
-        sliderController.obx(
-          (slidersList) {
-            return SliderView(
-              images: slidersList!.map((slider) => slider.image).toList(),
-            );
-          },
-          onLoading: Container(
-            height: 150,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.black,
-            ),
-          ).shimmer(),
-        ),
+        sliderWidget(),
         SizedBox(
           height: 12,
         ),
-        serviceCategoriesController.obx(
-          (categoriesList) {
-            return HomePageServiceCategoriesView(
-              categoriesList: categoriesList,
-              onCategoryTapped: (int categoryId) async {
-                if (categoryId.toString() == controller.categoryId.value)
-                  return;
-
-                controller.resetSearchValues();
-                controller.categoryId.value = categoryId.toString();
-
-                controller.getServices();
-              },
-            );
-          },
-          onLoading: HomePageServiceCategoriesView(
-            categoriesList: [],
-            onCategoryTapped: (int categoryId) {
-              Get.toNamed(Routes.PRODUCTS_LIST);
-            },
-          ).shimmer(),
-        ),
+        serviceCategories(),
         AppSpacers.height12,
         Expanded(
           child: controller.obx(
@@ -86,7 +55,7 @@ class OfferServiceView extends GetView<OfferServiceController> {
                       price: service.price.toString(),
                       oldPrice: service.oldPrice.toString(),
                       onFavoriteTapped: () {
-                        if (Get.put(AuthenticationController().isLoggedIn) ==
+                        if (Get.find<AuthenticationController>().isLoggedIn ==
                             false) {
                           return AppDialogs.showToast(
                               message: 'الرجاء تسجيل الدخول');
@@ -127,6 +96,48 @@ class OfferServiceView extends GetView<OfferServiceController> {
           ),
         )
       ],
+    );
+  }
+
+  Widget serviceCategories() {
+    return serviceCategoriesController.obx(
+      (categoriesList) {
+        return HomePageServiceCategoriesView(
+          categoriesList: categoriesList,
+          onCategoryTapped: (int categoryId) async {
+            if (categoryId.toString() == controller.categoryId.value) return;
+
+            controller.resetSearchValues();
+            controller.categoryId.value = categoryId.toString();
+
+            controller.getServices();
+          },
+        );
+      },
+      onLoading: HomePageServiceCategoriesView(
+        categoriesList: [],
+        onCategoryTapped: (int categoryId) {
+          Get.toNamed(Routes.PRODUCTS_LIST);
+        },
+      ).shimmer(),
+    );
+  }
+
+  Widget sliderWidget() {
+    return sliderController.obx(
+      (slidersList) {
+        return SliderView(
+          images: slidersList!.map((slider) => slider.image).toList(),
+        );
+      },
+      onLoading: Container(
+        height: 150,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.black,
+        ),
+      ).shimmer(),
     );
   }
 }

@@ -33,7 +33,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
     });
   }
 
-  final sliderController = Get.put(HomePageServiceSliderController());
+  final sliderController = Get.find<HomePageServiceSliderController>();
   final servicesController = Get.put(HomePageServicesController());
   final mapController = Get.find<GoogleMapViewController>();
 
@@ -140,7 +140,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                             isFavorite:
                                 favoriteController.clinicIsFavorite(branch.id),
                             imageUrl: branch.clinic.image,
-                            name: branch.clinic.name, 
+                            name: branch.clinic.name,
                             onTap: () {
                               KPageTitle = branch.clinic.name;
                               Get.toNamed(
