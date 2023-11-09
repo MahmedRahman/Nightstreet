@@ -85,6 +85,14 @@ class AboutUsPage extends StatelessWidget {
                       urlLauncher(AppGlobal.KSettingData['linkedin']);
                     },
                   ),
+                  _socialMediaButton(
+                    socialMediaLink: AppGlobal.KSettingData['instagram'],
+                    socialMediaIcon: AppSvgAssets.instagramIcon,
+                    onTap: () {
+                      print(AppGlobal.KSettingData['instagram']);
+                      urlLauncher(AppGlobal.KSettingData['instagram']);
+                    },
+                  ),
                 ],
               ),
             ],
@@ -105,6 +113,8 @@ class AboutUsPage extends StatelessWidget {
         onTap: onTap,
         child: SvgPicture.asset(
           socialMediaIcon,
+          width: 30,
+          height: 30,
         ),
       ).paddingOnly(
         left: 10,

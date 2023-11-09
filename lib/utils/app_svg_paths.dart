@@ -70,6 +70,7 @@ abstract class AppSvgAssets {
   static const String twitterIcon = "assets/svg/twitter.svg";
   static const String whatsappIcon = "assets/svg/whatsapp.svg";
   static const String linkedInIcon = "assets/svg/linkedIn.svg";
+  static const String instagramIcon = "assets/svg/instagram.svg";
 
   /// end social medial icons
   static const String mapIcon = "assets/svg/maps.svg";
