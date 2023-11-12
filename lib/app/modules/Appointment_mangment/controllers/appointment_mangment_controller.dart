@@ -6,10 +6,9 @@ import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-class AppointmentMangmentController extends GetxController with ScrollMixin, StateMixin<List<AppointmentModel>> {
+class AppointmentMangmentController extends GetxController
+    with ScrollMixin, StateMixin<List<AppointmentModel>> {
   final List<AppointmentModel> _appointments = [];
-
-  List myAppointments = [];
 
   int currentPage = 1;
   bool? isPagination;
@@ -31,9 +30,9 @@ class AppointmentMangmentController extends GetxController with ScrollMixin, Sta
 
     try {
       if (responseModel.data['success'] == true) {
-        myAppointments = responseModel.data['data']['data'];
         final fetchedAppointments = List<AppointmentModel>.from(
-          responseModel.data['data']['data'].map((item) => AppointmentModel.fromJson(item)),
+          responseModel.data['data']['data']
+              .map((item) => AppointmentModel.fromJson(item)),
         );
 
         _appointments.addAll(fetchedAppointments);
@@ -46,7 +45,8 @@ class AppointmentMangmentController extends GetxController with ScrollMixin, Sta
         await Future.delayed(const Duration(milliseconds: 500));
         change(_appointments, status: RxStatus.success());
 
-        isPagination = responseModel.data['data']['pagination']['is_pagination'] as bool;
+        isPagination =
+            responseModel.data['data']['pagination']['is_pagination'] as bool;
       }
     } catch (e, st) {
       print('list error $e');

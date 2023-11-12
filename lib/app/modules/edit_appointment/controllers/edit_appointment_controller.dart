@@ -1,10 +1,11 @@
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
+import 'package:krzv2/models/appointment_model.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
 class EditAppointmentController extends GetxController {
-  var appointment;
+  AppointmentModel? appointment;
   String? selectData = "";
   String? selectTime = "";
   String? selectNote = "";
@@ -17,10 +18,11 @@ class EditAppointmentController extends GetxController {
   @override
   void onInit() {
     appointment = Get.arguments;
-    selectData = appointment["date_time"];
-    selectTime = appointment["time_format"];
-    selectTimeUI.value = appointment["time_format"];
-    selectNote = appointment["notes"];
+    selectData = appointment!.date_time.toString();
+    selectTime = appointment!.time_format.toString();
+    selectTimeUI.value = appointment!.time_format.toString();
+    selectNote = appointment!.notes.toString();
+    //selectDateUI.value = appointment["date_time"];
     getAvailableOfferTimes();
     // print(selectData.toString().split(" ")[0]);
     // print(DateTime.now().toString());
@@ -29,11 +31,10 @@ class EditAppointmentController extends GetxController {
 
   void getAvailableOfferTimes() async {
     ResponseModel responseModel;
-    print(GetUtils.isNullOrBlank(appointment["doctor"])!);
     responseModel = await WebServices().getAvailableOfferTimes(
-      offerId: appointment["offer"]["id"],
-      branchId: appointment["branch"]["id"],
-      doctorId: GetUtils.isNullOrBlank(appointment["doctor"])! ? null : appointment["doctor"]["id"],
+      offerId: appointment!.offer.id,
+      branchId: appointment!.branchId!,
+      doctorId: appointment!.doctorId,
       dateTime: selectData.toString(),
     );
     print("selectDoctor");
@@ -63,7 +64,10 @@ class EditAppointmentController extends GetxController {
     if (responseModel.data["success"]) {
       AppDialogs.showToast(message: responseModel.data["message"]);
 
-      Get.back(result: "Done");
+      Future.delayed(Duration(seconds: 1)).then((value) {
+        Get.back(result: "Done");
+      });
+
       return;
     } else {
       AppDialogs.showToast(message: responseModel.data["message"]);

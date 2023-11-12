@@ -2,12 +2,18 @@ class AppointmentModel {
   final Offer offer;
   final String status;
   final String doctorName;
-  final String doctorId;
+  final int doctorId;
   final String ClinicName;
   final int id;
   final int? branchId;
   final String datetime;
+  final String date_time;
+
+  final String time_format;
+  final String notes;
+
   final bool? can_rate;
+  final bool? can_update;
 
   const AppointmentModel({
     required this.offer,
@@ -18,6 +24,10 @@ class AppointmentModel {
     required this.datetime,
     required this.id,
     required this.can_rate,
+    required this.can_update,
+    required this.time_format,
+    required this.notes,
+    required this.date_time,
     this.branchId,
   });
 
@@ -26,12 +36,16 @@ class AppointmentModel {
       offer: Offer.fromJson(json['offer']),
       status: json['status'],
       doctorName: json['doctor'] == null ? '' : json['doctor']['name'],
-      doctorId: json['doctor'] == null ? '' : json['doctor']['id'].toString(),
+      doctorId: json['doctor'] == null ? '' : json['doctor']['id'],
       ClinicName: json['branch']['name'],
       datetime: json['datetime'],
       id: json['id'],
       can_rate: json['can_rate'],
+      can_update: json['can_update'],
+      time_format: json['time_format'],
       branchId: json['branch']['id'],
+      notes: json['notes'] ?? "",
+      date_time: json['date_time'],
     );
   }
 }

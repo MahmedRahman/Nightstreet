@@ -41,7 +41,7 @@ class ShippingMethodCardView extends GetView {
               ),
               AppSpacers.height12,
               Text(
-                'الوقت المتوقع للتوصيل : $delivryTime أيام   |   السعر : $cost ر.س',
+                'الوقت المتوقع للتوصيل : $delivryTime أيام | السعر : $cost ر.س',
                 style: TextStyle(
                   fontSize: 14.0,
                   color: AppColors.greyColor,

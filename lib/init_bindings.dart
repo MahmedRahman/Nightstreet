@@ -7,6 +7,7 @@ import 'package:krzv2/app/modules/home_page_products/controllers/home_page_produ
 import 'package:krzv2/app/modules/home_page_services/controllers/hom_page_service_slider_controller.dart';
 import 'package:krzv2/app/modules/offer_list/controllers/offer_service_controller.dart';
 import 'package:krzv2/app/modules/offer_list/views/offer_product_view.dart';
+import 'package:krzv2/app/modules/offer_list/views/offer_service_view.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/app/modules/splash/splash_page.dart';
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
