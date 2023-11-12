@@ -205,7 +205,11 @@ class TextFieldComponent extends StatefulWidget {
         validator = customValidator(
           rules: [
             isRequired ? IsRequired(message: 'حقل مطلوب') : IsOptional(),
-            IsBetween(min: 5, max: 30),
+            IsBetween(
+              min: 5,
+              max: 30,
+              message: "يجب ان يكون العنوان - على الاقل 5 حروف",
+            ),
           ],
         );
 
