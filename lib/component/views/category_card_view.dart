@@ -40,10 +40,12 @@ class CategoryCardView extends GetView {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
-          color: (isSelected ?? false) ? AppColors.mainColor : Colors.white,
+          color: Colors.white,
           border: Border.all(
             width: 1.0,
-            color: AppColors.greyColor2,
+            color: (isSelected ?? false)
+                ? AppColors.mainColor
+                : AppColors.greyColor2,
           ),
         ),
         child: Padding(
@@ -63,9 +65,7 @@ class CategoryCardView extends GetView {
                 title,
                 style: TextStyle(
                   fontSize: 14.0,
-                  color: (isSelected ?? false)
-                      ? Colors.white
-                      : AppColors.blackColor,
+                  color: AppColors.blackColor,
                   height: 0.86,
                 ),
                 maxLines: 1,
