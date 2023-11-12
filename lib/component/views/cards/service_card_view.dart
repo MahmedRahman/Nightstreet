@@ -14,6 +14,7 @@ class ServiceCardView extends GetView {
   final String name;
   final bool hasDiscount;
   final String price;
+  final double maxWidth;
   final String oldPrice;
   final String rate;
   final String totalRate;
@@ -34,6 +35,7 @@ class ServiceCardView extends GetView {
     required this.onTapped,
     required this.rate,
     required this.totalRate,
+    this.maxWidth = double.infinity,
     this.oldPrice = '',
     this.margin,
     this.showFavoriteIcon = true,
@@ -53,6 +55,7 @@ class ServiceCardView extends GetView {
         onFavoriteTapped = null,
         this.onTapped = ondummyTapped,
         this.rate = '4',
+        this.maxWidth = double.infinity,
         this.totalRate = '4',
         this.oldPrice = '120';
 
@@ -70,8 +73,7 @@ class ServiceCardView extends GetView {
         alignment: Alignment.topLeft,
         children: [
           Container(
-            //  margin: const EdgeInsets.only(left: 8),
-            padding: const EdgeInsets.only(left: 50),
+            constraints: BoxConstraints(maxWidth: maxWidth),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
               color: AppColors.greyColor4,
@@ -98,33 +100,6 @@ class ServiceCardView extends GetView {
                         imageUrl: imageUrl,
                         boxFit: BoxFit.cover,
                       ),
-                      // showFavoriteIcon
-                      //     ? InkWell(
-                      //         onTap: onFavoriteTapped,
-                      //         overlayColor:
-                      //             MaterialStatePropertyAll(Colors.transparent),
-                      //         child: Container(
-                      //           width: 22.0,
-                      //           height: 22.0,
-                      //           margin: EdgeInsets.only(
-                      //             right: 10,
-                      //             top: 6,
-                      //           ),
-                      //           decoration: BoxDecoration(
-                      //             shape: BoxShape.circle,
-                      //             color: AppColors.greyColor4,
-                      //           ),
-                      //           child: Padding(
-                      //             padding: const EdgeInsets.all(4.0),
-                      //             child: SvgPicture.asset(
-                      //               isFavorite
-                      //                   ? AppSvgAssets.solidHeartIcon
-                      //                   : AppSvgAssets.heartIcon,
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       )
-                      //     : SizedBox.shrink(),
                     ],
                   ),
                 ),

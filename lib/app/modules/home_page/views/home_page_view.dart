@@ -90,7 +90,9 @@ class HomePageView extends GetView {
                 return ServiceCategoriesListView(
                   serviceCategoriesList: servicesList,
                   onTap: (index) async {
-                    Get.find<MyBottomNavigationController>().currentIndex.value = 1;
+                    Get.find<MyBottomNavigationController>()
+                        .currentIndex
+                        .value = 1;
                     KselectedCategoryId.value = index;
                     // final shoudRefresh = await Get.toNamed(Routes.SERVICES_SEARCH);
 
@@ -156,7 +158,8 @@ class HomePageView extends GetView {
 
                       return;
                     }
-                    final isGuest = Get.find<AuthenticationController>().isGuestUser;
+                    final isGuest =
+                        Get.find<AuthenticationController>().isGuestUser;
 
                     if (isGuest) {
                       cartController.addToGuestCart(
@@ -206,7 +209,9 @@ class HomePageView extends GetView {
               (List<ServiceModel>? servicesList) {
                 return RecommendedServicesListView(
                   onShowMoreTapped: () {
-                    Get.find<MyBottomNavigationController>().currentIndex.value = 1;
+                    Get.find<MyBottomNavigationController>()
+                        .currentIndex
+                        .value = 1;
                     KselectedCategoryId.value = 0;
 
                     // Get.toNamed(Routes.SERVICES_CATEGORIES);

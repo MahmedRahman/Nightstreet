@@ -35,16 +35,16 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
   final sliderController = Get.find<HomePageProductSliderController>();
   final mostSelleerProductController = Get.put(MostSelleerProductController());
   final cartController = Get.find<ShoppingCartController>();
-  final exclusiveOffersProductController = Get.put(ExclusiveOffersProductController());
+  final exclusiveOffersProductController =
+      Get.put(ExclusiveOffersProductController());
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      appBar:
-      
-       AppBarSerechView(
+      appBar: AppBarSerechView(
         placeHolder: 'ما الذي تريد البحث عنه ؟',
         actions: [
-          if (authController.isLoggedIn || authController.isGuestUser) ShoppingCartIconView(),
+          if (authController.isLoggedIn || authController.isGuestUser)
+            ShoppingCartIconView(),
           if (authController.isLoggedIn) NotificationIconView(),
           AppSpacers.width20,
         ],
@@ -56,12 +56,7 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
           }
         },
       ),
-      
-      
-      
-     
-      body: ListView(
-        padding: EdgeInsets.zero,
+      body: Column(
         children: [
           AppSpacers.height10,
           Padding(
@@ -107,45 +102,26 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
             ).shimmer(),
           ),
           AppSpacers.height16,
-
           Padding(
             padding: AppDimension.appPadding,
-            child: Container(
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Text("المتاجر"),
-                      Spacer(),
-                      Text("عرض الكل"),
-                    ],
-                  ),
-                  AppSpacers.height16,
-                  Column(
-                    children: List.generate(
-                      10,
-                      (index) {
-                        return InkWell(
-                          onTap: () {},
-                          child: ServiceCardView.dummy().paddingOnly(bottom: 10),
-                        );
-                      },
-                    ),
-                  )
-                  // Expanded(
-                  //   child: ListView.builder(
-                  //     itemCount: 10,
-                  //     itemBuilder: (context, index) {
-                  //       // final service = servicesList?.elementAt(index);
-
-                  //       ;
-                  //     },
-                  //   ),
-                  // )
-                ],
-              ),
+            child: Row(
+              children: [
+                Text("المتاجر"),
+                Spacer(),
+                Text("عرض الكل"),
+              ],
             ),
           ),
+          AppSpacers.height16,
+          Expanded(
+            child: ListView.builder(
+              padding: AppDimension.appPadding,
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return ServiceCardView.dummy().paddingOnly(bottom: 10);
+              },
+            ),
+          )
 
           // Padding(
           //     padding: AppDimension.appPadding,
@@ -319,7 +295,6 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
           //     onFavoriteTapped: (int productId) {},
           //   ),
           // ),
-          AppSpacers.height50,
         ],
       ),
     );

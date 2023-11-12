@@ -47,6 +47,7 @@ class RecommendedServicesListView extends GetView {
                     child: ServiceCardView(
                       imageUrl: service.image,
                       name: service.name,
+                      maxWidth: context.width * .75,
                       hasDiscount: service.oldPrice.toString() != '0.0',
                       price: service.price.toString(),
                       oldPrice: service.oldPrice.toString(),
