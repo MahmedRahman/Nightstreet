@@ -1,3 +1,4 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/appointment/views/appointment_booking_view.dart';
 import 'package:krzv2/app/modules/appointment/views/appointment_choose_a_doctor_view.dart';
@@ -72,6 +73,7 @@ class AppointmentController extends GetxController {
   void bookAppointment({
     required String payment_type,
   }) async {
+    EasyLoading.show();
     ResponseModel responseModel = await WebServices().bookAppointment(
       payment_type: payment_type,
       offer_id: service["id"],
@@ -82,7 +84,7 @@ class AppointmentController extends GetxController {
       notes: selectNote.toString(),
     );
 
-    print(responseModel.data["success"]);
+    EasyLoading.dismiss();
 
     if (responseModel.data["success"]) {
       // AppDialogs.showToast(message: responseModel.data["data"]);
@@ -91,8 +93,10 @@ class AppointmentController extends GetxController {
         Get.to(
           AppPaymentNewPage(
             PaymentUrl: responseModel.data["data"],
-            FailedPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-failed-callback",
-            SuccessPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-success-callback",
+            FailedPaymentUrl:
+                "${ApiConfig.baseUrl}/appointments/rajhi-failed-callback",
+            SuccessPaymentUrl:
+                "${ApiConfig.baseUrl}/appointments/rajhi-success-callback",
             onFailed: () {
               AppDialogs.showToast(message: "خطاء في عمليه الدفع");
 
@@ -118,8 +122,10 @@ class AppointmentController extends GetxController {
         Get.to(
           AppPaymentNewPage(
             PaymentUrl: responseModel.data["data"],
-            FailedPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-failed-callback",
-            SuccessPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-success-callback",
+            FailedPaymentUrl:
+                "${ApiConfig.baseUrl}/appointments/rajhi-failed-callback",
+            SuccessPaymentUrl:
+                "${ApiConfig.baseUrl}/appointments/rajhi-success-callback",
             onFailed: () {
               AppDialogs.showToast(message: "خطاء في عمليه الدفع");
               Get.back();

@@ -1,6 +1,6 @@
-
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/wallet/components/decorated_container_component.dart';
@@ -38,11 +38,15 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
           AppSpacers.height12,
           ServiceInformationView(
             serviceName: Get.find<AppointmentController>().service["name"],
-            doctorName: GetUtils.isNullOrBlank(Get.find<AppointmentController>().selectDoctor) == true
+            doctorName: GetUtils.isNullOrBlank(
+                        Get.find<AppointmentController>().selectDoctor) ==
+                    true
                 ? ""
                 : Get.find<AppointmentController>().selectDoctor["name"],
-            clinicName: Get.find<AppointmentController>().service["clinic"]["name"],
-            clinicAddress: Get.find<AppointmentController>().service["clinic"]["desc"],
+            clinicName: Get.find<AppointmentController>().service["clinic"]
+                ["name"],
+            clinicAddress: Get.find<AppointmentController>().service["clinic"]
+                ["desc"],
           ),
           AppSpacers.height12,
           Divider(),
@@ -69,13 +73,17 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
                       ),
                     ],
                   ),
-                  Get.find<AuthenticationController>().userData!.walletBalance == "0"
+                  Get.find<AuthenticationController>()
+                              .userData!
+                              .walletBalance ==
+                          "0"
                       ? SizedBox.shrink()
                       : Obx(() {
                           return Column(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 5),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5),
                                 child: Divider(),
                               ),
                               Row(
@@ -85,7 +93,8 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
                                     deactivateColor: Colors.white,
                                     Kselected: KWalletStatus.value,
                                     onChanged: (bool vlu) {
-                                      KWalletStatus.value = !KWalletStatus.value;
+                                      KWalletStatus.value =
+                                          !KWalletStatus.value;
                                     },
                                   ),
                                   AppSpacers.width10,
@@ -117,7 +126,8 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
                   ),
                   Obx(() {
                     return InkWell(
-                      overlayColor: MaterialStatePropertyAll(Colors.transparent),
+                      overlayColor:
+                          MaterialStatePropertyAll(Colors.transparent),
                       onTap: () {
                         KCardStatus.value = !KCardStatus.value;
                       },
@@ -164,12 +174,14 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
                   AppSpacers.height16,
                   paymentSumaryItem(
                     title: "المجموع الكلي",
-                    value: "${Get.find<AppointmentController>().service["price"]} رس",
+                    value:
+                        "${Get.find<AppointmentController>().service["price"]} رس",
                   ),
                   AppSpacers.height16,
                   paymentSumaryItem(
                     title: "ما سيتم دفعه الان",
-                    value: "${Get.find<AppointmentController>().service["amount_to_pay"]} رس",
+                    value:
+                        "${Get.find<AppointmentController>().service["amount_to_pay"]} رس",
                   ),
                   AppSpacers.height12,
                   DottedLine(
@@ -212,26 +224,34 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
               child: CustomBtnCompenent.main(
                 text: "تأكيد الدفع",
                 onTap: () {
-                  if (Get.find<AuthenticationController>().userData!.completeProfile == false) {
+                  if (EasyLoading.isShow) return;
+                  if (Get.find<AuthenticationController>()
+                          .userData!
+                          .completeProfile ==
+                      false) {
                     AppDialogs.showToast(message: "برجاء استكمال الملف الشخصي");
                     Get.toNamed(Routes.updateProfile);
                     return;
                   }
 
-                  if (KCardStatus.value == false && KWalletStatus.value == false) {
+                  if (KCardStatus.value == false &&
+                      KWalletStatus.value == false) {
                     AppDialogs.showToast(message: "برجاء اختيار طريقه الدفع");
                     return;
                   }
 
-                  if (KCardStatus.value == true && KWalletStatus.value == true) {
+                  if (KCardStatus.value == true &&
+                      KWalletStatus.value == true) {
                     payment_type = "wallet_card";
                   }
 
-                  if (KCardStatus.value == true && KWalletStatus.value == false) {
+                  if (KCardStatus.value == true &&
+                      KWalletStatus.value == false) {
                     payment_type = "card";
                   }
 
-                  if (KCardStatus.value == false && KWalletStatus.value == true) {
+                  if (KCardStatus.value == false &&
+                      KWalletStatus.value == true) {
                     payment_type = "wallet";
                   }
 
