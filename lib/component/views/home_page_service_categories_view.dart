@@ -21,6 +21,7 @@ class HomePageServiceCategoriesView extends GetView {
       padding: const EdgeInsets.only(
         top: 10,
         bottom: 10,
+        right: 20,
       ),
       height: 115,
       child: ListView.builder(

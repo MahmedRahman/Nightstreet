@@ -69,54 +69,18 @@ class OfferListView extends GetView<OfferListController> {
       ),
       body: Padding(
         padding: AppDimension.appPadding,
-        child: Column(
-          children: [
-            AppSpacers.height16,
-            BaseSwitchTap(
-              title1: "الخدمات",
-              title2: "المنتجات",
-              Widget1: OfferServiceView(),
-              Widget2: OfferProductView(),
-              onTap: (index) {
-                selectTab = index;
-                log('onTap index $index');
-                log('onTap selectTab $selectTab');
-              },
-            ),
-          ],
+        child: BaseSwitchTap(
+          title1: "الخدمات",
+          title2: "المنتجات",
+          Widget1: OfferServiceView(),
+          Widget2: OfferProductView(),
+          onTap: (index) {
+            selectTab = index;
+            log('onTap index $index');
+            log('onTap selectTab $selectTab');
+          },
         ),
       ),
     );
   }
-
-  // Widget bntIcon({
-  //   required String assetName,
-  //   required void Function()? onTap,
-  // }) {
-  //   return InkWell(
-  //     onTap: onTap,
-  //     child: Container(
-  //       width: 38.0,
-  //       height: 38.0,
-  //       decoration: BoxDecoration(
-  //         borderRadius: BorderRadius.circular(10.0),
-  //         color: Color(0xffFAFAFA),
-  //         border: Border.all(
-  //           width: 1.0,
-  //           color: Color(0xffF5F5F5),
-  //         ),
-  //       ),
-  //       child: Padding(
-  //         padding: const EdgeInsets.symmetric(
-  //           vertical: 8,
-  //           horizontal: 8,
-  //         ),
-  //         child: SvgPicture.asset(
-  //           assetName,
-  //           width: 32,
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 }

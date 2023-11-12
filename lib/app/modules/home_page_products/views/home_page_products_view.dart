@@ -28,7 +28,7 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
   HomePageProductsView({Key? key}) : super(key: key);
 
   final authController = Get.find<AuthenticationController>();
-  final sliderController = Get.put(HomePageProductSliderController());
+  final sliderController = Get.find<HomePageProductSliderController>();
   final productCategoriesController = Get.put(ProductCategoriesController());
   final mostSelleerProductController = Get.put(MostSelleerProductController());
   final cartController = Get.find<ShoppingCartController>();
