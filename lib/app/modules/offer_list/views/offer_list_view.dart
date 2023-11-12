@@ -15,7 +15,6 @@ import 'package:krzv2/models/product_search_query.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
-import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
 
 import '../controllers/offer_list_controller.dart';
