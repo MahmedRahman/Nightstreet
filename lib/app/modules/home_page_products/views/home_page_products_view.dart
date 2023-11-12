@@ -7,10 +7,13 @@ import 'package:krzv2/app/modules/home_page_products/controllers/home_page_most_
 import 'package:krzv2/app/modules/home_page_products/controllers/home_page_products_slider_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/component/views/app_bar_search_view.dart';
+import 'package:krzv2/component/views/cards/service_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
+import 'package:krzv2/component/views/home_app_bar_view.dart';
 import 'package:krzv2/component/views/home_banner_view.dart';
 import 'package:krzv2/component/views/home_categories_list_view.dart';
 import 'package:krzv2/component/views/notification_icon_view.dart';
+import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/products_hotizontal_list_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
@@ -26,22 +29,22 @@ import '../controllers/home_page_products_controller.dart';
 
 class HomePageProductsView extends GetView<HomePageProductsController> {
   HomePageProductsView({Key? key}) : super(key: key);
+  final productCategoriesController = Get.put(ProductCategoriesController());
 
   final authController = Get.find<AuthenticationController>();
   final sliderController = Get.find<HomePageProductSliderController>();
-  final productCategoriesController = Get.put(ProductCategoriesController());
   final mostSelleerProductController = Get.put(MostSelleerProductController());
   final cartController = Get.find<ShoppingCartController>();
-  final exclusiveOffersProductController =
-      Get.put(ExclusiveOffersProductController());
+  final exclusiveOffersProductController = Get.put(ExclusiveOffersProductController());
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      appBar: AppBarSerechView(
+      appBar:
+      
+       AppBarSerechView(
         placeHolder: 'ما الذي تريد البحث عنه ؟',
         actions: [
-          if (authController.isLoggedIn || authController.isGuestUser)
-            ShoppingCartIconView(),
+          if (authController.isLoggedIn || authController.isGuestUser) ShoppingCartIconView(),
           if (authController.isLoggedIn) NotificationIconView(),
           AppSpacers.width20,
         ],
@@ -53,7 +56,10 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
           }
         },
       ),
-      // appBar: HomePageProductsAppBarView(),
+      
+      
+      
+     
       body: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -101,159 +107,196 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
             ).shimmer(),
           ),
           AppSpacers.height16,
+
           Padding(
             padding: AppDimension.appPadding,
-            child: mostSelleerProductController.obx(
-              (List<ProductModel>? productsList) {
-                return ProductsHotizontalListView.mostWanted(
-                  productsList: productsList ?? [],
-                  onShowMoreTapped: () => Get.toNamed(Routes.PRODUCTS_LIST),
-                  onAddToCartTapped: (ProductModel product) {
-                    if (product.variants.isNotEmpty) {
-                      AppDialogs.showToast(
-                        message: 'هذا المنتج يحتوى على الوان يجب اختيار اللون',
-                      );
-                      Get.toNamed(
-                        Routes.PRODUCT_DETAILS,
-                        arguments: product.id.toString(),
-                      );
-
-                      return;
-                    }
-                    final isGuest =
-                        Get.find<AuthenticationController>().isGuestUser;
-
-                    if (isGuest) {
-                      cartController.addToGuestCart(
-                        productId: product.id.toString(),
-                        quantity: '1',
-                        isNew: true,
-                      );
-                      return;
-                    }
-                    cartController.addToCart(
-                      productId: product.id.toString(),
-                      quantity: '1',
-                      isNew: true,
-                    );
-                  },
-                  onFavoriteTapped: (int productId) {
-                    if (Get.find<AuthenticationController>().isLoggedIn ==
-                        false) {
-                      return AppDialogs.showToast(
-                          message: 'الرجاء تسجيل الدخول');
-                    }
-
-                    final favCon = Get.put<ProductFavoriteController>(
-                      ProductFavoriteController(),
-                    );
-
-                    favCon.addRemoveProductFromFavorite(
-                      productId: productId,
-                    );
-                  },
-                  onTap: (int id) {
-                    Get.toNamed(
-                      Routes.PRODUCT_DETAILS,
-                      arguments: id.toString(),
-                    );
-                  },
-                );
-              },
-              onLoading: ProductsHotizontalListView.mostWanted(
-                productsList: [
-                  ProductModel.dummyProduct,
-                ],
-                onShowMoreTapped: () {},
-                onAddToCartTapped: (_) {},
-                onFavoriteTapped: (_) {},
-              ).shimmer(),
-            ),
-          ),
-          AppSpacers.height16,
-          Padding(
-            padding: AppDimension.appPadding,
-            child: HomeBannerView(
-              imageUrl: 'assets/image/dummy/offers.png',
-            ),
-          ),
-          AppSpacers.height16,
-          Padding(
-            padding: AppDimension.appPadding,
-            child: exclusiveOffersProductController.obx(
-              (List<ProductModel>? productsList) {
-                return ProductsHotizontalListView.exclusiveOffers(
-                  productsList: productsList ?? [],
-                  onTap: (int id) async {
-                    final awaitId = await Get.toNamed(
-                      Routes.PRODUCT_DETAILS,
-                      arguments: id.toString(),
-                    );
-
-                    if (awaitId != null && awaitId != '') {
-                      mostSelleerProductController.toggleFavorite(id);
-                    }
-                  },
-                  onShowMoreTapped: () => Get.toNamed(Routes.PRODUCTS_LIST),
-                  onAddToCartTapped: (ProductModel product) {
-                    if (product.variants.isNotEmpty) {
-                      AppDialogs.showToast(
-                        message: 'هذا المنتج يحتوى على الوان يجب اختيار اللون',
-                      );
-                      Get.toNamed(
-                        Routes.PRODUCT_DETAILS,
-                        arguments: product.id.toString(),
-                      );
-
-                      return;
-                    }
-                    final isGuest =
-                        Get.find<AuthenticationController>().isGuestUser;
-
-                    if (isGuest) {
-                      cartController.addToGuestCart(
-                        productId: product.id.toString(),
-                        quantity: '1',
-                        isNew: true,
-                      );
-                      return;
-                    }
-                    cartController.addToCart(
-                      productId: product.id.toString(),
-                      quantity: '1',
-                      isNew: true,
-                    );
-                  },
-                  onFavoriteTapped: (int productId) {
-                    if (Get.put(AuthenticationController().isLoggedIn) ==
-                        false) {
-                      return AppDialogs.showToast(
-                          message: 'الرجاء تسجيل الدخول');
-                    }
-                    final favCon = Get.put<ProductFavoriteController>(
-                      ProductFavoriteController(),
-                    );
-
-                    favCon.addRemoveProductFromFavorite(
-                      productId: productId,
-                      onError: () {
-                        exclusiveOffersProductController
-                            .toggleFavorite(productId);
+            child: Container(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Text("المتاجر"),
+                      Spacer(),
+                      Text("عرض الكل"),
+                    ],
+                  ),
+                  AppSpacers.height16,
+                  Column(
+                    children: List.generate(
+                      10,
+                      (index) {
+                        return InkWell(
+                          onTap: () {},
+                          child: ServiceCardView.dummy().paddingOnly(bottom: 10),
+                        );
                       },
-                    );
-                  },
-                );
-              },
-              onLoading: ProductsHotizontalListView.exclusiveOffers(
-                productsList: [
-                  ProductModel.dummyProduct,
+                    ),
+                  )
+                  // Expanded(
+                  //   child: ListView.builder(
+                  //     itemCount: 10,
+                  //     itemBuilder: (context, index) {
+                  //       // final service = servicesList?.elementAt(index);
+
+                  //       ;
+                  //     },
+                  //   ),
+                  // )
                 ],
-                onShowMoreTapped: () {},
-                onAddToCartTapped: (_) {},
-                onFavoriteTapped: (_) {},
-              ).shimmer(),
+              ),
             ),
           ),
+
+          // Padding(
+          //     padding: AppDimension.appPadding,
+          //     child: Column(
+          //       children: [],
+          //     )
+          //     // mostSelleerProductController.obx(
+          //     //   (List<ProductModel>? productsList) {
+          //     //     return ProductsHotizontalListView.mostWanted(
+          //     //       productsList: productsList ?? [],
+          //     //       onShowMoreTapped: () => Get.toNamed(Routes.PRODUCTS_LIST),
+          //     //       onAddToCartTapped: (ProductModel product) {
+          //     //         if (product.variants.isNotEmpty) {
+          //     //           AppDialogs.showToast(
+          //     //             message: 'هذا المنتج يحتوى على الوان يجب اختيار اللون',
+          //     //           );
+          //     //           Get.toNamed(
+          //     //             Routes.PRODUCT_DETAILS,
+          //     //             arguments: product.id.toString(),
+          //     //           );
+          //     //           return;
+          //     //         }
+          //     //         final isGuest = Get.find<AuthenticationController>().isGuestUser;
+          //     //         if (isGuest) {
+          //     //           cartController.addToGuestCart(
+          //     //             productId: product.id.toString(),
+          //     //             quantity: '1',
+          //     //             isNew: true,
+          //     //           );
+          //     //           return;
+          //     //         }
+          //     //         cartController.addToCart(
+          //     //           productId: product.id.toString(),
+          //     //           quantity: '1',
+          //     //           isNew: true,
+          //     //         );
+          //     //       },
+          //     //       onFavoriteTapped: (int productId) {
+          //     //         if (Get.find<AuthenticationController>().isLoggedIn == false) {
+          //     //           return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+          //     //         }
+
+          //     //         final favCon = Get.put<ProductFavoriteController>(
+          //     //           ProductFavoriteController(),
+          //     //         );
+
+          //     //         favCon.addRemoveProductFromFavorite(
+          //     //           productId: productId,
+          //     //         );
+          //     //       },
+          //     //       onTap: (int id) {
+          //     //         Get.toNamed(
+          //     //           Routes.PRODUCT_DETAILS,
+          //     //           arguments: id.toString(),
+          //     //         );
+          //     //       },
+          //     //     );
+          //     //   },
+          //     //   onLoading: ProductsHotizontalListView.mostWanted(
+          //     //     productsList: [
+          //     //       ProductModel.dummyProduct,
+          //     //     ],
+          //     //     onShowMoreTapped: () {},
+          //     //     onAddToCartTapped: (_) {},
+          //     //     onFavoriteTapped: (_) {},
+          //     //   ).shimmer(),
+          //     // ),
+
+          //     ),
+          // AppSpacers.height16,
+          // Padding(
+          //   padding: AppDimension.appPadding,
+          //   child: HomeBannerView(
+          //     imageUrl: 'assets/image/dummy/offers.png',
+          //   ),
+          // ),
+
+          // AppSpacers.height16,
+          // Padding(
+          //   padding: AppDimension.appPadding,
+          //   child: exclusiveOffersProductController.obx(
+          //     (List<ProductModel>? productsList) {
+          //       return ProductsHotizontalListView.exclusiveOffers(
+          //         productsList: productsList ?? [],
+          //         onTap: (int id) async {
+          //           final awaitId = await Get.toNamed(
+          //             Routes.PRODUCT_DETAILS,
+          //             arguments: id.toString(),
+          //           );
+
+          //           if (awaitId != null && awaitId != '') {
+          //             mostSelleerProductController.toggleFavorite(id);
+          //           }
+          //         },
+          //         onShowMoreTapped: () => Get.toNamed(Routes.PRODUCTS_LIST),
+          //         onAddToCartTapped: (ProductModel product) {
+          //           if (product.variants.isNotEmpty) {
+          //             AppDialogs.showToast(
+          //               message: 'هذا المنتج يحتوى على الوان يجب اختيار اللون',
+          //             );
+          //             Get.toNamed(
+          //               Routes.PRODUCT_DETAILS,
+          //               arguments: product.id.toString(),
+          //             );
+
+          //             return;
+          //           }
+          //           final isGuest = Get.find<AuthenticationController>().isGuestUser;
+
+          //           if (isGuest) {
+          //             cartController.addToGuestCart(
+          //               productId: product.id.toString(),
+          //               quantity: '1',
+          //               isNew: true,
+          //             );
+          //             return;
+          //           }
+          //           cartController.addToCart(
+          //             productId: product.id.toString(),
+          //             quantity: '1',
+          //             isNew: true,
+          //           );
+          //         },
+          //         onFavoriteTapped: (int productId) {
+          //           if (Get.put(AuthenticationController().isLoggedIn) == false) {
+          //             return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+          //           }
+          //           final favCon = Get.put<ProductFavoriteController>(
+          //             ProductFavoriteController(),
+          //           );
+
+          //           favCon.addRemoveProductFromFavorite(
+          //             productId: productId,
+          //             onError: () {
+          //               exclusiveOffersProductController.toggleFavorite(productId);
+          //             },
+          //           );
+          //         },
+          //       );
+          //     },
+          //     onLoading: ProductsHotizontalListView.exclusiveOffers(
+          //       productsList: [
+          //         ProductModel.dummyProduct,
+          //       ],
+          //       onShowMoreTapped: () {},
+          //       onAddToCartTapped: (_) {},
+          //       onFavoriteTapped: (_) {},
+          //     ).shimmer(),
+          //   ),
+          // ),
+
           // AppSpacers.height16,
           // Padding(
           //   padding: AppDimension.appPadding,
@@ -282,3 +325,19 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
     );
   }
 }
+
+// class HomePageProductsView extends GetView<HomePageProductsController> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return BaseScaffold(
+//       appBar: HomeAppBarView(),
+//       body: Column(
+//         children: [
+//           SliderView.dyume(120),
+
+          
+//         ],
+//       ),
+//     );
+//   }
+// }

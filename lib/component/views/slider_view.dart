@@ -5,14 +5,25 @@ import 'package:krzv2/component/views/cashed_network_image_view.dart';
 import 'package:krzv2/utils/app_colors.dart';
 
 class SliderView extends GetView {
-  const SliderView({
+  SliderView({
     Key? key,
     required this.images,
     this.height = 150,
   }) : super(key: key);
 
-  final List<String> images;
+  List<String> images = [];
   final double height;
+
+  SliderView.dyume(this.height) {
+    images.addAll([
+      "https://images.unsplash.com/photo-1698440235228-9c617924c06e?q=80&w=3920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1698440235228-9c617924c06e?q=80&w=3920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1698440235228-9c617924c06e?q=80&w=3920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1698440235228-9c617924c06e?q=80&w=3920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1698440235228-9c617924c06e?q=80&w=3920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1698440235228-9c617924c06e?q=80&w=3920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    ]);
+  }
 
   @override
   Widget build(BuildContext context) {
