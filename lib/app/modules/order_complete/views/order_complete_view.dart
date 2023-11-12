@@ -1,5 +1,6 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/address/list_addresses/controllers/delivery_addresses_controller.dart';
@@ -214,9 +215,9 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                 CustomBtnCompenent.main(
                   text: "تأكيد الطلب",
                   onTap: () {
-                    print(
-                        'selectedShippingCompany => ${selectedShippingCompany.value?.id}');
-                    print('address => ${addressId.value}');
+                    if (EasyLoading.isShow) {
+                      return;
+                    }
 
                     final controller = Get.find<OrderCompleteController>();
                     if (selectedShippingCompany.value == null) {
@@ -230,7 +231,6 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
 
                     if (payWithCredit.value == true &&
                         payWithWallet.value == false) {
-                      print('pay with credit');
                       controller.requestOrder(
                         partnerId: selectedShippingCompany.value!.id.toString(),
                         addressId: addressId.value,
@@ -253,7 +253,6 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                             message: 'ادفع الباقي عن طريق البطاقه الإئتمانية');
                       }
 
-                      print('pay with wallet');
                       controller.requestOrder(
                         partnerId: selectedShippingCompany.value!.id.toString(),
                         addressId: addressId.value,
@@ -264,7 +263,6 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
 
                     if (payWithCredit.value == true &&
                         payWithWallet.value == true) {
-                      print('pay with wallet credit');
                       controller.requestOrder(
                         partnerId: selectedShippingCompany.value!.id.toString(),
                         addressId: addressId.value,

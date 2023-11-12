@@ -12,14 +12,6 @@ class GoogleMapView extends GetView<GoogleMapViewController> {
     controller.enableLocationService();
   }
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(
-      30.102727490953757,
-      31.326486542329327,
-    ),
-    zoom: 14.4746,
-  );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +29,13 @@ class GoogleMapView extends GetView<GoogleMapViewController> {
               mapType: MapType.normal,
               myLocationButtonEnabled: false,
               markers: Set.from(controller.markers.value!),
-              initialCameraPosition: _kGooglePlex,
+              initialCameraPosition: CameraPosition(
+                target: LatLng(
+                  controller.currentLocation.value.latitude,
+                  controller.currentLocation.value.longitude,
+                ),
+                zoom: 14.4746,
+              ),
               onMapCreated: (GoogleMapController mapController) {
                 controller.mapController.complete(mapController);
               },
