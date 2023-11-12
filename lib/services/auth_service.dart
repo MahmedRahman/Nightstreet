@@ -154,6 +154,9 @@ class AuthenticationController extends GetxController with CacheManager {
     }
     await removeUserToken();
     await removeFirebaseToken();
+    loginAsGuest(
+      firebaseToken: getFirebaseToken().toString(),
+    );
     AppDialogs.showToast(message: 'تم تسجيل الخروج بنجاح');
     onSuccess();
     Get.offAndToNamed(Routes.LAYOUT);
