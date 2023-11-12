@@ -21,6 +21,8 @@ class GiftCardsView extends GetView<GiftCardsController> {
   var themeId = 0;
 
   final formKey = GlobalKey<FormState>();
+  final FocusNode nameFocusNode = FocusNode();
+  final FocusNode messageNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -72,26 +74,37 @@ class GiftCardsView extends GetView<GiftCardsController> {
               AppSpacers.height12,
               TextFieldComponent.number(
                 controller: amountController,
+                textInputAction: TextInputAction.next,
+                onSubmitted: (_) =>
+                    FocusScope.of(context).requestFocus(nameFocusNode),
               ),
               AppSpacers.height19,
               TextFieldComponent.name(
                 controller: fullNameController,
+                textInputAction: TextInputAction.next,
+                focusNode: nameFocusNode,
               ),
               AppSpacers.height19,
               TextFieldComponent.phone(
                 controller: phoneController,
+                textInputAction: TextInputAction.next,
+                onSubmitted: (_) =>
+                    FocusScope.of(context).requestFocus(messageNode),
               ),
               AppSpacers.height19,
               TextFieldComponent.longMessage(
                 outLineText: 'أرسل رسالة',
                 hintText: 'أدخل الرسالة',
+                focusNode: messageNode,
                 controller: messageController,
+                textInputAction: TextInputAction.done,
                 validator: customValidator(
                   rules: [
                     IsRequired(message: 'حقل مطلوب'),
                     IsBetween(min: 3, max: 30),
                   ],
                 ),
+                onSubmitted: (_) => submit(),
               ),
               AppSpacers.height50,
             ],
@@ -116,32 +129,34 @@ class GiftCardsView extends GetView<GiftCardsController> {
                 flex: 3,
                 child: CustomBtnCompenent.main(
                   text: 'مواصلة عملية الشراء',
-                  onTap: () {
-                    if (!formKey.currentState!.validate()) {
-                      return;
-                    }
-
-                    if (themeId == 0) {
-                      AppDialogs.showToast(message: "برجاء اختيار الثيم");
-                      return;
-                    }
-
-                    Get.to(
-                      GiftCardPaymentView(
-                        amount: amountController.text.toString(),
-                        fullName: fullNameController.text.toString(),
-                        message: messageController.text.toString(),
-                        // paymentType: "",
-                        phone: phoneController.text.toString(),
-                        themeId: themeId.toString(),
-                      ),
-                    );
-                  },
+                  onTap: submit,
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void submit() {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    if (themeId == 0) {
+      AppDialogs.showToast(message: "برجاء اختيار الثيم");
+      return;
+    }
+
+    Get.to(
+      GiftCardPaymentView(
+        amount: amountController.text.toString(),
+        fullName: fullNameController.text.toString(),
+        message: messageController.text.toString(),
+        // paymentType: "",
+        phone: phoneController.text.toString(),
+        themeId: themeId.toString(),
       ),
     );
   }

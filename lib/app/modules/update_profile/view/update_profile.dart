@@ -32,6 +32,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
 
   final formKey = GlobalKey<FormState>();
   final authService = Get.find<AuthenticationController>();
+  final FocusNode emailFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -59,6 +60,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             AppSpacers.height25,
             TextFieldComponent.name(
               controller: nameController,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (_) =>
+                  FocusScope.of(context).requestFocus(emailFocusNode),
             ),
             AppSpacers.height29,
             Row(
@@ -78,6 +82,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             TextFieldComponent.email(
               controller: emailController,
               iconPath: AppSvgAssets.emailIcon,
+              focusNode: emailFocusNode,
               isRequired: false,
             ),
             AppSpacers.height29,

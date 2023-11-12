@@ -58,10 +58,13 @@ class RegisterView extends GetView<RegisterController> {
                     controller: phoneController,
                     onTap: onFieldTapped,
                     textInputAction: TextInputAction.next,
+                    onSubmitted: (_) =>
+                        FocusScope.of(context).requestFocus(emailFocusNode),
                   ),
                   AppSpacers.height19,
                   TextFieldComponent.email(
                     controller: emailController,
+                    focusNode: emailFocusNode,
                     isRequired: false,
                     onTap: onFieldTapped,
                     textInputAction: TextInputAction.done,

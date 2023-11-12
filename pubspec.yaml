@@ -84,6 +84,7 @@ dependencies:
   connectivity: ^3.0.6
   sentry_flutter: ^7.11.0
   share_plus: ^7.2.1
+  flutter_keyboard_visibility: ^5.4.1
 
 
 

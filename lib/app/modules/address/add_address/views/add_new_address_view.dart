@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -27,7 +26,8 @@ class AddNewAddressView extends GetView<AddNewAddressController> {
   String? cityId = "-1";
 
   final addressController = TextEditingController();
-
+  final FocusNode addressFocusNode = FocusNode();
+  final FocusNode phoneFocusNode = FocusNode();
   final phoneController = TextEditingController(
     text: Get.find<AuthenticationController>().userData!.phone.toString(),
   );
@@ -69,6 +69,9 @@ class AddNewAddressView extends GetView<AddNewAddressController> {
                 TextFieldComponent.text(
                   outLineText: "علامه مميزه",
                   controller: specialController,
+                  textInputAction: TextInputAction.next,
+                  onSubmitted: (_) =>
+                      FocusScope.of(context).requestFocus(addressFocusNode),
                 ),
                 AppSpacers.height25,
                 SelectorView(
@@ -81,13 +84,17 @@ class AddNewAddressView extends GetView<AddNewAddressController> {
                 ),
                 AppSpacers.height25,
                 TextFieldComponent.address(
-                  //outLineText: "العنوان",
+                  focusNode: addressFocusNode,
                   controller: addressController,
+                  textInputAction: TextInputAction.next,
+                  onSubmitted: (_) =>
+                      FocusScope.of(context).requestFocus(phoneFocusNode),
                 ),
                 AppSpacers.height25,
                 TextFieldComponent.phone(
                   controller: phoneController,
                   iconPath: '',
+                  focusNode: phoneFocusNode,
                 ),
                 AppSpacers.height16,
                 customToggle()

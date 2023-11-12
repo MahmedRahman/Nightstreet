@@ -24,85 +24,87 @@ class BaseSwitchTap extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () {
-        return Column(
-          children: [
-            SizedBox(
-              height: kToolbarHeight,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      overlayColor:
-                          MaterialStatePropertyAll(Colors.transparent),
-                      onTap: () {
-                        KSelectItem.value = 0;
-                        if (onTap != null) onTap!(0);
-                      },
-                      child: Column(
-                        children: [
-                          Text(
-                            title1,
-                            style: TextStyle(
-                              fontSize: 16,
+        return Expanded(
+          child: Column(
+            children: [
+              SizedBox(
+                height: kToolbarHeight,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        overlayColor:
+                            MaterialStatePropertyAll(Colors.transparent),
+                        onTap: () {
+                          KSelectItem.value = 0;
+                          if (onTap != null) onTap!(0);
+                        },
+                        child: Column(
+                          children: [
+                            Text(
+                              title1,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: KSelectItem.value == 0
+                                    ? AppColors.mainColor
+                                    : AppColors.greyColor,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              height: 2,
                               color: KSelectItem.value == 0
                                   ? AppColors.mainColor
-                                  : AppColors.greyColor,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: 2,
-                            color: KSelectItem.value == 0
-                                ? AppColors.mainColor
-                                : AppColors.borderColor2,
-                          )
-                        ],
+                                  : AppColors.borderColor2,
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      overlayColor:
-                          MaterialStatePropertyAll(Colors.transparent),
-                      onTap: () {
-                        KSelectItem.value = 1;
-                        if (onTap != null) onTap!(1);
-                      },
-                      child: Column(
-                        children: [
-                          Text(
-                            title2,
-                            style: TextStyle(
-                              fontSize: 16,
+                    Expanded(
+                      child: InkWell(
+                        overlayColor:
+                            MaterialStatePropertyAll(Colors.transparent),
+                        onTap: () {
+                          KSelectItem.value = 1;
+                          if (onTap != null) onTap!(1);
+                        },
+                        child: Column(
+                          children: [
+                            Text(
+                              title2,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: KSelectItem.value == 1
+                                    ? AppColors.mainColor
+                                    : AppColors.greyColor,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              height: 2,
                               color: KSelectItem.value == 1
                                   ? AppColors.mainColor
-                                  : AppColors.greyColor,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: 2,
-                            color: KSelectItem.value == 1
-                                ? AppColors.mainColor
-                                : AppColors.borderColor2,
-                          )
-                        ],
+                                  : AppColors.borderColor2,
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-              child: KSelectItem.value == 0 ? Widget1 : Widget2,
-            )
-          ],
+              Expanded(
+                child: KSelectItem.value == 0 ? Widget1 : Widget2,
+              )
+            ],
+          ),
         );
       },
     );
