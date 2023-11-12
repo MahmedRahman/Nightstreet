@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,6 +23,8 @@ class editAddressView extends GetView<editAddressController> {
   final phoneController = TextEditingController();
   final specialController = TextEditingController();
   final isDefaultCon = TextEditingController();
+  final FocusNode addressFocusNode = FocusNode();
+  final FocusNode phoneFocusNode = FocusNode();
   int cityId = 0;
 
   editAddressView({
@@ -70,6 +71,9 @@ class editAddressView extends GetView<editAddressController> {
                 TextFieldComponent.text(
                   outLineText: "علامه مميزه",
                   controller: specialController,
+                  textInputAction: TextInputAction.next,
+                  onSubmitted: (_) =>
+                      FocusScope.of(context).requestFocus(addressFocusNode),
                 ),
                 AppSpacers.height25,
                 SelectorView(
@@ -82,12 +86,17 @@ class editAddressView extends GetView<editAddressController> {
                 ),
                 AppSpacers.height25,
                 TextFieldComponent.address(
+                  focusNode: addressFocusNode,
                   controller: addressController,
+                  textInputAction: TextInputAction.next,
+                  onSubmitted: (_) =>
+                      FocusScope.of(context).requestFocus(phoneFocusNode),
                 ),
                 AppSpacers.height25,
                 TextFieldComponent.phone(
                   controller: phoneController,
                   iconPath: '',
+                  focusNode: phoneFocusNode,
                 ),
                 AppSpacers.height16,
                 Row(
@@ -232,7 +241,8 @@ class SelectorView extends GetView {
   }) {
     print("val ${selectedIndexValue.toString()}");
 
-    final city = dataList.where((element) => element["id"] == selectedIndexValue).first;
+    final city =
+        dataList.where((element) => element["id"] == selectedIndexValue).first;
 
     final index = dataList.indexOf(city);
 
