@@ -9,7 +9,6 @@ import 'package:krzv2/app/modules/home_page/controllers/home_page_service_contro
 import 'package:krzv2/app/modules/home_page/controllers/home_page_slider_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
-import 'package:krzv2/component/views/cards/service_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_app_bar_view.dart';
 import 'package:krzv2/component/views/product_categories_list_view.dart';

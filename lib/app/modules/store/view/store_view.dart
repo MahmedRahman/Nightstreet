@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/component/views/cards/service_card_view.dart';
@@ -8,7 +7,6 @@ import 'package:krzv2/component/views/notification_icon_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
 import 'package:krzv2/services/auth_service.dart';
-import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
 class StorePage extends GetView {
@@ -61,7 +59,7 @@ GridView productsList({
   required List products,
 }) {
   return GridView.builder(
-    itemCount: products?.length,
+    itemCount: products.length,
     padding: EdgeInsets.only(top: 10),
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,

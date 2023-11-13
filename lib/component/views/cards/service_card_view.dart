@@ -5,7 +5,6 @@ import 'package:krzv2/component/views/cashed_network_image_view.dart';
 import 'package:krzv2/component/views/favorite_icon_view.dart';
 import 'package:krzv2/component/views/price_with_discount_view.dart';
 import 'package:krzv2/component/views/rating_bar_view.dart';
-import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
