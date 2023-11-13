@@ -9,6 +9,9 @@ import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_contro
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
 import 'package:krzv2/component/views/home_app_bar_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
+import 'package:krzv2/component/views/slider_view.dart';
+import 'package:krzv2/utils/app_colors.dart';
+import 'package:krzv2/utils/app_spacers.dart';
 
 // class HomePageView extends GetView {
 //   final cartController = Get.find<ShoppingCartController>();
