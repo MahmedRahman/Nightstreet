@@ -3,44 +3,19 @@ import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_product_categories_controller.dart';
 import 'package:krzv2/app/modules/home_page_products/controllers/home_page_products_slider_controller.dart';
+import 'package:krzv2/app/modules/offer_list/controllers/offer_product_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_categories_list_view.dart';
 import 'package:krzv2/component/views/slider_view.dart';
 import 'package:krzv2/extensions/widget.dart';
+import 'package:krzv2/models/product_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_spacers.dart';
-import 'package:krzv2/web_serives/model/api_response_model.dart';
-import 'package:krzv2/web_serives/web_serives.dart';
 
 RxInt KProductHighestPrice = 0.obs;
-
-class OfferProductController extends GetxController with StateMixin<List> {
-  @override
-  void onInit() {
-    getOffersProduct();
-    super.onInit();
-  }
-
-  void getOffersProduct() async {
-    ResponseModel responseModel = await WebServices().getOffersProduct();
-    if (responseModel.data["success"]) {
-      if ((responseModel.data["data"]["data"] as List).length == 0) {
-        change(null, status: RxStatus.empty());
-        return;
-      }
-
-      KProductHighestPrice.value = responseModel.data["data"]["highest_price"];
-
-      change(responseModel.data["data"]["data"], status: RxStatus.success());
-      return;
-    }
-
-    change(null, status: RxStatus.error());
-  }
-}
 
 class OfferProductView extends GetView<OfferProductController> {
   OfferProductView({Key? key}) : super(key: key);
@@ -94,7 +69,7 @@ class OfferProductView extends GetView<OfferProductController> {
           ),
           AppSpacers.height16,
           Expanded(
-            child: controller.obx((snapshot) {
+            child: controller.obx((List<ProductModel>? products) {
               return GridView.builder(
                 padding: EdgeInsets.only(top: 10),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -103,23 +78,24 @@ class OfferProductView extends GetView<OfferProductController> {
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                 ),
-                itemCount: snapshot!.length,
+                itemCount: products!.length,
                 itemBuilder: (_, index) {
                   return GetBuilder<ProductFavoriteController>(
                     init: ProductFavoriteController(),
                     builder: (favoriteController) {
+                      final product = products.elementAt(index);
                       return ProductCardView(
-                        imageUrl: snapshot[index]["image"].toString(),
-                        name: snapshot[index]["name"].toString(),
-                        hasDiscount: snapshot[index]["old_price"] != 0,
-                        isAvailable: snapshot[index]["quantity"] > 1,
-                        price: snapshot[index]["price"].toString(),
-                        oldPrice: snapshot[index]["old_price"].toString(),
-                        isFavorite: favoriteController
-                            .productIsFavorite(snapshot[index]["id"] as int),
+                        imageUrl: product.image.toString(),
+                        name: product.name.toString(),
+                        hasDiscount: product.oldPrice.toInt() != 0,
+                        isAvailable: product.quantity > 1,
+                        price: product.price.toString(),
+                        oldPrice: product.oldPrice.toString(),
+                        isFavorite:
+                            favoriteController.productIsFavorite(product.id),
                         onAddToCartTapped: () {
                           cartController.addToCart(
-                            productId: snapshot[index]["id"].toString(),
+                            productId: product.id.toString(),
                             quantity: '1',
                             isNew: true,
                           );
@@ -135,14 +111,14 @@ class OfferProductView extends GetView<OfferProductController> {
                           );
 
                           favCon.addRemoveProductFromFavorite(
-                            productId: snapshot[index]["id"],
+                            productId: product.id,
                           );
                         },
                         //, product.isFavorite,
                         onTap: () {
                           Get.toNamed(
                             Routes.PRODUCT_DETAILS,
-                            arguments: snapshot[index]["id"].toString(),
+                            arguments: product.id.toString(),
                           );
                         },
                       );
@@ -155,14 +131,5 @@ class OfferProductView extends GetView<OfferProductController> {
         ],
       ),
     );
-  }
-
-  void toggleFavorite(int productId, List<dynamic>? snapshot) {
-    final product = (snapshot as List).firstWhere(
-      (p) => p['id'] == productId,
-    );
-
-    product['is_favorite'] = !product['is_favorite'];
-    controller.update();
   }
 }

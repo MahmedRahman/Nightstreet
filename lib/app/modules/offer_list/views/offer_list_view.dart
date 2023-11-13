@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/offer_list/controllers/offer_product_controller.dart';
 import 'package:krzv2/app/modules/offer_list/views/offer_product_view.dart';
 import 'package:krzv2/app/modules/offer_list/views/offer_service_view.dart';
 import 'package:krzv2/component/views/app_bar.dart';
@@ -11,7 +12,6 @@ import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/service_filter_bottom_sheet_view.dart';
 import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
 import 'package:krzv2/component/views/tabs/base_switch_tap.dart';
-import 'package:krzv2/models/product_search_query.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
@@ -23,6 +23,7 @@ class OfferListView extends GetView<OfferListController> {
   int selectTab = 0;
 
   final authController = Get.find<AuthenticationController>();
+  final offerProductController = Get.find<OfferProductController>();
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +42,12 @@ class OfferListView extends GetView<OfferListController> {
                         max: KOfferHighestPrice.value,
                       )
                     : ProductFilterBottomSheetView(
-                        onChanged: (ProductQueryParameters value) {},
-                        productQuery: ProductQueryParameters(),
+                        onChanged: offerProductController.onFilterDataChanged,
+                        productQuery: offerProductController.queryParams,
                         max: KProductHighestPrice.value,
-                        onResetTapped: () {},
+                        onResetTapped: () {
+                          offerProductController.onInit();
+                        },
                       ),
                 backgroundColor: Colors.white,
                 barrierColor: AppColors.mainColor.withOpacity(.15),

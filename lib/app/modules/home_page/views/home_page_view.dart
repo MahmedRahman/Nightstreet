@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
-import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_product_categories_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_recommended_product_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_service_categories.dart';
@@ -9,25 +7,8 @@ import 'package:krzv2/app/modules/home_page/controllers/home_page_service_contro
 import 'package:krzv2/app/modules/home_page/controllers/home_page_slider_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
-import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_app_bar_view.dart';
-import 'package:krzv2/component/views/product_categories_list_view.dart';
-import 'package:krzv2/component/views/product_service_button_view.dart';
-import 'package:krzv2/component/views/products_hotizontal_list_view.dart';
-import 'package:krzv2/component/views/recommended_services_list_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
-import 'package:krzv2/component/views/service_categories_list_view.dart';
-import 'package:krzv2/component/views/services_categories_view.dart';
-import 'package:krzv2/component/views/shimmers/home_categories_shimmer.dart';
-import 'package:krzv2/component/views/slider_view.dart';
-import 'package:krzv2/extensions/widget.dart';
-import 'package:krzv2/models/product_model.dart';
-import 'package:krzv2/models/service_model.dart';
-import 'package:krzv2/routes/app_pages.dart';
-import 'package:krzv2/services/auth_service.dart';
-import 'package:krzv2/utils/app_colors.dart';
-import 'package:krzv2/utils/app_dimens.dart';
-import 'package:krzv2/utils/app_spacers.dart';
 
 // class HomePageView extends GetView {
 //   final cartController = Get.find<ShoppingCartController>();
