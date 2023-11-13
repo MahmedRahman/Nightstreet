@@ -266,8 +266,122 @@ class HomePageView extends GetView {
       appBar: HomeAppBarView(),
       body: Column(
         children: [
-          //sliderWidget(),
+          SliderView.dyume(180),
+          AppSpacers.height10,
+          homeCard(),
         ],
+      ),
+    );
+  }
+
+  Widget homeCard() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        height: 129,
+        width: Get.width,
+        decoration: BoxDecoration(
+          color: Colors.red,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Stack(
+          children: [
+            // Group: Group 22619
+            Positioned(
+              bottom: 60,
+              right: 22,
+              child: Container(
+                alignment: Alignment(0.19, -0.09),
+                width: 69.0,
+                height: 28.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(3.0),
+                  color: const Color(0xFF7D3A5B),
+                ),
+                child: Text(
+                  'العروض',
+                  style: TextStyle(
+                    fontFamily: 'Effra',
+                    fontSize: 14.0,
+                    color: Colors.white,
+                    letterSpacing: 0.14,
+                    height: 0.86,
+                  ),
+                  textAlign: TextAlign.right,
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white30,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 16,
+                      ),
+                      Text(
+                        'خصومات تصل إلى',
+                        style: TextStyle(
+                          fontFamily: 'Effra',
+                          fontSize: 14.0,
+                          color: const Color(0xFF3B3B3B),
+                          fontWeight: FontWeight.w500,
+                          height: 1.36,
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                      SizedBox(
+                        width: 27,
+                      ),
+                      Text(
+                        '30%',
+                        style: TextStyle(
+                          fontFamily: 'Effra',
+                          fontSize: 14.0,
+                          color: const Color(0xFF7D3A5B),
+                          fontWeight: FontWeight.w500,
+                          height: 1.36,
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                      Spacer(),
+                      Text(
+                        'تسوق الآن',
+                        style: TextStyle(
+                          fontFamily: 'Effra',
+                          fontSize: 14.0,
+                          color: const Color(0xFF7D3A5B),
+                          fontWeight: FontWeight.w500,
+                          height: 1.36,
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        ">>",
+                        style: TextStyle(
+                          color: AppColors.mainColor,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
