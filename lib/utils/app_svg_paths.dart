@@ -51,6 +51,7 @@ abstract class AppSvgAssets {
   static const String filterIcon = 'assets/svg/filter.svg';
   static const String locationServiceIcon = 'assets/svg/location_icon.svg';
   static const String errorIconDialog = 'assets/svg/error_icon_dialog.svg';
+  static const String homeArrowIcon = 'assets/svg/home_arrow.svg';
 
   /// bottom navigation bar icons ///
 
