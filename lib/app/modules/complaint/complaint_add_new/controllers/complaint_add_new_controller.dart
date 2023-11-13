@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/complaint/complaint_active_list/controllers/complaint_active_list_controller.dart';
+import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/models/complaint_category_model.dart';
+import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
@@ -60,9 +62,13 @@ class ComplaintAddNewController extends GetxController
 
     EasyLoading.dismiss();
     if (responseModel.data["success"]) {
+      final bottomBarController = Get.find<MyBottomNavigationController>();
       AppDialogs.complaintAddNewSuccessful(
         onTap: () {
-          Get.back(closeOverlays: true);
+          Get.offAndToNamed(Routes.LAYOUT);
+          bottomBarController.changePage(4);
+          Get.toNamed(Routes.COMPLAINT_MANAGER);
+
           ComplaintActiveListController controller = Get.find();
           controller.getComplaints();
         },
