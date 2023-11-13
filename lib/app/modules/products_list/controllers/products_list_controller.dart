@@ -18,7 +18,6 @@ class ProductsListController extends GetxController
   void onInit() {
     final categoryId = (Get.arguments ?? '') as String;
     if (categoryId != '') {
-      print('cat id => ${categoryId}');
       queryParams.categoryId = categoryId;
 
       productFilter();
@@ -97,6 +96,5 @@ class ProductsListController extends GetxController
 
   @override
   Future<void> onTopScroll() async {
-    print('onTopScroll');
   }
 }

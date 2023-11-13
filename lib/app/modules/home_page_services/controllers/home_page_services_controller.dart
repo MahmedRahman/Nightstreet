@@ -63,8 +63,6 @@ class HomePageServicesController extends GetxController
         totalRemotePage =
             responseModel.data['data']['pagination']['total_pages'];
       } catch (e, st) {
-        print('get error $e');
-        print('get stack $st');
       }
     }
   }
@@ -114,14 +112,12 @@ class HomePageServicesController extends GetxController
 
   @override
   Future<void> onTopScroll() async {
-    print('onTopScroll');
   }
 
   bool shouldWatchFocus = false;
   Future<void> navigateToSettings() async {
     final status = await PermissionsHelper.requestLocationPermission();
 
-    print('status => $status');
 
     shouldWatchFocus = false;
 

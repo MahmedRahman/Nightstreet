@@ -43,8 +43,6 @@ class editAddressView extends GetView<editAddressController> {
 
   @override
   Widget build(BuildContext context) {
-    print('isDefault ${isDefaultCon.text}');
-    print(' data["is_default"]; ${data["is_default"]}');
     return Scaffold(
       body: controller.obx((snapshot) {
         return BaseScaffold(

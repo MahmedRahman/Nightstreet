@@ -37,7 +37,6 @@ class ClinicServicesController extends GetxController
   bool? isPagination;
   @override
   void onInit() {
-    print('clinic id => ${Get.arguments as int}');
     getOffersByBranchesId(Get.arguments as int);
     super.onInit();
   }

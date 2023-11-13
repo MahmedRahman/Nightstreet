@@ -6,7 +6,6 @@ import 'package:krzv2/app/modules/offer_list/controllers/offer_product_controlle
 import 'package:krzv2/app/modules/offer_list/controllers/offer_service_controller.dart';
 import 'package:krzv2/app/modules/offer_list/views/offer_product_view.dart';
 import 'package:krzv2/app/modules/offer_list/views/offer_service_view.dart';
-import 'package:krzv2/app/modules/offer_service_filter/controllers/offer_service_filter_controller.dart';
 import 'package:krzv2/component/views/app_bar.dart';
 import 'package:krzv2/component/views/icon_button_component.dart';
 import 'package:krzv2/component/views/product_filter_bottom_sheet_view.dart';

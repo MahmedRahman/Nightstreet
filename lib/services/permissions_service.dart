@@ -19,7 +19,6 @@ abstract class PermissionsHelper {
   static Future<PermissionStatus> requestLocationPermission() async {
     final status = await Permission.location.status;
     if (status.isDenied) {
-      print('star per');
       // You don't have permission yet. Request it.
       await Permission.location.request();
       return requestLocationPermission();

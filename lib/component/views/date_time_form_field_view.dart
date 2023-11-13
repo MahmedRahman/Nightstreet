@@ -100,7 +100,6 @@ class DateTimeFormFieldView extends GetView {
                           selectedDate.value = pickedDate;
                           onDateChanged(pickedDate);
                         } else {
-                          print("Date is not selected");
                         }
                       },
                       child: Container(

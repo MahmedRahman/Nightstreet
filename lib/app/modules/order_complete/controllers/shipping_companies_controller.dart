@@ -14,7 +14,6 @@ class ShippingCompaniesController extends GetxController
       addressId: addressId,
     );
 
-    print('responseModel.data["success"] => ${responseModel.data["success"]}');
 
     if (responseModel.data["success"]) {
       final List<ShippingCompaniesModel> featchedData =

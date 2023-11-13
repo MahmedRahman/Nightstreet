@@ -25,7 +25,6 @@ class OrderCompleteController extends GetxController {
     EasyLoading.dismiss();
     final authController = Get.find<AuthenticationController>();
     final cartController = Get.find<ShoppingCartController>();
-    print('response data => ${response.data}');
 
     if (response.data["success"] == false) {
       AppDialogs.showToast(

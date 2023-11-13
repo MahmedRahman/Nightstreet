@@ -28,8 +28,6 @@ class PriceRangeSliderView extends GetView {
           ),
     );
 
-    print('range => max => $max');
-    print('range => initValue => ${initValue}');
 
     late IndicatorRangeSliderThumbShape<int> indicatorRangeSliderThumbShape =
         initValue == null

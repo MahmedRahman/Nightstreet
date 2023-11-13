@@ -64,7 +64,6 @@ class ComplaintActiveListController extends GetxController
     if (isPagination == false) return;
     currentPage++;
 
-    print('start paginate');
 
     Get.dialog(
       const Center(

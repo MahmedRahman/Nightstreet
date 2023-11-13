@@ -40,7 +40,6 @@ class EditAppointmentController extends GetxController {
       doctorId: appointment!.doctorId,
       dateTime: selectData.toString(),
     );
-    print("selectDoctor");
     if (responseModel.data["success"]) {
       AppointmentDataList.value = responseModel.data["data"];
       update();

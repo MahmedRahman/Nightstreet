@@ -49,8 +49,6 @@ class AppointmentMangmentController extends GetxController
             responseModel.data['data']['pagination']['is_pagination'] as bool;
       }
     } catch (e, st) {
-      print('list error $e');
-      print('list st $st');
     }
   }
 

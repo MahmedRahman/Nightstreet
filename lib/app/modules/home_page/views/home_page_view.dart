@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
-import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_product_categories_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_recommended_product_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_service_categories.dart';
@@ -11,12 +9,7 @@ import 'package:krzv2/app/modules/home_page/controllers/home_page_slider_control
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
 import 'package:krzv2/component/views/cashed_network_image_view.dart';
-import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_app_bar_view.dart';
-import 'package:krzv2/component/views/product_categories_list_view.dart';
-import 'package:krzv2/component/views/product_service_button_view.dart';
-import 'package:krzv2/component/views/products_hotizontal_list_view.dart';
-import 'package:krzv2/component/views/recommended_services_list_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/slider_view.dart';
 import 'package:krzv2/utils/app_colors.dart';

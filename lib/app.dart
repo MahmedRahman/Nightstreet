@@ -45,7 +45,6 @@ class _MyAppState extends State<MyApp> {
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('user done permission');
       PushNotificationService().getFCMToken();
     }
   }

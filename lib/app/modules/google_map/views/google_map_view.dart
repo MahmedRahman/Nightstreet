@@ -54,7 +54,6 @@ class GoogleMapView extends GetView<GoogleMapViewController> {
             child: CustomBtnCompenent.main(
               text: "بحث",
               onTap: () async {
-                print('con => ${controller.currentLocation.value}');
                 Get.back(result: controller.currentLocation.value);
               },
             ),

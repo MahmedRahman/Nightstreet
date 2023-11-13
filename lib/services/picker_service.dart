@@ -25,7 +25,6 @@ class PickerService {
     } on PlatformException catch (e) {
       AppDialogs.showToast(message: e.message!);
     } catch (e) {
-      print('error getImage => $e');
     }
 
     return pickedFile;

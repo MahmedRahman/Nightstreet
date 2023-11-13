@@ -49,7 +49,6 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
           final latlng = mapController.currentLocation.value;
 
           if (latlng.latitude == 0 && latlng.longitude == 0) {
-            print('latlng = 0');
             final LocationData? latlng =
                 await mapController.getCurrentLocation();
             controller.queryParams.lat = latlng!.latitude;

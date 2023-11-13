@@ -318,8 +318,6 @@ class WebServices {
         },
       );
     } catch (e, st) {
-      print("error $e");
-      print("stack $st");
     }
 
     return await ApiManger().execute(
@@ -638,7 +636,6 @@ class WebServices {
 
     final url = "${ApiConfig.baseUrl}/offers/get?$queryString";
 
-    print('service url => $url');
 
     return await ApiManger().execute(
       url: url,

@@ -77,7 +77,6 @@ class ServicesSearchController extends GetxController
 
   @override
   Future<void> onTopScroll() async {
-    print('onTopScroll');
   }
 }
 
@@ -152,6 +151,5 @@ class BranchSearchController extends GetxController
 
   @override
   Future<void> onTopScroll() async {
-    print('onTopScroll');
   }
 }

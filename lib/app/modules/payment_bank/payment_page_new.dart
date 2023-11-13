@@ -50,7 +50,6 @@ class AppPaymentNewPage extends StatelessWidget {
             }
 
             if (url == SuccessPaymentUrl) {
-              print("PaymentSuccess");
               onSuccess.call();
             }
           },

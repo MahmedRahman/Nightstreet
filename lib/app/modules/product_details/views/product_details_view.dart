@@ -163,8 +163,6 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
           ProductColorSelectorView(
             onChanged: (String id) {
               variantId.value = id;
-              print('variant Id => $variantId');
-              print(' Id => $id');
             },
             variants: product.variants,
           ),

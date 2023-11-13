@@ -134,6 +134,5 @@ class OfferFavoriteController extends GetxController
 
   @override
   Future<void> onTopScroll() async {
-    print('onTopScroll');
   }
 }

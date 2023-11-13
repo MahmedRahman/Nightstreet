@@ -26,7 +26,6 @@ class paymentPage extends GetView {
         }
 
         if (url == "${ApiConfig.baseUrl}/coupons/rajhi-success-callback") {
-          print("PaymentSuccess");
           Get.offAll(PaymentSuccessPage());
         }
       },

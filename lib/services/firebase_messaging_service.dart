@@ -40,7 +40,6 @@ class PushNotificationService with CacheManager {
     )
         .then(
       (value) async {
-        print('not value => ${value.authorizationStatus}');
 
         if (value.authorizationStatus == AuthorizationStatus.authorized) {
           final String? token = await getFCMToken();
@@ -50,14 +49,11 @@ class PushNotificationService with CacheManager {
               .getInitialMessage()
               .then((RemoteMessage? message) {
             if (message != null) {
-              print("remote Message : ${message.data}");
             }
           }).catchError((e) {});
 
           try {
             FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-              print('Got a message whilst in the foreground!');
-              print('Message data: ${message.data}');
               RemoteNotification? notification = message.notification;
               AndroidNotification? android = message.notification?.android;
 
@@ -99,18 +95,14 @@ class PushNotificationService with CacheManager {
               );
             });
           } catch (e) {
-            print('error $e');
-            print('stack $e');
           }
 
           FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-            print('A new onMessageOpenedApp event was published!');
             print(message.data.toString());
           });
 
           return;
         }
-        print('user not auth');
       },
     );
   }
@@ -120,10 +112,7 @@ class PushNotificationService with CacheManager {
 
     try {
       fcmToken = await FirebaseMessaging.instance.getToken();
-      print('FCM_TOKEN $fcmToken!');
     } catch (e, st) {
-      print('error $e');
-      print('error st $st');
     }
 
     return fcmToken;

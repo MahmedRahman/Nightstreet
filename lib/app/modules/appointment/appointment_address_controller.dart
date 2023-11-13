@@ -60,7 +60,6 @@ class AppointmentController extends GetxController {
       doctorId: GetUtils.isNull(selectDoctor) ? null : selectDoctor["id"],
       dateTime: selectData.toString(),
     );
-    print("selectDoctor");
     if (responseModel.data["success"]) {
       AppointmentDataList.value = responseModel.data["data"];
       update();

@@ -91,7 +91,6 @@ class AuthenticationController extends GetxController with CacheManager {
         if (previousRoute == Routes.SHOPPINT_CART) {
           Get.back(closeOverlays: true);
         } else {
-          print('navigate to layout');
           Get.offAndToNamed(Routes.LAYOUT);
         }
       },

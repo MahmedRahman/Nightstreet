@@ -31,7 +31,6 @@ class ProductFavoriteController extends GetxController
   }
 
   getFavorite() async {
-    print('start call get favorite');
     if (currentPage == 1) {
       change([], status: RxStatus.loading());
       productFavoriteIds.value?.clear();
@@ -90,13 +89,11 @@ class ProductFavoriteController extends GetxController
   void addRemoveLocalList(int productId) {
     if (productFavoriteIds.value?.contains(productId) ?? false) {
       productFavoriteIds.value?.remove(productId);
-      print('fav ids list => ${productFavoriteIds.value?.length}');
       update();
       return;
     }
     productFavoriteIds.value?.add(productId);
     update();
-    print('fav ids list => ${productFavoriteIds.value?.length}');
   }
 
   checkListIsEmpty() {
@@ -139,6 +136,5 @@ class ProductFavoriteController extends GetxController
 
   @override
   Future<void> onTopScroll() async {
-    print('onTopScroll');
   }
 }

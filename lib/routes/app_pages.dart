@@ -49,8 +49,6 @@ import '../app/modules/offer_list/bindings/offer_list_binding.dart';
 import '../app/modules/offer_list/views/offer_list_view.dart';
 import '../app/modules/offer_product_filter/bindings/offer_product_filter_binding.dart';
 import '../app/modules/offer_product_filter/views/offer_product_filter_view.dart';
-import '../app/modules/offer_service_filter/bindings/offer_service_filter_binding.dart';
-import '../app/modules/offer_service_filter/views/offer_service_filter_view.dart';
 import '../app/modules/order_cancel/bindings/order_cancel_binding.dart';
 import '../app/modules/order_cancel/views/order_cancel_view.dart';
 import '../app/modules/order_complete/bindings/order_complete_binding.dart';

@@ -499,8 +499,6 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                                   const Duration(milliseconds: 100));
                               Get.back();
                             } catch (e, st) {
-                              print('errr $e');
-                              print('stack $st');
                             }
                           },
                           leading: Container(

@@ -20,7 +20,6 @@ class BranchesSortBoxView extends GetView {
     this.initialSelectedSort,
     required this.onSortSelected,
   }) {
-    print('init => $initialSelectedSort');
     if (initialSelectedSort != null) {
       selectedSort.value = initialSelectedSort;
     }

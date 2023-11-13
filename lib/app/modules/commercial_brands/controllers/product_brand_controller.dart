@@ -45,11 +45,9 @@ class ProductsBrandController extends GetxController
 
   @override
   Future<void> onEndScroll() async {
-    print('onEndScroll');
   }
 
   @override
   Future<void> onTopScroll() async {
-    print('onTopScroll');
   }
 }

@@ -214,7 +214,6 @@ class GoogleMapViewController extends GetxController with StateMixin {
     final locationStatus = await PermissionsHelper.requestLocationPermission();
 
     shouldWatchFocus = false;
-    print('locationStatus $locationStatus');
 
     if (locationStatus == PermissionStatus.granted) {
       final loc.LocationData? locationData = await location.getLocation();
@@ -228,12 +227,9 @@ class GoogleMapViewController extends GetxController with StateMixin {
       return;
     }
 
-    print('forceNavigateToSettingIfDenied $forceNavigateToSettingIfDenied');
-    print('locationStatus $locationStatus');
 
     if (locationStatus == PermissionStatus.permanentlyDenied &&
         forceNavigateToSettingIfDenied == true) {
-      print('start get location');
       try {
         AppDialogs.locationPermissionDialog(
           onTap: () async {
@@ -243,8 +239,6 @@ class GoogleMapViewController extends GetxController with StateMixin {
           },
         );
       } catch (e, st) {
-        print('eee $e');
-        print('stac $st');
       }
     }
   }

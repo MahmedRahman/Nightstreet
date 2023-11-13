@@ -57,7 +57,6 @@ class AboutUsPage extends StatelessWidget {
                     socialMediaLink: AppGlobal.KSettingData['facebook'],
                     socialMediaIcon: AppSvgAssets.facebookIcon,
                     onTap: () {
-                      print(AppGlobal.KSettingData['facebook']);
                       urlLauncher(AppGlobal.KSettingData['facebook']);
                     },
                   ),
@@ -65,7 +64,6 @@ class AboutUsPage extends StatelessWidget {
                     socialMediaLink: AppGlobal.KSettingData['twitter'],
                     socialMediaIcon: AppSvgAssets.twitterIcon,
                     onTap: () {
-                      print(AppGlobal.KSettingData['twitter']);
                       urlLauncher(AppGlobal.KSettingData['twitter']);
                     },
                   ),
@@ -73,7 +71,6 @@ class AboutUsPage extends StatelessWidget {
                     socialMediaLink: AppGlobal.KSettingData['whatsapp'],
                     socialMediaIcon: AppSvgAssets.whatsappIcon,
                     onTap: () {
-                      print(AppGlobal.KSettingData['whatsapp']);
                       urlLauncher(AppGlobal.KSettingData['whatsapp']);
                     },
                   ),
@@ -81,7 +78,6 @@ class AboutUsPage extends StatelessWidget {
                     socialMediaLink: AppGlobal.KSettingData['linkedin'],
                     socialMediaIcon: AppSvgAssets.linkedInIcon,
                     onTap: () {
-                      print(AppGlobal.KSettingData['linkedin']);
                       urlLauncher(AppGlobal.KSettingData['linkedin']);
                     },
                   ),
@@ -89,7 +85,6 @@ class AboutUsPage extends StatelessWidget {
                     socialMediaLink: AppGlobal.KSettingData['instagram'],
                     socialMediaIcon: AppSvgAssets.instagramIcon,
                     onTap: () {
-                      print(AppGlobal.KSettingData['instagram']);
                       urlLauncher(AppGlobal.KSettingData['instagram']);
                     },
                   ),
