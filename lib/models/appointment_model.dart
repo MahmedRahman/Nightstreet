@@ -36,16 +36,16 @@ class AppointmentModel {
       offer: Offer.fromJson(json['offer']),
       status: json['status'],
       doctorName: json['doctor'] == null ? '' : json['doctor']['name'],
-      doctorId: json['doctor'] == null ? '' : json['doctor']['id'],
+      doctorId: json['doctor'] == null ? 0 : json['doctor']['id'],
       ClinicName: json['branch']['name'],
-      datetime: json['datetime'],
+      datetime: json['datetime'].toString(),
       id: json['id'],
       can_rate: json['can_rate'],
       can_update: json['can_update'],
-      time_format: json['time_format'],
+      time_format: json['time_format'].toString(),
       branchId: json['branch']['id'],
       notes: json['notes'] ?? "",
-      date_time: json['date_time'],
+      date_time: json['date_time'].toString(),
     );
   }
 }

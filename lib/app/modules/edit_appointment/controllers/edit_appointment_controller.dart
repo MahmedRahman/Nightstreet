@@ -18,6 +18,9 @@ class EditAppointmentController extends GetxController {
   @override
   void onInit() {
     appointment = Get.arguments;
+
+    print("Money ${appointment!.date_time.toString()}");
+
     selectData = appointment!.date_time.toString();
     selectTime = appointment!.time_format.toString();
     selectTimeUI.value = appointment!.time_format.toString();
