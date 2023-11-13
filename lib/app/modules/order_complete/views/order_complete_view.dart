@@ -80,9 +80,10 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                   description: 'لإستكمال الطلب يجب إضافة عنوان',
                 ),
                 AppSpacers.height25,
-                addNewAddressBtn(
+                CustomBtnCompenent.main(
+                  width: 120,
+                  text: 'عنوان جديد',
                   onTap: () => Get.toNamed(Routes.ADD_NEW_ADDRESS),
-                  mainAxisAlignment: MainAxisAlignment.center,
                 ),
               ],
             ),
