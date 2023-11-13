@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/offer_list/controllers/offer_product_controller.dart';
 import 'package:krzv2/app/modules/offer_list/views/offer_product_view.dart';
 import 'package:krzv2/app/modules/offer_list/views/offer_service_view.dart';
 import 'package:krzv2/component/views/app_bar.dart';
@@ -23,6 +24,7 @@ class OfferListView extends GetView<OfferListController> {
   int selectTab = 0;
 
   final authController = Get.find<AuthenticationController>();
+  final offerProductController = Get.find<OfferProductController>();
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +43,12 @@ class OfferListView extends GetView<OfferListController> {
                         max: KOfferHighestPrice.value,
                       )
                     : ProductFilterBottomSheetView(
-                        onChanged: (ProductQueryParameters value) {},
-                        productQuery: ProductQueryParameters(),
+                        onChanged: offerProductController.onFilterDataChanged,
+                        productQuery: offerProductController.queryParams,
                         max: KProductHighestPrice.value,
-                        onResetTapped: () {},
+                        onResetTapped: () {
+                          offerProductController.onInit();
+                        },
                       ),
                 backgroundColor: Colors.white,
                 barrierColor: AppColors.mainColor.withOpacity(.15),

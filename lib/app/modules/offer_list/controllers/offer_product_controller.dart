@@ -8,29 +8,19 @@ import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-class ProductsListController extends GetxController
+class OfferProductController extends GetxController
     with StateMixin<List<ProductModel>>, ScrollMixin {
   final productList = Rx<List<ProductModel>?>([]);
   int currentPage = 1;
   bool? isPagination;
-  ProductQueryParameters queryParams = ProductQueryParameters();
+  ProductQueryParameters queryParams = ProductQueryParameters(adminFeatured: 1);
   @override
   void onInit() {
-    final categoryId = (Get.arguments ?? '') as String;
-    if (categoryId != '') {
-      print('cat id => ${categoryId}');
-      queryParams.categoryId = categoryId;
-
-      productFilter();
-      update();
-    } else {
-      getProducts();
-    }
-
+    getOffersProduct();
     super.onInit();
   }
 
-  Future<void> getProducts() async {
+  Future<void> getOffersProduct() async {
     if (currentPage == 1) change(null, status: RxStatus.loading());
 
     ResponseModel responseModel = await WebServices().getProducts(
@@ -54,6 +44,9 @@ class ProductsListController extends GetxController
       KProductHighestPrice.value = responseModel.data["data"]["highest_price"];
 
       change(productList.value!, status: RxStatus.success());
+
+      KProductHighestPrice.value = responseModel.data["data"]["highest_price"];
+
       isPagination =
           responseModel.data['data']['pagination']['is_pagination'] as bool;
       return;
@@ -62,17 +55,20 @@ class ProductsListController extends GetxController
     change([], status: RxStatus.error(responseModel.data["message"]));
   }
 
-  Future<void> pullToRefresh() async {
-    currentPage = 1;
-    productList.value!.clear();
-    getProducts();
-  }
-
   productFilter() {
     change([], status: RxStatus.loading());
     productList.value!.clear();
     currentPage = 1;
-    getProducts();
+    getOffersProduct();
+  }
+
+  void onFilterDataChanged(ProductQueryParameters productQueryParameters) {
+    queryParams.filter = productQueryParameters.filter;
+    queryParams.startPrice = productQueryParameters.startPrice;
+    queryParams.endPrice = productQueryParameters.endPrice;
+    queryParams.brandIds = productQueryParameters.brandIds;
+
+    productFilter();
   }
 
   @override
@@ -90,7 +86,7 @@ class ProductsListController extends GetxController
       ),
     );
 
-    await getProducts();
+    await getOffersProduct();
 
     Get.back();
   }

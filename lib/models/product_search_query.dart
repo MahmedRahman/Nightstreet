@@ -62,7 +62,6 @@ String buildProductUrl(
   int page, {
   ProductQueryParameters? queryParams,
 }) {
-  print('qqqq $queryParams');
   final Map<String, dynamic> queryParameters = queryParams?.toMap() ?? {};
 
   final List<String> parts = [];
@@ -75,7 +74,6 @@ String buildProductUrl(
   });
 
   final String queryString = parts.join('&');
-  print('queryString is empty ${queryString.isEmpty}');
   if (queryString.isNotEmpty) {
     return '$baseUrl/products/get?$queryString&page=$page';
   } else {
