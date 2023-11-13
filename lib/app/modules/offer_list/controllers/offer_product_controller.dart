@@ -62,6 +62,12 @@ class OfferProductController extends GetxController
     getOffersProduct();
   }
 
+  resetSearchValues() {
+    productList.value!.clear();
+    currentPage = 1;
+    change([], status: RxStatus.success());
+  }
+
   void onFilterDataChanged(ProductQueryParameters productQueryParameters) {
     queryParams.filter = productQueryParameters.filter;
     queryParams.startPrice = productQueryParameters.startPrice;

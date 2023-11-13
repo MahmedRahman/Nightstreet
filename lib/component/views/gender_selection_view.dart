@@ -10,9 +10,16 @@ class GenderSelectionView extends GetView {
   GenderSelectionView({
     Key? key,
     required this.onChanged,
-  }) : super(key: key);
+    required this.initValue,
+  }) {
+    if (initValue != '') {
+      final gender = Gender.values.firstWhere((e) => e.name == initValue);
+      selectedGender.value = gender.arabicText;
+    }
+  }
 
   final selectedGender = ''.obs;
+  final String initValue;
   final Function(String gender) onChanged;
 
   @override
@@ -43,7 +50,7 @@ class GenderSelectionView extends GetView {
                     isSelected: e.arabicText == selectedGender.value,
                     onTap: () {
                       selectedGender.value = e.arabicText;
-                      onChanged(e.arabicText);
+                      onChanged(e.name);
                     },
                   ),
                 )
@@ -91,5 +98,4 @@ class GenderSelectionView extends GetView {
       ),
     );
   }
-
 }

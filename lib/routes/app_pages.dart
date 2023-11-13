@@ -150,11 +150,11 @@ class AppPages {
       page: () => OfferListView(),
       binding: OfferListBinding(),
       children: [
-        GetPage(
-          name: Routes.OFFER_SERVICE_FILTER,
-          page: () => const OfferServiceFilterView(),
-          binding: OfferServiceFilterBinding(),
-        ),
+        // GetPage(
+        //   name: Routes.OFFER_SERVICE_FILTER,
+        //   page: () => const OfferServiceFilterView(),
+        //   binding: OfferServiceFilterBinding(),
+        // ),
         GetPage(
           name: Routes.OFFER_PRODUCT_FILTER,
           page: () => const OfferProductFilterView(),

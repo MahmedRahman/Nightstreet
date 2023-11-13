@@ -201,7 +201,7 @@ class ProductListAppBar extends StatelessWidget implements PreferredSizeWidget {
               ProductFilterBottomSheetView(
                 onChanged: onChanged,
                 productQuery: controller.queryParams,
-                max: KProductHighestPrice.value,
+                maxPrice: KProductHighestPrice.value,
                 onResetTapped: () {
                   controller.onInit();
                 },

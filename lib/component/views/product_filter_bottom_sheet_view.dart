@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
@@ -18,9 +18,9 @@ class ProductFilterBottomSheetView extends GetView {
     required this.onChanged,
     required this.productQuery,
     required this.onResetTapped,
-    required this.max,
+    required this.maxPrice,
   }) : super(key: key);
-  final int max;
+  final int maxPrice;
   final ValueChanged<ProductQueryParameters> onChanged;
   final selectedFilterType = Rx<ProductFilterModel?>(null);
   final princeRangeRx = Rx<RangeValues?>(null);
@@ -34,7 +34,11 @@ class ProductFilterBottomSheetView extends GetView {
     if (productQuery.filter != '' && productQuery.filter != null) {
       selectedFilterType.value = ProductFilterModel(
         searchKey: productQuery.filter ?? '',
-        title: productFilterItems.firstWhereOrNull((element) => element.searchKey == productQuery.filter)?.title ?? '',
+        title: productFilterItems
+                .firstWhereOrNull(
+                    (element) => element.searchKey == productQuery.filter)
+                ?.title ??
+            '',
       );
     }
     // end init rate
@@ -43,7 +47,7 @@ class ProductFilterBottomSheetView extends GetView {
     if (productQuery.startPrice != null && productQuery.endPrice != null) {
       princeRangeRx.value = RangeValues(
         productQuery.startPrice!,
-        productQuery.endPrice!,
+        max(maxPrice.toDouble(), productQuery.endPrice ?? 0).toInt().toDouble(),
       );
     }
     // end init price range
@@ -116,7 +120,8 @@ class ProductFilterBottomSheetView extends GetView {
                 AppSpacers.height16,
                 PriceRangeSliderView(
                   min: 0,
-                  max: 1000,
+                  max: max(maxPrice.toDouble(), productQuery.endPrice ?? 0)
+                      .toInt(),
                   initValue: princeRangeRx.value,
                   onChanged: (RangeValues value) {
                     princeRangeRx.value = value;
@@ -149,11 +154,13 @@ class ProductFilterBottomSheetView extends GetView {
                       child: CustomBtnCompenent.main(
                         text: "فلترة النتائج",
                         onTap: () {
-                          productQuery.filter = selectedFilterType.value?.searchKey;
+                          productQuery.filter =
+                              selectedFilterType.value?.searchKey;
 
                           productQuery.startPrice = princeRangeRx.value?.start;
                           productQuery.endPrice = princeRangeRx.value?.end;
-                          productQuery.brandIds = brandIds.value?.map((e) => e.toString()).toList();
+                          productQuery.brandIds =
+                              brandIds.value?.map((e) => e.toString()).toList();
 
                           onChanged(productQuery);
                           Get.back();

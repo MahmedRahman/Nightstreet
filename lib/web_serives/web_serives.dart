@@ -600,11 +600,11 @@ class WebServices {
       queryParams['name'] = name;
     }
 
-    if (startPrice != null && startPrice.isNotEmpty) {
+    if (startPrice != 'null' && startPrice!.isNotEmpty) {
       queryParams['start_price'] = startPrice;
     }
 
-    if (endPrice != null && endPrice.isNotEmpty) {
+    if (endPrice != 'null' && endPrice!.isNotEmpty) {
       queryParams['end_price'] = endPrice;
     }
 
@@ -638,7 +638,7 @@ class WebServices {
 
     final url = "${ApiConfig.baseUrl}/offers/get?$queryString";
 
-    print('url => $url');
+    print('service url => $url');
 
     return await ApiManger().execute(
       url: url,

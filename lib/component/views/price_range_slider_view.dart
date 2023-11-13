@@ -24,9 +24,12 @@ class PriceRangeSliderView extends GetView {
       initValue ??
           RangeValues(
             min.toDouble(),
-            max.toDouble(),
+            max.toInt().toDouble(),
           ),
     );
+
+    print('range => max => $max');
+    print('range => initValue => ${initValue}');
 
     late IndicatorRangeSliderThumbShape<int> indicatorRangeSliderThumbShape =
         initValue == null
