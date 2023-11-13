@@ -326,7 +326,6 @@ class HomePageView extends GetView {
                     Text(
                       'خصومات تصل إلى',
                       style: TextStyle(
-                        fontFamily: 'Effra',
                         fontSize: 14.0,
                         color: const Color(0xFF3B3B3B),
                         fontWeight: FontWeight.w500,
@@ -341,7 +340,6 @@ class HomePageView extends GetView {
                       '30%',
                       style: TextStyle(
                         fontFamily: 'Effra',
-                        fontSize: 14.0,
                         color: const Color(0xFF7D3A5B),
                         fontWeight: FontWeight.w500,
                         height: 1.36,
@@ -352,9 +350,8 @@ class HomePageView extends GetView {
                     Text(
                       'تسوق الآن',
                       style: TextStyle(
-                        fontFamily: 'Effra',
                         fontSize: 14.0,
-                        color: const Color(0xFF7D3A5B),
+                        color: AppColors.blackColor,
                         fontWeight: FontWeight.w500,
                         height: 1.36,
                       ),
