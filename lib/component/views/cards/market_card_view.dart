@@ -8,59 +8,46 @@ import 'package:krzv2/component/views/rating_bar_view.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
-class ServiceCardView extends GetView {
+class MarketCardView extends GetView {
   final String imageUrl;
   final String name;
-  final bool hasDiscount;
-  final String price;
+  // final bool hasDiscount;
+  // final String price;
   final double maxWidth;
-  final String oldPrice;
-  final String rate;
-  final String totalRate;
-  final EdgeInsetsGeometry? margin;
+  // final String oldPrice;
+  // final String rate;
+  // final String totalRate;
+  //final EdgeInsetsGeometry? margin;
   final Function()? onFavoriteTapped;
   final Function()? onTapped;
 
   final bool showFavoriteIcon;
   final bool isFavorite;
 
-  ServiceCardView({
+  MarketCardView({
     Key? key,
     required this.imageUrl,
     required this.name,
-    required this.hasDiscount,
-    required this.price,
     required this.onFavoriteTapped,
     required this.onTapped,
-    required this.rate,
-    required this.totalRate,
     this.maxWidth = double.infinity,
-    this.oldPrice = '',
-    this.margin,
     this.showFavoriteIcon = true,
     this.isFavorite = false,
   }) : super(key: key);
 
-  ServiceCardView.dummy({
+  MarketCardView.dummy({
     Key? key,
     this.showFavoriteIcon = true,
-    this.margin,
     this.isFavorite = false,
   })  : this.imageUrl = 'assets/image/dummy/dummy_service.png',
         this.name =
             'لسوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وقة خالية من التمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من  السوداء و',
-        this.hasDiscount = false,
-        this.price = '100',
         onFavoriteTapped = null,
         this.onTapped = ondummyTapped,
-        this.rate = '4',
-        this.maxWidth = double.infinity,
-        this.totalRate = '4',
-        this.oldPrice = '120';
-
+        this.maxWidth = double.infinity;
   static void ondummyTapped() {
     //Get.toNamed(Routes.SERVICE_DETAIL, arguments: 1);
-    // Get.to(StorePage());
+    //Get.to(StorePage());
   }
 
   @override
@@ -122,17 +109,17 @@ class ServiceCardView extends GetView {
                       ),
                     ),
                     AppSpacers.height5,
-                    PriceWithDiscountView(
-                      price: price,
-                      hasDiscount: hasDiscount,
-                      oldPrice: oldPrice,
-                    ),
-                    AppSpacers.height5,
-                    RatingBarView(
-                      initRating: double.tryParse(rate.toString())!,
-                      totalRate: int.tryParse(totalRate.toString()) ?? 0,
-                      ignoreGestures: true,
-                    )
+                    // PriceWithDiscountView(
+                    //   price: price,
+                    //   hasDiscount: hasDiscount,
+                    //   oldPrice: oldPrice,
+                    // ),
+                    // AppSpacers.height5,
+                    // RatingBarView(
+                    //   initRating: double.tryParse(rate.toString())!,
+                    //   totalRate: int.tryParse(totalRate.toString()) ?? 0,
+                    //   ignoreGestures: true,
+                    // )
                   ],
                 ),
               ],

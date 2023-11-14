@@ -27,4 +27,6 @@ class ProductCategoriesController extends GetxController with StateMixin {
 
     change([], status: RxStatus.error(responseModel.data["message"]));
   }
+
+
 }

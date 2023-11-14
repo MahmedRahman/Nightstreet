@@ -4,6 +4,7 @@ import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controlle
 import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
 import 'package:krzv2/app/modules/home_page_products/controllers/home_page_products_slider_controller.dart';
+import 'package:krzv2/app/modules/home_page_products/views/home_page_products_view.dart';
 import 'package:krzv2/app/modules/home_page_services/controllers/hom_page_service_slider_controller.dart';
 import 'package:krzv2/app/modules/offer_list/controllers/offer_product_controller.dart';
 import 'package:krzv2/app/modules/offer_list/controllers/offer_service_controller.dart';
@@ -39,5 +40,7 @@ class InitBindings extends Bindings {
       HomePageProductSliderController(),
       permanent: true,
     );
+
+    Get.put(MarketController());
   }
 }
