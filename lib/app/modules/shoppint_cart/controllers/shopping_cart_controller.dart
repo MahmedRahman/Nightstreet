@@ -10,7 +10,7 @@ import 'package:krzv2/web_serives/web_serives.dart';
 class ShoppingCartController extends GetxController
     with StateMixin<List<MarketShippingCart>> {
   final List<MarketShippingCart> _products = [];
-  int get productCount => _products.length;
+  // int get productCount => _products.length;
   RxString selectedMarketId = ''.obs;
 
   final cartSummaryModel = Rx<CartSummaryModel?>(null);
@@ -95,6 +95,14 @@ class ShoppingCartController extends GetxController
 
     getCartProducts();
     AppDialogs.showToast(message: response.data["message"]);
+  }
+
+  int get productCount {
+    int total = 0;
+    for (final product in _products) {
+      total += product.marketProductCount;
+    }
+    return total;
   }
 
   /// --------------------- Guest Cart ------------------ ///
