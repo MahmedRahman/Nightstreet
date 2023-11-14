@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
+import 'package:krzv2/app/modules/store/view/store_view.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/shipping_item_view.dart';
@@ -203,7 +204,9 @@ class MarketComponentView extends GetView {
               Expanded(
                 child: CustomBtnCompenent.secondary(
                   text: "إضافة منتج",
-                  onTap: () async {},
+                  onTap: () async {
+                    Get.to(MarketPage({'id': market.marketId}));
+                  },
                 ),
               )
             ],
