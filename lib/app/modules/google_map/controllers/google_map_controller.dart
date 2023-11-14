@@ -238,7 +238,7 @@ class GoogleMapViewController extends GetxController with StateMixin {
             Get.back();
           },
         );
-      } catch (e, st) {
+      } catch (e) {
       }
     }
   }

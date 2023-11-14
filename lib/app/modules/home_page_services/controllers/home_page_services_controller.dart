@@ -62,7 +62,7 @@ class HomePageServicesController extends GetxController
         change(_branches, status: RxStatus.success());
         totalRemotePage =
             responseModel.data['data']['pagination']['total_pages'];
-      } catch (e, st) {
+      } catch (e) {
       }
     }
   }

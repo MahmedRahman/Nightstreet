@@ -317,7 +317,7 @@ class WebServices {
           "category_id": categoryId,
         },
       );
-    } catch (e, st) {
+    } catch (e) {
     }
 
     return await ApiManger().execute(

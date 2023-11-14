@@ -498,7 +498,7 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                               await Future.delayed(
                                   const Duration(milliseconds: 100));
                               Get.back();
-                            } catch (e, st) {
+                            } catch (e) {
                             }
                           },
                           leading: Container(

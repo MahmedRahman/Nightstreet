@@ -48,7 +48,7 @@ class AppointmentMangmentController extends GetxController
         isPagination =
             responseModel.data['data']['pagination']['is_pagination'] as bool;
       }
-    } catch (e, st) {
+    } catch (e) {
     }
   }
 

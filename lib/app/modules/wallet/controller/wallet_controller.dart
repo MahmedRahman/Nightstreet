@@ -46,7 +46,7 @@ class WalletController extends GetxController with StateMixin<TransactionData> {
           },
         ),
       );
-    } catch (e, st) {
+    } catch (e) {
     }
   }
 
