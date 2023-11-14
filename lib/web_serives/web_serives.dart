@@ -938,9 +938,16 @@ class WebServices {
     );
   }
 
-  Future<ResponseModel> getShippingCompanies({required String addressId}) async {
+  // Future<ResponseModel> getShippingCompanies({required String addressId}) async {
+  //   return await ApiManger().execute(
+  //     url: "${ApiConfig.baseUrl}/orders/get-shipping-companies?address_id=$addressId",
+
+  Future<ResponseModel> getShippingCompanies({
+    required String addressId,
+    required String marketId,
+  }) async {
     return await ApiManger().execute(
-      url: "${ApiConfig.baseUrl}/orders/get-shipping-companies?address_id=$addressId",
+      url: "${ApiConfig.baseUrl}/orders/get-shipping-companies?address_id=$addressId&market_id=$marketId",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );

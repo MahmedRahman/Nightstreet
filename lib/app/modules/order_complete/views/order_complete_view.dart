@@ -1,4 +1,3 @@
-import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,6 +16,7 @@ import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/models/shipping_companies_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
+
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
@@ -49,7 +49,7 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
   final selectedAddress = Rx<dynamic>(null);
   @override
   Widget build(BuildContext context) {
-    final cartSummary = cartController.cartSummaryModel.value;
+    // final cartSummary = cartController.cartSummaryModel.value;
     return GetBuilder<DeliveryAddressesController>(
       builder: (controller) {
         final addresse = controller.addresses.value;
@@ -62,6 +62,7 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
         if (selectedAddress.value != null) {
           shippingController.getShppingCompanies(
             addressId: selectedAddress.value['id'].toString(),
+            marketId: cartController.selectedMarketId.value,
           );
           addressId.value = selectedAddress.value['id'].toString();
         }
@@ -133,50 +134,50 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Divider(),
               ),
-              DecoratedContainer(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      AppSpacers.height16,
-                      paymentSumaryItem(
-                        title:
-                            "اجمالي المستحق لـ ( ${cartSummary?.cartCount} منتج )",
-                        value: "${cartSummary?.cartPrice} رس",
-                      ),
-                      AppSpacers.height16,
-                      Obx(
-                        () => paymentSumaryItem(
-                          title: "مصاريف الشحــن",
-                          value:
-                              "${selectedShippingCompany.value?.cost ?? 0} رس",
-                        ),
-                      ),
-                      AppSpacers.height16,
-                      paymentSumaryItem(
-                        title: "ضريبة القيمة المضافة (15%)",
-                        value: "${cartSummary?.cartTax} رس",
-                      ),
-                      AppSpacers.height12,
-                      DottedLine(
-                        dashLength: 10,
-                        dashGapLength: 5,
-                        lineThickness: 3,
-                        dashColor: AppColors.borderColor2,
-                      ),
-                      AppSpacers.height12,
-                      Obx(
-                        () => paymentSumaryItem(
-                          title: "الأجمالي المستحق للدفع",
-                          value:
-                              "${(double.parse(cartSummary!.cartTotalPrice)) + (selectedShippingCompany.value?.cost ?? 0)}  رس",
-                          textColor: AppColors.mainColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              // DecoratedContainer(
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(16),
+              //     child: Column(
+              //       children: [
+              //         AppSpacers.height16,
+              //         paymentSumaryItem(
+              //           title:
+              //               "اجمالي المستحق لـ ( ${cartSummary?.cartCount} منتج )",
+              //           value: "${cartSummary?.cartPrice} رس",
+              //         ),
+              //         AppSpacers.height16,
+              //         Obx(
+              //           () => paymentSumaryItem(
+              //             title: "مصاريف الشحــن",
+              //             value:
+              //                 "${selectedShippingCompany.value?.cost ?? 0} رس",
+              //           ),
+              //         ),
+              //         AppSpacers.height16,
+              //         paymentSumaryItem(
+              //           title: "ضريبة القيمة المضافة (15%)",
+              //           value: "${cartSummary?.cartTax} رس",
+              //         ),
+              //         AppSpacers.height12,
+              //         DottedLine(
+              //           dashLength: 10,
+              //           dashGapLength: 5,
+              //           lineThickness: 3,
+              //           dashColor: AppColors.borderColor2,
+              //         ),
+              //         AppSpacers.height12,
+              //         Obx(
+              //           () => paymentSumaryItem(
+              //             title: "الأجمالي المستحق للدفع",
+              //             value:
+              //                 "${(double.parse(cartSummary!.cartTotalPrice)) + (selectedShippingCompany.value?.cost ?? 0)}  رس",
+              //             textColor: AppColors.mainColor,
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
             ],
           ),
           bottomBarHeight: 190,
@@ -187,7 +188,7 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                 Row(
                   children: [
                     Text(
-                      'مجموع المنتجات (${cartSummary?.cartCount})',
+                      'مجموع المنتجات (3)',
                       style: TextStyle(
                         fontSize: 16.0,
                         color: AppColors.blackColor,
@@ -200,7 +201,8 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                     Spacer(),
                     Obx(
                       () => Text(
-                        "${(double.parse(cartSummary!.cartTotalPrice)) + (selectedShippingCompany.value?.cost ?? 0)}  رس",
+                        // "",÷
+                        "${(selectedShippingCompany.value?.cost ?? 0)}  رس",
                         style: TextStyle(
                           fontSize: 16.0,
                           color: AppColors.blackColor,
@@ -246,8 +248,7 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                               authController.userData!.walletBalance) ??
                           0.0;
 
-                      final amountToPay =
-                          double.tryParse(cartSummary!.cartTotalPrice) ?? 0.0;
+                      final amountToPay = 10;
 
                       if (walletBalance < amountToPay) {
                         return AppDialogs.showToast(
@@ -487,19 +488,26 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                         () => customListTile(
                           onTap: () async {
                             try {
+                              
                               selectedAddress.value = addresses[index];
                               controller.update();
-                              shippingController.getShppingCompanies(
-                                addressId:
-                                    selectedAddress.value['id'].toString(),
-                              );
+                              try {
+                                shippingController.getShppingCompanies(
+                                  addressId:
+                                      selectedAddress.value['id'].toString(),
+                                  marketId:
+                                      cartController.selectedMarketId.value,
+                                );
+                              } catch (e, st) {
+                                print('error shippong $e');
+                                print('st $st');
+                              }
                               addressId.value =
                                   addresses[index]['id'].toString();
                               await Future.delayed(
                                   const Duration(milliseconds: 100));
                               Get.back();
-                            } catch (e) {
-                            }
+                            } catch (e) {}
                           },
                           leading: Container(
                             width: 54.0,
