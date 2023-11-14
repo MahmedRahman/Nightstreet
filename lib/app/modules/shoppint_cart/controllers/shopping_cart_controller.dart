@@ -8,9 +8,10 @@ import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
 class ShoppingCartController extends GetxController
-    with StateMixin<List<ProductCartModel>> {
-  final List<ProductCartModel> _products = [];
+    with StateMixin<List<MarketShippingCart>> {
+  final List<MarketShippingCart> _products = [];
   int get productCount => _products.length;
+  RxString selectedMarketId = ''.obs;
 
   final cartSummaryModel = Rx<CartSummaryModel?>(null);
 
@@ -31,24 +32,30 @@ class ShoppingCartController extends GetxController
 
     ResponseModel responseModel = await WebServices().getCartProducts();
 
-    if (responseModel.data["success"]) {
-      _products.clear();
-      final List<ProductCartModel> featchedData = List<ProductCartModel>.from(
-        responseModel.data['data']['data']
-            .map((category) => ProductCartModel.fromMap(category)),
-      );
+    try {
+      if (responseModel.data["success"]) {
+        _products.clear();
+        final List<MarketShippingCart> featchedData =
+            List<MarketShippingCart>.from(
+          responseModel.data['data']['data']
+              .map((category) => MarketShippingCart.fromMap(category)),
+        );
 
-      cartSummaryModel.value =
-          CartSummaryModel.fromMap(responseModel.data['data']['cart']);
+        // cartSummaryModel.value =
+        //     CartSummaryModel.fromMap(responseModel.data['data']['cart']);
 
-      _products.addAll(featchedData);
+        _products.addAll(featchedData);
 
-      if (_products.isEmpty) {
-        change([], status: RxStatus.empty());
-        return;
+        if (_products.isEmpty) {
+          change([], status: RxStatus.empty());
+          return;
+        }
+
+        change(_products, status: RxStatus.success());
       }
-
-      change(_products, status: RxStatus.success());
+    } catch (e, st) {
+      print('error $e');
+      print('stack $st');
     }
   }
 
@@ -99,13 +106,14 @@ class ShoppingCartController extends GetxController
 
     if (responseModel.data["success"]) {
       _products.clear();
-      final List<ProductCartModel> featchedData = List<ProductCartModel>.from(
+      final List<MarketShippingCart> featchedData =
+          List<MarketShippingCart>.from(
         responseModel.data['data']['data']
-            .map((category) => ProductCartModel.fromMap(category)),
+            .map((category) => MarketShippingCart.fromMap(category)),
       );
 
-      cartSummaryModel.value =
-          CartSummaryModel.fromMap(responseModel.data['data']['cart']);
+      // cartSummaryModel.value =
+      //     CartSummaryModel.fromMap(responseModel.data['data']['cart']);
 
       _products.addAll(featchedData);
 

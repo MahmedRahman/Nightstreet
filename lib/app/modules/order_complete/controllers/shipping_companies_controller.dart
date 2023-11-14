@@ -7,13 +7,14 @@ class ShippingCompaniesController extends GetxController
     with StateMixin<List<ShippingCompaniesModel>> {
   getShppingCompanies({
     required String addressId,
+    required String marketId,
   }) async {
     change([], status: RxStatus.loading());
 
     ResponseModel responseModel = await WebServices().getShippingCompanies(
       addressId: addressId,
+      marketId: marketId,
     );
-
 
     if (responseModel.data["success"]) {
       final List<ShippingCompaniesModel> featchedData =

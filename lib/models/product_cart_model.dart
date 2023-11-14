@@ -1,4 +1,29 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+class MarketShippingCart {
+  final int marketId;
+  final String marketName;
+  final int marketProductCount;
+  final List<ProductCartModel> products;
+
+  MarketShippingCart({
+    required this.marketId,
+    required this.marketName,
+    required this.marketProductCount,
+    required this.products,
+  });
+
+  factory MarketShippingCart.fromMap(Map<String, dynamic> map) {
+    return MarketShippingCart(
+      marketId: map['id'] as int,
+      marketName: map['name'] as String,
+      marketProductCount: map['product_count'] as int,
+      products: List<ProductCartModel>.from(
+        (map['products'] as List<dynamic>).map<ProductCartModel>(
+          (x) => ProductCartModel.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
+    );
+  }
+}
 
 class ProductCartModel {
   final int productId;

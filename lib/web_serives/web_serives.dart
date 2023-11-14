@@ -317,8 +317,7 @@ class WebServices {
           "category_id": categoryId,
         },
       );
-    } catch (e) {
-    }
+    } catch (e) {}
 
     return await ApiManger().execute(
       url: "${ApiConfig.baseUrl}/complaints/store",
@@ -636,7 +635,6 @@ class WebServices {
 
     final url = "${ApiConfig.baseUrl}/offers/get?$queryString";
 
-
     return await ApiManger().execute(
       url: url,
       HTTPRequestMethod: HTTPRequestEnum.GET,
@@ -946,11 +944,13 @@ class WebServices {
     );
   }
 
-  Future<ResponseModel> getShippingCompanies(
-      {required String addressId}) async {
+  Future<ResponseModel> getShippingCompanies({
+    required String addressId,
+    required String marketId,
+  }) async {
     return await ApiManger().execute(
       url:
-          "${ApiConfig.baseUrl}/orders/get-shipping-companies?address_id=$addressId",
+          "${ApiConfig.baseUrl}/orders/get-shipping-companies?address_id=$addressId&market_id=$marketId",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
