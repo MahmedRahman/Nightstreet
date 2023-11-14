@@ -253,24 +253,26 @@ class HomePageView extends GetView {
     final bottomBarController = Get.find<MyBottomNavigationController>();
     return BaseScaffold(
       appBar: HomeAppBarView(),
-      body: ListView(
+      body: Padding(
         padding: AppDimension.appPadding,
-        children: [
-          SliderView.dyume(180),
-          AppSpacers.height10,
-          homeCard(
-            title: 'العروض',
-            onTap: () => bottomBarController.changePage(3),
-          ),
-          homeCard(
-            title: 'المنتجات',
-            onTap: () => bottomBarController.changePage(2),
-          ),
-          homeCard(
-            title: 'الخدمات',
-            onTap: () => bottomBarController.changePage(1),
-          ),
-        ],
+        child: Column(
+          children: [
+            SliderView.dyume(180),
+            AppSpacers.height10,
+            homeCard(
+              title: 'العروض',
+              onTap: () => bottomBarController.changePage(3),
+            ),
+            homeCard(
+              title: 'المنتجات',
+              onTap: () => bottomBarController.changePage(2),
+            ),
+            homeCard(
+              title: 'الخدمات',
+              onTap: () => bottomBarController.changePage(1),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -279,103 +281,104 @@ class HomePageView extends GetView {
     required String title,
     required Function() onTap,
   }) {
-    return InkWell(
-      onTap: onTap,
-      overlayColor: MaterialStatePropertyAll(Colors.transparent),
-      child: Container(
-        height: 129,
-        width: Get.width,
-        padding: const EdgeInsets.only(bottom: 16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            CashedNetworkImageView(
-                imageUrl:
-                    "https://img.freepik.com/free-photo/natural-elements-spa-with-beauty-cream_23-2148199484.jpg?w=1800&t=st=1699884415~exp=1699885015~hmac=01db13cdce03a1e6130ccda36bdb23241e3abb37bc4377571c6fbea835be436e"),
-            Positioned(
-              bottom: 60,
-              right: 22,
-              child: Container(
-                alignment: Alignment(0.19, -0.09),
-                width: 69.0,
-                height: 28.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(3.0),
-                  color: const Color(0xFF7D3A5B),
-                ),
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontFamily: 'Effra',
-                    fontSize: 14.0,
-                    color: Colors.white,
-                    letterSpacing: 0.14,
-                    height: 0.86,
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        overlayColor: MaterialStatePropertyAll(Colors.transparent),
+        child: Container(
+          width: Get.width,
+          padding: const EdgeInsets.only(bottom: 16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              CashedNetworkImageView(
+                  imageUrl:
+                      "https://img.freepik.com/free-photo/natural-elements-spa-with-beauty-cream_23-2148199484.jpg?w=1800&t=st=1699884415~exp=1699885015~hmac=01db13cdce03a1e6130ccda36bdb23241e3abb37bc4377571c6fbea835be436e"),
+              Positioned(
+                bottom: 60,
+                right: 22,
+                child: Container(
+                  alignment: Alignment(0.19, -0.09),
+                  width: 69.0,
+                  height: 28.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3.0),
+                    color: const Color(0xFF7D3A5B),
                   ),
-                  textAlign: TextAlign.right,
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.81),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        'خصومات تصل إلى',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: const Color(0xFF3B3B3B),
-                          fontWeight: FontWeight.w500,
-                          height: 1.36,
-                        ),
-                        textAlign: TextAlign.right,
-                      ),
-                      SizedBox(
-                        width: 27,
-                      ),
-                      Text(
-                        '30%',
-                        style: TextStyle(
-                          fontFamily: 'Effra',
-                          color: const Color(0xFF7D3A5B),
-                          fontWeight: FontWeight.w500,
-                          height: 1.36,
-                        ),
-                        textAlign: TextAlign.right,
-                      ),
-                      Spacer(),
-                      Text(
-                        'تسوق الآن',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: AppColors.blackColor,
-                          fontWeight: FontWeight.w500,
-                          height: 1.36,
-                        ),
-                        textAlign: TextAlign.right,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      SvgPicture.asset(AppSvgAssets.homeArrowIcon),
-                      SvgPicture.asset(AppSvgAssets.homeArrowIcon),
-                    ],
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontFamily: 'Effra',
+                      fontSize: 14.0,
+                      color: Colors.white,
+                      letterSpacing: 0.14,
+                      height: 0.86,
+                    ),
+                    textAlign: TextAlign.right,
                   ),
                 ),
               ),
-            )
-          ],
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.81),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          'خصومات تصل إلى',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: const Color(0xFF3B3B3B),
+                            fontWeight: FontWeight.w500,
+                            height: 1.36,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                        SizedBox(
+                          width: 27,
+                        ),
+                        Text(
+                          '30%',
+                          style: TextStyle(
+                            fontFamily: 'Effra',
+                            color: const Color(0xFF7D3A5B),
+                            fontWeight: FontWeight.w500,
+                            height: 1.36,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                        Spacer(),
+                        Text(
+                          'تسوق الآن',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: AppColors.blackColor,
+                            fontWeight: FontWeight.w500,
+                            height: 1.36,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        SvgPicture.asset(AppSvgAssets.homeArrowIcon),
+                        SvgPicture.asset(AppSvgAssets.homeArrowIcon),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
