@@ -1,4 +1,3 @@
-
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/address/list_addresses/controllers/delivery_addresses_controller.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
@@ -9,8 +8,9 @@ import 'package:krzv2/web_serives/web_serives.dart';
 class AddNewAddressController extends GetxController with StateMixin {
   @override
   void onInit() async {
-    change(null, status: RxStatus.success());
     super.onInit();
+
+    change(null, status: RxStatus.success());
   }
 
   void addNewAddress({
@@ -50,13 +50,13 @@ class AddNewAddressController extends GetxController with StateMixin {
           Get.back(closeOverlays: true);
         },
       );
-      change(null, status: RxStatus.success());
+      change("", status: RxStatus.success());
       return;
     } else {
       AppDialogs.showToast(
         message: responseModel.data["message"],
       );
-      change(null, status: RxStatus.success());
+      change("", status: RxStatus.success());
       return;
     }
 

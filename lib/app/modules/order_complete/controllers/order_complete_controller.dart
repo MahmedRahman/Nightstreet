@@ -14,6 +14,8 @@ class OrderCompleteController extends GetxController {
     required String partnerId,
     required String addressId,
     required String paymentMethod,
+        required String marketId,
+
   }) async {
     EasyLoading.show();
 
@@ -21,6 +23,7 @@ class OrderCompleteController extends GetxController {
       partnerId: partnerId,
       addressId: addressId,
       paymentMethod: paymentMethod,
+      marketId: marketId,
     );
     EasyLoading.dismiss();
     final authController = Get.find<AuthenticationController>();

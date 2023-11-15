@@ -18,7 +18,9 @@ import 'package:krzv2/utils/app_spacers.dart';
 import '../controllers/add_new_address_controller.dart';
 
 class AddNewAddressView extends GetView<AddNewAddressController> {
-  final formKey = GlobalKey<FormState>();
+  //final formKey = GlobalKey<FormState>();
+
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final specialController = TextEditingController();
 
@@ -70,8 +72,7 @@ class AddNewAddressView extends GetView<AddNewAddressController> {
                   outLineText: "علامه مميزه",
                   controller: specialController,
                   textInputAction: TextInputAction.next,
-                  onSubmitted: (_) =>
-                      FocusScope.of(context).requestFocus(addressFocusNode),
+                  onSubmitted: (_) => FocusScope.of(context).requestFocus(addressFocusNode),
                 ),
                 AppSpacers.height25,
                 SelectorView(
@@ -87,8 +88,7 @@ class AddNewAddressView extends GetView<AddNewAddressController> {
                   focusNode: addressFocusNode,
                   controller: addressController,
                   textInputAction: TextInputAction.next,
-                  onSubmitted: (_) =>
-                      FocusScope.of(context).requestFocus(phoneFocusNode),
+                  onSubmitted: (_) => FocusScope.of(context).requestFocus(phoneFocusNode),
                 ),
                 AppSpacers.height25,
                 TextFieldComponent.phone(

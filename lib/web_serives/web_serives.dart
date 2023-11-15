@@ -950,6 +950,8 @@ class WebServices {
     required String partnerId,
     required String addressId,
     required String paymentMethod,
+        required String marketId,
+
   }) async {
     return await ApiManger().execute(
       url: "${ApiConfig.baseUrl}/orders/request-order",
@@ -959,6 +961,8 @@ class WebServices {
         "payment_type": paymentMethod,
         "address_id": addressId,
         "partner_id": partnerId,
+                "market_id": marketId,
+
       },
     );
   }
