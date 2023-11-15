@@ -5,11 +5,12 @@ import 'package:krzv2/component/views/category_card_view.dart';
 class HomeCategoriesListView extends GetView {
   final List<dynamic> categoriesList;
   final Function(int) onCategoryTapped;
-  const HomeCategoriesListView({
+  HomeCategoriesListView({
     Key? key,
     required this.categoriesList,
     required this.onCategoryTapped,
   }) : super(key: key);
+  final RxString selectedId = '0'.obs;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,10 +28,22 @@ class HomeCategoriesListView extends GetView {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           final category = categoriesList.elementAt(index);
-          return CategoryCardView(
-            title: category['name'],
-            imageUrl: category['image'],
-            onTap: () => onCategoryTapped(category['id']),
+          // return CategoryCardView(
+          //   title: category['name'],
+          //   imageUrl: category['image'],
+          //   onTap: () => onCategoryTapped(category['id']),
+          // );
+
+          return Obx(
+            () => CategoryCardView(
+              title: category['name'],
+              imageUrl: category['image'],
+              isSelected: selectedId.value == category['id'].toString(),
+              onTap: () {
+                selectedId.value = category['id'].toString();
+                onCategoryTapped(category['id']);
+              },
+            ),
           );
         },
       ),

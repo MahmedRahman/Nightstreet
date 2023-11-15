@@ -141,7 +141,6 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
               return HomeCategoriesListView(
                 categoriesList: categoriesList,
                 onCategoryTapped: (int categoryId) async {
-                  print("object ${categoryId.toString()}");
                   marketController.currentPage = 1;
                   marketController.isPagination = false;
                   marketController.getMarket(
@@ -156,7 +155,6 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                 Get.toNamed(Routes.PRODUCTS_LIST);
               },
             ).shimmer(),
-            onEmpty: AppPageEmpty.productSearchP(),
           ),
           AppSpacers.height16,
           Padding(
@@ -206,6 +204,7 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                   },
                 );
               },
+              onEmpty: AppPageEmpty.noMarketFound(),
             ),
           ),
         ],

@@ -39,6 +39,21 @@ class AppPageEmpty extends StatelessWidget {
         description = "جرب كلمة رئيسية اخرى ، وحاول مرة اخرى",
         imagePath = AppSvgAssets.emptySearchIcon;
 
+  AppPageEmpty.notFound({
+    super.key,
+    // title = "لم يتم العثور على نتائج",
+  })  : title = "لم يتم العثور على نتائج",
+        description = "حاول مرة اخرى",
+        imagePath = AppSvgAssets.emptySearchIcon;
+
+
+  AppPageEmpty.noMarketFound({
+    super.key,
+    // title = "لم يتم العثور على نتائج",
+  })  : title = "لم يتم العثور على متاجر",
+        description = "حاول مرة اخرى",
+        imagePath = AppSvgAssets.emptySearchIcon;
+
   AppPageEmpty.serviceSearch({
     super.key,
   })  : title = "لم يتم العثور على نتائج",
@@ -66,8 +81,7 @@ class AppPageEmpty extends StatelessWidget {
   AppPageEmpty.ordersList({
     super.key,
   })  : title = "لم يتم العثور على طلبات !",
-        description =
-            "حاليا ليس لديك أي طلبات. عندما تطلب شيئًا \n \n ما. وسوف تظهر هنا ",
+        description = "حاليا ليس لديك أي طلبات. عندما تطلب شيئًا \n \n ما. وسوف تظهر هنا ",
         imagePath = AppSvgAssets.emptyOrdersIcon;
 
   AppPageEmpty.Favorite({

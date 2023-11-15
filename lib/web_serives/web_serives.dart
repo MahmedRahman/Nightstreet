@@ -1129,8 +1129,10 @@ class WebServices {
   }
 
   Future<ResponseModel> getMarket({String? categoryId}) async {
+    print("categoryId ${categoryId}");
+
     return await ApiManger().execute(
-      url: "${ApiConfig.baseUrl}/products/markets?category_id=${categoryId}",
+      url: "${ApiConfig.baseUrl}/products/markets?category_id=${categoryId == null ? "" : categoryId}",
       HTTPRequestMethod: HTTPRequestEnum.GET,
     );
   }
