@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
+import 'package:krzv2/app/modules/favorite/controllers/market_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/component/views/cards/clinic_card_view.dart';
+import 'package:krzv2/component/views/cards/market_card_view.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/component/views/cards/service_card_view.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
@@ -12,8 +14,10 @@ import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/tabs/base_switch_3_tap.dart';
+import 'package:krzv2/component/views/tabs/base_switch_4_tap.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/branch_model.dart';
+import 'package:krzv2/models/market_model.dart';
 import 'package:krzv2/models/product_model.dart';
 import 'package:krzv2/models/service_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
@@ -27,6 +31,7 @@ class FavoriteView extends GetView {
   final productFavController = Get.find<ProductFavoriteController>();
   final offerFavController = Get.find<OfferFavoriteController>();
   final clinicFavController = Get.find<CliniFavoriteController>();
+  final marketFavController = Get.find<MarketFavoriteController>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,13 +44,15 @@ class FavoriteView extends GetView {
         padding: AppDimension.appPadding,
         child: Column(
           children: [
-            BaseSwitch3Tap(
+            BaseSwitch4Tap(
               title1: "المنتجات",
               title2: "الخدمات",
               title3: "العيادات",
+              title4: "المتاجر",
               Widget1: FavoriteProducts(),
               Widget2: FavoriteService(),
               Widget3: FavoriteClinic(),
+              Widget4: FavoriteMarket(),
               onTap: (int index) {
                 selectedTapIndex.value = index;
                 refresh();
@@ -68,9 +75,14 @@ class FavoriteView extends GetView {
       offerFavController.onInit();
       return;
     }
+    if (selectedTapIndex.value == 2) {
+      clinicFavController.resetPaginationValues();
+      clinicFavController.onInit();
+      return;
+    }
 
-    clinicFavController.resetPaginationValues();
-    clinicFavController.onInit();
+    marketFavController.resetPaginationValues();
+    marketFavController.onInit();
   }
 }
 
@@ -299,6 +311,60 @@ class FavoriteClinic extends GetView<CliniFavoriteController> {
         ),
         onEmpty: AppPageEmpty.Favorite(
           description: 'قم بإضافة بعض العيادات',
+        ),
+      ),
+    );
+  }
+}
+
+class FavoriteMarket extends GetView<MarketFavoriteController> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: controller.obx(
+        (List<MarketModel>? marketsList) => ListView.builder(
+          padding: EdgeInsets.zero,
+          itemCount: marketsList?.length,
+          itemBuilder: (context, index) {
+            final market = marketsList?.elementAt(index);
+            return Padding(
+              padding: const EdgeInsets.only(
+                bottom: 8,
+              ),
+              child: MarketCardView(
+                isFavorite: market!.isFavorite,
+                imageUrl: market.image,
+                name: market.name,
+                onFavoriteTapped: () {
+                  controller.toggleFavorite(market.id);
+
+                  controller.addRemoveMarketFromFavorite(
+                    branchId: market.id,
+                    onError: () {
+                      controller.toggleFavorite(market.id);
+                    },
+                    onSuccess: () => controller.removeMarketFromList(market.id),
+                  );
+                },
+                onTapped: () {},
+              ),
+            );
+          },
+        ),
+        onLoading: ListView.builder(
+          padding: EdgeInsets.zero,
+          itemCount: 8,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(
+                bottom: 8,
+              ),
+              child: MarketCardView.dummy().shimmer(),
+            );
+          },
+        ),
+        onEmpty: AppPageEmpty.Favorite(
+          description: 'قم بإضافة بعض المتاجر',
         ),
       ),
     );

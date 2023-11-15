@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/appointment/appointment_address_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
+import 'package:krzv2/app/modules/favorite/controllers/market_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
 import 'package:krzv2/app/modules/home_page_products/controllers/home_page_products_slider_controller.dart';
@@ -21,6 +22,7 @@ class InitBindings extends Bindings {
     Get.put(ProductFavoriteController());
     Get.put(OfferFavoriteController());
     Get.put(CliniFavoriteController());
+    Get.put(MarketFavoriteController());
     Get.put(StaticPageService());
     Get.put(MyBottomNavigationController());
     Get.put(

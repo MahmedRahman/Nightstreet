@@ -1149,7 +1149,7 @@ class WebServices {
 
   Future<ResponseModel> getMarket() async {
     return await ApiManger().execute(
-      url: "${ApiConfig.baseUrl}/products/markets?name=",
+      url: "${ApiConfig.baseUrl}/products/markets",
       HTTPRequestMethod: HTTPRequestEnum.GET,
     );
   }

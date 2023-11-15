@@ -5,4 +5,4 @@ enum SliderEnum {
   non_home,
 }
 
-enum FavoriteEnum { product, offer, branch, doctor }
+enum FavoriteEnum { product, offer, branch, doctor, market }
