@@ -44,7 +44,6 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
         if (controller.shouldWatchFocus) {
           controller.navigateToSettings();
         }
-
         if (mapController.shouldWatchFocus) {
           final latlng = mapController.currentLocation.value;
 

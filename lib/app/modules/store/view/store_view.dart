@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/market_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_product_categories_controller.dart';
+import 'package:krzv2/app/modules/home_page/controllers/market_categories_controller.dart';
 import 'package:krzv2/app/modules/home_page_products/views/home_page_products_view.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/component/views/cards/market_card_view.dart';
@@ -11,10 +12,12 @@ import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/component/views/cards/service_card_view.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
+import 'package:krzv2/component/views/home_categories_list_view.dart';
 import 'package:krzv2/component/views/notification_icon_view.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
+import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
@@ -25,6 +28,7 @@ import 'package:krzv2/web_serives/web_serives.dart';
 class MarketPageController extends GetxController
     with StateMixin<List>, ScrollMixin {
   var MarketId;
+  final categoriesList = Rx<List<dynamic>?>([]);
   @override
   void onInit() {
     currentPage = 1;
@@ -33,13 +37,37 @@ class MarketPageController extends GetxController
   }
 
   List productList = [];
-  Future getProductByMarketId(String MarketId) async {
+  Future getProductByMarketId(String MarketId, {String? categoryId}) async {
     if (currentPage == 1) change(null, status: RxStatus.loading());
     ResponseModel responseModel = await WebServices().getProductsByMarketId(
       id: MarketId.toString(),
       page: currentPage.toString(),
+      categoryId: categoryId,
     );
     print(responseModel.data["success"].toString());
+    if (responseModel.data["success"]) {
+      if (responseModel.data["data"]["data"].isEmpty) {
+        change([], status: RxStatus.empty());
+        return;
+      }
+      productList.addAll(responseModel.data["data"]["data"]);
+
+      change(productList, status: RxStatus.loadingMore());
+
+      isPagination =
+          responseModel.data['data']['pagination']['is_pagination'] as bool;
+
+      return;
+    }
+
+    change([], status: RxStatus.error(responseModel.data["message"]));
+  }
+
+  Future getMarketCategories(String MarketId) async {
+    ResponseModel responseModel = await WebServices().getCategoriesByMarketId(
+      marketId: MarketId.toString(),
+    );
+
     if (responseModel.data["success"]) {
       if (responseModel.data["data"]["data"].isEmpty) {
         change([], status: RxStatus.empty());
@@ -93,6 +121,7 @@ class MarketPageController extends GetxController
 class MarketPage extends GetView<MarketPageController> {
   final authController = Get.find<AuthenticationController>();
   MarketPageController controller = Get.put(MarketPageController());
+  final marketCategoriesController = Get.put(MarketCategoriesController());
 
   var data;
 
@@ -101,6 +130,9 @@ class MarketPage extends GetView<MarketPageController> {
     print("object");
     controller.MarketId = data["id"].toString();
     controller.getProductByMarketId(data["id"].toString());
+    marketCategoriesController.getMarketCategories(
+      marketId: data["id"].toString(),
+    );
   }
   @override
   Widget build(BuildContext context) {
@@ -143,6 +175,33 @@ class MarketPage extends GetView<MarketPageController> {
                 ).paddingOnly(bottom: 10);
               },
             ),
+            AppSpacers.height16,
+            marketCategoriesController.obx(
+              (categoriesList) {
+                return HomeCategoriesListView(
+                  categoriesList: categoriesList,
+                  onCategoryTapped: (int categoryId) async {
+                    controller.currentPage = 1;
+                    controller.isPagination = false;
+                    controller.productList = [];
+                    controller.getProductByMarketId(
+                      data["id"].toString(),
+                      categoryId: categoryId.toString(),
+                    );
+                  },
+                );
+              },
+              onLoading: HomeCategoriesListView(
+                categoriesList: [],
+                onCategoryTapped: (int categoryId) {
+                  Get.toNamed(Routes.PRODUCTS_LIST);
+                },
+              ).shimmer(),
+              onEmpty: Center(
+                child: Text('لا توجد اقسام'),
+              ),
+            ),
+            AppSpacers.height16,
             Row(
               children: [
                 Text("منتجات"),
