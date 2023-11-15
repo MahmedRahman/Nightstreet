@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/services/cache_service.dart';
+import 'package:krzv2/utils/app_colors.dart';
 
 class PushNotificationService with CacheManager {
   AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -40,7 +44,6 @@ class PushNotificationService with CacheManager {
     )
         .then(
       (value) async {
-
         if (value.authorizationStatus == AuthorizationStatus.authorized) {
           final String? token = await getFCMToken();
           await saveFirebaseToken(token!);
@@ -48,8 +51,7 @@ class PushNotificationService with CacheManager {
           FirebaseMessaging.instance
               .getInitialMessage()
               .then((RemoteMessage? message) {
-            if (message != null) {
-            }
+            if (message != null) {}
           }).catchError((e) {});
 
           try {
@@ -71,31 +73,30 @@ class PushNotificationService with CacheManager {
                 );
               }
 
-              if (message.notification != null) {
-                print(
-                    'Message also contained a notification: ${message.notification}');
-              }
               Get.snackbar(
                 '',
                 '',
                 titleText: Text(
                   message.notification?.title ?? '',
-                  style: TextStyle(color: Color(0xff008066)),
+                  style: TextStyle(color: Colors.white),
                 ),
                 messageText: Text(
                   message.notification?.body ?? '',
-                  style: TextStyle(color: Color(0xff008066)),
+                  style: TextStyle(color: Colors.white),
                 ),
                 snackPosition: SnackPosition.TOP,
-                // icon: Padding(
-                //   padding: const EdgeInsets.only(right: 2, left: 2),
-                //   child: Image.asset("assets/images/logo_ar.png"),
-                // ),
-                backgroundColor: Colors.white,
+                icon: Padding(
+                  padding: const EdgeInsets.only(right: 2, left: 2),
+                  child: SvgPicture.asset(
+                    "assets/svg/splash_logo.svg",
+                    width: 20,
+                    height: 20,
+                  ),
+                ),
+                backgroundColor: AppColors.mainColor,
               );
             });
-          } catch (e) {
-          }
+          } catch (e) {}
 
           FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
             print(message.data.toString());
@@ -112,8 +113,9 @@ class PushNotificationService with CacheManager {
 
     try {
       fcmToken = await FirebaseMessaging.instance.getToken();
-    } catch (e) {
-    }
+      print('FCM_TOKEN $fcmToken');
+      await saveFirebaseToken(fcmToken!);
+    } catch (e) {}
 
     return fcmToken;
   }
