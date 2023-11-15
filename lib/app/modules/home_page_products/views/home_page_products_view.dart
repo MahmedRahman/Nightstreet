@@ -14,6 +14,7 @@ import 'package:krzv2/component/views/cards/service_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_categories_list_view.dart';
 import 'package:krzv2/component/views/notification_icon_view.dart';
+import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
 import 'package:krzv2/component/views/slider_view.dart';
@@ -27,16 +28,17 @@ import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 import '../controllers/home_page_products_controller.dart';
 
-class MarketController extends GetxController
-    with StateMixin<List>, ScrollMixin {
+class MarketController extends GetxController with StateMixin<List>, ScrollMixin {
   @override
   void onInit() {
     getMarket();
     super.onInit();
   }
 
-  Future getMarket() async {
-    ResponseModel responseModel = await WebServices().getMarket();
+  Future getMarket({String? categoryId}) async {
+    if (currentPage == 1) change(null, status: RxStatus.loading());
+
+    ResponseModel responseModel = await WebServices().getMarket(categoryId: categoryId);
 
     print(responseModel.data["success"].toString());
     if (responseModel.data["success"]) {
@@ -46,8 +48,7 @@ class MarketController extends GetxController
       }
       change(responseModel.data["data"]["data"], status: RxStatus.success());
 
-      isPagination =
-          responseModel.data['data']['pagination']['is_pagination'] as bool;
+      isPagination = responseModel.data['data']['pagination']['is_pagination'] as bool;
 
       return;
     }
@@ -94,16 +95,14 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
   final sliderController = Get.find<HomePageProductSliderController>();
   final mostSelleerProductController = Get.put(MostSelleerProductController());
   final cartController = Get.find<ShoppingCartController>();
-  final exclusiveOffersProductController =
-      Get.put(ExclusiveOffersProductController());
+  final exclusiveOffersProductController = Get.put(ExclusiveOffersProductController());
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: AppBarSerechView(
         placeHolder: 'ما الذي تريد البحث عنه ؟',
         actions: [
-          if (authController.isLoggedIn || authController.isGuestUser)
-            ShoppingCartIconView(),
+          if (authController.isLoggedIn || authController.isGuestUser) ShoppingCartIconView(),
           if (authController.isLoggedIn) NotificationIconView(),
           AppSpacers.width20,
         ],
@@ -142,14 +141,12 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
               return HomeCategoriesListView(
                 categoriesList: categoriesList,
                 onCategoryTapped: (int categoryId) async {
-                  final shoudRefresh = await Get.toNamed(
-                    Routes.PRODUCTS_LIST,
-                    arguments: categoryId.toString(),
+                  print("object ${categoryId.toString()}");
+                  marketController.currentPage = 1;
+                  marketController.isPagination = false;
+                  marketController.getMarket(
+                    categoryId: categoryId.toString(),
                   );
-                  if (shoudRefresh != null) {
-                    mostSelleerProductController.onInit();
-                    exclusiveOffersProductController.onInit();
-                  }
                 },
               );
             },
@@ -159,6 +156,7 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                 Get.toNamed(Routes.PRODUCTS_LIST);
               },
             ).shimmer(),
+            onEmpty: AppPageEmpty.productSearchP(),
           ),
           AppSpacers.height16,
           Padding(
@@ -186,11 +184,8 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                           imageUrl: data[index]["image"].toString(),
                           name: data[index]["name"].toString(),
                           onFavoriteTapped: () {
-                            if (Get.put(
-                                    AuthenticationController().isLoggedIn) ==
-                                false) {
-                              return AppDialogs.showToast(
-                                  message: 'الرجاء تسجيل الدخول');
+                            if (Get.put(AuthenticationController().isLoggedIn) == false) {
+                              return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                             }
 
                             favController.addRemoveMarketFromFavorite(
@@ -200,8 +195,7 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                           onTapped: () {
                             Get.to(MarketPage(data[index]));
                           },
-                          isFavorite:
-                              favController.marketsFavoriteIds.value!.contains(
+                          isFavorite: favController.marketsFavoriteIds.value!.contains(
                             data[index]["id"],
                           ),
                         ).paddingOnly(

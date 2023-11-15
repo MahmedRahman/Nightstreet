@@ -1,21 +1,7 @@
 import 'package:get/get.dart';
+import 'package:krzv2/web_serives/model/api_response_model.dart';
+import 'package:krzv2/web_serives/web_serives.dart';
 
 class HomePageProductsController extends GetxController {
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }
