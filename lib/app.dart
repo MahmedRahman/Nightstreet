@@ -20,17 +20,17 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  void initState() {
-    requestPermission();
+  // void initState() {
+  //   requestPermission();
 
-    FirebaseMessaging.onMessage.listen(
-      (RemoteMessage message) {
-        print(
-            'title => ${message.notification?.title ?? "empty title"}, message => ${message.notification?.body ?? "empty body"}');
-      },
-    );
-    super.initState();
-  }
+  //   FirebaseMessaging.onMessage.listen(
+  //     (RemoteMessage message) {
+  //       print(
+  //           'title => ${message.notification?.title ?? "empty title"}, message => ${message.notification?.body ?? "empty body"}');
+  //     },
+  //   );
+  //   super.initState();
+  // }
 
   void requestPermission() async {
     FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
