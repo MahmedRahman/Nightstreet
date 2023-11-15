@@ -1,3 +1,4 @@
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,6 +15,7 @@ import 'package:krzv2/component/views/order_complete_address_loading_view.dart';
 import 'package:krzv2/component/views/order_payment_methods_view.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
+import 'package:krzv2/models/cart_summary_model.dart';
 import 'package:krzv2/models/shipping_companies_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
 
@@ -49,7 +51,7 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
   final selectedAddress = Rx<dynamic>(null);
   @override
   Widget build(BuildContext context) {
-    // final cartSummary = cartController.cartSummaryModel.value;
+    final cartSummary = Get.arguments as CartSummaryModel;
     return GetBuilder<DeliveryAddressesController>(
       builder: (controller) {
         final addresse = controller.addresses.value;
@@ -134,50 +136,50 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Divider(),
               ),
-              // DecoratedContainer(
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(16),
-              //     child: Column(
-              //       children: [
-              //         AppSpacers.height16,
-              //         paymentSumaryItem(
-              //           title:
-              //               "اجمالي المستحق لـ ( ${cartSummary?.cartCount} منتج )",
-              //           value: "${cartSummary?.cartPrice} رس",
-              //         ),
-              //         AppSpacers.height16,
-              //         Obx(
-              //           () => paymentSumaryItem(
-              //             title: "مصاريف الشحــن",
-              //             value:
-              //                 "${selectedShippingCompany.value?.cost ?? 0} رس",
-              //           ),
-              //         ),
-              //         AppSpacers.height16,
-              //         paymentSumaryItem(
-              //           title: "ضريبة القيمة المضافة (15%)",
-              //           value: "${cartSummary?.cartTax} رس",
-              //         ),
-              //         AppSpacers.height12,
-              //         DottedLine(
-              //           dashLength: 10,
-              //           dashGapLength: 5,
-              //           lineThickness: 3,
-              //           dashColor: AppColors.borderColor2,
-              //         ),
-              //         AppSpacers.height12,
-              //         Obx(
-              //           () => paymentSumaryItem(
-              //             title: "الأجمالي المستحق للدفع",
-              //             value:
-              //                 "${(double.parse(cartSummary!.cartTotalPrice)) + (selectedShippingCompany.value?.cost ?? 0)}  رس",
-              //             textColor: AppColors.mainColor,
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
+              DecoratedContainer(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      AppSpacers.height16,
+                      paymentSumaryItem(
+                        title:
+                            "اجمالي المستحق لـ ( ${cartSummary?.cartCount} منتج )",
+                        value: "${cartSummary?.cartPrice} رس",
+                      ),
+                      AppSpacers.height16,
+                      Obx(
+                        () => paymentSumaryItem(
+                          title: "مصاريف الشحــن",
+                          value:
+                              "${selectedShippingCompany.value?.cost ?? 0} رس",
+                        ),
+                      ),
+                      AppSpacers.height16,
+                      paymentSumaryItem(
+                        title: "ضريبة القيمة المضافة (15%)",
+                        value: "${cartSummary?.cartTax} رس",
+                      ),
+                      AppSpacers.height12,
+                      DottedLine(
+                        dashLength: 10,
+                        dashGapLength: 5,
+                        lineThickness: 3,
+                        dashColor: AppColors.borderColor2,
+                      ),
+                      AppSpacers.height12,
+                      Obx(
+                        () => paymentSumaryItem(
+                          title: "الأجمالي المستحق للدفع",
+                          value:
+                              "${(double.parse(cartSummary!.cartTotalPrice)) + (selectedShippingCompany.value?.cost ?? 0)}  رس",
+                          textColor: AppColors.mainColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
           bottomBarHeight: 190,
@@ -188,7 +190,7 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                 Row(
                   children: [
                     Text(
-                      'مجموع المنتجات (3)',
+                      'مجموع المنتجات (${cartSummary!.cartCount})',
                       style: TextStyle(
                         fontSize: 16.0,
                         color: AppColors.blackColor,
@@ -201,8 +203,7 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                     Spacer(),
                     Obx(
                       () => Text(
-                        // "",÷
-                        "${(selectedShippingCompany.value?.cost ?? 0)}  رس",
+                        "${(double.parse(cartSummary.cartTotalPrice)) + (selectedShippingCompany.value?.cost ?? 0)}  رس",
                         style: TextStyle(
                           fontSize: 16.0,
                           color: AppColors.blackColor,
@@ -248,7 +249,8 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                               authController.userData!.walletBalance) ??
                           0.0;
 
-                      final amountToPay = 10;
+                      final amountToPay =
+                          double.tryParse(cartSummary.cartTotalPrice) ?? 0.0;
 
                       if (walletBalance < amountToPay) {
                         return AppDialogs.showToast(
@@ -488,7 +490,6 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                         () => customListTile(
                           onTap: () async {
                             try {
-                              
                               selectedAddress.value = addresses[index];
                               controller.update();
                               try {

@@ -41,9 +41,6 @@ class ShoppingCartController extends GetxController
               .map((category) => MarketShippingCart.fromMap(category)),
         );
 
-        // cartSummaryModel.value =
-        //     CartSummaryModel.fromMap(responseModel.data['data']['cart']);
-
         _products.addAll(featchedData);
 
         if (_products.isEmpty) {

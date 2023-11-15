@@ -196,6 +196,7 @@ class MarketComponentView extends GetView {
                         market.marketId.toString();
                     Get.toNamed(
                       Routes.ORDER_COMPLETE,
+                      arguments: market.summary,
                     );
                   },
                 ),
