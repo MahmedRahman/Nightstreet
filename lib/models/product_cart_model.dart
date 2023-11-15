@@ -1,14 +1,17 @@
+import 'package:krzv2/models/cart_summary_model.dart';
+
 class MarketShippingCart {
   final int marketId;
   final String marketName;
   final int marketProductCount;
   final List<ProductCartModel> products;
-
+  final CartSummaryModel summary;
   MarketShippingCart({
     required this.marketId,
     required this.marketName,
     required this.marketProductCount,
     required this.products,
+    required this.summary,
   });
 
   factory MarketShippingCart.fromMap(Map<String, dynamic> map) {
@@ -20,6 +23,9 @@ class MarketShippingCart {
         (map['products'] as List<dynamic>).map<ProductCartModel>(
           (x) => ProductCartModel.fromMap(x as Map<String, dynamic>),
         ),
+      ),
+      summary: CartSummaryModel.fromMap(
+        map['cart'],
       ),
     );
   }
