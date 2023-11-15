@@ -56,12 +56,20 @@ class MarketPageController extends GetxController with StateMixin<List>, ScrollM
   }
 
   int currentPage = 1;
-  bool? isPagination;
+  bool isPagination =false;
   @override
   Future<void> onEndScroll() async {
     if (isPagination == false) return;
 
     currentPage++;
+
+
+// AppDialog.showLoading().then (() asysn{
+//   await getProductByMarketId(MarketId);
+// },onFinsh:(){
+//    Get.back();
+// });
+
 
     Get.dialog(
       const Center(
