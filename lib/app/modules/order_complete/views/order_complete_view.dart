@@ -221,6 +221,13 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                       return;
                     }
 
+                    final walletBalance = double.tryParse(
+                            authController.userData!.walletBalance) ??
+                        0.0;
+
+                    final amountToPay =
+                        double.tryParse(cartSummary.cartTotalPrice) ?? 0.0;
+
                     final controller = Get.find<OrderCompleteController>();
                     if (selectedShippingCompany.value == null) {
                       return AppDialogs.showToast(message: 'اختر شركة الشحن');
@@ -244,13 +251,6 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
 
                     if (payWithWallet.value == true &&
                         payWithCredit.value == false) {
-                      final walletBalance = double.tryParse(
-                              authController.userData!.walletBalance) ??
-                          0.0;
-
-                      final amountToPay =
-                          double.tryParse(cartSummary.cartTotalPrice) ?? 0.0;
-
                       if (walletBalance < amountToPay) {
                         return AppDialogs.showToast(
                             message: 'ادفع الباقي عن طريق البطاقه الإئتمانية');
@@ -267,6 +267,10 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
 
                     if (payWithCredit.value == true &&
                         payWithWallet.value == true) {
+                      if (walletBalance >= amountToPay) {
+                        return AppDialogs.showToast(
+                            message: "رصيد المحفظة يكفي إختر طريقة دفع واحدة");
+                      }
                       controller.requestOrder(
                         partnerId: selectedShippingCompany.value!.id.toString(),
                         addressId: addressId.value,
