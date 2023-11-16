@@ -42,13 +42,6 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
         titleText: "تفاصيل الخدمة",
         actions: [
           if (authController.isLoggedIn) NotificationIconView(),
-          // CustomIconButton(
-          //   onTap: () {
-
-          //   },
-          //   iconPath: AppSvgAssets.notificationIcon,
-          //   count: 0,
-          // ),
           AppSpacers.width20,
         ],
       ),

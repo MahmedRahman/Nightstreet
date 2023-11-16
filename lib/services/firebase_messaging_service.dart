@@ -114,7 +114,6 @@ class PushNotificationService with CacheManager {
     try {
       fcmToken = await FirebaseMessaging.instance.getToken();
       print('FCM_TOKEN $fcmToken');
-      await saveFirebaseToken(fcmToken!);
     } catch (e) {}
 
     return fcmToken;

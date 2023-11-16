@@ -40,6 +40,7 @@ class WebServices {
         "code": code,
         "guest_token":
             authController.isGuestUser ? authController.guestToken : '',
+        "firebase_token": authController.fireBaseToken,
       },
     );
   }
@@ -950,8 +951,7 @@ class WebServices {
     required String partnerId,
     required String addressId,
     required String paymentMethod,
-        required String marketId,
-
+    required String marketId,
   }) async {
     return await ApiManger().execute(
       url: "${ApiConfig.baseUrl}/orders/request-order",
@@ -961,8 +961,7 @@ class WebServices {
         "payment_type": paymentMethod,
         "address_id": addressId,
         "partner_id": partnerId,
-                "market_id": marketId,
-
+        "market_id": marketId,
       },
     );
   }
