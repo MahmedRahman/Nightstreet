@@ -57,7 +57,7 @@ abstract class AppSvgAssets {
 
   static const String homeIcon = 'assets/svg/menu/home.svg';
   static const String servicesIcon = 'assets/svg/menu/service.svg';
-  static const String productsIcon = "assets/svg/menu/product.svg";
+  static const String productsIcon = "assets/svg/menu/market.svg";
   static const String offersIcon = "assets/svg/menu/offer.svg";
   static const String accountIcon = "assets/svg/menu/acount.svg";
 

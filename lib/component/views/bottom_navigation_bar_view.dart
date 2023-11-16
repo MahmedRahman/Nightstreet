@@ -101,6 +101,8 @@ class BottomNavigationBarView extends GetView<MyBottomNavigationController> {
       color: isSelected || svgAsset == AppSvgAssets.offersIcon
           ? AppColors.mainColor
           : AppColors.greyColor,
+      width: 20,
+      height: 20,
     );
   }
 }
