@@ -254,9 +254,9 @@ GridView productsList({
             imageUrl: product["image"].toString(),
             isAvailable: product["quantity"] > 1,
             name: product["name"].toString(),
-            hasDiscount: product["oldPrice"] != 0,
+            hasDiscount: product["old_price"] != 0,
             price: product["price"].toString(),
-            oldPrice: product["oldPrice"].toString(),
+            oldPrice: product["old_price"].toString(),
             onAddToCartTapped: () {
               if (product["variants"].isNotEmpty) {
                 AppDialogs.showToast(

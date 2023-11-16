@@ -243,8 +243,8 @@ class HomePageView extends GetView {
   final cartController = Get.find<ShoppingCartController>();
   final sliderController = Get.put(HomePageSliderController());
   final servicesController = Get.put(HomePageServiceController());
-  final serviceCategoriesController = Get.put(ServiceCategoriesController());
-  final productCategoriesController = Get.put(ProductCategoriesController());
+  final serviceCategoriesController = Get.find<ServiceCategoriesController>();
+  final productCategoriesController = Get.find<ProductCategoriesController>();
   final recommendedProductController = Get.put(RecommendedProductController());
   final bottomNavigationBarController = Get.put(MyBottomNavigationController());
 

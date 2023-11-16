@@ -210,7 +210,15 @@ class MarketComponentView extends GetView {
                 child: CustomBtnCompenent.secondary(
                   text: "إضافة منتج",
                   onTap: () async {
-                    Get.to(MarketPage({'id': market.marketId}));
+                    Get.to(
+                      MarketPage(
+                        {
+                          'id': market.marketId,
+                          "name": market.marketName,
+                          "image": market.marketImage,
+                        },
+                      ),
+                    );
                   },
                 ),
               )

@@ -153,7 +153,6 @@ class AuthenticationController extends GetxController with CacheManager {
       return;
     }
     await removeUserToken();
-    await removeFirebaseToken();
     loginAsGuest(
       firebaseToken: getFirebaseToken().toString(),
     );

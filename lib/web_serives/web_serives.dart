@@ -38,9 +38,9 @@ class WebServices {
       query: {
         "phone": phone,
         "code": code,
+        "firebase_token": authController.fireBaseToken,
         "guest_token":
             authController.isGuestUser ? authController.guestToken : '',
-        "firebase_token": authController.fireBaseToken,
       },
     );
   }

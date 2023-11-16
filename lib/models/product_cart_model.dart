@@ -3,12 +3,14 @@ import 'package:krzv2/models/cart_summary_model.dart';
 class MarketShippingCart {
   final int marketId;
   final String marketName;
+  final String marketImage;
   final int marketProductCount;
   final List<ProductCartModel> products;
   final CartSummaryModel summary;
   MarketShippingCart({
     required this.marketId,
     required this.marketName,
+    required this.marketImage,
     required this.marketProductCount,
     required this.products,
     required this.summary,
@@ -18,6 +20,7 @@ class MarketShippingCart {
     return MarketShippingCart(
       marketId: map['id'] as int,
       marketName: map['name'] as String,
+      marketImage: map['image'] as String,
       marketProductCount: map['product_count'] as int,
       products: List<ProductCartModel>.from(
         (map['products'] as List<dynamic>).map<ProductCartModel>(
