@@ -122,6 +122,7 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
       body: Padding(
         padding: AppDimension.appPadding,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AppSpacers.height10,
             sliderController.obx(
@@ -161,17 +162,13 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
               ).shimmer(),
             ),
             AppSpacers.height16,
-            Row(
-              children: [
-                Text(
-                  "المتاجر",
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                Spacer(),
-              ],
+            Text(
+              "المتاجر",
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.right,
             ),
             AppSpacers.height16,
             Expanded(

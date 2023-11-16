@@ -121,7 +121,7 @@ class MarketCardView extends GetView {
                             ? Html(data: desc)
                             : Text(
                                 _parseHtmlString(desc),
-                                maxLines: 3,
+                                maxLines: 4,
                                 overflow: TextOverflow.ellipsis,
                               ),
                       ),

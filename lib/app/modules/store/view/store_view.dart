@@ -150,6 +150,7 @@ class MarketPage extends GetView<MarketPageController> {
       body: Padding(
         padding: AppDimension.appPadding,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             GetBuilder<MarketFavoriteController>(
               init: MarketFavoriteController(),
@@ -205,13 +206,15 @@ class MarketPage extends GetView<MarketPageController> {
               ),
             ),
             AppSpacers.height16,
-            Row(
-              children: [
-                Text("منتجات"),
-                Spacer(),
-                //Text("عرض الكل"),
-              ],
+            Text(
+              "المنتجات",
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.right,
             ),
+            AppSpacers.height16,
             Expanded(
               child: controller.obx(
                 (data) {
@@ -222,6 +225,19 @@ class MarketPage extends GetView<MarketPageController> {
                   );
                 },
                 onEmpty: AppPageEmpty.productSearchP(),
+                onLoading: GridView.builder(
+                  itemCount: 4,
+                  padding: EdgeInsets.only(top: 10),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: (itemWidth / itemHeight) / .35,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemBuilder: (_, index) {
+                    return ProductCardView.dummy().shimmer();
+                  },
+                ),
               ),
             ),
           ],
@@ -241,7 +257,6 @@ GridView productsList({
   return GridView.builder(
     itemCount: products.length,
     controller: controller.scroll,
-    padding: EdgeInsets.only(top: 10),
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
       childAspectRatio: (itemWidth / itemHeight) / .35,
