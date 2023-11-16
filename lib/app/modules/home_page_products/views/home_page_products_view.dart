@@ -28,7 +28,8 @@ import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 import '../controllers/home_page_products_controller.dart';
 
-class MarketController extends GetxController with StateMixin<List>, ScrollMixin {
+class MarketController extends GetxController
+    with StateMixin<List>, ScrollMixin {
   @override
   void onInit() {
     getMarket();
@@ -38,7 +39,8 @@ class MarketController extends GetxController with StateMixin<List>, ScrollMixin
   Future getMarket({String? categoryId}) async {
     if (currentPage == 1) change(null, status: RxStatus.loading());
 
-    ResponseModel responseModel = await WebServices().getMarket(categoryId: categoryId);
+    ResponseModel responseModel =
+        await WebServices().getMarket(categoryId: categoryId);
 
     print(responseModel.data["success"].toString());
     if (responseModel.data["success"]) {
@@ -48,7 +50,8 @@ class MarketController extends GetxController with StateMixin<List>, ScrollMixin
       }
       change(responseModel.data["data"]["data"], status: RxStatus.success());
 
-      isPagination = responseModel.data['data']['pagination']['is_pagination'] as bool;
+      isPagination =
+          responseModel.data['data']['pagination']['is_pagination'] as bool;
 
       return;
     }
@@ -95,14 +98,16 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
   final sliderController = Get.find<HomePageProductSliderController>();
   final mostSelleerProductController = Get.put(MostSelleerProductController());
   final cartController = Get.find<ShoppingCartController>();
-  final exclusiveOffersProductController = Get.put(ExclusiveOffersProductController());
+  final exclusiveOffersProductController =
+      Get.put(ExclusiveOffersProductController());
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: AppBarSerechView(
         placeHolder: 'ما الذي تريد البحث عنه ؟',
         actions: [
-          if (authController.isLoggedIn || authController.isGuestUser) ShoppingCartIconView(),
+          if (authController.isLoggedIn || authController.isGuestUser)
+            ShoppingCartIconView(),
           if (authController.isLoggedIn) NotificationIconView(),
           AppSpacers.width20,
         ],
@@ -114,12 +119,12 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
           }
         },
       ),
-      body: Column(
-        children: [
-          AppSpacers.height10,
-          Padding(
-            padding: AppDimension.appPadding,
-            child: sliderController.obx(
+      body: Padding(
+        padding: AppDimension.appPadding,
+        child: Column(
+          children: [
+            AppSpacers.height10,
+            sliderController.obx(
               (slidersList) {
                 return SliderView(
                   images: slidersList!.map((slider) => slider.image).toList(),
@@ -134,80 +139,85 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                 ),
               ).shimmer(),
             ),
-          ),
-          AppSpacers.height16,
-          productCategoriesController.obx(
-            (categoriesList) {
-              return HomeCategoriesListView(
-                categoriesList: categoriesList,
-                onCategoryTapped: (int categoryId) async {
-                  marketController.currentPage = 1;
-                  marketController.isPagination = false;
-                  marketController.getMarket(
-                    categoryId: categoryId.toString(),
-                  );
-                },
-              );
-            },
-            onLoading: HomeCategoriesListView(
-              categoriesList: [],
-              onCategoryTapped: (int categoryId) {
-                Get.toNamed(Routes.PRODUCTS_LIST);
-              },
-            ).shimmer(),
-          ),
-          AppSpacers.height16,
-          Padding(
-            padding: AppDimension.appPadding,
-            child: Row(
-              children: [
-                Text("المتاجر"),
-                Spacer(),
-                Text("عرض الكل"),
-              ],
-            ),
-          ),
-          AppSpacers.height16,
-          Expanded(
-            child: marketController.obx(
-              (data) {
-                return ListView.builder(
-                  padding: AppDimension.appPadding,
-                  itemCount: data!.length,
-                  itemBuilder: (context, index) {
-                    return GetBuilder<MarketFavoriteController>(
-                      init: MarketFavoriteController(),
-                      builder: (favController) {
-                        return MarketCardView(
-                          imageUrl: data[index]["image"].toString(),
-                          name: data[index]["name"].toString(),
-                          onFavoriteTapped: () {
-                            if (Get.put(AuthenticationController().isLoggedIn) == false) {
-                              return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
-                            }
-
-                            favController.addRemoveMarketFromFavorite(
-                              branchId: data[index]["id"],
-                            );
-                          },
-                          onTapped: () {
-                            Get.to(MarketPage(data[index]));
-                          },
-                          isFavorite: favController.marketsFavoriteIds.value!.contains(
-                            data[index]["id"],
-                          ),
-                        ).paddingOnly(
-                          bottom: 10,
-                        );
-                      },
+            AppSpacers.height16,
+            productCategoriesController.obx(
+              (categoriesList) {
+                return HomeCategoriesListView(
+                  categoriesList: categoriesList,
+                  onCategoryTapped: (int categoryId) async {
+                    marketController.currentPage = 1;
+                    marketController.isPagination = false;
+                    marketController.getMarket(
+                      categoryId: categoryId.toString(),
                     );
                   },
                 );
               },
-              onEmpty: AppPageEmpty.noMarketFound(),
+              onLoading: HomeCategoriesListView(
+                categoriesList: [],
+                onCategoryTapped: (int categoryId) {
+                  Get.toNamed(Routes.PRODUCTS_LIST);
+                },
+              ).shimmer(),
             ),
-          ),
-        ],
+            AppSpacers.height16,
+            Row(
+              children: [
+                Text(
+                  "المتاجر",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Spacer(),
+              ],
+            ),
+            AppSpacers.height16,
+            Expanded(
+              child: marketController.obx(
+                (data) {
+                  return ListView.builder(
+                    itemCount: data!.length,
+                    itemBuilder: (context, index) {
+                      return GetBuilder<MarketFavoriteController>(
+                        init: MarketFavoriteController(),
+                        builder: (favController) {
+                          return MarketCardView(
+                            imageUrl: data[index]["image"].toString(),
+                            name: data[index]["name"].toString(),
+                            onFavoriteTapped: () {
+                              if (Get.put(
+                                      AuthenticationController().isLoggedIn) ==
+                                  false) {
+                                return AppDialogs.showToast(
+                                    message: 'الرجاء تسجيل الدخول');
+                              }
+
+                              favController.addRemoveMarketFromFavorite(
+                                branchId: data[index]["id"],
+                              );
+                            },
+                            onTapped: () {
+                              Get.to(MarketPage(data[index]));
+                            },
+                            isFavorite: favController.marketsFavoriteIds.value!
+                                .contains(
+                              data[index]["id"],
+                            ),
+                          ).paddingOnly(
+                            bottom: 10,
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+                onEmpty: AppPageEmpty.noMarketFound(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

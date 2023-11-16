@@ -264,11 +264,11 @@ class HomePageView extends GetView {
               onTap: () => bottomBarController.changePage(3),
             ),
             homeCard(
-              title: 'المنتجات',
+              title: 'المتاجر',
               onTap: () => bottomBarController.changePage(2),
             ),
             homeCard(
-              title: 'الخدمات',
+              title: 'العيادات',
               onTap: () => bottomBarController.changePage(1),
             ),
           ],

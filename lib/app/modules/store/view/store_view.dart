@@ -21,6 +21,7 @@ import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
+import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
@@ -147,7 +148,7 @@ class MarketPage extends GetView<MarketPageController> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: AppDimension.appPadding,
         child: Column(
           children: [
             GetBuilder<MarketFavoriteController>(
