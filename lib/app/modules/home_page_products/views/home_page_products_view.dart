@@ -186,6 +186,7 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                           return MarketCardView(
                             imageUrl: data[index]["image"].toString(),
                             name: data[index]["name"].toString(),
+                            desc: data[index]["desc"].toString(),
                             onFavoriteTapped: () {
                               if (Get.put(
                                       AuthenticationController().isLoggedIn) ==

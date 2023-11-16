@@ -158,6 +158,8 @@ class MarketPage extends GetView<MarketPageController> {
                 return MarketCardView(
                   imageUrl: data["image"].toString(),
                   name: data["name"].toString(),
+                  desc: data["desc"].toString(),
+                  displayFullDesc: true,
                   isFavorite: favController.marketsFavoriteIds.value!.contains(
                     data["id"],
                   ),
