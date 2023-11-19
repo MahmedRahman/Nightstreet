@@ -208,7 +208,8 @@ class TextFieldComponent extends StatefulWidget {
             IsBetween(
               min: 5,
               max: 30,
-              message: "يجب ان يكون العنوان - على الاقل 5 حروف",
+              message:
+                  "يجب ان يكون العنوان - على الاقل 5 حروف وعلي الاكثر 30 حرف",
             ),
           ],
         );
@@ -268,7 +269,8 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
           Focus(
             canRequestFocus: false,
             onFocusChange: (hasFocus) {
-              if (widget.keyboardType == TextInputType.number || widget.keyboardType == TextInputType.phone) {
+              if (widget.keyboardType == TextInputType.number ||
+                  widget.keyboardType == TextInputType.phone) {
                 if (hasFocus) {
                   return _insertHintOverlay(
                     context: context,
@@ -358,7 +360,8 @@ void _insertHintOverlay({
       child: ClipRect(
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 33.0, sigmaY: 33.0),
-          child: keyboardType == TextInputType.number || keyboardType == TextInputType.phone
+          child: keyboardType == TextInputType.number ||
+                  keyboardType == TextInputType.phone
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -404,7 +407,8 @@ void _insertHintOverlay({
                   duration: const Duration(milliseconds: 260),
                   curve: Curves.ease,
                   child: _hintFooter,
-                  height: isKeyboardVisible ? _hintFooter.preferredSize.height : 0,
+                  height:
+                      isKeyboardVisible ? _hintFooter.preferredSize.height : 0,
                 ),
               ],
             ),
