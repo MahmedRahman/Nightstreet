@@ -105,7 +105,7 @@ class ProductSearchView extends GetView<ProductSearchController> {
                 );
               },
               onFavoriteTapped: () {
-                if (Get.put(AuthenticationController().isLoggedIn) == false) {
+                if (Get.find<AuthenticationController>().isLoggedIn == false) {
                   return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                 }
                 final favCon = Get.put<ProductFavoriteController>(

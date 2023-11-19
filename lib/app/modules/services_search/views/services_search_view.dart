@@ -112,7 +112,8 @@ class ServiceSearchView extends GetView<ServicesSearchController> {
                 price: service.price.toString(),
                 oldPrice: service.oldPrice.toString(),
                 onFavoriteTapped: () {
-                  if (Get.put(AuthenticationController().isLoggedIn) == false) {
+                  if (Get.find<AuthenticationController>().isLoggedIn ==
+                      false) {
                     return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                   }
 
@@ -174,7 +175,7 @@ class ClinicsSearchView extends GetView<BranchSearchController> {
                     );
                   },
                   onFavoriteTapped: () {
-                    if (Get.put(AuthenticationController().isLoggedIn) ==
+                    if (Get.find<AuthenticationController>().isLoggedIn ==
                         false) {
                       return AppDialogs.showToast(
                           message: 'الرجاء تسجيل الدخول');

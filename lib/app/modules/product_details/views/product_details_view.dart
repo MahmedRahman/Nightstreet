@@ -95,7 +95,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                 children: [
                   FavoriteIconView(
                     onFavoriteTapped: () {
-                      if (Get.put(AuthenticationController().isLoggedIn) ==
+                      if (Get.find<AuthenticationController>().isLoggedIn ==
                           false) {
                         return AppDialogs.showToast(
                             message: 'الرجاء تسجيل الدخول');
@@ -244,6 +244,9 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                 );
               },
               onFavoriteTapped: (int productId) {
+                if (Get.find<AuthenticationController>().isLoggedIn == false) {
+                  return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                }
                 final favCon = Get.put<ProductFavoriteController>(
                   ProductFavoriteController(),
                 );

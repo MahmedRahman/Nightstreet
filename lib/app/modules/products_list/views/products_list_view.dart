@@ -135,6 +135,9 @@ class ProductsListView extends GetView<ProductsListController> {
                 );
               },
               onFavoriteTapped: () {
+                if (Get.find<AuthenticationController>().isLoggedIn == false) {
+                  return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                }
                 final favCon = Get.put<ProductFavoriteController>(
                   ProductFavoriteController(),
                 );

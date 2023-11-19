@@ -185,8 +185,8 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                             name: data[index]["name"].toString(),
                             desc: data[index]["desc"].toString(),
                             onFavoriteTapped: () {
-                              if (Get.put(
-                                      AuthenticationController().isLoggedIn) ==
+                              if (Get.find<AuthenticationController>()
+                                      .isLoggedIn ==
                                   false) {
                                 return AppDialogs.showToast(
                                     message: 'الرجاء تسجيل الدخول');

@@ -52,7 +52,7 @@ class RecommendedServicesListView extends GetView {
                       price: service.price.toString(),
                       oldPrice: service.oldPrice.toString(),
                       onFavoriteTapped: () {
-                        if (Get.put(AuthenticationController().isLoggedIn) ==
+                        if (Get.find<AuthenticationController>().isLoggedIn ==
                             false) {
                           return AppDialogs.showToast(
                               message: 'الرجاء تسجيل الدخول');

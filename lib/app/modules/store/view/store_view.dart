@@ -165,7 +165,7 @@ class MarketPage extends GetView<MarketPageController> {
                     data["id"],
                   ),
                   onFavoriteTapped: () {
-                    if (Get.put(AuthenticationController().isLoggedIn) ==
+                    if (Get.find<AuthenticationController>().isLoggedIn ==
                         false) {
                       return AppDialogs.showToast(
                           message: 'الرجاء تسجيل الدخول');
@@ -304,6 +304,9 @@ GridView productsList({
               );
             },
             onFavoriteTapped: () {
+              if (Get.find<AuthenticationController>().isLoggedIn == false) {
+                return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+              }
               final favCon = Get.put<ProductFavoriteController>(
                 ProductFavoriteController(),
               );

@@ -73,8 +73,10 @@ class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
                   name: branch.name,
                   onTap: () {},
                   onFavoriteTapped: () {
-                    if (Get.put(AuthenticationController().isLoggedIn) == false) {
-                      return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                    if (Get.find<AuthenticationController>().isLoggedIn ==
+                        false) {
+                      return AppDialogs.showToast(
+                          message: 'الرجاء تسجيل الدخول');
                     }
 
                     final favCon = Get.put<CliniFavoriteController>(
@@ -138,7 +140,8 @@ class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
                       padding: const EdgeInsets.only(bottom: 10),
                       child: addressCard(
                         address: branch.otherBranches!.elementAt(index).name,
-                        isCurrentAddress: branch.otherBranches!.elementAt(index).current,
+                        isCurrentAddress:
+                            branch.otherBranches!.elementAt(index).current,
                       ),
                     );
                   },
@@ -228,6 +231,11 @@ class ClinicServicesPage extends GetView<ClinicServicesController> {
                       price: offer.price.toString(),
                       oldPrice: offer.oldPrice.toString(),
                       onFavoriteTapped: () {
+                        if (Get.find<AuthenticationController>().isLoggedIn ==
+                            false) {
+                          return AppDialogs.showToast(
+                              message: 'الرجاء تسجيل الدخول');
+                        }
                         final favCon = Get.put<OfferFavoriteController>(
                           OfferFavoriteController(),
                         );
