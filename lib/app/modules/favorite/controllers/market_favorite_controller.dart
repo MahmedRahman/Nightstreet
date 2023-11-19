@@ -65,6 +65,7 @@ class MarketFavoriteController extends GetxController
     Function()? onError,
     Function()? onSuccess,
   }) async {
+    addRemoveLocalList(branchId);
     ResponseModel response = await WebServices().addAndDeleteFavorites(
       id: branchId.toString(),
       type: FavoriteEnum.market.name,
@@ -77,7 +78,6 @@ class MarketFavoriteController extends GetxController
       return;
     }
 
-    addRemoveLocalList(branchId);
     if (onSuccess != null) onSuccess();
   }
 

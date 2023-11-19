@@ -66,6 +66,7 @@ class OfferFavoriteController extends GetxController
     Function()? onError,
     Function()? onSuccess,
   }) async {
+    addRemoveLocalList(offerId);
     ResponseModel response = await WebServices().addAndDeleteFavorites(
       id: offerId.toString(),
       type: FavoriteEnum.offer.name,
@@ -77,7 +78,7 @@ class OfferFavoriteController extends GetxController
       AppDialogs.showToast(message: response.data["message"]);
       return;
     }
-    addRemoveLocalList(offerId);
+
     if (onSuccess != null) onSuccess();
   }
 
@@ -133,6 +134,5 @@ class OfferFavoriteController extends GetxController
   }
 
   @override
-  Future<void> onTopScroll() async {
-  }
+  Future<void> onTopScroll() async {}
 }

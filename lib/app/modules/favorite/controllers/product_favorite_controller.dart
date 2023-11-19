@@ -67,6 +67,7 @@ class ProductFavoriteController extends GetxController
     Function()? onError,
     Function()? onSuccess,
   }) async {
+    addRemoveLocalList(productId);
     ResponseModel response = await WebServices().addAndDeleteFavorites(
       id: productId.toString(),
       type: FavoriteEnum.product.name,
@@ -80,7 +81,6 @@ class ProductFavoriteController extends GetxController
     }
 
     if (onSuccess != null) onSuccess();
-    addRemoveLocalList(productId);
   }
 
   bool productIsFavorite(int productId) =>
@@ -135,6 +135,5 @@ class ProductFavoriteController extends GetxController
   }
 
   @override
-  Future<void> onTopScroll() async {
-  }
+  Future<void> onTopScroll() async {}
 }
