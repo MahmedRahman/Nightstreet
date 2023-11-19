@@ -40,7 +40,7 @@ class VerifyPhoneView extends GetView {
             child: Column(
               children: [
                 AuthHeader.verifyCode(
-                  customerPhone: Get.arguments.toString(),
+                  customerPhone: phoneNumber,
                 ),
                 AppSpacers.height60,
                 PinCodeField(

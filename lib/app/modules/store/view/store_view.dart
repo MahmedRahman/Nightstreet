@@ -179,7 +179,16 @@ class MarketPage extends GetView<MarketPageController> {
                 ).paddingOnly(bottom: 10);
               },
             ),
-            AppSpacers.height16,
+            AppSpacers.height12,
+            Text(
+              "المنتجات",
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.right,
+            ),
+            AppSpacers.height12,
             marketCategoriesController.obx(
               (categoriesList) {
                 return HomeCategoriesListView(
@@ -205,16 +214,7 @@ class MarketPage extends GetView<MarketPageController> {
                 child: Text('لا توجد اقسام'),
               ),
             ),
-            AppSpacers.height16,
-            Text(
-              "المنتجات",
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w500,
-              ),
-              textAlign: TextAlign.right,
-            ),
-            AppSpacers.height16,
+            AppSpacers.height12,
             Expanded(
               child: controller.obx(
                 (data) {

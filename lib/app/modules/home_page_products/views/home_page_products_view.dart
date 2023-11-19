@@ -140,7 +140,16 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                 ),
               ).shimmer(),
             ),
-            AppSpacers.height16,
+            AppSpacers.height12,
+            Text(
+              "المتاجر",
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.right,
+            ),
+            AppSpacers.height12,
             productCategoriesController.obx(
               (categoriesList) {
                 return HomeCategoriesListView(
@@ -161,16 +170,7 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                 },
               ).shimmer(),
             ),
-            AppSpacers.height16,
-            Text(
-              "المتاجر",
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w500,
-              ),
-              textAlign: TextAlign.right,
-            ),
-            AppSpacers.height16,
+            AppSpacers.height12,
             Expanded(
               child: marketController.obx(
                 (data) {
