@@ -2,6 +2,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/order_complete/controllers/order_complete_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/app/modules/store/view/store_view.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
@@ -194,9 +195,12 @@ class MarketComponentView extends GetView {
                     }
                     cartController.selectedMarketId.value =
                         market.marketId.toString();
+
+                    Get.put(OrderCompleteController()).cartSummary.value =
+                        market.summary;
+
                     Get.toNamed(
                       Routes.ORDER_COMPLETE,
-                      arguments: market.summary,
                     );
                   },
                 ),
@@ -206,7 +210,15 @@ class MarketComponentView extends GetView {
                 child: CustomBtnCompenent.secondary(
                   text: "إضافة منتج",
                   onTap: () async {
-                    Get.to(MarketPage({'id': market.marketId}));
+                    Get.to(
+                      MarketPage(
+                        {
+                          'id': market.marketId,
+                          "name": market.marketName,
+                          "image": market.marketImage,
+                        },
+                      ),
+                    );
                   },
                 ),
               )

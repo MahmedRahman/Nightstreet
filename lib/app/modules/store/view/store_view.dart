@@ -21,6 +21,7 @@ import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
+import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
@@ -147,8 +148,9 @@ class MarketPage extends GetView<MarketPageController> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: AppDimension.appPadding,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             GetBuilder<MarketFavoriteController>(
               init: MarketFavoriteController(),
@@ -157,11 +159,13 @@ class MarketPage extends GetView<MarketPageController> {
                 return MarketCardView(
                   imageUrl: data["image"].toString(),
                   name: data["name"].toString(),
+                  desc: data["desc"].toString(),
+                  displayFullDesc: true,
                   isFavorite: favController.marketsFavoriteIds.value!.contains(
                     data["id"],
                   ),
                   onFavoriteTapped: () {
-                    if (Get.put(AuthenticationController().isLoggedIn) ==
+                    if (Get.find<AuthenticationController>().isLoggedIn ==
                         false) {
                       return AppDialogs.showToast(
                           message: 'الرجاء تسجيل الدخول');
@@ -202,13 +206,15 @@ class MarketPage extends GetView<MarketPageController> {
               ),
             ),
             AppSpacers.height16,
-            Row(
-              children: [
-                Text("منتجات"),
-                Spacer(),
-                //Text("عرض الكل"),
-              ],
+            Text(
+              "المنتجات",
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.right,
             ),
+            AppSpacers.height16,
             Expanded(
               child: controller.obx(
                 (data) {
@@ -219,6 +225,19 @@ class MarketPage extends GetView<MarketPageController> {
                   );
                 },
                 onEmpty: AppPageEmpty.productSearchP(),
+                onLoading: GridView.builder(
+                  itemCount: 4,
+                  padding: EdgeInsets.only(top: 10),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: (itemWidth / itemHeight) / .35,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemBuilder: (_, index) {
+                    return ProductCardView.dummy().shimmer();
+                  },
+                ),
               ),
             ),
           ],
@@ -238,7 +257,6 @@ GridView productsList({
   return GridView.builder(
     itemCount: products.length,
     controller: controller.scroll,
-    padding: EdgeInsets.only(top: 10),
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
       childAspectRatio: (itemWidth / itemHeight) / .35,
@@ -254,9 +272,9 @@ GridView productsList({
             imageUrl: product["image"].toString(),
             isAvailable: product["quantity"] > 1,
             name: product["name"].toString(),
-            hasDiscount: product["oldPrice"] != 0,
+            hasDiscount: product["old_price"] != 0,
             price: product["price"].toString(),
-            oldPrice: product["oldPrice"].toString(),
+            oldPrice: product["old_price"].toString(),
             onAddToCartTapped: () {
               if (product["variants"].isNotEmpty) {
                 AppDialogs.showToast(
@@ -286,6 +304,9 @@ GridView productsList({
               );
             },
             onFavoriteTapped: () {
+              if (Get.find<AuthenticationController>().isLoggedIn == false) {
+                return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+              }
               final favCon = Get.put<ProductFavoriteController>(
                 ProductFavoriteController(),
               );

@@ -66,12 +66,12 @@ class BottomNavigationBarView extends GetView<MyBottomNavigationController> {
       _buildNavigationBarItem(
         AppSvgAssets.servicesIcon,
         controller.currentIndex.value == 1,
-        "الخدمات",
+        "العيادات",
       ),
       _buildNavigationBarItem(
         AppSvgAssets.productsIcon,
         controller.currentIndex.value == 2,
-        "المنتجات",
+        "المتاجر",
       ),
       _buildNavigationBarItem(
         AppSvgAssets.offersIcon,
@@ -101,6 +101,8 @@ class BottomNavigationBarView extends GetView<MyBottomNavigationController> {
       color: isSelected || svgAsset == AppSvgAssets.offersIcon
           ? AppColors.mainColor
           : AppColors.greyColor,
+      width: 20,
+      height: 20,
     );
   }
 }

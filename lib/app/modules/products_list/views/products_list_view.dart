@@ -135,6 +135,9 @@ class ProductsListView extends GetView<ProductsListController> {
                 );
               },
               onFavoriteTapped: () {
+                if (Get.find<AuthenticationController>().isLoggedIn == false) {
+                  return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                }
                 final favCon = Get.put<ProductFavoriteController>(
                   ProductFavoriteController(),
                 );
@@ -152,7 +155,6 @@ class ProductsListView extends GetView<ProductsListController> {
                 );
               },
             );
-          
           },
         );
       },
@@ -165,7 +167,7 @@ class ProductsListView extends GetView<ProductsListController> {
       padding: EdgeInsets.only(top: 10),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: (itemWidth / itemHeight) / .42,
+        childAspectRatio: (itemWidth / itemHeight) / .35,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
       ),

@@ -98,7 +98,7 @@ class ProductsHotizontalListView extends GetView {
                     price: product.price.toString(),
                     onAddToCartTapped: () => onAddToCartTapped!(product),
                     onFavoriteTapped: () {
-                      if (Get.put(AuthenticationController().isLoggedIn) ==
+                      if (Get.find<AuthenticationController>().isLoggedIn ==
                           false) {
                         return AppDialogs.showToast(
                             message: 'الرجاء تسجيل الدخول');

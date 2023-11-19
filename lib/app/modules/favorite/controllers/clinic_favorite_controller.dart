@@ -66,6 +66,7 @@ class CliniFavoriteController extends GetxController
     Function()? onError,
     Function()? onSuccess,
   }) async {
+    addRemoveLocalList(branchId);
     ResponseModel response = await WebServices().addAndDeleteFavorites(
       id: branchId.toString(),
       type: FavoriteEnum.branch.name,
@@ -78,7 +79,6 @@ class CliniFavoriteController extends GetxController
       return;
     }
 
-    addRemoveLocalList(branchId);
     if (onSuccess != null) onSuccess();
   }
 

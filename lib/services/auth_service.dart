@@ -18,6 +18,7 @@ class AuthenticationController extends GetxController with CacheManager {
   bool get isLoggedIn => getUserToken() != null;
 
   String get token => getUserToken() ?? '';
+  String get fireBaseToken => getFirebaseToken() ?? '';
   String get guestToken => getGuestToken() ?? '';
   bool get isGuestUser => (getUserType() ?? '') == UserType.guest.name;
 
@@ -152,7 +153,6 @@ class AuthenticationController extends GetxController with CacheManager {
       return;
     }
     await removeUserToken();
-    await removeFirebaseToken();
     loginAsGuest(
       firebaseToken: getFirebaseToken().toString(),
     );

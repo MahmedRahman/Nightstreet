@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/store/view/store_view.dart';
 import 'package:krzv2/component/views/cashed_network_image_view.dart';
@@ -7,17 +8,14 @@ import 'package:krzv2/component/views/price_with_discount_view.dart';
 import 'package:krzv2/component/views/rating_bar_view.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
+import 'package:html/parser.dart';
 
 class MarketCardView extends GetView {
   final String imageUrl;
   final String name;
-  // final bool hasDiscount;
-  // final String price;
+  final String desc;
   final double maxWidth;
-  // final String oldPrice;
-  // final String rate;
-  // final String totalRate;
-  //final EdgeInsetsGeometry? margin;
+  final bool? displayFullDesc;
   final Function()? onFavoriteTapped;
   final Function()? onTapped;
 
@@ -28,6 +26,8 @@ class MarketCardView extends GetView {
     Key? key,
     required this.imageUrl,
     required this.name,
+    required this.desc,
+    this.displayFullDesc = false,
     required this.onFavoriteTapped,
     required this.onTapped,
     this.maxWidth = double.infinity,
@@ -38,10 +38,12 @@ class MarketCardView extends GetView {
   MarketCardView.dummy({
     Key? key,
     this.showFavoriteIcon = true,
+    this.displayFullDesc = false,
     this.isFavorite = false,
   })  : this.imageUrl = 'assets/image/dummy/dummy_service.png',
         this.name =
             'لسوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وقة خالية من التمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من  السوداء و',
+        desc = '',
         onFavoriteTapped = null,
         this.onTapped = ondummyTapped,
         this.maxWidth = double.infinity;
@@ -109,17 +111,20 @@ class MarketCardView extends GetView {
                       ),
                     ),
                     AppSpacers.height5,
-                    // PriceWithDiscountView(
-                    //   price: price,
-                    //   hasDiscount: hasDiscount,
-                    //   oldPrice: oldPrice,
-                    // ),
-                    // AppSpacers.height5,
-                    // RatingBarView(
-                    //   initRating: double.tryParse(rate.toString())!,
-                    //   totalRate: int.tryParse(totalRate.toString()) ?? 0,
-                    //   ignoreGestures: true,
-                    // )
+                    if (desc != 'null')
+                      Container(
+                        color: Colors.transparent,
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.sizeOf(context).width * .6,
+                        ),
+                        child: displayFullDesc!
+                            ? Html(data: desc)
+                            : Text(
+                                _parseHtmlString(desc),
+                                maxLines: 4,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                      ),
                   ],
                 ),
               ],
@@ -135,5 +140,13 @@ class MarketCardView extends GetView {
         ],
       ),
     );
+  }
+
+  String _parseHtmlString(String htmlString) {
+    final document = parse(htmlString);
+    final String parsedString =
+        parse(document.body!.text).documentElement!.text;
+
+    return parsedString;
   }
 }

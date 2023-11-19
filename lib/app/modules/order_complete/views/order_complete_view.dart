@@ -39,9 +39,7 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
     DeliveryAddressesController(),
   );
   final cartController = Get.find<ShoppingCartController>();
-  final favCon = Get.put<OrderCompleteController>(
-    OrderCompleteController(),
-  );
+
   final selectedShippingCompany = Rx<ShippingCompaniesModel?>(null);
   final authController = Get.find<AuthenticationController>();
   final shippingController = Get.put(ShippingCompaniesController());
@@ -51,14 +49,15 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
   final selectedAddress = Rx<dynamic>(null);
   @override
   Widget build(BuildContext context) {
-    final cartSummary = Get.arguments as CartSummaryModel;
+    final cartSummary = controller.cartSummary.value;
     return GetBuilder<DeliveryAddressesController>(
       builder: (controller) {
         final addresse = controller.addresses.value;
         final isEmpty = controller.addresses.value!.length == 0;
         selectedAddress.value = Get.previousRoute == '/add-new-address'
             ? addresse?.last
-            : addresse!.firstWhereOrNull((address) => address['is_default'] == 1);
+            : addresse!
+                .firstWhereOrNull((address) => address['is_default'] == 1);
 
         if (selectedAddress.value != null) {
           shippingController.getShppingCompanies(
@@ -142,20 +141,22 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                     children: [
                       AppSpacers.height16,
                       paymentSumaryItem(
-                        title: "اجمالي المستحق لـ ( ${cartSummary?.cartCount} منتج )",
-                        value: "${cartSummary?.cartPrice} رس",
+                        title:
+                            "اجمالي المستحق لـ ( ${cartSummary!.cartCount} منتج )",
+                        value: "${cartSummary.cartPrice} رس",
                       ),
                       AppSpacers.height16,
                       Obx(
                         () => paymentSumaryItem(
                           title: "مصاريف الشحــن",
-                          value: "${selectedShippingCompany.value?.cost ?? 0} رس",
+                          value:
+                              "${selectedShippingCompany.value?.cost ?? 0} رس",
                         ),
                       ),
                       AppSpacers.height16,
                       paymentSumaryItem(
                         title: "ضريبة القيمة المضافة (15%)",
-                        value: "${cartSummary?.cartTax} رس",
+                        value: "${cartSummary.cartTax} رس",
                       ),
                       AppSpacers.height12,
                       DottedLine(
@@ -169,7 +170,7 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                         () => paymentSumaryItem(
                           title: "الأجمالي المستحق للدفع",
                           value:
-                              "${(double.parse(cartSummary!.cartTotalPrice)) + (selectedShippingCompany.value?.cost ?? 0)}  رس",
+                              "${(double.parse(cartSummary.cartTotalPrice)) + (selectedShippingCompany.value?.cost ?? 0)}  رس",
                           textColor: AppColors.mainColor,
                         ),
                       ),
@@ -187,7 +188,7 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                 Row(
                   children: [
                     Text(
-                      'مجموع المنتجات (${cartSummary!.cartCount})',
+                      'مجموع المنتجات (${cartSummary.cartCount})',
                       style: TextStyle(
                         fontSize: 16.0,
                         color: AppColors.blackColor,
@@ -220,31 +221,39 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                       return;
                     }
 
+                    final walletBalance = double.tryParse(
+                            authController.userData!.walletBalance) ??
+                        0.0;
+
+                    final amountToPay =
+                        double.tryParse(cartSummary.cartTotalPrice) ?? 0.0;
+
                     final controller = Get.find<OrderCompleteController>();
                     if (selectedShippingCompany.value == null) {
                       return AppDialogs.showToast(message: 'اختر شركة الشحن');
                     }
 
-                    if (payWithCredit.value == false && payWithWallet.value == false) {
+                    if (payWithCredit.value == false &&
+                        payWithWallet.value == false) {
                       return AppDialogs.showToast(message: 'اختر طريقه الدفع');
                     }
 
-                    if (payWithCredit.value == true && payWithWallet.value == false) {
+                    if (payWithCredit.value == true &&
+                        payWithWallet.value == false) {
                       controller.requestOrder(
-                          partnerId: selectedShippingCompany.value!.id.toString(),
+                          partnerId:
+                              selectedShippingCompany.value!.id.toString(),
                           addressId: addressId.value,
                           paymentMethod: "card",
                           marketId: cartController.selectedMarketId.value);
                       return;
                     }
 
-                    if (payWithWallet.value == true && payWithCredit.value == false) {
-                      final walletBalance = double.tryParse(authController.userData!.walletBalance) ?? 0.0;
-
-                      final amountToPay = double.tryParse(cartSummary.cartTotalPrice) ?? 0.0;
-
+                    if (payWithWallet.value == true &&
+                        payWithCredit.value == false) {
                       if (walletBalance < amountToPay) {
-                        return AppDialogs.showToast(message: 'ادفع الباقي عن طريق البطاقه الإئتمانية');
+                        return AppDialogs.showToast(
+                            message: 'ادفع الباقي عن طريق البطاقه الإئتمانية');
                       }
 
                       controller.requestOrder(
@@ -256,7 +265,12 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                       return;
                     }
 
-                    if (payWithCredit.value == true && payWithWallet.value == true) {
+                    if (payWithCredit.value == true &&
+                        payWithWallet.value == true) {
+                      if (walletBalance >= amountToPay) {
+                        return AppDialogs.showToast(
+                            message: "رصيد المحفظة يكفي إختر طريقة دفع واحدة");
+                      }
                       controller.requestOrder(
                         partnerId: selectedShippingCompany.value!.id.toString(),
                         addressId: addressId.value,
@@ -417,10 +431,12 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
   editAnotherAddress(List<dynamic>? addresses) {
     Get.generalDialog(
       barrierDismissible: true,
-      barrierLabel: MaterialLocalizations.of(Get.context!).modalBarrierDismissLabel,
+      barrierLabel:
+          MaterialLocalizations.of(Get.context!).modalBarrierDismissLabel,
       barrierColor: Colors.black45,
       transitionDuration: const Duration(milliseconds: 200),
-      pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+      pageBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation) {
         return Center(
           child: Container(
             width: Get.width * .8,
@@ -483,15 +499,19 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                               controller.update();
                               try {
                                 shippingController.getShppingCompanies(
-                                  addressId: selectedAddress.value['id'].toString(),
-                                  marketId: cartController.selectedMarketId.value,
+                                  addressId:
+                                      selectedAddress.value['id'].toString(),
+                                  marketId:
+                                      cartController.selectedMarketId.value,
                                 );
                               } catch (e, st) {
                                 print('error shippong $e');
                                 print('st $st');
                               }
-                              addressId.value = addresses[index]['id'].toString();
-                              await Future.delayed(const Duration(milliseconds: 100));
+                              addressId.value =
+                                  addresses[index]['id'].toString();
+                              await Future.delayed(
+                                  const Duration(milliseconds: 100));
                               Get.back();
                             } catch (e) {}
                           },
@@ -502,10 +522,13 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                               shape: BoxShape.circle,
                               border: Border.all(
                                 width: 1.0,
-                                color:
-                                    addresses[index]["is_default"] == 1 ? AppColors.mainColor : AppColors.borderColor2,
+                                color: addresses[index]["is_default"] == 1
+                                    ? AppColors.mainColor
+                                    : AppColors.borderColor2,
                               ),
-                              color: addresses[index]["is_default"] == 1 ? AppColors.mainColor : AppColors.greyColor4,
+                              color: addresses[index]["is_default"] == 1
+                                  ? AppColors.mainColor
+                                  : AppColors.greyColor4,
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(15),
@@ -513,13 +536,16 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                                 getIconByNotes(
                                   addresses[index]["notes"] ?? '',
                                 ),
-                                color: addresses[index]["is_default"] == 1 ? Colors.white : AppColors.blackColor,
+                                color: addresses[index]["is_default"] == 1
+                                    ? Colors.white
+                                    : AppColors.blackColor,
                               ),
                             ),
                           ),
                           title: addresses[index]["notes"] ?? '',
                           subTitle: addresses[index]["address"],
-                          trailing: addresses[index]["id"] == selectedAddress.value['id']
+                          trailing: addresses[index]["id"] ==
+                                  selectedAddress.value['id']
                               ? DecoratedContainer(
                                   width: 20,
                                   height: 20,

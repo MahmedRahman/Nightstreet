@@ -242,6 +242,22 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
 
                   if (KCardStatus.value == true &&
                       KWalletStatus.value == true) {
+                    final walletBalance = num.parse(
+                        Get.find<AuthenticationController>()
+                            .userData!
+                            .walletBalance);
+
+                    print('walletBalance $walletBalance');
+
+                    final amountToPay =
+                        (Get.find<AppointmentController>().service["price"] -
+                            Get.find<AppointmentController>()
+                                .service["amount_to_pay"]);
+
+                    if (walletBalance >= num.parse(amountToPay.toString())) {
+                      return AppDialogs.showToast(
+                          message: "رصيد المحفظة يكفي إختر طريقة دفع واحدة");
+                    }
                     payment_type = "wallet_card";
                   }
 
