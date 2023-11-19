@@ -120,7 +120,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                   ShareIconView(
                     onShareTapped: () {
                       Share.share(
-                        'https://krz.sa/',
+                        'https://krz.sa/products/${product.id}',
                         subject: product.name,
                       );
                     },
