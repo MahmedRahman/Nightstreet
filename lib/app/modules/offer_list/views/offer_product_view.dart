@@ -94,6 +94,19 @@ class OfferProductView extends GetView<OfferProductController> {
                         isFavorite:
                             favoriteController.productIsFavorite(product.id),
                         onAddToCartTapped: () {
+                          if (product.variants.isNotEmpty) {
+                            AppDialogs.showToast(
+                              message:
+                                  'هذا المنتج يحتوى على الوان يجب اختيار اللون',
+                            );
+                            Get.toNamed(
+                              Routes.PRODUCT_DETAILS,
+                              arguments: product.id.toString(),
+                            );
+
+                            return;
+                          }
+
                           cartController.addToCart(
                             productId: product.id.toString(),
                             quantity: '1',
