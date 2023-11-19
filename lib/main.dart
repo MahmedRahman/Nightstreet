@@ -1,4 +1,6 @@
 // @dart=2.12
+import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -17,15 +19,39 @@ void main() async {
   await initializeDateFormatting('ar', null);
   PushNotificationService().setupInteractedMessage();
 
-  await SentryFlutter.init(
-    (options) {
-      options.dsn =
-          'https://5019d3dc513f036f269fc73c18c719cd@o4504808028569600.ingest.sentry.io/4506109723148288';
-    },
-    appRunner: () {
-      runApp(
-        MyApp(),
-      );
-    },
-  );
+  runZonedGuarded(() async {
+    await SentryFlutter.init(
+      (options) {
+        options.dsn = 'https://5019d3dc513f036f269fc73c18c719cd@o4504808028569600.ingest.sentry.io/4506109723148288';
+      },
+    );
+
+    runApp(MyApp());
+  }, (exception, stackTrace) async {
+    print(exception.toString());
+    print(exception.toString());
+
+    print(stackTrace.toString());
+
+    await Sentry.captureException(exception, stackTrace: stackTrace);
+  });
 }
+
+
+
+
+  // await SentryFlutter.init(
+  //   (options) {
+  //     options.dsn =
+  //         'https://5019d3dc513f036f269fc73c18c719cd@o4504808028569600.ingest.sentry.io/4506109723148288';
+  //   },
+  //   appRunner: () {
+  //     runApp(
+  //       MyApp(),
+  //     );
+      
+  //   } ,
+    
+    
+  // );
+// }
