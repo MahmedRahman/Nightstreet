@@ -37,6 +37,9 @@ class BaseScaffold extends StatelessWidget {
                 BottomNavigationBarView(),
               ],
             ),
+            // floatingActionButton: FloatingActionButton(onPressed: () {
+            //   throw ("Mohamed");
+            // }),
           )
         : RefreshIndicator(
             color: AppColors.mainColor,
