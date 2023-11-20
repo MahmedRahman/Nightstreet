@@ -224,7 +224,10 @@ class MarketPage extends GetView<MarketPageController> {
                     controller: controller,
                   );
                 },
-                onEmpty: AppPageEmpty.productSearchP(),
+                onEmpty: AppPageEmpty.productSearchP(
+                  title: 'لا توجد متنجات',
+                  description: '',
+                ),
                 onLoading: GridView.builder(
                   itemCount: 4,
                   padding: EdgeInsets.only(top: 10),
