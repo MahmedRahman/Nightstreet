@@ -22,18 +22,18 @@ class CurrentAppointmentListView
           final appointment = appointmentList!.elementAt(index);
           return AppointmentCardView(
             status: appointment.status,
+            time: appointment.timeFormat,
             offerName: appointment.offer.name,
             offerImage: appointment.offer.image,
             offerPrice: appointment.offer.price.toString(),
             offerOldPrice: appointment.offer.oldPrice.toString(),
             doctorName: appointment.doctorName,
             clinicName: appointment.ClinicName,
-            dateTime: appointment.datetime,
+            dateTime: appointment.date_time,
             mainButtonText: "تعديل الموعد",
             secondButtonText: "الغاء الخدمة",
             mainButtonOnTap: () async {
-              if (appointment.can_update ==
-                  false) {
+              if (appointment.can_update == false) {
                 AppDialogs.showToast(message: "لا يممكن تعديل هذا المعاد");
                 return;
               }

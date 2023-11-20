@@ -9,7 +9,7 @@ class AppointmentModel {
   final String datetime;
   final String date_time;
 
-  final String time_format;
+  final String timeFormat;
   final String notes;
 
   final bool? can_rate;
@@ -25,7 +25,7 @@ class AppointmentModel {
     required this.id,
     required this.can_rate,
     required this.can_update,
-    required this.time_format,
+    required this.timeFormat,
     required this.notes,
     required this.date_time,
     this.branchId,
@@ -42,7 +42,7 @@ class AppointmentModel {
       id: json['id'],
       can_rate: json['can_rate'],
       can_update: json['can_update'],
-      time_format: json['time_format'].toString(),
+      timeFormat: json['time_format'].toString(),
       branchId: json['branch']['id'],
       notes: json['notes'] ?? "",
       date_time: json['date_time'].toString(),

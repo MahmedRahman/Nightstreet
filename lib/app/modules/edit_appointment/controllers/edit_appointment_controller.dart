@@ -22,8 +22,8 @@ class EditAppointmentController extends GetxController {
     print("Money ${appointment!.date_time.toString()}");
 
     selectData = appointment!.date_time.toString();
-    selectTime = appointment!.time_format.toString();
-    selectTimeUI.value = appointment!.time_format.toString();
+    selectTime = appointment!.timeFormat.toString();
+    selectTimeUI.value = appointment!.timeFormat.toString();
     selectNote = appointment!.notes.toString();
     //selectDateUI.value = appointment["date_time"];
     getAvailableOfferTimes();
