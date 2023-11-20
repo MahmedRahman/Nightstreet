@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="141.325" height="145" viewBox="0 0 141.325 145">
+  <defs>
+    <linearGradient id="linear-gradient" x1="1.179" y1="0.589" x2="0.32" y2="0.755" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#f26404"/>
+      <stop offset="1" stop-color="#f09e66"/>
+    </linearGradient>
+  </defs>
+  <g id="location-5" transform="translate(-6.284)">
+    <path id="Union_14" data-name="Union 14" d="M-7153.972-9951.689l-6.659-3.752-24.4-13.744-23.026-25.795,12.062-25.8,13.432,7.567,11.242,6.335a2.2,2.2,0,0,1,.976,1.132l19.5,51.366a2.2,2.2,0,0,1-2.046,2.979A2.186,2.186,0,0,1-7153.972-9951.689Z" transform="translate(7298.304 10094.041)" fill="url(#linear-gradient)"/>
+    <path id="Path_105047" data-name="Path 105047" d="M241.47,250.56,216.1,264.85l-13.158,28.723L216.1,322.3a2.191,2.191,0,0,0,1.076-.282l35.255-19.862Z" transform="translate(-139.158 -177.296)" fill="url(#linear-gradient)"/>
+    <path id="Path_105048" data-name="Path 105048" d="M105.488,250.56l-23.02,25.8,12.055,25.8,35.255,19.862a2.191,2.191,0,0,0,1.076.282V264.85Z" transform="translate(-53.908 -177.296)" fill="url(#linear-gradient)"/>
+    <path id="Path_105049" data-name="Path 105049" d="M51.581,250.56,40.615,302.152,9.56,319.647a2.193,2.193,0,0,1-3.127-2.689l19.5-51.366a2.193,2.193,0,0,1,.974-1.132Z" transform="translate(0 -177.296)" fill="url(#linear-gradient)"/>
+    <path id="Path_105050" data-name="Path 105050" d="M247.946,0V109.651a4.379,4.379,0,0,0,3.707-2.05c.005,0,29.707-47.1,29.707-47.1A39.482,39.482,0,0,0,247.946,0Z" transform="translate(-170.999)" fill="#fc6d0d"/>
+    <path id="Path_105051" data-name="Path 105051" d="M155.3,107.6s23.105-47.1,23.105-47.1a47.886,47.886,0,0,0,4.714-21.027c0-21.8-13.746-39.474-30.7-39.474a39.478,39.478,0,0,0-33.411,60.5s29.7,47.1,29.7,47.1a4.395,4.395,0,0,0,3.713,2.05A3.324,3.324,0,0,0,155.3,107.6Z" transform="translate(-75.474)" fill="#f26404"/>
+    <circle id="Ellipse_1903" data-name="Ellipse 1903" cx="21.93" cy="21.93" r="21.93" transform="translate(55.016 17.544)" fill="#fff"/>
+    <g id="Group_86022" data-name="Group 86022">
+      <path id="Path_105052" data-name="Path 105052" d="M247.946,90v26.316a13.158,13.158,0,1,0,0-26.316Z" transform="translate(-171 -63.684)" fill="#f26404"/>
+      <path id="Path_105053" data-name="Path 105053" d="M220.49,103.158C220.49,95.891,218.526,90,216.1,90a13.158,13.158,0,0,0,0,26.316C218.526,116.316,220.49,110.425,220.49,103.158Z" transform="translate(-139.158 -63.684)" fill="#f26404"/>
+    </g>
+  </g>
+</svg>
