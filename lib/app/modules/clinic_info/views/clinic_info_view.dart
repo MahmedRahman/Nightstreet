@@ -89,6 +89,7 @@ class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
                   },
                   rate: branch.totalRateAvg.toString(),
                   totalRate: branch.totalRateCount.toString(),
+                  branchName: branch.name,
                 ).paddingOnly(bottom: 10);
               },
             ),

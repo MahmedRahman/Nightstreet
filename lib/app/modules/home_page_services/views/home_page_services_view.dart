@@ -164,6 +164,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                             },
                             rate: branch.totalRateAvg.toString(),
                             totalRate: branch.totalRateCount.toString(),
+                            branchName: branch.name,
                           ).paddingOnly(bottom: 10);
                         },
                       );

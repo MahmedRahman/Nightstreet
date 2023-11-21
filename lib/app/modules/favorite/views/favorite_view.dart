@@ -293,6 +293,7 @@ class FavoriteClinic extends GetView<CliniFavoriteController> {
                 rate: clinic.totalRateAvg.toString(),
                 totalRate: clinic.totalRateCount.toString(),
                 distance: clinic.distance,
+                branchName: clinic.name,
               ),
             );
           },

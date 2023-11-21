@@ -37,9 +37,10 @@ class ServicesSearchView extends GetView<ServicesSearchController> {
           onSearchTappedBranches();
         },
         onChanged: (String query) {
-          if (query.isEmpty) controller.resetSearchValues();
-
-          if (query.isEmpty) branchSearchController.resetSearchValues();
+          if (query.isEmpty) {
+            controller.resetSearchValues();
+            branchSearchController.resetSearchValues();
+          }
         },
       ),
       body: Padding(
@@ -191,6 +192,7 @@ class ClinicsSearchView extends GetView<BranchSearchController> {
                   },
                   rate: branch.totalRateAvg.toString(),
                   distance: branch.distance,
+                  branchName: branch.name,
                 ).paddingOnly(bottom: 10);
               },
             );

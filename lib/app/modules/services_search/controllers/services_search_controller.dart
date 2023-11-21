@@ -37,6 +37,7 @@ class ServicesSearchController extends GetxController
     );
 
     if (responseModel.data["success"]) {
+      print('dddd => ${responseModel.data['data']['data']}');
       final List<ServiceModel> serviceDataList = List<ServiceModel>.from(
         responseModel.data['data']['data']
             .map((category) => ServiceModel.fromJson(category)),
@@ -76,8 +77,7 @@ class ServicesSearchController extends GetxController
   }
 
   @override
-  Future<void> onTopScroll() async {
-  }
+  Future<void> onTopScroll() async {}
 }
 
 class BranchSearchController extends GetxController
@@ -150,6 +150,5 @@ class BranchSearchController extends GetxController
   }
 
   @override
-  Future<void> onTopScroll() async {
-  }
+  Future<void> onTopScroll() async {}
 }

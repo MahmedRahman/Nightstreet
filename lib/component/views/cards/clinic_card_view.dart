@@ -11,6 +11,8 @@ class ClinicCardView extends GetView {
   final String imageUrl;
   final String name;
 
+  final String branchName;
+
   final String oldPrice;
   final String rate;
   final String totalRate;
@@ -21,6 +23,7 @@ class ClinicCardView extends GetView {
   ClinicCardView({
     required this.imageUrl,
     required this.name,
+    required this.branchName,
     required this.onFavoriteTapped,
     required this.rate,
     required this.totalRate,
@@ -37,6 +40,7 @@ class ClinicCardView extends GetView {
         onFavoriteTapped = null,
         this.rate = '4',
         this.totalRate = '4',
+        this.branchName = '',
         this.distance = '4',
         this.isFavorite = false,
         this.oldPrice = '120';
@@ -66,22 +70,8 @@ class ClinicCardView extends GetView {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppSpacers.height10,
-                    Container(
-                      constraints: BoxConstraints(
-                        maxWidth: MediaQuery.sizeOf(context).width * .5,
-                      ),
-                      child: Text(
-                        name,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: AppColors.blackColor,
-                          height: 1.64,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        textAlign: TextAlign.right,
-                        maxLines: 2,
-                      ),
-                    ),
+                    text(name: name),
+                    text(name: branchName),
                     AppSpacers.height5,
                     RatingBarView(
                       initRating: double.tryParse(rate.toString())!,
@@ -110,6 +100,7 @@ class ClinicCardView extends GetView {
                               ),
                             ],
                           ),
+                    AppSpacers.height10,
                   ],
                 ),
               ],
@@ -145,6 +136,35 @@ class ClinicCardView extends GetView {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class text extends StatelessWidget {
+  const text({
+    super.key,
+    required this.name,
+  });
+
+  final String name;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.sizeOf(context).width * .5,
+      ),
+      child: Text(
+        name,
+        style: TextStyle(
+          fontSize: 14.0,
+          color: AppColors.blackColor,
+          height: 1.64,
+          overflow: TextOverflow.ellipsis,
+        ),
+        textAlign: TextAlign.right,
+        maxLines: 2,
       ),
     );
   }
