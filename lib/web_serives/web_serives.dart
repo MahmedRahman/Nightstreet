@@ -594,6 +594,7 @@ class WebServices {
     );
   }
 
+  Future<ResponseModel>? res = null;
   Future<ResponseModel> getServices({
     String? page = '1',
     String? categoryId,
@@ -607,59 +608,66 @@ class WebServices {
     String? adminFeatured,
     String? target,
   }) async {
-    final queryParams = <String, String>{};
+    try {
+      final queryParams = <String, String>{};
 
-    if (categoryId != null && categoryId.isNotEmpty) {
-      queryParams['category_id'] = categoryId;
+      if (categoryId != null && categoryId.isNotEmpty) {
+        queryParams['category_id'] = categoryId;
+      }
+
+      if (name != null && name.isNotEmpty) {
+        queryParams['name'] = name;
+      }
+      print('service seach price ${startPrice.toString() == "null"}');
+      if (startPrice != 'null' && (startPrice ?? '').isNotEmpty) {
+        queryParams['start_price'] = (startPrice ?? '');
+      }
+
+      if (endPrice != 'null' && (endPrice ?? '').isNotEmpty) {
+        queryParams['end_price'] = (endPrice ?? '');
+      }
+
+      if (filter != null && filter.isNotEmpty) {
+        queryParams['filter'] = filter;
+      }
+
+      if (branchId != null && branchId.isNotEmpty) {
+        queryParams['branch_id'] = branchId;
+      }
+
+      if (clinicId != null && clinicId.isNotEmpty) {
+        queryParams['clinic_id'] = clinicId;
+      }
+
+      if (clinicFeatured != null && clinicFeatured.isNotEmpty) {
+        queryParams['clinic_featured'] = clinicFeatured;
+      }
+
+      if (adminFeatured != null && adminFeatured.isNotEmpty) {
+        queryParams['admin_featured'] = adminFeatured;
+      }
+
+      if (target != null && target.isNotEmpty) {
+        queryParams['target'] = target;
+      }
+
+      queryParams['page'] = page!;
+
+      final queryString = Uri(queryParameters: queryParams).query;
+
+      final url = "${ApiConfig.baseUrl}/offers/get?$queryString";
+
+      res = ApiManger().execute(
+        url: url,
+        HTTPRequestMethod: HTTPRequestEnum.GET,
+        isAuth: true,
+      );
+    } catch (e, st) {
+      print('service seach error $e');
+      print('service seach stack $st');
     }
 
-    if (name != null && name.isNotEmpty) {
-      queryParams['name'] = name;
-    }
-
-    if (startPrice != 'null' && startPrice!.isNotEmpty) {
-      queryParams['start_price'] = startPrice;
-    }
-
-    if (endPrice != 'null' && endPrice!.isNotEmpty) {
-      queryParams['end_price'] = endPrice;
-    }
-
-    if (filter != null && filter.isNotEmpty) {
-      queryParams['filter'] = filter;
-    }
-
-    if (branchId != null && branchId.isNotEmpty) {
-      queryParams['branch_id'] = branchId;
-    }
-
-    if (clinicId != null && clinicId.isNotEmpty) {
-      queryParams['clinic_id'] = clinicId;
-    }
-
-    if (clinicFeatured != null && clinicFeatured.isNotEmpty) {
-      queryParams['clinic_featured'] = clinicFeatured;
-    }
-
-    if (adminFeatured != null && adminFeatured.isNotEmpty) {
-      queryParams['admin_featured'] = adminFeatured;
-    }
-
-    if (target != null && target.isNotEmpty) {
-      queryParams['target'] = target;
-    }
-
-    queryParams['page'] = page!;
-
-    final queryString = Uri(queryParameters: queryParams).query;
-
-    final url = "${ApiConfig.baseUrl}/offers/get?$queryString";
-
-    return await ApiManger().execute(
-      url: url,
-      HTTPRequestMethod: HTTPRequestEnum.GET,
-      isAuth: true,
-    );
+    return res!;
   }
 
   Future<ResponseModel> getSingleProduct({
