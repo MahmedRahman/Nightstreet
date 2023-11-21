@@ -25,6 +25,7 @@ class AppointmentCardView extends GetView {
     required this.clinicName,
     required this.dateTime,
     required this.id,
+    required this.time,
   }) : super(key: key);
 
   final String status;
@@ -40,6 +41,7 @@ class AppointmentCardView extends GetView {
   final String doctorName;
   final String clinicName;
   final String dateTime;
+  final String time;
   final String id;
 
   AppointmentCardView.dummy({
@@ -55,6 +57,7 @@ class AppointmentCardView extends GetView {
         this.clinicName = '',
         this.id = '',
         this.dateTime = '',
+        this.time = '',
         this.mainButtonOnTap = dummyFun,
         this.secondButtonOnTap = dummyFun;
 
@@ -91,8 +94,8 @@ class AppointmentCardView extends GetView {
                         child: Divider(),
                       ),
                       customTitle(
-                        title: "اسم الطبيب",
-                        subTitle: doctorName,
+                        title: "رقم الحجز",
+                        subTitle: "#$id",
                       ),
                       dottedDivider,
                       customTitle(
@@ -101,13 +104,18 @@ class AppointmentCardView extends GetView {
                       ),
                       dottedDivider,
                       customTitle(
-                        title: "رقم الحجز",
-                        subTitle: "#$id",
+                        title: "اسم الطبيب",
+                        subTitle: doctorName,
                       ),
                       dottedDivider,
                       customTitle(
                         title: "موعد الحجز",
                         subTitle: dateTime,
+                      ),
+                      dottedDivider,
+                      customTitle(
+                        title: "وقت الحجز",
+                        subTitle: time,
                       ),
                     ],
                   ),

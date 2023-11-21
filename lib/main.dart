@@ -18,39 +18,15 @@ void main() async {
   await initializeDateFormatting('ar', null);
   PushNotificationService().setupInteractedMessage();
 
-  runZonedGuarded(() async {
-    await SentryFlutter.init(
-      (options) {
-        options.dsn = 'https://5019d3dc513f036f269fc73c18c719cd@o4504808028569600.ingest.sentry.io/4506109723148288';
-      },
-    );
-
-    runApp(MyApp());
-  }, (exception, stackTrace) async {
-    print(exception.toString());
-    print(exception.toString());
-
-    print(stackTrace.toString());
-
-    await Sentry.captureException(exception, stackTrace: stackTrace);
-  });
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://5019d3dc513f036f269fc73c18c719cd@o4504808028569600.ingest.sentry.io/4506109723148288';
+    },
+    appRunner: () {
+      runApp(
+        MyApp(),
+      );
+    },
+  );
 }
-
-
-
-
-  // await SentryFlutter.init(
-  //   (options) {
-  //     options.dsn =
-  //         'https://5019d3dc513f036f269fc73c18c719cd@o4504808028569600.ingest.sentry.io/4506109723148288';
-  //   },
-  //   appRunner: () {
-  //     runApp(
-  //       MyApp(),
-  //     );
-      
-  //   } ,
-    
-    
-  // );
-// }

@@ -21,13 +21,14 @@ class ClosedAppointmentListView extends GetView<AppointmentMangmentController> {
           final appointment = appointmentList!.elementAt(index);
           return AppointmentCardView(
             status: appointment.status,
+            time: appointment.timeFormat,
             offerName: appointment.offer.name,
             offerImage: appointment.offer.image,
             offerPrice: appointment.offer.price.toString(),
             offerOldPrice: appointment.offer.oldPrice.toString(),
             doctorName: appointment.doctorName,
             clinicName: appointment.ClinicName,
-            dateTime: appointment.datetime,
+            dateTime: appointment.date_time,
             mainButtonText: "تقييم الخدمة",
             secondButtonText: "تحميل الفاتورة",
             mainButtonOnTap: () {
@@ -54,7 +55,8 @@ class ClosedAppointmentListView extends GetView<AppointmentMangmentController> {
       ),
       onEmpty: AppPageEmpty.appointment(
         title: 'لا توجد مواعيد منتهية',
-        description: "لم يتم تسجيل أي مواعيد. يمكنك الآن الحجز \n والاستفادة من العروض شكرًا لاختيار خدماتنا.",
+        description:
+            "لم يتم تسجيل أي مواعيد. يمكنك الآن الحجز \n والاستفادة من العروض شكرًا لاختيار خدماتنا.",
       ),
     );
   }
