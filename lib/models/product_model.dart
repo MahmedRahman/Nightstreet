@@ -91,7 +91,7 @@ class ProductModel {
       id: json['id'],
       name: json['name'],
       desc: json['desc'],
-      usage: json['usage'],
+      usage: json['usage'] ?? '',
       image: json['image'],
       oldPrice: json['old_price'].toDouble(),
       price: json['price'].toDouble(),
