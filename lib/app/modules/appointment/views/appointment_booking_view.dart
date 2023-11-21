@@ -67,6 +67,8 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                     title: "تاريخ ",
                     initialDateTime: Get.find<AppointmentController>().selectDateUI.value,
                     firstDate: DateTime.now(),
+                    lastDate:
+                        GetUtils.isNull(serves["end_booking_date"]) ? null : DateTime.parse(serves["end_booking_date"]),
                     onDateChanged: (DateTime value) {
                       Get.find<AppointmentController>().selectDateUI.value = value.toString();
 
@@ -400,10 +402,9 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                   Get.find<AppointmentController>().selectNote = longText.text;
 
                   if (Get.find<AppointmentController>().service["amount_to_pay"] == 0) {
-                   
                     Get.find<AppointmentController>().bookAppointment(
-                    payment_type: "free",
-                  );
+                      payment_type: "free",
+                    );
                     return;
                   }
 
