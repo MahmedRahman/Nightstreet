@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDpoAejSW0ekE6jwFOPugcv4ikQKJweeIY',
-    appId: '1:827031594455:android:60d1b081e1c66c378c1792',
-    messagingSenderId: '827031594455',
-    projectId: 'krz-v2',
-    storageBucket: 'krz-v2.appspot.com',
+    apiKey: 'AIzaSyBhPvwExqWVR9E4IyWtJGxMPLgO_7P8fQw',
+    appId: '1:519362465794:android:eae1fb77864a14b4c3171b',
+    messagingSenderId: '519362465794',
+    projectId: 'krz-app-fc552',
+    storageBucket: 'krz-app-fc552.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDyG8VTtxDH0LnrptDBC7c-8UiUC0fVKvA',
-    appId: '1:827031594455:ios:109cecc107b08e198c1792',
-    messagingSenderId: '827031594455',
-    projectId: 'krz-v2',
-    storageBucket: 'krz-v2.appspot.com',
-    iosBundleId: 'com.krzv2.app',
+    apiKey: 'AIzaSyCt292kQsR_qeS_GtyV93774IU0GP3mZjw',
+    appId: '1:519362465794:ios:272480e54a0a31b1c3171b',
+    messagingSenderId: '519362465794',
+    projectId: 'krz-app-fc552',
+    storageBucket: 'krz-app-fc552.appspot.com',
+    iosBundleId: 'com.app.krz',
   );
 }
