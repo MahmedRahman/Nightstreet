@@ -26,12 +26,16 @@ class TermsPage extends StatelessWidget {
             BaseSwitchTap(
               title1: 'سياسة الاستخدام',
               title2: 'سياسة الخصوصية',
-              Widget1: Terms(
-                data: AppGlobal.KSettingData["usage"]["desc"],
-              ),
-              Widget2: Terms(
-                data: AppGlobal.KSettingData["privacy"]["desc"],
-              ),
+              Widget1: AppGlobal.KSettingData["usage"] == null
+                  ? Center(child: Text('لا توجد بيانات'))
+                  : Terms(
+                      data: AppGlobal.KSettingData["usage"]["desc"],
+                    ),
+              Widget2: AppGlobal.KSettingData["privacy"] == null
+                  ? Center(child: Text('لا توجد بيانات'))
+                  : Terms(
+                      data: AppGlobal.KSettingData["privacy"]["desc"],
+                    ),
             ),
           ],
         ),

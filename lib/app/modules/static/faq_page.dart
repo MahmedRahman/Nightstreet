@@ -17,19 +17,22 @@ class FaqPage extends StatelessWidget {
       appBar: const CustomAppBar(
         titleText: "الأسئلة الشائعة",
       ),
-      body: ListView(
-        padding: AppDimension.appPadding + const EdgeInsets.only(top: 25),
-        children: List.generate(
-          AppGlobal.KSettingData["faq"].length,
-          (index) {
-            return _FaqBuilder(
-              title: AppGlobal.KSettingData["faq"][index]["name"].toString(),
-              description:
-                  AppGlobal.KSettingData["faq"][index]["desc"].toString(),
-            );
-          },
-        ),
-      ),
+      body: (AppGlobal.KSettingData["faq"] as List).length == 0
+          ? Center(child: Text('لا توجد بيانات'))
+          : ListView(
+              padding: AppDimension.appPadding + const EdgeInsets.only(top: 25),
+              children: List.generate(
+                AppGlobal.KSettingData["faq"].length,
+                (index) {
+                  return _FaqBuilder(
+                    title:
+                        AppGlobal.KSettingData["faq"][index]["name"].toString(),
+                    description:
+                        AppGlobal.KSettingData["faq"][index]["desc"].toString(),
+                  );
+                },
+              ),
+            ),
     );
   }
 }
