@@ -26,8 +26,7 @@ import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-class MarketPageController extends GetxController
-    with StateMixin<List>, ScrollMixin {
+class MarketPageController extends GetxController with StateMixin<List>, ScrollMixin {
   var MarketId;
   final categoriesList = Rx<List<dynamic>?>([]);
   @override
@@ -55,8 +54,7 @@ class MarketPageController extends GetxController
 
       change(productList, status: RxStatus.loadingMore());
 
-      isPagination =
-          responseModel.data['data']['pagination']['is_pagination'] as bool;
+      isPagination = responseModel.data['data']['pagination']['is_pagination'] as bool;
 
       return;
     }
@@ -78,8 +76,7 @@ class MarketPageController extends GetxController
 
       change(productList, status: RxStatus.loadingMore());
 
-      isPagination =
-          responseModel.data['data']['pagination']['is_pagination'] as bool;
+      isPagination = responseModel.data['data']['pagination']['is_pagination'] as bool;
 
       return;
     }
@@ -141,8 +138,7 @@ class MarketPage extends GetView<MarketPageController> {
       appBar: CustomAppBar(
         titleText: "متجر",
         actions: [
-          if (authController.isLoggedIn || authController.isGuestUser)
-            ShoppingCartIconView(),
+          if (authController.isLoggedIn || authController.isGuestUser) ShoppingCartIconView(),
           if (authController.isLoggedIn) NotificationIconView(),
           AppSpacers.width20,
         ],
@@ -165,10 +161,8 @@ class MarketPage extends GetView<MarketPageController> {
                     data["id"],
                   ),
                   onFavoriteTapped: () {
-                    if (Get.find<AuthenticationController>().isLoggedIn ==
-                        false) {
-                      return AppDialogs.showToast(
-                          message: 'الرجاء تسجيل الدخول');
+                    if (Get.find<AuthenticationController>().isLoggedIn == false) {
+                      return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                     }
 
                     favController.addRemoveMarketFromFavorite(
@@ -224,7 +218,7 @@ class MarketPage extends GetView<MarketPageController> {
                     controller: controller,
                   );
                 },
-                onEmpty: AppPageEmpty.productSearchP(),
+                onEmpty: AppPageEmpty.productSearchPP(),
                 onLoading: GridView.builder(
                   itemCount: 4,
                   padding: EdgeInsets.only(top: 10),

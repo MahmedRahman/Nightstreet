@@ -39,13 +39,18 @@ class AppPageEmpty extends StatelessWidget {
         description = "جرب كلمة رئيسية اخرى ، وحاول مرة اخرى",
         imagePath = AppSvgAssets.emptySearchIcon;
 
+  AppPageEmpty.productSearchPP({
+    super.key,
+  })  : title = "لا يوجد منتجات",
+        description = "",
+        imagePath = AppSvgAssets.emptySearchIcon;
+
   AppPageEmpty.notFound({
     super.key,
     // title = "لم يتم العثور على نتائج",
   })  : title = "لم يتم العثور على نتائج",
         description = "حاول مرة اخرى",
         imagePath = AppSvgAssets.emptySearchIcon;
-
 
   AppPageEmpty.noMarketFound({
     super.key,
