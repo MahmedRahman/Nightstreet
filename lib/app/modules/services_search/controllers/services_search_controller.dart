@@ -29,12 +29,15 @@ class ServicesSearchController extends GetxController
   }
 
   getServices() async {
+    print('service seach start');
     if (currentPage == 1) change([], status: RxStatus.loading());
 
     ResponseModel responseModel = await WebServices().getServices(
       name: searchQuery.value,
       page: currentPage.toString(),
     );
+
+    print('service seach end');
 
     if (responseModel.data["success"]) {
       print('dddd => ${responseModel.data['data']['data']}');

@@ -602,13 +602,13 @@ class WebServices {
     if (name != null && name.isNotEmpty) {
       queryParams['name'] = name;
     }
-
-    if (startPrice != 'null' && startPrice!.isNotEmpty) {
-      queryParams['start_price'] = startPrice;
+    print('service seach price ${startPrice.toString() == "null"}');
+    if (startPrice != 'null' && (startPrice ?? '').isNotEmpty) {
+      queryParams['start_price'] = (startPrice ?? '');
     }
 
-    if (endPrice != 'null' && endPrice!.isNotEmpty) {
-      queryParams['end_price'] = endPrice;
+    if (endPrice != 'null' && (endPrice ?? '').isNotEmpty) {
+      queryParams['end_price'] = (endPrice ?? '');
     }
 
     if (filter != null && filter.isNotEmpty) {

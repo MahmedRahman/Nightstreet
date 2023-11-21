@@ -140,7 +140,9 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                     ),
                     AppSpacers.height10,
                     Text(
-                      'ادفع ${data["amount_to_pay"].toString()} الآن والباقي في العيادة',
+                      data['amount_to_pay'] == 0
+                          ? "ادفع قيمة الخدمة في العيادة"
+                          : 'ادفع ${data["amount_to_pay"].toString()} الآن والباقي في العيادة',
                       style: TextStyle(
                         //fontFamily: 'Effra',
                         fontSize: 16.0,
