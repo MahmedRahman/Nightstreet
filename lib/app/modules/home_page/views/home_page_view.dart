@@ -16,6 +16,27 @@ import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
+import 'package:krzv2/web_serives/model/api_response_model.dart';
+import 'package:krzv2/web_serives/web_serives.dart';
+
+class HomesSliderSettingController extends GetxController with StateMixin<List> {
+  @override
+  void onInit() {
+    getHomesSlider();
+    // TODO: implement onInit
+    super.onInit();
+  }
+
+  void getHomesSlider() async {
+    ResponseModel responseModel = await WebServices().getHomesSliderSetting();
+    if (responseModel.data["success"]) {
+      change(responseModel.data["data"], status: RxStatus.success());
+      return;
+    }
+
+    change(null, status: RxStatus.error());
+  }
+}
 
 class HomePageView extends GetView {
   final cartController = Get.find<ShoppingCartController>();
@@ -25,6 +46,7 @@ class HomePageView extends GetView {
   final productCategoriesController = Get.find<ProductCategoriesController>();
   final recommendedProductController = Get.put(RecommendedProductController());
   final bottomNavigationBarController = Get.put(MyBottomNavigationController());
+  final homesSliderSettingController = Get.put(HomesSliderSettingController());
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +57,17 @@ class HomePageView extends GetView {
         padding: AppDimension.appPadding,
         child: Column(
           children: [
-            SliderView.dyume(180),
+            homesSliderSettingController.obx((data) {
+              List<String> imageList = [];
+
+              for (int i = 0; i < data!.length; i++) {
+                imageList.add(data[i]["image"]);
+              }
+
+              return SliderView(
+                images: imageList,
+              );
+            }),
             AppSpacers.height10,
             homeCard(
               title: 'العروض',
