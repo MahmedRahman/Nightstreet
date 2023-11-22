@@ -40,10 +40,10 @@ class ClinicInfoView extends GetView {
         child: Column(
           children: [
             BaseSwitchTap(
-              title1: "عن المركز",
-              title2: "الخدمات",
-              Widget1: ClinicAboutPage(),
-              Widget2: ClinicServicesPage(),
+              title2: "عن المركز",
+              title1: "الخدمات",
+              Widget2: ClinicAboutPage(),
+              Widget1: ClinicServicesPage(),
             )
           ],
         ),
@@ -73,10 +73,8 @@ class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
                   name: branch.name,
                   onTap: () {},
                   onFavoriteTapped: () {
-                    if (Get.find<AuthenticationController>().isLoggedIn ==
-                        false) {
-                      return AppDialogs.showToast(
-                          message: 'الرجاء تسجيل الدخول');
+                    if (Get.find<AuthenticationController>().isLoggedIn == false) {
+                      return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                     }
 
                     final favCon = Get.put<CliniFavoriteController>(
@@ -141,8 +139,7 @@ class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
                       padding: const EdgeInsets.only(bottom: 10),
                       child: addressCard(
                         address: branch.otherBranches!.elementAt(index).name,
-                        isCurrentAddress:
-                            branch.otherBranches!.elementAt(index).current,
+                        isCurrentAddress: branch.otherBranches!.elementAt(index).current,
                       ),
                     );
                   },
@@ -232,10 +229,8 @@ class ClinicServicesPage extends GetView<ClinicServicesController> {
                       price: offer.price.toString(),
                       oldPrice: offer.oldPrice.toString(),
                       onFavoriteTapped: () {
-                        if (Get.find<AuthenticationController>().isLoggedIn ==
-                            false) {
-                          return AppDialogs.showToast(
-                              message: 'الرجاء تسجيل الدخول');
+                        if (Get.find<AuthenticationController>().isLoggedIn == false) {
+                          return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                         }
                         final favCon = Get.put<OfferFavoriteController>(
                           OfferFavoriteController(),

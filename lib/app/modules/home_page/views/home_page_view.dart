@@ -129,8 +129,7 @@ class HomePageView extends GetView {
                 //   alignment: Alignment(0.19, -0.09),
                 //   width: 69.0,
                 //   height: 28.0,
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(3.0),
+                //   decoration: BoxDecoration( //     borderRadius: BorderRadius.circular(3.0),
                 //     color: const Color(0xFF7D3A5B),
                 //   ),
                 //   child: Text(

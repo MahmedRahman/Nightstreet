@@ -7,6 +7,7 @@ import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller
 import 'package:krzv2/app/modules/service_detail/views/doctor_list_view.dart';
 import 'package:krzv2/app/modules/service_detail/views/review_Information_view.dart';
 import 'package:krzv2/app/modules/wallet/components/decorated_container_component.dart';
+import 'package:krzv2/component/views/cashed_network_image_view.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
@@ -84,19 +85,23 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppSpacers.height12,
-                    ImageSwpierView(
-                      
-                      images: List.generate(
-                        data["images"].length,
-                        (index) {
-                          return data["images"][index]["image"];
-                        },
+                    Container(
+                      //color: Colors.red,
+                      // height: 200,
+                      child: ImageSwpierView(
+                        images: List.generate(
+                          data["images"].length,
+                          (index) {
+                            return data["images"][index]["image"];
+                          },
+                        ),
                       ),
                     ),
                     AppSpacers.height10,
                     clinicInformationBox(
                       isFavorite: data['is_favorite'],
                       title: data["clinic"]["name"],
+                      clinicLogo: data["clinic"]["image"],
                       onFavoriteTap: () {
                         if (Get.put(AuthenticationController().isLoggedIn) == false) {
                           return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
@@ -332,6 +337,7 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
   Widget clinicInformationBox({
     required String title,
     required bool isFavorite,
+    required String clinicLogo,
     required void Function() onFavoriteTap,
     required void Function() onUploadTap,
   }) {
@@ -353,8 +359,8 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                     color: AppColors.borderColor2,
                   ),
                 ),
-                child: Image.asset(
-                  "assets/image/dummy/dummy_service.png",
+                child: CashedNetworkImageView(
+                  imageUrl: clinicLogo,
                   width: 42,
                 ),
               ),
