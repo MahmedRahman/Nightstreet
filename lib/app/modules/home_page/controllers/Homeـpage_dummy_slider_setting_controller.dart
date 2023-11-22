@@ -1,18 +1,19 @@
 import 'package:get/get.dart';
+
+import 'package:get/get_state_manager/src/rx_flutter/rx_notifier.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-class HomePageController extends GetxController with StateMixin<List> {
+class HomePageDummySliderSettingController extends GetxController with StateMixin<List> {
   @override
   void onInit() {
-    getHomePageView();
+    getHomesSlider();
+    // TODO: implement onInit
     super.onInit();
   }
 
-//getHomeSection
-  void getHomePageView() async {
-    //setting/sections
-    ResponseModel responseModel = await WebServices().getHomeSection();
+  void getHomesSlider() async {
+    ResponseModel responseModel = await WebServices().getHomesSliderSetting();
     if (responseModel.data["success"]) {
       change(responseModel.data["data"], status: RxStatus.success());
       return;

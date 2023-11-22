@@ -1165,6 +1165,14 @@ class WebServices {
     );
   }
 
+  Future<ResponseModel> getHomeSection() async {
+    return await ApiManger().execute(
+      url: "${ApiConfig.baseUrl}/setting/sections",
+      HTTPRequestMethod: HTTPRequestEnum.GET,
+      isAuth: true,
+    );
+  }
+
   // Future<ResponseModel> getMarketByCategoryID({required String categoryId}) async {
   //   return await ApiManger().execute(
   //     url: "${ApiConfig.baseUrl}/products/markets?category_id=${categoryId}",

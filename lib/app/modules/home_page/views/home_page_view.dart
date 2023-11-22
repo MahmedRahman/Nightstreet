@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/home_page/controllers/Home%D9%80page_dummy_slider_setting_controller.dart';
+import 'package:krzv2/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_product_categories_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_recommended_product_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_service_categories.dart';
@@ -16,27 +18,6 @@ import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
-import 'package:krzv2/web_serives/model/api_response_model.dart';
-import 'package:krzv2/web_serives/web_serives.dart';
-
-class HomesSliderSettingController extends GetxController with StateMixin<List> {
-  @override
-  void onInit() {
-    getHomesSlider();
-    // TODO: implement onInit
-    super.onInit();
-  }
-
-  void getHomesSlider() async {
-    ResponseModel responseModel = await WebServices().getHomesSliderSetting();
-    if (responseModel.data["success"]) {
-      change(responseModel.data["data"], status: RxStatus.success());
-      return;
-    }
-
-    change(null, status: RxStatus.error());
-  }
-}
 
 class HomePageView extends GetView {
   final cartController = Get.find<ShoppingCartController>();
@@ -46,7 +27,9 @@ class HomePageView extends GetView {
   final productCategoriesController = Get.find<ProductCategoriesController>();
   final recommendedProductController = Get.put(RecommendedProductController());
   final bottomNavigationBarController = Get.put(MyBottomNavigationController());
-  final homesSliderSettingController = Get.put(HomesSliderSettingController());
+  final homesSliderSettingController = Get.put(HomePageDummySliderSettingController());
+
+  final homePageController = Get.put(HomePageController());
 
   @override
   Widget build(BuildContext context) {
@@ -57,29 +40,60 @@ class HomePageView extends GetView {
         padding: AppDimension.appPadding,
         child: Column(
           children: [
-            homesSliderSettingController.obx((data) {
-              List<String> imageList = [];
+            homesSliderSettingController.obx(
+              (data) {
+                return SliderHomePageView(
+                  images: data!,
+                  onSliderTap: (data) {
+                    if (data["type"] == "home") {
+                      return;
+                    }
 
-              for (int i = 0; i < data!.length; i++) {
-                imageList.add(data[i]["image"]);
-              }
-
-              return SliderView(
-                images: imageList,
-              );
-            }),
+                    print(data);
+                    print(data["type"].toString());
+                  },
+                );
+              },
+            ),
             AppSpacers.height10,
-            homeCard(
-              title: 'العروض',
-              onTap: () => bottomBarController.changePage(3),
-            ),
-            homeCard(
-              title: 'المتاجر',
-              onTap: () => bottomBarController.changePage(2),
-            ),
-            homeCard(
-              title: 'العيادات',
-              onTap: () => bottomBarController.changePage(1),
+            homePageController.obx(
+              (data) {
+                return Expanded(
+                  child: Column(
+                    children: List.generate(
+                      data!.length,
+                      (index) {
+                        return homeCard(
+                          title: data[index]["name"].toString(),
+                          imageUrl: data[index]["image"].toString(),
+                          discountPercentage: data[index]["discount_percentage"].toString(),
+                          onTap: () {
+                            if (data[index]["redirect_type"] == "offers") {
+                              bottomBarController.changePage(3);
+
+                              return;
+                            }
+
+                            if (data[index]["redirect_type"] == "clinics") {
+                              bottomBarController.changePage(1);
+
+                              return;
+                            }
+
+                            if (data[index]["redirect_type"] == "markets") {
+                              bottomBarController.changePage(2);
+
+                              return;
+                            }
+
+                            bottomBarController.changePage(0);
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -89,6 +103,8 @@ class HomePageView extends GetView {
 
   Widget homeCard({
     required String title,
+    required String imageUrl,
+    required String discountPercentage,
     required Function() onTap,
   }) {
     return Expanded(
@@ -104,32 +120,31 @@ class HomePageView extends GetView {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              CashedNetworkImageView(
-                  imageUrl:
-                      "https://img.freepik.com/free-photo/natural-elements-spa-with-beauty-cream_23-2148199484.jpg?w=1800&t=st=1699884415~exp=1699885015~hmac=01db13cdce03a1e6130ccda36bdb23241e3abb37bc4377571c6fbea835be436e"),
+              CashedNetworkImageView(imageUrl: imageUrl),
               Positioned(
                 bottom: 60,
                 right: 22,
-                child: Container(
-                  alignment: Alignment(0.19, -0.09),
-                  width: 69.0,
-                  height: 28.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(3.0),
-                    color: const Color(0xFF7D3A5B),
-                  ),
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                      fontFamily: 'Effra',
-                      fontSize: 14.0,
-                      color: Colors.white,
-                      letterSpacing: 0.14,
-                      height: 0.86,
-                    ),
-                    textAlign: TextAlign.right,
-                  ),
-                ),
+                child: SizedBox(),
+                // child: Container(
+                //   alignment: Alignment(0.19, -0.09),
+                //   width: 69.0,
+                //   height: 28.0,
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(3.0),
+                //     color: const Color(0xFF7D3A5B),
+                //   ),
+                //   child: Text(
+                //     title,
+                //     style: TextStyle(
+                //       fontFamily: 'Effra',
+                //       fontSize: 14.0,
+                //       color: Colors.white,
+                //       letterSpacing: 0.14,
+                //       height: 0.86,
+                //     ),
+                //     textAlign: TextAlign.right,
+                //   ),
+                // ),
               ),
               Positioned(
                 bottom: 0,
@@ -157,7 +172,7 @@ class HomePageView extends GetView {
                           width: 27,
                         ),
                         Text(
-                          '30%',
+                          '${discountPercentage}%',
                           style: TextStyle(
                             fontFamily: 'Effra',
                             color: const Color(0xFF7D3A5B),
