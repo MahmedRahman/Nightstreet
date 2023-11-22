@@ -9,6 +9,8 @@ class BranchModel {
   ServiceClinicModel clinic;
   String distance;
   String address;
+  String clinicImage;
+
   double lat;
   double lng;
   List<ProductCategory> categories;
@@ -22,6 +24,7 @@ class BranchModel {
     required this.name,
     required this.cityName,
     required this.clinic,
+    required this.clinicImage,
     required this.distance,
     required this.address,
     required this.lat,
@@ -35,15 +38,12 @@ class BranchModel {
 
   factory BranchModel.fromJson(Map<String, dynamic> json) {
     var categoryList = json['categories'] as List;
-    List<ProductCategory> categoryData =
-        categoryList.map((i) => ProductCategory.fromJson(i)).toList();
+    List<ProductCategory> categoryData = categoryList.map((i) => ProductCategory.fromJson(i)).toList();
 
     var otherBranchesList = json['other_branches'];
     List<OtherBranchModel> otherBranchesData;
     if (otherBranchesList != null) {
-      otherBranchesData = (otherBranchesList as List)
-          .map((i) => OtherBranchModel.fromJson(i))
-          .toList();
+      otherBranchesData = (otherBranchesList as List).map((i) => OtherBranchModel.fromJson(i)).toList();
     } else {
       otherBranchesData = [];
     }
@@ -55,6 +55,7 @@ class BranchModel {
       clinic: ServiceClinicModel.fromJson(json['clinic']),
       distance: json['distance'],
       address: json['address'],
+      clinicImage: json["clinic"]["banner"].toString(),
       lat: double.parse(json['lat']),
       lng: double.parse(json['lng']),
       categories: categoryData,

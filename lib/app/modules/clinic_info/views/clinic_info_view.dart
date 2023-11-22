@@ -98,7 +98,9 @@ class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
             SizedBox(
               height: 10,
             ),
-            HomeBannerView.dummy(),
+            (branch!.clinicImage.toString() == "null")
+                ? SizedBox.shrink()
+                : HomeBannerView(imageUrl: branch!.clinicImage.toString()),
             Text(
               'عن المركز',
               style: TextStyle(

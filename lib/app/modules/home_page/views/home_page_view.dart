@@ -14,8 +14,10 @@ import 'package:krzv2/component/views/cashed_network_image_view.dart';
 import 'package:krzv2/component/views/home_app_bar_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/slider_view.dart';
+import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
+import 'package:krzv2/utils/app_launcuer.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
 
@@ -45,7 +47,58 @@ class HomePageView extends GetView {
                 return SliderHomePageView(
                   images: data!,
                   onSliderTap: (data) {
-                    if (data["type"] == "home") {
+                    print(data.toString());
+                    if (data["redirect_type"] == "internal") {
+                      if (data["model_name"] == "products") {
+                        bottomBarController.changePage(2);
+                        return;
+                      }
+
+                      if (data["model_name"] == "offers") {
+                        bottomBarController.changePage(3);
+                        return;
+                      }
+
+                      if (data["model_name"] == "clinits") {
+                        bottomBarController.changePage(1);
+                        return;
+                      }
+
+                      if (data["model_name"] == "markets") {
+                        bottomBarController.changePage(2);
+                        return;
+                      }
+
+                      return;
+                    }
+
+                    if (data["redirect_type"] == "single_model") {
+                      if (data["model_name"] == "products") {
+                        Get.toNamed(
+                          Routes.PRODUCT_DETAILS,
+                          arguments: data["model_id"].toString(),
+                        );
+
+                        print("${data["model_id"]}");
+                        return;
+                      }
+
+                      if (data["model_name"] == "offers") {
+                        Get.toNamed(
+                          Routes.SERVICE_DETAIL,
+                          arguments: data["model_id"].toString(),
+                        );
+                        print("${data["model_id"]}");
+
+                        return;
+                      }
+
+                      return;
+                    }
+
+                    if (data["redirect_type"] == "external") {
+                      urlLauncher(data["url"]);
+
                       return;
                     }
 
@@ -65,6 +118,8 @@ class HomePageView extends GetView {
                       (index) {
                         return homeCard(
                           title: data[index]["name"].toString(),
+                          subdata:
+                              (data[index]["content"].toString() == "null") ? "" : data[index]["content"].toString(),
                           imageUrl: data[index]["image"].toString(),
                           discountPercentage: data[index]["discount_percentage"].toString(),
                           onTap: () {
@@ -103,6 +158,7 @@ class HomePageView extends GetView {
 
   Widget homeCard({
     required String title,
+    required String subdata,
     required String imageUrl,
     required String discountPercentage,
     required Function() onTap,
@@ -158,7 +214,7 @@ class HomePageView extends GetView {
                     child: Row(
                       children: [
                         Text(
-                          'خصومات تصل إلى',
+                          '${subdata.toString()}',
                           style: TextStyle(
                             fontSize: 14.0,
                             color: const Color(0xFF3B3B3B),
@@ -170,16 +226,18 @@ class HomePageView extends GetView {
                         SizedBox(
                           width: 27,
                         ),
-                        Text(
-                          '${discountPercentage}%',
-                          style: TextStyle(
-                            fontFamily: 'Effra',
-                            color: const Color(0xFF7D3A5B),
-                            fontWeight: FontWeight.w500,
-                            height: 1.36,
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
+                        (discountPercentage == "0")
+                            ? Text("")
+                            : Text(
+                                '${discountPercentage}%',
+                                style: TextStyle(
+                                  fontFamily: 'Effra',
+                                  color: const Color(0xFF7D3A5B),
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.36,
+                                ),
+                                textAlign: TextAlign.right,
+                              ),
                         Spacer(),
                         Text(
                           'تسوق الآن',

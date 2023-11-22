@@ -83,13 +83,16 @@ class ServiceCardView extends GetView {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: 120,
-                  //color: Colors.amber,
-                  child: CashedNetworkImageView(
-                    height: 75,
-                    imageUrl: imageUrl,
-                    boxFit: BoxFit.contain,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: 120,
+                    //color: Colors.amber,
+                    child: CashedNetworkImageView(
+                      height: 75,
+                      imageUrl: imageUrl,
+                      boxFit: BoxFit.contain,
+                    ),
                   ),
                 ),
                 SizedBox(

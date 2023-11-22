@@ -4,8 +4,7 @@ import 'package:krzv2/models/service_model.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-class ClinicAboutInfoController extends GetxController
-    with StateMixin<BranchModel> {
+class ClinicAboutInfoController extends GetxController with StateMixin<BranchModel> {
   @override
   void onInit() {
     getBranchesSingle(
@@ -21,6 +20,9 @@ class ClinicAboutInfoController extends GetxController
 
     if (responseModel.data["success"]) {
       final branch = BranchModel.fromJson(responseModel.data["data"]);
+      print("BranchModel ${responseModel.data["data"]}");
+      print("BranchModel ${responseModel.data["data"]["clinic"]["image"]}");
+
       change(branch, status: RxStatus.success());
 
       return;
@@ -30,8 +32,7 @@ class ClinicAboutInfoController extends GetxController
   }
 }
 
-class ClinicServicesController extends GetxController
-    with StateMixin<List<ServiceModel>> {
+class ClinicServicesController extends GetxController with StateMixin<List<ServiceModel>> {
   final List<ServiceModel> _services = [];
   int currentPage = 1;
   bool? isPagination;
@@ -50,8 +51,7 @@ class ClinicServicesController extends GetxController
 
     if (responseModel.data["success"]) {
       final List<ServiceModel> serviceDataList = List<ServiceModel>.from(
-        responseModel.data['data']['data']
-            .map((category) => ServiceModel.fromJson(category)),
+        responseModel.data['data']['data'].map((category) => ServiceModel.fromJson(category)),
       );
 
       _services.addAll(serviceDataList);
@@ -63,8 +63,7 @@ class ClinicServicesController extends GetxController
 
       change(_services, status: RxStatus.success());
 
-      isPagination =
-          responseModel.data['data']['pagination']['is_pagination'] as bool;
+      isPagination = responseModel.data['data']['pagination']['is_pagination'] as bool;
 
       return;
     }
