@@ -205,7 +205,6 @@ class MarketPage extends GetView<MarketPageController> {
             Expanded(
               child: controller.obx(
                 (data) {
-                  print("object");
                   return productsList(
                     products: data!,
                     controller: controller,

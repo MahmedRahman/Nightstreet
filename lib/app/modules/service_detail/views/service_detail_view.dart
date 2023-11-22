@@ -85,6 +85,7 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                   children: [
                     AppSpacers.height12,
                     ImageSwpierView(
+                      
                       images: List.generate(
                         data["images"].length,
                         (index) {

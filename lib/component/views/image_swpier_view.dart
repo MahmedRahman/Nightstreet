@@ -37,13 +37,13 @@ class ImageSwpierView extends GetView {
               items: images
                   .map(
                     (e) => InkWell(
-                      overlayColor:
-                          MaterialStatePropertyAll(Colors.transparent),
+                      overlayColor: MaterialStatePropertyAll(Colors.transparent),
                       onTap: () => displayImagePopup(iamgeUrl: e),
                       child: SizedBox(
-                        width: double.infinity,
+                        width: Get.width,
+                        //height: 200,
                         child: CashedNetworkImageView(
-                          boxFit: BoxFit.cover,
+                          boxFit: BoxFit.fill,
                           imageUrl: e,
                         ),
                       ),
