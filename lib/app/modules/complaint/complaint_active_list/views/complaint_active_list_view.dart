@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:krzv2/app/modules/complaint/complaint_details/views/complaint_details_view.dart';
 import 'package:krzv2/component/views/complant_item_builder_view.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
+import 'package:krzv2/component/views/pages/app_page_loading_more.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/complaint_model.dart';
 
@@ -21,6 +22,16 @@ class ComplaintActiveListView extends GetView<ComplaintActiveListController> {
           itemCount: complaints!.length,
           itemBuilder: (context, index) {
             final complaint = complaints.elementAt(index);
+
+            if (index == complaints.length - 1) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: AppPageLoadingMore(
+                  display: controller.status.isLoadingMore,
+                ),
+              );
+            }
+
             return Padding(
               padding: const EdgeInsets.only(
                 bottom: 12,

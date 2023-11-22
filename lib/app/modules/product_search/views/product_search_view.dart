@@ -5,6 +5,7 @@ import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_contro
 import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
+import 'package:krzv2/component/views/pages/app_page_loading_more.dart';
 import 'package:krzv2/component/views/product_search_app_bar_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/extensions/widget.dart';
@@ -68,6 +69,12 @@ class ProductSearchView extends GetView<ProductSearchController> {
         return GetBuilder<ProductFavoriteController>(
           init: ProductFavoriteController(),
           builder: (controller) {
+            if (index == products!.length - 1) {
+              return AppPageLoadingMore(
+                display: controller.status.isLoadingMore,
+              );
+            }
+
             return ProductCardView(
               imageUrl: product!.image,
               name: product.name,

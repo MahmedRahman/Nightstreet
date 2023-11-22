@@ -6,7 +6,7 @@ import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
 class ProductsBrandController extends GetxController
-    with StateMixin<List<ProuctBrandModel>>, ScrollMixin {
+    with StateMixin<List<ProuctBrandModel>> {
   final brandsList = Rx<List<ProuctBrandModel>?>([]);
 
   @override
@@ -41,13 +41,5 @@ class ProductsBrandController extends GetxController
     }
 
     change([], status: RxStatus.error(responseModel.data["message"]));
-  }
-
-  @override
-  Future<void> onEndScroll() async {
-  }
-
-  @override
-  Future<void> onTopScroll() async {
   }
 }

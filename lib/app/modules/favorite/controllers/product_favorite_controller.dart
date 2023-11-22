@@ -119,19 +119,9 @@ class ProductFavoriteController extends GetxController
   Future<void> onEndScroll() async {
     if (isPagination == false) return;
     currentPage++;
-
-    Get.dialog(
-      const Center(
-        child: SpinKitCircle(
-          color: AppColors.mainColor,
-          size: 70,
-        ),
-      ),
-    );
+    change(_products, status: RxStatus.loadingMore());
 
     await getFavorite();
-
-    Get.back();
   }
 
   @override

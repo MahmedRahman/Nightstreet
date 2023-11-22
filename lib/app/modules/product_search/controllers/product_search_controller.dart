@@ -72,21 +72,11 @@ class ProductSearchController extends GetxController
     if (isPagination == false) return;
     currentPage++;
 
-    Get.dialog(
-      const Center(
-        child: SpinKitCircle(
-          color: AppColors.mainColor,
-          size: 70,
-        ),
-      ),
-    );
+    change(productList, status: RxStatus.loadingMore());
 
     await getProducts();
-
-    Get.back();
   }
 
   @override
-  Future<void> onTopScroll() async {
-  }
+  Future<void> onTopScroll() async {}
 }

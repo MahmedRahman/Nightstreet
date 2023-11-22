@@ -119,18 +119,9 @@ class OfferFavoriteController extends GetxController
     if (isPagination == false) return;
     currentPage++;
 
-    Get.dialog(
-      const Center(
-        child: SpinKitCircle(
-          color: AppColors.mainColor,
-          size: 70,
-        ),
-      ),
-    );
+    change(_offers, status: RxStatus.loadingMore());
 
     await getFavorite();
-
-    Get.back();
   }
 
   @override

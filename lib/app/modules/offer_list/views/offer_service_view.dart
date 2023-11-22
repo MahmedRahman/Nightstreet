@@ -8,6 +8,7 @@ import 'package:krzv2/component/views/cards/service_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_page_service_categories_view.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
+import 'package:krzv2/component/views/pages/app_page_loading_more.dart';
 import 'package:krzv2/component/views/slider_view.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/service_model.dart';
@@ -44,6 +45,12 @@ class OfferServiceView extends GetView<OfferServiceController> {
               controller: controller.scroll,
               itemBuilder: (context, index) {
                 final service = servicesList?.elementAt(index);
+
+                if (index == servicesList!.length - 1) {
+                  return AppPageLoadingMore(
+                    display: controller.status.isLoadingMore,
+                  );
+                }
 
                 return GetBuilder<OfferFavoriteController>(
                   init: OfferFavoriteController(),

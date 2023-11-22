@@ -15,6 +15,7 @@ import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_categories_list_view.dart';
 import 'package:krzv2/component/views/notification_icon_view.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
+import 'package:krzv2/component/views/pages/app_page_loading_more.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
 import 'package:krzv2/extensions/widget.dart';
@@ -26,35 +27,39 @@ import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-class MarketPageController extends GetxController with StateMixin<List>, ScrollMixin {
+class MarketPageController extends GetxController
+    with StateMixin<List>, ScrollMixin {
   var MarketId;
   final categoriesList = Rx<List<dynamic>?>([]);
   @override
   void onInit() {
     currentPage = 1;
-    // TODO: implement onInit
+
     super.onInit();
   }
 
   List productList = [];
   Future getProductByMarketId(String MarketId, {String? categoryId}) async {
     if (currentPage == 1) change(null, status: RxStatus.loading());
+
     ResponseModel responseModel = await WebServices().getProductsByMarketId(
       id: MarketId.toString(),
       page: currentPage.toString(),
       categoryId: categoryId,
     );
-    print(responseModel.data["success"].toString());
+
     if (responseModel.data["success"]) {
-      if (responseModel.data["data"]["data"].isEmpty) {
+      if ((responseModel.data["data"]["data"] as List).isEmpty) {
         change([], status: RxStatus.empty());
         return;
       }
+
       productList.addAll(responseModel.data["data"]["data"]);
 
-      change(productList, status: RxStatus.loadingMore());
+      change(productList, status: RxStatus.success());
 
-      isPagination = responseModel.data['data']['pagination']['is_pagination'] as bool;
+      isPagination =
+          responseModel.data['data']['pagination']['is_pagination'] as bool;
 
       return;
     }
@@ -74,9 +79,10 @@ class MarketPageController extends GetxController with StateMixin<List>, ScrollM
       }
       productList.addAll(responseModel.data["data"]["data"]);
 
-      change(productList, status: RxStatus.loadingMore());
+      change(productList, status: RxStatus.success());
 
-      isPagination = responseModel.data['data']['pagination']['is_pagination'] as bool;
+      isPagination =
+          responseModel.data['data']['pagination']['is_pagination'] as bool;
 
       return;
     }
@@ -91,25 +97,9 @@ class MarketPageController extends GetxController with StateMixin<List>, ScrollM
     if (isPagination == false) return;
 
     currentPage++;
-
-// AppDialog.showLoading().then (() asysn{
-//   await getProductByMarketId(MarketId);
-// },onFinsh:(){
-//    Get.back();
-// });
-
-    Get.dialog(
-      const Center(
-        child: SpinKitCircle(
-          color: AppColors.mainColor,
-          size: 70,
-        ),
-      ),
-    );
+    change(productList, status: RxStatus.loadingMore());
 
     await getProductByMarketId(MarketId);
-
-    Get.back();
   }
 
   @override
@@ -138,7 +128,8 @@ class MarketPage extends GetView<MarketPageController> {
       appBar: CustomAppBar(
         titleText: "متجر",
         actions: [
-          if (authController.isLoggedIn || authController.isGuestUser) ShoppingCartIconView(),
+          if (authController.isLoggedIn || authController.isGuestUser)
+            ShoppingCartIconView(),
           if (authController.isLoggedIn) NotificationIconView(),
           AppSpacers.width20,
         ],
@@ -161,8 +152,10 @@ class MarketPage extends GetView<MarketPageController> {
                     data["id"],
                   ),
                   onFavoriteTapped: () {
-                    if (Get.find<AuthenticationController>().isLoggedIn == false) {
-                      return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                    if (Get.find<AuthenticationController>().isLoggedIn ==
+                        false) {
+                      return AppDialogs.showToast(
+                          message: 'الرجاء تسجيل الدخول');
                     }
 
                     favController.addRemoveMarketFromFavorite(
@@ -246,19 +239,25 @@ final double itemWidth = Get.width / 2;
 
 GridView productsList({
   required List products,
-  controller,
+  required MarketPageController controller,
 }) {
   return GridView.builder(
     itemCount: products.length,
     controller: controller.scroll,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
-      childAspectRatio: (itemWidth / itemHeight) / .35,
+      childAspectRatio: (itemWidth / itemHeight) / .38,
       crossAxisSpacing: 10,
       mainAxisSpacing: 10,
     ),
     itemBuilder: (_, index) {
       final product = products[index];
+
+      if (index == products.length - 1) {
+        return AppPageLoadingMore(
+          display: controller.status.isLoadingMore,
+        );
+      }
       return GetBuilder<ProductFavoriteController>(
         init: ProductFavoriteController(),
         builder: (controller) {

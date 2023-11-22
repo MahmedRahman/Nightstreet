@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/product_details/controllers/product_review_controller.dart';
+import 'package:krzv2/component/views/pages/app_page_loading_more.dart';
 import 'package:krzv2/component/views/review_card_view.dart';
 
 class ProductReviewsView extends GetView<ProductReviewController> {
@@ -13,6 +14,13 @@ class ProductReviewsView extends GetView<ProductReviewController> {
         itemCount: reviews?.length,
         itemBuilder: (context, index) {
           final review = reviews?.elementAt(index);
+
+          if (index == reviews!.length - 1) {
+            return AppPageLoadingMore(
+              display: controller.status.isLoadingMore,
+            );
+          }
+
           return ReviewCardView(
             name: review!.name,
             rate: review.rate,

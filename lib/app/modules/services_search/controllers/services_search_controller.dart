@@ -65,18 +65,9 @@ class ServicesSearchController extends GetxController
     if (isPagination == false) return;
     currentPage++;
 
-    Get.dialog(
-      const Center(
-        child: SpinKitCircle(
-          color: AppColors.mainColor,
-          size: 70,
-        ),
-      ),
-    );
+    change(_services, status: RxStatus.loadingMore());
 
     await getServices();
-
-    Get.back();
   }
 
   @override
@@ -138,18 +129,9 @@ class BranchSearchController extends GetxController
     if (isPagination == false) return;
     currentPage++;
 
-    Get.dialog(
-      const Center(
-        child: SpinKitCircle(
-          color: AppColors.mainColor,
-          size: 70,
-        ),
-      ),
-    );
+    change(_branches, status: RxStatus.loadingMore());
 
     await getBranches();
-
-    Get.back();
   }
 
   @override

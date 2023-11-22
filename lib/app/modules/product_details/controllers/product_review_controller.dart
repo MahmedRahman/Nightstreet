@@ -60,23 +60,11 @@ class ProductReviewController extends GetxController
     if (isPagination == false) return;
     currentPage++;
 
-    Get.dialog(
-      const Center(
-        child: SpinKitCircle(
-          color: AppColors.mainColor,
-          size: 70,
-        ),
-      ),
-    );
+    change(_reviews, status: RxStatus.loadingMore());
 
     await getProductReviews();
-
-    Get.back();
   }
 
   @override
-  Future<void> onTopScroll() {
-    // TODO: implement onTopScroll
-    throw UnimplementedError();
-  }
+  Future<void> onTopScroll() async {}
 }

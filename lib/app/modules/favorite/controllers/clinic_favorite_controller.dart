@@ -120,14 +120,7 @@ class CliniFavoriteController extends GetxController
     if (isPagination == false) return;
     currentPage++;
 
-    Get.dialog(
-      const Center(
-        child: SpinKitCircle(
-          color: AppColors.mainColor,
-          size: 70,
-        ),
-      ),
-    );
+    change(clinics, status: RxStatus.loadingMore());
 
     await getFavorite();
 

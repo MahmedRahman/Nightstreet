@@ -64,26 +64,12 @@ class ComplaintActiveListController extends GetxController
     if (isPagination == false) return;
     currentPage++;
 
-
-    Get.dialog(
-      const Center(
-        child: SpinKitCircle(
-          color: AppColors.mainColor,
-          size: 70,
-        ),
-      ),
-    );
-
-    await Future.delayed(Duration(milliseconds: 500));
-
+    change(_activeComplaints, status: RxStatus.loadingMore());
     getComplaints();
-
-    Get.back();
   }
 
   @override
-  Future<void> onTopScroll() {
-    // TODO: implement onTopScroll
-    throw UnimplementedError();
+  Future<void> onTopScroll() async {
+    print('onTopScroll');
   }
 }

@@ -68,7 +68,7 @@ class AppointmentMangmentController extends GetxController
   }
 
   @override
-  Future<void> onTopScroll() {
-    throw UnimplementedError();
+  Future<void> onTopScroll() async {
+    print('onTopScroll');
   }
 }

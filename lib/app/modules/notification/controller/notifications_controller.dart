@@ -8,10 +8,12 @@ import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-class NotificationController extends GetxController with StateMixin<List<NotificationModel>>, ScrollMixin {
+class NotificationController extends GetxController
+    with StateMixin<List<NotificationModel>>, ScrollMixin {
   final List<NotificationModel> _notifications = [];
   int currentPage = 1;
-  int? totalRemotePage;
+
+  bool? isPagination;
 
   @override
   void onInit() async {
@@ -27,7 +29,8 @@ class NotificationController extends GetxController with StateMixin<List<Notific
 
     if (responseModel.data['success'] == true) {
       final fetchedNotifications = List<NotificationModel>.from(
-        responseModel.data['data']['data'].map((item) => NotificationModel.fromJson(item)),
+        responseModel.data['data']['data']
+            .map((item) => NotificationModel.fromJson(item)),
       );
 
       _notifications.addAll(fetchedNotifications);
@@ -39,7 +42,9 @@ class NotificationController extends GetxController with StateMixin<List<Notific
 
       await Future.delayed(const Duration(milliseconds: 500));
       change(_notifications, status: RxStatus.success());
-      totalRemotePage = responseModel.data['data']['pagination']['total_pages'];
+
+      isPagination =
+          responseModel.data['data']['pagination']['is_pagination'] as bool;
     }
   }
 
@@ -61,10 +66,10 @@ class NotificationController extends GetxController with StateMixin<List<Notific
   }
 
   readAllNotifications() async {
-    final ResponseModel responseModel = await WebServices().readAllNotifications();
+    final ResponseModel responseModel =
+        await WebServices().readAllNotifications();
 
     if (responseModel.data['success'] == true) {
-      //AppDialogs.showToast(message: responseModel.data['message']);
       _notifications.clear();
       fetchNotifications();
       Get.find<AuthenticationController>().getProfile();
@@ -77,22 +82,13 @@ class NotificationController extends GetxController with StateMixin<List<Notific
 
   @override
   Future<void> onEndScroll() async {
-    bool hasNext = currentPage < totalRemotePage!;
-    if (hasNext == false) return;
+    if (isPagination == false) return;
+
     currentPage++;
 
-    Get.dialog(
-      const Center(
-        child: SpinKitCircle(
-          color: AppColors.mainColor,
-          size: 70,
-        ),
-      ),
-    );
+    change(_notifications, status: RxStatus.loadingMore());
 
     await fetchNotifications();
-
-    Get.back();
   }
 
   @override

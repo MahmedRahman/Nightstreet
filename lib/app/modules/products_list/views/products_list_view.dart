@@ -8,6 +8,7 @@ import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/icon_button_component.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
+import 'package:krzv2/component/views/pages/app_page_loading_more.dart';
 import 'package:krzv2/component/views/product_categories_view.dart';
 import 'package:krzv2/component/views/product_filter_bottom_sheet_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
@@ -97,6 +98,12 @@ class ProductsListView extends GetView<ProductsListController> {
         return GetBuilder<ProductFavoriteController>(
           init: ProductFavoriteController(),
           builder: (controller) {
+            if (index == products!.length - 1) {
+              return AppPageLoadingMore(
+                display: controller.status.isLoadingMore,
+              );
+            }
+
             return ProductCardView(
               imageUrl: product!.image,
               isAvailable: product.quantity > 1,

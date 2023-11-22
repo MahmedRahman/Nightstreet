@@ -6,6 +6,7 @@ import 'package:krzv2/component/views/cards/clinic_card_view.dart';
 import 'package:krzv2/component/views/cards/service_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
+import 'package:krzv2/component/views/pages/app_page_loading_more.dart';
 import 'package:krzv2/component/views/product_search_app_bar_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/tabs/base_switch_tap.dart';
@@ -103,6 +104,12 @@ class ServiceSearchView extends GetView<ServicesSearchController> {
         itemBuilder: (context, index) {
           final service = servicesList?.elementAt(index);
 
+          if (index == servicesList!.length - 1) {
+            return AppPageLoadingMore(
+              display: controller.status.isLoadingMore,
+            );
+          }
+
           return GetBuilder<OfferFavoriteController>(
             init: OfferFavoriteController(),
             builder: (favoriteController) {
@@ -161,6 +168,12 @@ class ClinicsSearchView extends GetView<BranchSearchController> {
           controller: controller.scroll,
           itemBuilder: (context, index) {
             final branch = branches.elementAt(index);
+
+            if (index == branches.length - 1) {
+              return AppPageLoadingMore(
+                display: controller.status.isLoadingMore,
+              );
+            }
             return GetBuilder<CliniFavoriteController>(
               init: CliniFavoriteController(),
               builder: (favoriteController) {

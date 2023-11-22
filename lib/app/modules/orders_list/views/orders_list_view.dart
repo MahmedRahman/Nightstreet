@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/component/views/order_card_view.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
+import 'package:krzv2/component/views/pages/app_page_loading_more.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/order_model.dart';
@@ -27,6 +28,13 @@ class OrdersListView extends GetView<OrdersListController> {
           controller: controller.scroll,
           itemBuilder: (context, index) {
             final order = orders![index];
+
+            if (index == orders.length - 1) {
+              return AppPageLoadingMore(
+                display: controller.status.isLoadingMore,
+              );
+            }
+
             return Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: OrderCardView(

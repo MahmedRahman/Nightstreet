@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
+import 'package:krzv2/component/views/pages/app_page_loading_more.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/utils/app_dimens.dart';
@@ -18,26 +19,22 @@ class NotificationPage extends GetView<NotificationController> {
     return BaseScaffold(
       appBar: CustomAppBar(
         titleText: "الإشعارات",
-        actions: [
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: IconButton(
-          //     onPressed: () {
-          //       controller.readAllNotifaction();
-          //       return;
-          //     },
-          //     icon: Icon(Icons.done_all, color: AppColors.mainColor),
-          //   ),
-          // ),
-        ],
+        actions: [],
       ),
       body: controller.obx(
         (notifications) {
           return ListView.separated(
             controller: controller.scroll,
             itemCount: notifications!.length,
-            padding: AppDimension.appPadding + const EdgeInsets.symmetric(vertical: 30),
+            padding: AppDimension.appPadding +
+                const EdgeInsets.symmetric(vertical: 30),
             itemBuilder: (context, index) {
+              if (index == notifications.length - 1) {
+                return AppPageLoadingMore(
+                  display: controller.status.isLoadingMore,
+                );
+              }
+
               return NotificationBuilderWidget(
                 iconPath: notifications[index].icon,
                 notificationTitle: notifications[index].title,

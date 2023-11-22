@@ -83,21 +83,11 @@ class OfferProductController extends GetxController
 
     currentPage++;
 
-    Get.dialog(
-      const Center(
-        child: SpinKitCircle(
-          color: AppColors.mainColor,
-          size: 70,
-        ),
-      ),
-    );
+    change(productList.value, status: RxStatus.loadingMore());
 
     await getOffersProduct();
-
-    Get.back();
   }
 
   @override
-  Future<void> onTopScroll() async {
-  }
+  Future<void> onTopScroll() async {}
 }
