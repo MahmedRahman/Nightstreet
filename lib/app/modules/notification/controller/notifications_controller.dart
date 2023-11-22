@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/notification/model/notification_model.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/services/auth_service.dart';
-import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 

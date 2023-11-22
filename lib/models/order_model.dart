@@ -2,6 +2,7 @@
 
 class OrderModel {
   int id;
+  int marketId;
   double subTotal;
   double tax;
   double taxPercentage;
@@ -20,6 +21,7 @@ class OrderModel {
 
   OrderModel({
     required this.id,
+    required this.marketId,
     required this.subTotal,
     required this.tax,
     required this.taxPercentage,
@@ -40,6 +42,7 @@ class OrderModel {
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
       id: json['id'],
+      marketId: json['market_id'],
       subTotal: double.parse(json['sub_total']),
       tax: double.parse(json['tax']),
       taxPercentage: double.parse(json['tax_percentage']),

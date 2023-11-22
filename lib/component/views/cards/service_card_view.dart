@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:krzv2/app/modules/store/view/store_view.dart';
 import 'package:krzv2/component/views/cashed_network_image_view.dart';
 import 'package:krzv2/component/views/favorite_icon_view.dart';
 import 'package:krzv2/component/views/price_with_discount_view.dart';

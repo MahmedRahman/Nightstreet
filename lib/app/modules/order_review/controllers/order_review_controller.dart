@@ -28,4 +28,28 @@ class OrderReviewController extends GetxController {
     }
     AppDialogs.showToast(message: responseModel.data["message"]);
   }
+
+  rateMarket({
+    required String orderId,
+    required String marketId,
+    required String rate,
+    String? message,
+  }) async {
+    EasyLoading.show();
+
+    ResponseModel responseModel = await WebServices().rateMarket(
+      orderId: orderId,
+      marketId: marketId,
+      rate: rate,
+      message: message,
+    );
+    EasyLoading.dismiss();
+
+    if (responseModel.data["success"]) {
+      AppDialogs.showToast(message: responseModel.data["message"]);
+
+      return;
+    }
+    AppDialogs.showToast(message: responseModel.data["message"]);
+  }
 }
