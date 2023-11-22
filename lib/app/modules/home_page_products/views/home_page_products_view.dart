@@ -188,7 +188,8 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                                       .isLoggedIn ==
                                   false) {
                                 return AppDialogs.showToast(
-                                    message: 'الرجاء تسجيل الدخول');
+                                  message: 'الرجاء تسجيل الدخول',
+                                );
                               }
 
                               favController.addRemoveMarketFromFavorite(
@@ -202,6 +203,9 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                                 .contains(
                               data[index]["id"],
                             ),
+                            rate: data[index]["total_rate_avg"].toString(),
+                            totalRate:
+                                data[index]['total_rate_count'].toString(),
                           ).paddingOnly(
                             bottom: 10,
                           );

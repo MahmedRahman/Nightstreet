@@ -364,6 +364,8 @@ class FavoriteMarket extends GetView<MarketFavoriteController> {
                 imageUrl: market.image,
                 name: market.name,
                 desc: market.desc,
+                rate: market.rate.toString(),
+                totalRate: market.totalRate.toString(),
                 onFavoriteTapped: () {
                   controller.toggleFavorite(market.id);
 

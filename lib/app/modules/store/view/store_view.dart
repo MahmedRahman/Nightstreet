@@ -158,6 +158,8 @@ class MarketPage extends GetView<MarketPageController> {
                     );
                   },
                   onTapped: () {},
+                  rate: data["total_rate_avg"].toString(),
+                  totalRate: data["total_rate_count"].toString(),
                 ).paddingOnly(bottom: 10);
               },
             ),
