@@ -14,7 +14,6 @@ import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/pages/app_page_loading_more.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
-import 'package:krzv2/component/views/tabs/base_switch_3_tap.dart';
 import 'package:krzv2/component/views/tabs/base_switch_4_tap.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/branch_model.dart';
@@ -107,11 +106,6 @@ class FavoriteProducts extends GetView<ProductFavoriteController> {
         itemBuilder: (_, index) {
           final product = productList!.elementAt(index);
 
-          if (index == productList.length - 1) {
-            return AppPageLoadingMore(
-              display: controller.status.isLoadingMore,
-            );
-          }
           return GetBuilder<ProductFavoriteController>(
             init: ProductFavoriteController(),
             builder: (controller) {
@@ -213,12 +207,6 @@ class FavoriteService extends GetView<OfferFavoriteController> {
             itemBuilder: (context, index) {
               final offer = offers!.elementAt(index);
 
-              if (index == offers.length - 1) {
-                return AppPageLoadingMore(
-                  display: controller.status.isLoadingMore,
-                );
-              }
-
               return Padding(
                 padding: const EdgeInsets.only(
                   bottom: 8,
@@ -285,12 +273,6 @@ class FavoriteClinic extends GetView<CliniFavoriteController> {
           itemBuilder: (context, index) {
             final clinic = clinicList?.elementAt(index);
 
-            if (index == clinicList!.length - 1) {
-              return AppPageLoadingMore(
-                display: controller.status.isLoadingMore,
-              );
-            }
-
             return Padding(
               padding: const EdgeInsets.only(
                 bottom: 8,
@@ -350,12 +332,6 @@ class FavoriteMarket extends GetView<MarketFavoriteController> {
           itemBuilder: (context, index) {
             final market = marketsList?.elementAt(index);
 
-            if (index == marketsList!.length - 1) {
-              return AppPageLoadingMore(
-                display: controller.status.isLoadingMore,
-              );
-            }
-
             return Padding(
               padding: const EdgeInsets.only(
                 bottom: 8,
@@ -365,6 +341,8 @@ class FavoriteMarket extends GetView<MarketFavoriteController> {
                 imageUrl: market.image,
                 name: market.name,
                 desc: market.desc,
+                rate: market.rate.toString(),
+                totalRate: market.totalRate.toString(),
                 onFavoriteTapped: () {
                   controller.toggleFavorite(market.id);
 

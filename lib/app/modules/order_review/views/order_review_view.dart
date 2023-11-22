@@ -15,9 +15,14 @@ import 'package:krzv2/utils/app_spacers.dart';
 import '../controllers/order_review_controller.dart';
 
 class OrderReviewView extends GetView<OrderReviewController> {
-  OrderReviewView({Key? key, required this.orderId, required this.products})
-      : super(key: key);
+  OrderReviewView({
+    Key? key,
+    required this.orderId,
+    required this.marketId,
+    required this.products,
+  }) : super(key: key);
   final int orderId;
+  final int marketId;
   final List<OrderProdudctsDetails> products;
 
   final controller = Get.put(OrderReviewController());
@@ -25,32 +30,116 @@ class OrderReviewView extends GetView<OrderReviewController> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: CustomAppBar(titleText: 'تقييم الطلب'),
-      body: ListView.separated(
-        itemCount: products.length,
+      body: Padding(
         padding: AppDimension.appPadding,
-        itemBuilder: (context, index) {
-          final product = products.elementAt(index);
-          return ProductRateForm(
-            productImage: product.productImage,
-            productName: product.productName,
-            productQuantuty: product.quantity.toString(),
-            productPrice: product.price.toString(),
-            productOldPrice: product.oldPrice.toString(),
-            onTap: ({String? message, double? rate}) {
-              controller.rateOrderProduct(
-                orderId: orderId.toString(),
-                productId: product.productId.toString(),
-                rate: rate!.toInt().toString(),
-                message: message,
-              );
-            },
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Divider(),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              marketRateForm(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Divider(),
+              ),
+              ...products.map((product) {
+                return ProductRateForm(
+                  productImage: product.productImage,
+                  productName: product.productName,
+                  productQuantuty: product.quantity.toString(),
+                  productPrice: product.price.toString(),
+                  productOldPrice: product.oldPrice.toString(),
+                  onTap: ({String? message, double? rate}) {
+                    controller.rateOrderProduct(
+                      orderId: orderId.toString(),
+                      productId: product.productId.toString(),
+                      rate: rate!.toInt().toString(),
+                      message: message,
+                    );
+                  },
+                );
+              }).toList(),
+              // Expanded(
+              //   child: ListView.separated(
+              //     itemCount: products.length,
+              //     padding: AppDimension.appPadding,
+              //     itemBuilder: (context, index) {
+              //       final product = products.elementAt(index);
+
+              //       return ProductRateForm(
+              //         productImage: product.productImage,
+              //         productName: product.productName,
+              //         productQuantuty: product.quantity.toString(),
+              //         productPrice: product.price.toString(),
+              //         productOldPrice: product.oldPrice.toString(),
+              //         onTap: ({String? message, double? rate}) {
+              //           controller.rateOrderProduct(
+              //             orderId: orderId.toString(),
+              //             productId: product.productId.toString(),
+              //             rate: rate!.toInt().toString(),
+              //             message: message,
+              //           );
+              //         },
+              //       );
+              //     },
+              //     separatorBuilder: (BuildContext context, int index) =>
+              //         Padding(
+              //       padding: const EdgeInsets.symmetric(vertical: 10),
+              //       child: Divider(),
+              //     ),
+              //   ),
+              // ),
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  final RxDouble _marketRate = 1.0.obs;
+  final marketMessageController = TextEditingController();
+  Widget marketRateForm() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AppSpacers.height16,
+        Text(
+          'ما تقييمك لهذه المتجر؟',
+          style: TextStyle(
+            fontSize: 16.0,
+            letterSpacing: 0.24,
+            height: 0.75,
+          ),
+          textAlign: TextAlign.right,
+        ),
+        AppSpacers.height10,
+        RatingBarView(
+          initRating: 1,
+          totalRate: 0,
+          displayTotalRate: false,
+          itemSize: 20,
+          onRatingUpdate: (double vlu) {
+            _marketRate.value = vlu;
+          },
+        ),
+        AppSpacers.height10,
+        TextFieldComponent.longMessage(
+          outLineText: "",
+          hintText: "اكتب شيئًا عن هذا المتجر؟",
+          controller: marketMessageController,
+        ),
+        AppSpacers.height10,
+        CustomBtnCompenent.main(
+          width: 120,
+          text: "إرسال",
+          onTap: () {
+            controller.rateMarket(
+              orderId: orderId.toString(),
+              marketId: marketId.toString(),
+              rate: _marketRate.value.toInt().toString(),
+              message: marketMessageController.text,
+            );
+          },
+        ),
+      ],
     );
   }
 }

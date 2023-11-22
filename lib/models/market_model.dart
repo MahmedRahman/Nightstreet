@@ -5,6 +5,8 @@ class MarketModel {
   final String name;
   final String desc;
   final String image;
+  final num rate;
+  final num totalRate;
   bool isFavorite;
   MarketModel({
     required this.id,
@@ -12,6 +14,8 @@ class MarketModel {
     required this.desc,
     required this.image,
     required this.isFavorite,
+    required this.rate,
+    required this.totalRate,
   });
 
   factory MarketModel.fromMap(Map<String, dynamic> map) {
@@ -21,6 +25,8 @@ class MarketModel {
       desc: (map['desc'] ?? '') as String,
       image: map['image'] as String,
       isFavorite: map['is_favorite'] as bool,
+      rate: map['total_rate_avg'] as num,
+      totalRate: map['total_rate_count'] as num,
     );
   }
 }

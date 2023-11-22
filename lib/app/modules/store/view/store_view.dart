@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/market_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
-import 'package:krzv2/app/modules/home_page/controllers/home_page_product_categories_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/market_categories_controller.dart';
-import 'package:krzv2/app/modules/home_page_products/views/home_page_products_view.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/component/views/cards/market_card_view.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
-import 'package:krzv2/component/views/cards/service_card_view.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_categories_list_view.dart';
@@ -21,7 +17,6 @@ import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
-import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
@@ -163,6 +158,8 @@ class MarketPage extends GetView<MarketPageController> {
                     );
                   },
                   onTapped: () {},
+                  rate: data["total_rate_avg"].toString(),
+                  totalRate: data["total_rate_count"].toString(),
                 ).paddingOnly(bottom: 10);
               },
             ),

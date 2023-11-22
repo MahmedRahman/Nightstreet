@@ -49,6 +49,7 @@ class OrderDetailsDeliveredView extends GetView<OrderDetailsController> {
                   OrderReviewView(
                     orderId: order.id,
                     products: order.details ?? [],
+                    marketId: order.marketId,
                   ),
                 ),
               ),

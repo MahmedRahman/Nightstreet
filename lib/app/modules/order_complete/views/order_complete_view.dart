@@ -15,7 +15,6 @@ import 'package:krzv2/component/views/order_complete_address_loading_view.dart';
 import 'package:krzv2/component/views/order_payment_methods_view.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
-import 'package:krzv2/models/cart_summary_model.dart';
 import 'package:krzv2/models/shipping_companies_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
 

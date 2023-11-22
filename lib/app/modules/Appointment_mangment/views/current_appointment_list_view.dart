@@ -41,7 +41,7 @@ class CurrentAppointmentListView
             secondButtonText: "الغاء الخدمة",
             mainButtonOnTap: () async {
               if (appointment.can_update == false) {
-                AppDialogs.showToast(message: "لا يممكن تعديل هذا المعاد");
+                AppDialogs.showToast(message: "لا يمكن تعديل هذا المعاد");
                 return;
               }
 

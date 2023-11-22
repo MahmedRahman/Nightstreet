@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -9,7 +7,6 @@ import 'package:krzv2/models/branch_model.dart';
 import 'package:krzv2/models/branch_url_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/permissions_service.dart';
-import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 import 'package:permission_handler/permission_handler.dart';

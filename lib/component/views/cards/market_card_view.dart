@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
-import 'package:krzv2/app/modules/store/view/store_view.dart';
 import 'package:krzv2/component/views/cashed_network_image_view.dart';
 import 'package:krzv2/component/views/favorite_icon_view.dart';
-import 'package:krzv2/component/views/price_with_discount_view.dart';
 import 'package:krzv2/component/views/rating_bar_view.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
@@ -14,6 +12,8 @@ class MarketCardView extends GetView {
   final String imageUrl;
   final String name;
   final String desc;
+  final String rate;
+  final String totalRate;
   final double maxWidth;
   final bool? displayFullDesc;
   final Function()? onFavoriteTapped;
@@ -27,6 +27,8 @@ class MarketCardView extends GetView {
     required this.imageUrl,
     required this.name,
     required this.desc,
+    required this.rate,
+    required this.totalRate,
     this.displayFullDesc = false,
     required this.onFavoriteTapped,
     required this.onTapped,
@@ -45,6 +47,8 @@ class MarketCardView extends GetView {
             'لسوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وقة خالية من التمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من  السوداء و',
         desc = '',
         onFavoriteTapped = null,
+        rate = '',
+        totalRate = '',
         this.onTapped = ondummyTapped,
         this.maxWidth = double.infinity;
   static void ondummyTapped() {
@@ -109,6 +113,12 @@ class MarketCardView extends GetView {
                         textAlign: TextAlign.right,
                         maxLines: 2,
                       ),
+                    ),
+                    AppSpacers.height5,
+                    RatingBarView(
+                      initRating: int.parse(rate.toString()),
+                      totalRate: int.parse(totalRate.toString()),
+                      ignoreGestures: true,
                     ),
                     AppSpacers.height5,
                     if (desc != 'null')
