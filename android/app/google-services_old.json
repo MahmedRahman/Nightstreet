@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "827031594455",
+    "project_id": "krz-v2",
+    "storage_bucket": "krz-v2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827031594455:android:084d21e49ad62c628c1792",
+        "android_client_info": {
+          "package_name": "com.app.KRZ"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "827031594455-dkdsmh6hq4vs8ud270auovfukicc34aq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpoAejSW0ekE6jwFOPugcv4ikQKJweeIY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "827031594455-dkdsmh6hq4vs8ud270auovfukicc34aq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827031594455:android:60d1b081e1c66c378c1792",
+        "android_client_info": {
+          "package_name": "com.krz.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "827031594455-dkdsmh6hq4vs8ud270auovfukicc34aq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpoAejSW0ekE6jwFOPugcv4ikQKJweeIY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "827031594455-dkdsmh6hq4vs8ud270auovfukicc34aq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

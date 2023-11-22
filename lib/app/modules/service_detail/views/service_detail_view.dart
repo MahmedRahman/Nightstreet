@@ -88,20 +88,23 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppSpacers.height12,
-                    ImageSwpierView(
-                      images: List.generate(
-                        data["images"].length,
-                        (index) {
-                          return data["images"][index]["image"];
-                        },
+                    Container(
+                      //color: Colors.red,
+                      // height: 200,
+                      child: ImageSwpierView(
+                        images: List.generate(
+                          data["images"].length,
+                          (index) {
+                            return data["images"][index]["image"];
+                          },
+                        ),
                       ),
                     ),
                     AppSpacers.height10,
                     clinicInformationBox(
                       isFavorite: data['is_favorite'],
                       title: data["clinic"]["name"],
-                      id: data["clinic"]["id"] as int,
-                      image: data["clinic"]["image"],
+                      clinicLogo: data["clinic"]["image"],
                       onFavoriteTap: () {
                         if (Get.put(AuthenticationController().isLoggedIn) ==
                             false) {
@@ -130,6 +133,7 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                           subject: data["name"],
                         );
                       },
+                      id: data["id"],
                     ),
                     Divider(),
                     Text(
@@ -338,9 +342,9 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
 
   Widget clinicInformationBox({
     required String title,
-    required String image,
     required int id,
     required bool isFavorite,
+    required String clinicLogo,
     required void Function() onFavoriteTap,
     required void Function() onUploadTap,
   }) {
@@ -366,13 +370,9 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                   ),
                 ),
                 child: CashedNetworkImageView(
-                  imageUrl: image,
+                  imageUrl: clinicLogo,
                   width: 42,
                 ),
-                // child: Image.asset(
-                //   "assets/image/dummy/dummy_service.png",
-                //   width: 42,
-                // ),
               ),
               SizedBox(
                 width: 8,

@@ -21,7 +21,7 @@ class ImageSwpierView extends GetView {
 
     return Container(
       width: double.infinity,
-      height: 260.0,
+      //height: 260.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.0),
         color: Colors.white,
@@ -39,12 +39,14 @@ class ImageSwpierView extends GetView {
                     (e) => InkWell(
                       overlayColor: MaterialStatePropertyAll(Colors.transparent),
                       onTap: () => displayImagePopup(iamgeUrl: e),
-                      child: SizedBox(
+                      child: Container(
                         width: Get.width,
-                        //height: 200,
+                        //height: 100,
+                        //color: Colors.red,
                         child: CashedNetworkImageView(
                           boxFit: BoxFit.fill,
                           imageUrl: e,
+                          //height: 100,
                         ),
                       ),
                     ),

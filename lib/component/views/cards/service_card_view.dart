@@ -64,42 +64,35 @@ class ServiceCardView extends GetView {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      overlayColor: MaterialStatePropertyAll(Colors.transparent),
-      onTap: onTapped,
-      child: Stack(
-        alignment: Alignment.topLeft,
-        children: [
-          Container(
-            constraints: BoxConstraints(maxWidth: maxWidth),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: AppColors.greyColor4,
-              border: Border.all(
-                width: 1.0,
-                color: AppColors.borderColor2,
-              ),
-            ),
-            child: Row(
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: AppColors.greyColor4,
+        border: Border.all(
+          width: 1.0,
+          color: AppColors.borderColor2,
+        ),
+      ),
+      child: InkWell(
+        overlayColor: MaterialStatePropertyAll(Colors.transparent),
+        onTap: onTapped,
+        child: Row(
+          //alignment: Alignment.topLeft,
+          children: [
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    right: 4,
-                    top: 6,
-                    bottom: 6,
-                    left: 8,
+                Container(
+                  width: 120,
+                  //color: Colors.amber,
+                  child: CashedNetworkImageView(
+                    height: 75,
+                    imageUrl: imageUrl,
+                    boxFit: BoxFit.contain,
                   ),
-                  child: Stack(
-                    children: [
-                      CashedNetworkImageView(
-                        width: 94,
-                        height: 94,
-                        imageUrl: imageUrl,
-                        boxFit: BoxFit.cover,
-                      ),
-                    ],
-                  ),
+                ),
+                SizedBox(
+                  width: 5,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,15 +129,16 @@ class ServiceCardView extends GetView {
                 ),
               ],
             ),
-          ),
-          FavoriteIconView(
-            width: 35,
-            height: 35,
-            isFavorite: isFavorite,
-            onFavoriteTapped: onFavoriteTapped,
-            backgroundColor: Colors.transparent,
-          ),
-        ],
+            Spacer(),
+            FavoriteIconView(
+              width: 35,
+              height: 35,
+              isFavorite: isFavorite,
+              onFavoriteTapped: onFavoriteTapped,
+              backgroundColor: Colors.transparent,
+            ),
+          ],
+        ),
       ),
     );
   }
