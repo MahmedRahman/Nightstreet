@@ -106,11 +106,6 @@ class FavoriteProducts extends GetView<ProductFavoriteController> {
         itemBuilder: (_, index) {
           final product = productList!.elementAt(index);
 
-          if (index == productList.length - 1) {
-            return AppPageLoadingMore(
-              display: controller.status.isLoadingMore,
-            );
-          }
           return GetBuilder<ProductFavoriteController>(
             init: ProductFavoriteController(),
             builder: (controller) {
@@ -212,12 +207,6 @@ class FavoriteService extends GetView<OfferFavoriteController> {
             itemBuilder: (context, index) {
               final offer = offers!.elementAt(index);
 
-              if (index == offers.length - 1) {
-                return AppPageLoadingMore(
-                  display: controller.status.isLoadingMore,
-                );
-              }
-
               return Padding(
                 padding: const EdgeInsets.only(
                   bottom: 8,
@@ -284,12 +273,6 @@ class FavoriteClinic extends GetView<CliniFavoriteController> {
           itemBuilder: (context, index) {
             final clinic = clinicList?.elementAt(index);
 
-            if (index == clinicList!.length - 1) {
-              return AppPageLoadingMore(
-                display: controller.status.isLoadingMore,
-              );
-            }
-
             return Padding(
               padding: const EdgeInsets.only(
                 bottom: 8,
@@ -348,12 +331,6 @@ class FavoriteMarket extends GetView<MarketFavoriteController> {
           itemCount: marketsList?.length,
           itemBuilder: (context, index) {
             final market = marketsList?.elementAt(index);
-
-            if (index == marketsList!.length - 1) {
-              return AppPageLoadingMore(
-                display: controller.status.isLoadingMore,
-              );
-            }
 
             return Padding(
               padding: const EdgeInsets.only(
