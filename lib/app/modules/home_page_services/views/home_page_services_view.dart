@@ -131,7 +131,8 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                     itemBuilder: (context, index) {
                       final branch = branches.elementAt(index);
 
-                      if (index == branches.length - 1) {
+                      if (index == branches.length - 1 &&
+                          branches.length != 1) {
                         return AppPageLoadingMore(
                           display: controller.status.isLoadingMore,
                         );

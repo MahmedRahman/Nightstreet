@@ -29,7 +29,8 @@ class NotificationPage extends GetView<NotificationController> {
             padding: AppDimension.appPadding +
                 const EdgeInsets.symmetric(vertical: 30),
             itemBuilder: (context, index) {
-              if (index == notifications.length - 1) {
+              if (index == notifications.length - 1 &&
+                          notifications.length != 1) {
                 return AppPageLoadingMore(
                   display: controller.status.isLoadingMore,
                 );

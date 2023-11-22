@@ -21,7 +21,8 @@ class ClosedAppointmentListView extends GetView<AppointmentMangmentController> {
         itemBuilder: (context, index) {
           final appointment = appointmentList!.elementAt(index);
 
-          if (index == appointmentList.length - 1) {
+          if (index == appointmentList.length - 1 &&
+              appointmentList.length != 1) {
             return AppPageLoadingMore(
               display: controller.status.isLoadingMore,
             );
