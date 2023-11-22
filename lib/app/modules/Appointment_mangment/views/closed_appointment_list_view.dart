@@ -5,6 +5,7 @@ import 'package:krzv2/app/modules/appointment_mangment/controllers/appointment_m
 import 'package:krzv2/component/views/appointment_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
+import 'package:krzv2/component/views/pages/app_page_loading_more.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/appointment_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
@@ -19,6 +20,12 @@ class ClosedAppointmentListView extends GetView<AppointmentMangmentController> {
         itemCount: appointmentList?.length,
         itemBuilder: (context, index) {
           final appointment = appointmentList!.elementAt(index);
+
+          if (index == appointmentList.length - 1) {
+            return AppPageLoadingMore(
+              display: controller.status.isLoadingMore,
+            );
+          }
           return AppointmentCardView(
             status: appointment.status,
             time: appointment.timeFormat,

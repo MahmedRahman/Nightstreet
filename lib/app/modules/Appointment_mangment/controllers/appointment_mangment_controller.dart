@@ -16,13 +16,12 @@ class AppointmentMangmentController extends GetxController
 
   @override
   void onInit() async {
+    change([], status: RxStatus.loading());
     await fetchAppointments();
     super.onInit();
   }
 
   fetchAppointments() async {
-    change([], status: RxStatus.loading());
-
     final ResponseModel responseModel = await WebServices().getAppointments(
       filter: rxAppointmentType.value,
       page: currentPage,
@@ -48,8 +47,7 @@ class AppointmentMangmentController extends GetxController
         isPagination =
             responseModel.data['data']['pagination']['is_pagination'] as bool;
       }
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   void fetchAppointmentByType(int appointmentType) {
@@ -64,18 +62,9 @@ class AppointmentMangmentController extends GetxController
     if (isPagination == false) return;
     currentPage++;
 
-    Get.dialog(
-      const Center(
-        child: SpinKitCircle(
-          color: AppColors.mainColor,
-          size: 70,
-        ),
-      ),
-    );
+    change(_appointments, status: RxStatus.loadingMore());
 
     await fetchAppointments();
-
-    Get.back();
   }
 
   @override

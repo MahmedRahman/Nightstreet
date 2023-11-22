@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:focus_detector/focus_detector.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ import 'package:krzv2/component/views/cards/clinic_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/icon_button_component.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
+import 'package:krzv2/component/views/pages/app_page_loading_more.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/services_categories_view.dart';
 import 'package:krzv2/component/views/services_sort_view.dart';
@@ -129,6 +131,12 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                     itemCount: branches!.length,
                     itemBuilder: (context, index) {
                       final branch = branches.elementAt(index);
+
+                      if (index == branches.length - 1) {
+                        return AppPageLoadingMore(
+                          display: controller.status.isLoadingMore,
+                        );
+                      }
 
                       return GetBuilder<CliniFavoriteController>(
                         init: CliniFavoriteController(),

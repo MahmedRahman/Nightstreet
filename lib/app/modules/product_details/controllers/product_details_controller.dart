@@ -4,14 +4,17 @@ import 'package:krzv2/models/product_model.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-class ProductDetailsController extends GetxController with StateMixin<ProductModel> {
+class ProductDetailsController extends GetxController
+    with StateMixin<ProductModel> {
   void fetchProductDetails({required String productId}) async {
     change(null, status: RxStatus.loading());
 
-    ResponseModel responseModel = await WebServices().getSingleProduct(id: productId);
+    ResponseModel responseModel =
+        await WebServices().getSingleProduct(id: productId);
 
     if (responseModel.data["success"]) {
-      final ProductModel product = ProductModel.fromJson(responseModel.data['data']);
+      final ProductModel product =
+          ProductModel.fromJson(responseModel.data['data']);
 
       final similarProductController = Get.put(SimilarProductController());
       similarProductController.getMostSimilarProducts(

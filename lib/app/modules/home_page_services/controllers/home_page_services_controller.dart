@@ -18,7 +18,8 @@ class HomePageServicesController extends GetxController
     with StateMixin<List<BranchModel>>, ScrollMixin {
   final List<BranchModel> _branches = [];
   int currentPage = 1;
-  int? totalRemotePage;
+  // int? totalRemotePage;
+  bool? isPagination;
 
   BranchQueryParameters queryParams = BranchQueryParameters();
 
@@ -33,7 +34,6 @@ class HomePageServicesController extends GetxController
       update();
     }
 
-    print('queryParams ${queryParams.toMap()}');
     await fetchBranches();
     super.onInit();
   }
@@ -60,10 +60,11 @@ class HomePageServicesController extends GetxController
 
         await Future.delayed(const Duration(milliseconds: 500));
         change(_branches, status: RxStatus.success());
-        totalRemotePage =
-            responseModel.data['data']['pagination']['total_pages'];
-      } catch (e) {
-      }
+        // totalRemotePage =
+        //     responseModel.data['data']['pagination']['total_pages'];
+        isPagination =
+            responseModel.data['data']['pagination']['is_pagination'] as bool;
+      } catch (e) {}
     }
   }
 
@@ -92,32 +93,20 @@ class HomePageServicesController extends GetxController
 
   @override
   Future<void> onEndScroll() async {
-    bool hasNext = currentPage < totalRemotePage!;
-    if (hasNext == false) return;
+    if (isPagination == false) return;
     currentPage++;
 
-    Get.dialog(
-      const Center(
-        child: SpinKitCircle(
-          color: AppColors.mainColor,
-          size: 70,
-        ),
-      ),
-    );
+    change(_branches, status: RxStatus.loadingMore());
 
     await fetchBranches();
-
-    Get.back();
   }
 
   @override
-  Future<void> onTopScroll() async {
-  }
+  Future<void> onTopScroll() async {}
 
   bool shouldWatchFocus = false;
   Future<void> navigateToSettings() async {
     final status = await PermissionsHelper.requestLocationPermission();
-
 
     shouldWatchFocus = false;
 

@@ -11,8 +11,8 @@ import 'package:krzv2/utils/app_colors.dart';
 
 class PushNotificationService with CacheManager {
   AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'com.app.KRZ',
-    'com.app.KRZ',
+    'com.app.krz',
+    'com.app.krz',
   );
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =

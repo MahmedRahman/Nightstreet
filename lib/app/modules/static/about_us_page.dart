@@ -18,18 +18,19 @@ class AboutUsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('about => ${AppGlobal.KSettingData["about_application"] == null}');
     return Scaffold(
       appBar: const CustomAppBar(
         titleText: "عن التطبيق",
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          child: Html(
-              data: AppGlobal.KSettingData["about_application"]
-                  ["desc"] //staticPageService.aboutApplication.toString(),
+        child: AppGlobal.KSettingData["about_application"] == null
+            ? Center(child: Text('لا توجد بيانات'))
+            : SingleChildScrollView(
+                child: Html(
+                    data: AppGlobal.KSettingData["about_application"]["desc"]),
               ),
-        ),
       ),
       bottomNavigationBar: SizedBox(
         height: 190,
@@ -54,35 +55,40 @@ class AboutUsPage extends StatelessWidget {
               Row(
                 children: [
                   _socialMediaButton(
-                    socialMediaLink: AppGlobal.KSettingData['facebook'],
+                    socialMediaLink:
+                        AppGlobal.KSettingData['facebook'].toString(),
                     socialMediaIcon: AppSvgAssets.facebookIcon,
                     onTap: () {
                       urlLauncher(AppGlobal.KSettingData['facebook']);
                     },
                   ),
                   _socialMediaButton(
-                    socialMediaLink: AppGlobal.KSettingData['twitter'],
+                    socialMediaLink:
+                        AppGlobal.KSettingData['twitter'].toString(),
                     socialMediaIcon: AppSvgAssets.twitterIcon,
                     onTap: () {
                       urlLauncher(AppGlobal.KSettingData['twitter']);
                     },
                   ),
                   _socialMediaButton(
-                    socialMediaLink: AppGlobal.KSettingData['whatsapp'],
+                    socialMediaLink:
+                        AppGlobal.KSettingData['whatsapp'].toString(),
                     socialMediaIcon: AppSvgAssets.whatsappIcon,
                     onTap: () {
                       urlLauncher(AppGlobal.KSettingData['whatsapp']);
                     },
                   ),
                   _socialMediaButton(
-                    socialMediaLink: AppGlobal.KSettingData['linkedin'],
+                    socialMediaLink:
+                        AppGlobal.KSettingData['linkedin'].toString(),
                     socialMediaIcon: AppSvgAssets.linkedInIcon,
                     onTap: () {
                       urlLauncher(AppGlobal.KSettingData['linkedin']);
                     },
                   ),
                   _socialMediaButton(
-                    socialMediaLink: AppGlobal.KSettingData['instagram'],
+                    socialMediaLink:
+                        AppGlobal.KSettingData['instagram'].toString(),
                     socialMediaIcon: AppSvgAssets.instagramIcon,
                     onTap: () {
                       urlLauncher(AppGlobal.KSettingData['instagram']);
@@ -103,7 +109,7 @@ class AboutUsPage extends StatelessWidget {
     required void Function()? onTap,
   }) {
     return Visibility(
-      visible: socialMediaLink != '',
+      visible: socialMediaLink != '' && socialMediaLink != 'null',
       child: GestureDetector(
         onTap: onTap,
         child: SvgPicture.asset(
