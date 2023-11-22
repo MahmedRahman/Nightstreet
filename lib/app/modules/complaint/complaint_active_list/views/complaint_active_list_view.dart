@@ -23,7 +23,8 @@ class ComplaintActiveListView extends GetView<ComplaintActiveListController> {
           itemBuilder: (context, index) {
             final complaint = complaints.elementAt(index);
 
-            if (index == complaints.length - 1) {
+            if (index == complaints.length - 1 &&
+                          complaints.length != 1) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: AppPageLoadingMore(

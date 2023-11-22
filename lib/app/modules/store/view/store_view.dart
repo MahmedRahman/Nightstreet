@@ -249,7 +249,7 @@ GridView productsList({
     itemBuilder: (_, index) {
       final product = products[index];
 
-      if (index == products.length - 1) {
+      if (index == products.length - 1 && products.length != 1) {
         return AppPageLoadingMore(
           display: controller.status.isLoadingMore,
         );

@@ -15,7 +15,7 @@ class ProductReviewsView extends GetView<ProductReviewController> {
         itemBuilder: (context, index) {
           final review = reviews?.elementAt(index);
 
-          if (index == reviews!.length - 1) {
+          if (index == reviews!.length - 1 && reviews.length != 1) {
             return AppPageLoadingMore(
               display: controller.status.isLoadingMore,
             );

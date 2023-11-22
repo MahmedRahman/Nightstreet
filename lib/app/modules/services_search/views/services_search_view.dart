@@ -104,7 +104,7 @@ class ServiceSearchView extends GetView<ServicesSearchController> {
         itemBuilder: (context, index) {
           final service = servicesList?.elementAt(index);
 
-          if (index == servicesList!.length - 1) {
+          if (index == servicesList!.length - 1 && servicesList.length != 1) {
             return AppPageLoadingMore(
               display: controller.status.isLoadingMore,
             );
@@ -169,7 +169,7 @@ class ClinicsSearchView extends GetView<BranchSearchController> {
           itemBuilder: (context, index) {
             final branch = branches.elementAt(index);
 
-            if (index == branches.length - 1) {
+            if (index == branches.length - 1 && branches.length != 1) {
               return AppPageLoadingMore(
                 display: controller.status.isLoadingMore,
               );

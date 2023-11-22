@@ -46,7 +46,8 @@ class OfferServiceView extends GetView<OfferServiceController> {
               itemBuilder: (context, index) {
                 final service = servicesList?.elementAt(index);
 
-                if (index == servicesList!.length - 1) {
+                if (index == servicesList!.length - 1&&
+                          servicesList.length != 1) {
                   return AppPageLoadingMore(
                     display: controller.status.isLoadingMore,
                   );

@@ -98,7 +98,7 @@ class ProductsListView extends GetView<ProductsListController> {
         return GetBuilder<ProductFavoriteController>(
           init: ProductFavoriteController(),
           builder: (controller) {
-            if (index == products!.length - 1) {
+            if (index == products!.length - 1 && products.length != 1) {
               return AppPageLoadingMore(
                 display: controller.status.isLoadingMore,
               );

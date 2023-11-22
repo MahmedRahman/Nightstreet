@@ -29,7 +29,7 @@ class OrdersListView extends GetView<OrdersListController> {
           itemBuilder: (context, index) {
             final order = orders![index];
 
-            if (index == orders.length - 1) {
+            if (index == orders.length - 1 && orders.length != 1) {
               return AppPageLoadingMore(
                 display: controller.status.isLoadingMore,
               );
