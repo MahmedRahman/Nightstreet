@@ -48,7 +48,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(birthDateController.text.toString());
+    print('dddd ${birthDateController.text.toString() == ''}');
 
     return Scaffold(
       appBar: const CustomAppBar(
@@ -63,7 +63,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             TextFieldComponent.name(
               controller: nameController,
               textInputAction: TextInputAction.next,
-              onSubmitted: (_) => FocusScope.of(context).requestFocus(emailFocusNode),
+              onSubmitted: (_) =>
+                  FocusScope.of(context).requestFocus(emailFocusNode),
             ),
             AppSpacers.height29,
             Row(
@@ -87,8 +88,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
               isRequired: false,
             ),
             AppSpacers.height29,
-            DateTimeFormFieldView(
-              initialDateTime: (birthDateController.text.toString() == "") ? null : birthDateController.text,
+            DateTimeFormFieldViewEdit(
+              initialDateTime: (birthDateController.text.toString() == "")
+                  ? null
+                  : birthDateController.text,
               firstDate: DateTime(1900),
               lastDate: DateTime(2004),
               onDateChanged: (DateTime value) {
