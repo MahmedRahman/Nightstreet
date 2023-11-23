@@ -81,7 +81,7 @@ class ServiceCardView extends GetView {
         overlayColor: MaterialStatePropertyAll(Colors.transparent),
         onTap: onTapped,
         child: Row(
-          //alignment: Alignment.topLeft,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +90,6 @@ class ServiceCardView extends GetView {
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     width: 120,
-                    //color: Colors.amber,
                     child: CashedNetworkImageView(
                       height: 75,
                       imageUrl: imageUrl,
@@ -106,7 +105,7 @@ class ServiceCardView extends GetView {
                   children: [
                     Container(
                       constraints: BoxConstraints(
-                        maxWidth: MediaQuery.sizeOf(context).width * .5,
+                        maxWidth: MediaQuery.sizeOf(context).width * .4,
                       ),
                       child: Text(
                         name,
