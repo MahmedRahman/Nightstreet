@@ -70,11 +70,13 @@ class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
                   distance: branch!.distance,
                   isFavorite: favoriteController.clinicIsFavorite(branch.id),
                   imageUrl: branch.clinic.image,
-                  name: branch.name,
+                  name: branch.clinic.name,
                   onTap: () {},
                   onFavoriteTapped: () {
-                    if (Get.find<AuthenticationController>().isLoggedIn == false) {
-                      return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                    if (Get.find<AuthenticationController>().isLoggedIn ==
+                        false) {
+                      return AppDialogs.showToast(
+                          message: 'الرجاء تسجيل الدخول');
                     }
 
                     final favCon = Get.put<CliniFavoriteController>(
@@ -100,7 +102,7 @@ class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
             ),
             (branch!.clinicImage.toString() == "null")
                 ? SizedBox.shrink()
-                : HomeBannerView(imageUrl: branch!.clinicImage.toString()),
+                : HomeBannerView(imageUrl: branch.clinicImage.toString()),
             Text(
               'عن المركز',
               style: TextStyle(
@@ -112,7 +114,7 @@ class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
             ),
             Divider(),
             Html(
-              data: branch!.clinic.desc,
+              data: branch.clinic.desc,
             ),
             SizedBox(
               height: 10,
@@ -141,7 +143,8 @@ class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
                       padding: const EdgeInsets.only(bottom: 10),
                       child: addressCard(
                         address: branch.otherBranches!.elementAt(index).name,
-                        isCurrentAddress: branch.otherBranches!.elementAt(index).current,
+                        isCurrentAddress:
+                            branch.otherBranches!.elementAt(index).current,
                       ),
                     );
                   },
@@ -232,8 +235,10 @@ class ClinicServicesPage extends GetView<ClinicServicesController> {
                       price: offer.price.toString(),
                       oldPrice: offer.oldPrice.toString(),
                       onFavoriteTapped: () {
-                        if (Get.find<AuthenticationController>().isLoggedIn == false) {
-                          return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                        if (Get.find<AuthenticationController>().isLoggedIn ==
+                            false) {
+                          return AppDialogs.showToast(
+                              message: 'الرجاء تسجيل الدخول');
                         }
                         final favCon = Get.put<OfferFavoriteController>(
                           OfferFavoriteController(),
