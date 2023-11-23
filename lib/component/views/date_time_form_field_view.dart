@@ -14,14 +14,17 @@ class DateTimeFormFieldView extends GetView {
     this.title = "تاريخ الميلاد",
     required this.firstDate,
   }) {
-    if (initialDateTime != '') {
-      print("nnnn ${initialDateTime.toString()}");
+    if (initialDateTime != '' && initialDateTime != null) {
+      //print("nnnn ${initialDateTime.toString()}");
 
       var parsedDate = DateTime.parse('$initialDateTime');
-      print("mmm ${parsedDate.toString()}");
+      // print("mmm ${parsedDate.toString()}");
       selectedDate.value = parsedDate;
 
-      print("selectedDate ${selectedDate.value.toString()}");
+      //print("selectedDate ${selectedDate.value.toString()}");
+    } else {
+      //selectedDate.value = DateTime(2003);
+      //parsedDate = DateTime(2003);
     }
   }
 
@@ -72,7 +75,7 @@ class DateTimeFormFieldView extends GetView {
                       onTap: () async {
                         DateTime? pickedDate = await showDatePicker(
                           context: context,
-                          initialDate: selectedDate.value ?? DateTime.now(),
+                          initialDate: selectedDate.value ?? DateTime(2003),
                           firstDate: firstDate,
                           lastDate: lastDate ?? DateTime(2101),
                           confirmText: "تحديد",
@@ -99,8 +102,7 @@ class DateTimeFormFieldView extends GetView {
                         if (pickedDate != null) {
                           selectedDate.value = pickedDate;
                           onDateChanged(pickedDate);
-                        } else {
-                        }
+                        } else {}
                       },
                       child: Container(
                         width: double.infinity,
@@ -109,9 +111,7 @@ class DateTimeFormFieldView extends GetView {
                           borderRadius: BorderRadius.circular(10.0),
                           color: Color(0xffF5F6FA),
                           border: Border.all(
-                            color: field.hasError
-                                ? Colors.red
-                                : Colors.transparent,
+                            color: field.hasError ? Colors.red : Colors.transparent,
                           ),
                         ),
                         child: Row(
