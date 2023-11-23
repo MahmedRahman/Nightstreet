@@ -51,6 +51,8 @@ class MarketPageController extends GetxController
 
       productList.addAll(responseModel.data["data"]["data"]);
 
+      print('cat length API => ${productList.length}');
+
       change(productList, status: RxStatus.success());
 
       isPagination =
@@ -142,7 +144,7 @@ class MarketPage extends GetView<MarketPageController> {
                   imageUrl: data["image"].toString(),
                   name: data["name"].toString(),
                   desc: data["desc"].toString(),
-                  displayFullDesc: true, 
+                  displayFullDesc: true,
                   isFavorite: favController.marketsFavoriteIds.value!.contains(
                     data["id"],
                   ),
@@ -175,6 +177,7 @@ class MarketPage extends GetView<MarketPageController> {
             AppSpacers.height12,
             marketCategoriesController.obx(
               (categoriesList) {
+                print('cat length UI => ${categoriesList.length}');
                 return HomeCategoriesListView(
                   categoriesList: categoriesList,
                   onCategoryTapped: (int categoryId) async {
