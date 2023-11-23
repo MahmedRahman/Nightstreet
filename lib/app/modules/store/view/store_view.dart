@@ -110,7 +110,7 @@ class MarketPage extends GetView<MarketPageController> {
 
   MarketPage(data) {
     this.data = data;
-    print("object");
+    print("object => $data");
     controller.MarketId = data["id"].toString();
     controller.getProductByMarketId(data["id"].toString());
     marketCategoriesController.getMarketCategories(
@@ -142,7 +142,7 @@ class MarketPage extends GetView<MarketPageController> {
                   imageUrl: data["image"].toString(),
                   name: data["name"].toString(),
                   desc: data["desc"].toString(),
-                  displayFullDesc: true,
+                  displayFullDesc: true, 
                   isFavorite: favController.marketsFavoriteIds.value!.contains(
                     data["id"],
                   ),

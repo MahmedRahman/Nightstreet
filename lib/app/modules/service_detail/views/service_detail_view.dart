@@ -102,6 +102,7 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                     ),
                     AppSpacers.height10,
                     clinicInformationBox(
+                      id: data["clinic"]["id"],
                       isFavorite: data['is_favorite'],
                       title: data["clinic"]["name"],
                       clinicLogo: data["clinic"]["image"],
@@ -133,7 +134,6 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                           subject: data["name"],
                         );
                       },
-                      id: data["id"],
                     ),
                     Divider(),
                     Text(
