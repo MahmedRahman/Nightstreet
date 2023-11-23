@@ -51,6 +51,8 @@ class MarketPageController extends GetxController with StateMixin<List>, ScrollM
 
       productList.addAll(responseModel.data["data"]["data"]);
 
+      print('cat length API => ${productList.length}');
+
       change(productList, status: RxStatus.success());
 
       isPagination = responseModel.data['data']['pagination']['is_pagination'] as bool;
@@ -177,6 +179,7 @@ class MarketPage extends GetView<MarketPageController> {
             AppSpacers.height12,
             marketCategoriesController.obx(
               (categoriesList) {
+                print('cat length UI => ${categoriesList.length}');
                 return HomeCategoriesListView(
                   categoriesList: categoriesList,
                   onCategoryTapped: (int categoryId) async {

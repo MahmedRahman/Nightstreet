@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/clinic_info/views/clinic_info_view.dart';
 import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/market_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
+import 'package:krzv2/app/modules/store/view/store_view.dart';
 import 'package:krzv2/component/views/cards/clinic_card_view.dart';
 import 'package:krzv2/component/views/cards/market_card_view.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
@@ -233,7 +235,12 @@ class FavoriteService extends GetView<OfferFavoriteController> {
                         );
                       },
                       isFavorite: favoriteController.offerIsFavorite(offer.id),
-                      onTapped: () {},
+                      onTapped: () {
+                        Get.toNamed(
+                          Routes.SERVICE_DETAIL,
+                          arguments: offer.id.toString(),
+                        );
+                      },
                       rate: offer.totalRateAvg.toString(),
                       totalRate: offer.totalRateCount.toString(),
                     );
@@ -281,7 +288,13 @@ class FavoriteClinic extends GetView<CliniFavoriteController> {
               child: ClinicCardView(
                 isFavorite: clinic!.isFavorite,
                 imageUrl: clinic.clinic.image,
-                onTap: () {},
+                onTap: () {
+                  KPageTitle = clinic.name;
+                  Get.toNamed(
+                    Routes.CLINIC_INFO,
+                    arguments: clinic.id,
+                  );
+                },
                 name: clinic.name,
                 onFavoriteTapped: () {
                   controller.toggleFavorite(clinic.id);
@@ -355,7 +368,20 @@ class FavoriteMarket extends GetView<MarketFavoriteController> {
                     onSuccess: () => controller.removeMarketFromList(market.id),
                   );
                 },
-                onTapped: () {},
+                onTapped: () {
+                  Get.to(
+                    MarketPage(
+                      {
+                        "id": market.id,
+                        "image": market.image,
+                        "name": market.name,
+                        "desc": market.desc,
+                        "total_rate_avg": market.rate,
+                        "total_rate_count": market.totalRate,
+                      },
+                    ),
+                  );
+                },
               ),
             );
           },
