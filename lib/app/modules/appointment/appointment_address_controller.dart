@@ -51,8 +51,10 @@ class AppointmentController extends GetxController {
     }
   }
 
+  RxBool timeLoading = false.obs;
   void getAvailableOfferTimes() async {
     ResponseModel responseModel;
+    timeLoading.value = true;
 
     responseModel = await WebServices().getAvailableOfferTimes(
       offerId: service["id"],
@@ -60,6 +62,7 @@ class AppointmentController extends GetxController {
       doctorId: GetUtils.isNull(selectDoctor) ? null : selectDoctor["id"],
       dateTime: selectData.toString(),
     );
+    timeLoading.value = false;
     if (responseModel.data["success"]) {
       AppointmentDataList.value = responseModel.data["data"];
       update();
