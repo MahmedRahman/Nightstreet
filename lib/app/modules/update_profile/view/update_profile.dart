@@ -61,8 +61,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             TextFieldComponent.name(
               controller: nameController,
               textInputAction: TextInputAction.next,
-              onSubmitted: (_) =>
-                  FocusScope.of(context).requestFocus(emailFocusNode),
+              onSubmitted: (_) => FocusScope.of(context).requestFocus(emailFocusNode),
             ),
             AppSpacers.height29,
             Row(
@@ -89,7 +88,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             DateTimeFormFieldView(
               initialDateTime: birthDateController.text,
               firstDate: DateTime(1900),
-              lastDate: DateTime(DateTime.now().year - 18),
+              lastDate: DateTime(2004),
               onDateChanged: (DateTime value) {
                 birthDateController.text = value.toString().substring(0, 10);
               },
