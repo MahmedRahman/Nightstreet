@@ -1,15 +1,21 @@
+import 'dart:convert';
+
 import 'package:krzv2/models/cart_summary_model.dart';
 
 class MarketShippingCart {
   final int marketId;
   final String marketName;
   final String marketImage;
+  final num marketRate;
+  final num marketTotalRate;
   final int marketProductCount;
   final List<ProductCartModel> products;
   final CartSummaryModel summary;
   MarketShippingCart({
     required this.marketId,
     required this.marketName,
+    required this.marketRate,
+    required this.marketTotalRate,
     required this.marketImage,
     required this.marketProductCount,
     required this.products,
@@ -27,6 +33,8 @@ class MarketShippingCart {
           (x) => ProductCartModel.fromMap(x as Map<String, dynamic>),
         ),
       ),
+      marketRate: map['total_rate_avg'] as num,
+      marketTotalRate: map['total_rate_count'] as num,
       summary: CartSummaryModel.fromMap(
         map['cart'],
       ),

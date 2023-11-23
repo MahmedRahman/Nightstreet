@@ -216,6 +216,8 @@ class MarketComponentView extends GetView {
                           'id': market.marketId,
                           "name": market.marketName,
                           "image": market.marketImage,
+                          "total_rate_avg": market.marketRate,
+                          "total_rate_count": market.marketTotalRate,
                         },
                       ),
                     );
