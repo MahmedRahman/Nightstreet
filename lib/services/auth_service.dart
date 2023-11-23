@@ -102,12 +102,18 @@ class AuthenticationController extends GetxController with CacheManager {
     required String phoneNumber,
   }) async {
     EasyLoading.show();
+
+    print(phoneNumber);
+
     ResponseModel response = await WebServices().authSendOtp(
       phone: phoneNumber,
     );
 
     EasyLoading.dismiss();
     if (response.data["success"] == false) {
+      AppDialogs.showToast(
+        message: response.data["message"].toString(),
+      );
       if (response.data["response_code"] == 403) {
         Get.toNamed(
           Routes.REGISTER,
@@ -116,10 +122,6 @@ class AuthenticationController extends GetxController with CacheManager {
 
         return;
       }
-
-      AppDialogs.showToast(
-        message: response.data["message"].toString(),
-      );
 
       return;
     }

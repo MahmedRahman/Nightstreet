@@ -89,7 +89,7 @@ class VerifyPhoneView extends GetView {
                         onSecondTextTapped: () {
                           controller.startTimer(30);
                           authenticationController.reSendVerificationCode(
-                            phoneNumber: Get.arguments.toString(),
+                            phoneNumber: phoneNumber.toString(),
                           );
                         },
                       ),
