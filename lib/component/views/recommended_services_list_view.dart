@@ -47,22 +47,20 @@ class RecommendedServicesListView extends GetView {
                     child: ServiceCardView(
                       imageUrl: service.image,
                       name: service.name,
+                      subTitle: service.clinic.name,
                       maxWidth: context.width * .75,
                       hasDiscount: service.oldPrice.toString() != '0.0',
                       price: service.price.toString(),
                       oldPrice: service.oldPrice.toString(),
                       onFavoriteTapped: () {
-                        if (Get.find<AuthenticationController>().isLoggedIn ==
-                            false) {
-                          return AppDialogs.showToast(
-                              message: 'الرجاء تسجيل الدخول');
+                        if (Get.find<AuthenticationController>().isLoggedIn == false) {
+                          return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                         }
                         return onFavoriteTapped(service.id);
                       },
                       rate: service.totalRateAvg.toString(),
                       totalRate: service.totalRateCount.toString(),
-                      isFavorite:
-                          favoriteController.offerIsFavorite(service.id),
+                      isFavorite: favoriteController.offerIsFavorite(service.id),
                       onTapped: () {
                         onTap(service.id);
                       },

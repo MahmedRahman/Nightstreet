@@ -217,6 +217,7 @@ class FavoriteService extends GetView<OfferFavoriteController> {
                     return ServiceCardView(
                       imageUrl: offer.image,
                       name: offer.name,
+                      subTitle: offer.clinic.name,
                       hasDiscount: offer.oldPrice != 0,
                       price: offer.price.toString(),
                       oldPrice: offer.oldPrice.toString(),

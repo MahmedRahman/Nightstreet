@@ -10,6 +10,8 @@ import 'package:krzv2/utils/app_spacers.dart';
 class ServiceCardView extends GetView {
   final String imageUrl;
   final String name;
+  final String subTitle;
+
   final bool hasDiscount;
   final String price;
   final double maxWidth;
@@ -27,6 +29,7 @@ class ServiceCardView extends GetView {
     Key? key,
     required this.imageUrl,
     required this.name,
+    required this.subTitle,
     required this.hasDiscount,
     required this.price,
     required this.onFavoriteTapped,
@@ -49,6 +52,7 @@ class ServiceCardView extends GetView {
         this.name =
             'لسوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وقة خالية من التمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من  السوداء و',
         this.hasDiscount = false,
+        this.subTitle = "",
         this.price = '100',
         onFavoriteTapped = null,
         this.onTapped = ondummyTapped,
@@ -117,6 +121,22 @@ class ServiceCardView extends GetView {
                       ),
                     ),
                     AppSpacers.height5,
+                    Container(
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.sizeOf(context).width * .5,
+                      ),
+                      child: Text(
+                        subTitle,
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: AppColors.blackColor,
+                          height: 1.64,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        textAlign: TextAlign.right,
+                        maxLines: 2,
+                      ),
+                    ),
                     PriceWithDiscountView(
                       price: price,
                       hasDiscount: hasDiscount,

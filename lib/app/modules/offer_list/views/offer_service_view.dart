@@ -46,8 +46,7 @@ class OfferServiceView extends GetView<OfferServiceController> {
               itemBuilder: (context, index) {
                 final service = servicesList?.elementAt(index);
 
-                if (index == servicesList!.length - 1&&
-                          servicesList.length != 1) {
+                if (index == servicesList!.length - 1 && servicesList.length != 1) {
                   return AppPageLoadingMore(
                     display: controller.status.isLoadingMore,
                   );
@@ -59,14 +58,13 @@ class OfferServiceView extends GetView<OfferServiceController> {
                     return ServiceCardView(
                       imageUrl: service!.image,
                       name: service.name,
+                      subTitle: service.clinic.name,
                       hasDiscount: service.oldPrice != 0,
                       price: service.price.toString(),
                       oldPrice: service.oldPrice.toString(),
                       onFavoriteTapped: () {
-                        if (Get.find<AuthenticationController>().isLoggedIn ==
-                            false) {
-                          return AppDialogs.showToast(
-                              message: 'الرجاء تسجيل الدخول');
+                        if (Get.find<AuthenticationController>().isLoggedIn == false) {
+                          return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                         }
 
                         final favCon = Get.put<OfferFavoriteController>(
@@ -79,8 +77,7 @@ class OfferServiceView extends GetView<OfferServiceController> {
                       },
                       rate: service.totalRateAvg.toString(),
                       totalRate: service.totalRateCount.toString(),
-                      isFavorite:
-                          favoriteController.offerIsFavorite(service.id),
+                      isFavorite: favoriteController.offerIsFavorite(service.id),
                       onTapped: () {
                         Get.toNamed(
                           Routes.SERVICE_DETAIL,
@@ -95,9 +92,7 @@ class OfferServiceView extends GetView<OfferServiceController> {
             onLoading: ListView.builder(
               itemCount: 4,
               itemBuilder: (context, index) {
-                return ServiceCardView.dummy()
-                    .paddingOnly(bottom: 10)
-                    .shimmer();
+                return ServiceCardView.dummy().paddingOnly(bottom: 10).shimmer();
               },
             ),
             onEmpty: AppPageEmpty.serviceSearch(),
