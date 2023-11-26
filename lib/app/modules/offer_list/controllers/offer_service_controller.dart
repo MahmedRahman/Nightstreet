@@ -36,6 +36,7 @@ class OfferServiceController extends GetxController
       startPrice: filterQuery.startPrice.toString(),
       endPrice: filterQuery.endPrice.toString(),
       target: filterQuery.target,
+      adminFeatured: '1',
     );
 
     if (responseModel.data["success"]) {

@@ -20,7 +20,6 @@ RxInt KProductHighestPrice = 0.obs;
 
 class OfferProductView extends GetView<OfferProductController> {
   OfferProductView({Key? key}) : super(key: key);
-  final controller = Get.put(OfferProductController());
   final cartController = Get.find<ShoppingCartController>();
   final sliderController = Get.find<HomePageProductSliderController>();
   final productCategoriesController = Get.find<ProductCategoriesController>();
@@ -86,7 +85,7 @@ class OfferProductView extends GetView<OfferProductController> {
                     builder: (favoriteController) {
                       final product = products.elementAt(index);
 
-                      if (index == products.length - 1&&
+                      if (index == products.length - 1 &&
                           products.length != 1) {
                         return AppPageLoadingMore(
                           display: controller.status.isLoadingMore,

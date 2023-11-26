@@ -51,79 +51,85 @@ class ShippingItemView extends GetView {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        child: Stack(
-          alignment: Alignment.topLeft,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            CashedNetworkImageView(
+              width: 94,
+              height: 100,
+              imageUrl: image,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppSpacers.width10,
-                CashedNetworkImageView(
-                  width: 94,
-                  height: 100,
-                  imageUrl: image,
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.sizeOf(context).width * .44,
+                  ),
+                  child: Text(
+                    name,
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: const Color(0xFF1F1F1F),
+                      height: 1.5,
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+                AppSpacers.height5,
+                PriceWithDiscountView(
+                  price: price,
+                  hasDiscount: oldPrice != '' ? true : false,
+                  oldPrice: oldPrice,
+                ),
+                AppSpacers.height5,
+                CounterView(
+                  height: 30,
+                  borderRadius: 6,
+                  initValue: num.tryParse(amount.toString())!,
+                  onDecrementTapped: ondecrement,
+                  onIncrementTapped: onIncrement,
                 ),
                 AppSpacers.width10,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      constraints: BoxConstraints(
-                        maxWidth: MediaQuery.sizeOf(context).width * .5,
-                      ),
-                      child: Text(
-                        name,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: const Color(0xFF1F1F1F),
-                          height: 1.5,
-                        ),
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                    AppSpacers.height5,
-                    PriceWithDiscountView(
-                      price: price,
-                      hasDiscount: oldPrice != '' ? true : false,
-                      oldPrice: oldPrice,
-                    ),
-                    AppSpacers.height5,
-                    CounterView(
-                      height: 30,
-                      borderRadius: 6,
-                      initValue: num.tryParse(amount.toString())!,
-                      onDecrementTapped: ondecrement,
-                      onIncrementTapped: onIncrement,
-                    ),
-                    AppSpacers.width10,
-                    //  AppSpacers.height10,
-                  ],
-                ),
+                //  AppSpacers.height10,
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, top: 10),
-              child: InkWell(
-                onTap: onDeleteTapped,
-                overlayColor: MaterialStatePropertyAll(Colors.transparent),
-                child: Container(
-                  width: 30.0,
-                  height: 30.0,
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6.0),
-                    color: AppColors.greyColor4,
-                    border: Border.all(
-                      width: 1.0,
-                      color: AppColors.borderColor2,
-                    ),
-                  ),
-                  child: SvgPicture.asset(
-                    AppSvgAssets.deleteIcon,
-                  ),
-                ),
-              ),
-            ),
+            DeleteIcon(onDeleteTapped: onDeleteTapped),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class DeleteIcon extends StatelessWidget {
+  const DeleteIcon({
+    super.key,
+    required this.onDeleteTapped,
+  });
+
+  final void Function()? onDeleteTapped;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onDeleteTapped,
+      overlayColor: MaterialStatePropertyAll(Colors.transparent),
+      child: Container(
+        width: 30.0,
+        height: 30.0,
+        padding: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6.0),
+          color: AppColors.greyColor4,
+          border: Border.all(
+            width: 1.0,
+            color: AppColors.borderColor2,
+          ),
+        ),
+        child: SvgPicture.asset(
+          AppSvgAssets.deleteIcon,
         ),
       ),
     );
