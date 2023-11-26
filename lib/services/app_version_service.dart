@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
+import 'package:get_cli/functions/version/version_update.dart';
+import 'package:krzv2/utils/app_force_update_dialog.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 import 'dart:io';
@@ -11,20 +13,27 @@ class AppVersionService extends GetxService {
   var _appVersionCloudData = {};
   PlateForm get _getPlateForm =>
       Platform.isAndroid ? PlateForm.android : PlateForm.ios;
-  var _getDeviceVersionName = "0";
-  String get _getDeviceBuildNumber => packageInfo!.buildNumber.toString();
 
   @override
   void onInit() async {
-    await _getAppVersion();
-    packageInfo = await PackageInfo.fromPlatform();
+    await getAppVersion();
 
-    _getDeviceVersionName = packageInfo!.version.toString();
-    log("AppVersion 00 $_getDeviceVersionName");
     super.onInit();
   }
 
-  Future _getAppVersion() async {
+  Future<String> getVersionInfo() async {
+    packageInfo = await PackageInfo.fromPlatform();
+
+    return packageInfo!.version.toString();
+  }
+
+  Future<String> getBuildDevice() async {
+    packageInfo = await PackageInfo.fromPlatform();
+
+    return packageInfo!.buildNumber.toString();
+  }
+
+  Future getAppVersion() async {
     ResponseModel response = await WebServices().getAppVersion();
     if (response.data["success"]) {
       _appVersionCloudData = response.data["data"];
@@ -42,37 +51,45 @@ class AppVersionService extends GetxService {
     return false;
   }
 
-  bool showUpdateDialog() {
+  Future<bool> showUpdateDialog() async {
     bool isForceUpdate = _hasForceUpdate(plateForm: _getPlateForm);
+    final String localVerion = await getVersionInfo();
+    final String localBuild = await getBuildDevice();
+
+    int compareVersionResult =
+        _appVersionCloudData["ios_version_name"].compareTo(localVerion);
 
     if (isForceUpdate) {
+      /// IOS
       if (_getPlateForm == PlateForm.ios) {
-        if ((_appVersionCloudData["ios_version_name"] !=
-                _getDeviceVersionName) &&
-            (_appVersionCloudData["ios_build_number"] !=
-                _getDeviceBuildNumber)) {
+        if (compareVersionResult == 0) {
+          if (int.parse(_appVersionCloudData["ios_build_number"]) >
+              int.parse(localBuild)) {
+            return true;
+          }
+          return false;
+        }
+
+        if (compareVersionResult == 1) {
           return true;
         }
       }
 
+      /// ANDROID
       if (_getPlateForm == PlateForm.android) {
-        if ((_appVersionCloudData["android_version_name"] !=
-                _getDeviceVersionName) &&
-            (_appVersionCloudData["android_build_number"] !=
-                _getDeviceBuildNumber)) {
+        if (compareVersionResult == 0) {
+          if (int.parse(_appVersionCloudData["android_build_number"]) >
+              int.parse(localBuild)) {
+            return true;
+          }
+          return false;
+        }
+
+        if (compareVersionResult == 1) {
           return true;
         }
       }
     }
-
-    log("AppVersion : ${_getDeviceVersionName.toString()}");
-
-    // log("AppVersion : ${_getDeviceBuildNumber.toString()}");
-
-    log("AppVersion : ${_getPlateForm.toString()}");
-
-    // log("AppVersion : ${_appVersionCloudData["android_version_name"]}");
-    // log("AppVersion : ${_appVersionCloudData["android_build_number"]}");
 
     return false;
   }

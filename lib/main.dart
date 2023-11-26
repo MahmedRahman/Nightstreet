@@ -28,7 +28,7 @@ void main() async {
     appRunner: () {
       runApp(
         DevicePreview(
-          enabled: !kReleaseMode,
+          enabled: false,
           builder: (context) => MyApp(), // Wrap your app
         ),
       );

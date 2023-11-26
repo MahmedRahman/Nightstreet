@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,6 +10,7 @@ import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
+import 'package:store_redirect/store_redirect.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -149,6 +152,41 @@ class AppDialogs {
             width: 240,
             onTap: () {
               Get.offAndToNamed(Routes.LAYOUT);
+            },
+          ),
+        ],
+      ),
+    );
+    return appDialogs;
+  }
+
+  factory AppDialogs.updateApp() {
+    final appDialogs = AppDialogs._();
+    appDialogs._dialog(
+      onTap: () {},
+      title: "يتوفر نسخة جديدة من التطبيق",
+      subtitle: 'قم بتحديث التطبيق الآن، للاستفادة من كافة مميزات التطبيق',
+      image: AppSvgAssets.updateIcon,
+      dialogHeight: 360,
+      barrierDismissible: false,
+      child: Column(
+        children: [
+          CustomBtnCompenent.main(
+            text: 'تحديث',
+            width: 240,
+            onTap: () {
+              StoreRedirect.redirect(
+                androidAppId: "com.krz.app",
+                iOSAppId: "6445977887",
+              );
+            },
+          ),
+          AppSpacers.height12,
+          CustomBtnCompenent.secondary(
+            text: 'إغلاق التطبيق',
+            width: 240,
+            onTap: () {
+              exit(0);
             },
           ),
         ],

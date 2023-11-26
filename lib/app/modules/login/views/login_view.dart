@@ -19,7 +19,7 @@ class LoginView extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
-    //app_version.showUpdateDialog();
+    // app_version.showUpdateDialog();
 
     return WillPopScope(
       onWillPop: () async => false,

@@ -1,8 +1,9 @@
 import 'package:get/get.dart';
+import 'package:krzv2/services/app_version_service.dart';
+import 'package:krzv2/utils/app_force_update_dialog.dart';
 
 class LayoutController extends GetxController {
-  //TODO: Implement LayoutController
-
+  final appVersion = Get.find<AppVersionService>();
   final count = 0.obs;
   @override
   void onInit() {
@@ -10,7 +11,7 @@ class LayoutController extends GetxController {
   }
 
   @override
-  void onReady() {
+  Future<void> onReady() async {
     super.onReady();
   }
 

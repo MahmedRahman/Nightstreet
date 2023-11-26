@@ -9,17 +9,20 @@ import 'package:krzv2/app/modules/home_page/controllers/home_page_service_catego
 import 'package:krzv2/app/modules/home_page_products/controllers/home_page_products_slider_controller.dart';
 import 'package:krzv2/app/modules/home_page_products/views/home_page_products_view.dart';
 import 'package:krzv2/app/modules/home_page_services/controllers/hom_page_service_slider_controller.dart';
+import 'package:krzv2/app/modules/layout/controllers/layout_controller.dart';
 import 'package:krzv2/app/modules/offer_list/controllers/offer_product_controller.dart';
 import 'package:krzv2/app/modules/offer_list/controllers/offer_service_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
 import 'package:krzv2/app/modules/splash/splash_page.dart';
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
+import 'package:krzv2/services/app_version_service.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/services/static_page_service.dart';
 
 class InitBindings extends Bindings {
   @override
   void dependencies() {
+    Get.put(AppVersionService());
     Get.put(AuthenticationController());
     Get.put(ProductFavoriteController());
     Get.put(OfferFavoriteController());
@@ -47,5 +50,6 @@ class InitBindings extends Bindings {
     );
 
     Get.put(MarketController());
+    Get.put(LayoutController());
   }
 }
