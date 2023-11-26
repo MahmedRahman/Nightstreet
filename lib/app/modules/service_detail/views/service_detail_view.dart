@@ -238,7 +238,7 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                     contentPadding: EdgeInsets.zero,
                     title: // Group: Group 22341
                         Text(
-                      'نوع الخدمة :',
+                      'يخدم :',
                       style: TextStyle(
                         fontSize: 16.0,
                         height: 1.19,
