@@ -1,5 +1,7 @@
 // @dart=2.12
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -20,11 +22,15 @@ void main() async {
 
   await SentryFlutter.init(
     (options) {
-      options.dsn = 'https://5019d3dc513f036f269fc73c18c719cd@o4504808028569600.ingest.sentry.io/4506109723148288';
+      options.dsn =
+          'https://5019d3dc513f036f269fc73c18c719cd@o4504808028569600.ingest.sentry.io/4506109723148288';
     },
     appRunner: () {
       runApp(
-        MyApp(),
+        DevicePreview(
+          enabled: !kReleaseMode,
+          builder: (context) => MyApp(), // Wrap your app
+        ),
       );
     },
   );

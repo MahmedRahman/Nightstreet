@@ -122,7 +122,7 @@ class ServiceCardView extends GetView {
                     AppSpacers.height5,
                     Container(
                       constraints: BoxConstraints(
-                        maxWidth: MediaQuery.sizeOf(context).width * .5,
+                        maxWidth: MediaQuery.sizeOf(context).width * .4,
                       ),
                       child: Text(
                         subTitle,
