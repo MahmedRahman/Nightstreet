@@ -11,9 +11,13 @@ class ImageSwpierView extends GetView {
   const ImageSwpierView({
     Key? key,
     required this.images,
+    this.height,
+    this.width,
   }) : super(key: key);
 
   final List<String> images;
+  final double? width;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -37,16 +41,15 @@ class ImageSwpierView extends GetView {
               items: images
                   .map(
                     (e) => InkWell(
-                      overlayColor: MaterialStatePropertyAll(Colors.transparent),
+                      overlayColor:
+                          MaterialStatePropertyAll(Colors.transparent),
                       onTap: () => displayImagePopup(iamgeUrl: e),
                       child: Container(
-                        width: Get.width,
-                        //height: 100,
-                        //color: Colors.red,
+                        width: width,
+                        height: height,
                         child: CashedNetworkImageView(
                           boxFit: BoxFit.fill,
                           imageUrl: e,
-                          //height: 100,
                         ),
                       ),
                     ),

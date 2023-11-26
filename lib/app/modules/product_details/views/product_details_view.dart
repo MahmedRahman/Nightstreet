@@ -82,6 +82,8 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
         children: [
           AppSpacers.height12,
           ImageSwpierView(
+            width: 200,
+            height: 200,
             images: product!.images.map((e) => e.image).toList(),
           ),
           AppSpacers.height10,
