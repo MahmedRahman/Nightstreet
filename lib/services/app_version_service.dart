@@ -1,8 +1,5 @@
-import 'dart:developer';
 
 import 'package:get/get.dart';
-import 'package:get_cli/functions/version/version_update.dart';
-import 'package:krzv2/utils/app_force_update_dialog.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 import 'dart:io';

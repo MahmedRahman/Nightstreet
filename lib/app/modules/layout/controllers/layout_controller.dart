@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:krzv2/services/app_version_service.dart';
-import 'package:krzv2/utils/app_force_update_dialog.dart';
 
 class LayoutController extends GetxController {
   final appVersion = Get.find<AppVersionService>();

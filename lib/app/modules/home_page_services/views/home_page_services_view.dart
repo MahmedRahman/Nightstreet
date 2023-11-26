@@ -27,15 +27,7 @@ import 'package:location/location.dart';
 import '../controllers/home_page_services_controller.dart';
 
 class HomePageServicesView extends GetView<HomePageServicesController> {
-  HomePageServicesView({Key? key}) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.queryParams.categoryId = KselectedCategoryId.value.toString();
-      controller.fiterBrancher();
-    });
-  }
-
   final sliderController = Get.find<HomePageServiceSliderController>();
-  final servicesController = Get.put(HomePageServicesController());
   final mapController = Get.find<GoogleMapViewController>();
 
   @override
@@ -69,6 +61,10 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
         }
       },
       child: BaseScaffold(
+        onRefresh: () async {
+          KselectedCategoryId.value = 0;
+          controller.fiterBrancher();
+        },
         appBar: AppBarSerechView(
           placeHolder: "ابحث عن خدمة او عيادة",
           actions: [

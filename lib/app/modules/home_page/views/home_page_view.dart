@@ -19,7 +19,6 @@ import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/app_version_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
-import 'package:krzv2/utils/app_force_update_dialog.dart';
 import 'package:krzv2/utils/app_launcuer.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
