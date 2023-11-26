@@ -15,7 +15,6 @@ class OfferServiceController extends GetxController
 
   @override
   void onInit() {
-    change([], status: RxStatus.loading());
     getServices();
     super.onInit();
   }

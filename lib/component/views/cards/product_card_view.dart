@@ -60,10 +60,6 @@ class ProductCardView extends GetView {
       child: Container(
         width: 150.0,
         padding: const EdgeInsets.all(8),
-        // margin: const EdgeInsets.only(left: 8),
-        // constraints: BoxConstraints(
-        //   maxHeight: 300,
-        // ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
           color: Colors.white,
@@ -76,33 +72,40 @@ class ProductCardView extends GetView {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             productImage(imageUrl: imageUrl),
-            AppSpacers.height10,
-            Text(
-              name,
-              style: TextStyle(
-                fontSize: 14.0,
-                color: AppColors.blackColor,
-                letterSpacing: 0.14,
-                height: 1.64,
+            Expanded(
+              child: Column(
+                children: [
+                  AppSpacers.height10,
+                  Text(
+                    name,
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: AppColors.blackColor,
+                      letterSpacing: 0.14,
+                      height: 1.64,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    maxLines: 2,
+                    textAlign: TextAlign.right,
+                  ),
+                  AppSpacers.height10, // Group: Group 21784
+                  PriceWithDiscountView(
+                    price: price,
+                    hasDiscount: hasDiscount,
+                    oldPrice: oldPrice,
+                  ),
+                  Spacer(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(child: _addToCart()),
+                      AppSpacers.width10,
+                      _favouriteButton(),
+                    ],
+                  ),
+                ],
               ),
-              maxLines: 3,
-              textAlign: TextAlign.right,
-            ),
-            AppSpacers.height10, // Group: Group 21784
-            PriceWithDiscountView(
-              price: price,
-              hasDiscount: hasDiscount,
-              oldPrice: oldPrice,
-            ),
-            AppSpacers.height10,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(child: _addToCart()),
-                AppSpacers.width10,
-                _favouriteButton(),
-              ],
-            ),
+            )
           ],
         ),
       ),
@@ -116,7 +119,7 @@ class ProductCardView extends GetView {
         children: [
           CashedNetworkImageView(
             imageUrl: imageUrl,
-            boxFit: BoxFit.cover,
+            boxFit: BoxFit.contain,
           ),
           Positioned(
             top: 5,

@@ -22,7 +22,8 @@ import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-class MarketPageController extends GetxController with StateMixin<List>, ScrollMixin {
+class MarketPageController extends GetxController
+    with StateMixin<List>, ScrollMixin {
   var MarketId;
   final categoriesList = Rx<List<dynamic>?>([]);
   @override
@@ -34,7 +35,9 @@ class MarketPageController extends GetxController with StateMixin<List>, ScrollM
 
   List productList = [];
   Future getProductByMarketId(
-      {required String MarketId, required String currentPage, required String categoryId}) async {
+      {required String MarketId,
+      required String currentPage,
+      required String categoryId}) async {
     if (currentPage == 1) change(null, status: RxStatus.loading());
 
     ResponseModel responseModel = await WebServices().getProductsByMarketId(
@@ -55,7 +58,8 @@ class MarketPageController extends GetxController with StateMixin<List>, ScrollM
 
       change(productList, status: RxStatus.success());
 
-      isPagination = responseModel.data['data']['pagination']['is_pagination'] as bool;
+      isPagination =
+          responseModel.data['data']['pagination']['is_pagination'] as bool;
 
       return;
     }
@@ -116,10 +120,12 @@ class MarketPage extends GetView<MarketPageController> {
 
   MarketPage(data) {
     this.data = data;
-    print("object => $data");
+
     controller.MarketId = data["id"].toString();
     controller.getProductByMarketId(
-        MarketId: data["id"].toString(), currentPage: 1.toString(), categoryId: 0.toString());
+        MarketId: data["id"].toString(),
+        currentPage: 1.toString(),
+        categoryId: 0.toString());
     marketCategoriesController.getMarketCategories(
       marketId: data["id"].toString(),
     );
@@ -130,7 +136,8 @@ class MarketPage extends GetView<MarketPageController> {
       appBar: CustomAppBar(
         titleText: "متجر",
         actions: [
-          if (authController.isLoggedIn || authController.isGuestUser) ShoppingCartIconView(),
+          if (authController.isLoggedIn || authController.isGuestUser)
+            ShoppingCartIconView(),
           if (authController.isLoggedIn) NotificationIconView(),
           AppSpacers.width20,
         ],
@@ -153,8 +160,10 @@ class MarketPage extends GetView<MarketPageController> {
                     data["id"],
                   ),
                   onFavoriteTapped: () {
-                    if (Get.find<AuthenticationController>().isLoggedIn == false) {
-                      return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                    if (Get.find<AuthenticationController>().isLoggedIn ==
+                        false) {
+                      return AppDialogs.showToast(
+                          message: 'الرجاء تسجيل الدخول');
                     }
 
                     favController.addRemoveMarketFromFavorite(
@@ -179,7 +188,6 @@ class MarketPage extends GetView<MarketPageController> {
             AppSpacers.height12,
             marketCategoriesController.obx(
               (categoriesList) {
-                print('cat length UI => ${categoriesList.length}');
                 return HomeCategoriesListView(
                   categoriesList: categoriesList,
                   onCategoryTapped: (int categoryId) async {
@@ -249,7 +257,7 @@ GridView productsList({
     controller: controller.scroll,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
-      childAspectRatio: (itemWidth / itemHeight) / .38,
+      childAspectRatio: (itemWidth / itemHeight) / .40,
       crossAxisSpacing: 10,
       mainAxisSpacing: 10,
     ),

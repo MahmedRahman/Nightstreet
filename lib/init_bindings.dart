@@ -35,7 +35,6 @@ class InitBindings extends Bindings {
     Get.put(AppointmentController());
     Get.put(OfferServiceController());
     Get.put(OfferProductController());
-    Get.put(OfferServiceController());
     Get.put(ServiceCategoriesController());
     Get.put(ProductCategoriesController());
     Get.put(

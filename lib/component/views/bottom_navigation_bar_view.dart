@@ -12,6 +12,13 @@ class MyBottomNavigationController extends GetxController {
       Get.until((route) => route.settings.name == '/layout');
 
     currentIndex.value = index;
+    onReady();
+  }
+
+  @override
+  void onReady() {
+    print('onReady');
+    super.onReady();
   }
 }
 
