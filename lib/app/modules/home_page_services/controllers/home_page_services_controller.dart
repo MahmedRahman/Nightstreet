@@ -29,15 +29,16 @@ class HomePageServicesController extends GetxController
   @override
   void onInit() async {
     change([], status: RxStatus.loading());
-    final mapController = Get.find<GoogleMapViewController>();
-    final latlng = mapController.currentLocation.value;
-    if (latlng.latitude != 0 && latlng.longitude != 0) {
-      queryParams.lat = latlng.latitude;
-      queryParams.lng = latlng.longitude;
-      update();
-    }
 
     pagingController.addPageRequestListener((pageKey) {
+      final mapController = Get.find<GoogleMapViewController>();
+      final latlng = mapController.currentLocation.value;
+
+      if (latlng.latitude != 0 && latlng.longitude != 0) {
+        queryParams.lat = latlng.latitude;
+        queryParams.lng = latlng.longitude;
+        update();
+      }
       currentPage = pageKey;
       fetchBranches();
     });

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:focus_detector/focus_detector.dart';
 import 'package:get/get.dart';
@@ -127,62 +128,59 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
               Expanded(
                 child: PagedListView<int, BranchModel>(
                   pagingController: controller.pagingController,
-                  builderDelegate: PagedChildBuilderDelegate<BranchModel>(
-                    firstPageProgressIndicatorBuilder: (_) => Column(
-                      children: [
-                        ClinicCardView.dummy()
-                            .paddingOnly(bottom: 10)
-                            .shimmer(),
-                        ClinicCardView.dummy()
-                            .paddingOnly(bottom: 10)
-                            .shimmer(),
-                      ],
-                    ),
-                    itemBuilder: (context, branch, index) =>
-                        GetBuilder<CliniFavoriteController>(
-                      init: CliniFavoriteController(),
-                      builder: (favoriteController) {
-                        return ClinicCardView(
-                          distance: branch.distance,
-                          isFavorite:
-                              favoriteController.clinicIsFavorite(branch.id),
-                          imageUrl: branch.clinic.image,
-                          name: branch.clinic.name,
-                          onTap: () {
-                            KPageTitle = branch.clinic.name;
-                            Get.toNamed(
-                              Routes.CLINIC_INFO,
-                              arguments: branch.id,
-                            );
-                          },
-                          onFavoriteTapped: () {
-                            if (Get.find<AuthenticationController>()
-                                    .isLoggedIn ==
-                                false) {
-                              return AppDialogs.showToast(
-                                  message: 'الرجاء تسجيل الدخول');
-                            }
-
-                            final favCon = Get.put<CliniFavoriteController>(
-                              CliniFavoriteController(),
-                            );
-
-                            favCon.addRemoveBranchFromFavorite(
-                              branchId: branch.id,
-                            );
-                          },
-                          rate: branch.totalRateAvg.toString(),
-                          totalRate: branch.totalRateCount.toString(),
-                          branchName: branch.name,
-                        ).paddingOnly(bottom: 10);
-                      },
-                    ),
-                  ),
+                  builderDelegate: builder(),
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  PagedChildBuilderDelegate<BranchModel> builder() {
+    return PagedChildBuilderDelegate<BranchModel>(
+      firstPageProgressIndicatorBuilder: (_) => Column(
+        children: [
+          ClinicCardView.dummy().paddingOnly(bottom: 10).shimmer(),
+          ClinicCardView.dummy().paddingOnly(bottom: 10).shimmer(),
+        ],
+      ),
+      newPageProgressIndicatorBuilder: (_) => CupertinoActivityIndicator(),
+      itemBuilder: (context, branch, index) =>
+          GetBuilder<CliniFavoriteController>(
+        init: CliniFavoriteController(),
+        builder: (favoriteController) {
+          return ClinicCardView(
+            distance: branch.distance,
+            isFavorite: favoriteController.clinicIsFavorite(branch.id),
+            imageUrl: branch.clinic.image,
+            name: branch.clinic.name,
+            onTap: () {
+              KPageTitle = branch.clinic.name;
+              Get.toNamed(
+                Routes.CLINIC_INFO,
+                arguments: branch.id,
+              );
+            },
+            onFavoriteTapped: () {
+              if (Get.find<AuthenticationController>().isLoggedIn == false) {
+                return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+              }
+
+              final favCon = Get.put<CliniFavoriteController>(
+                CliniFavoriteController(),
+              );
+
+              favCon.addRemoveBranchFromFavorite(
+                branchId: branch.id,
+              );
+            },
+            rate: branch.totalRateAvg.toString(),
+            totalRate: branch.totalRateCount.toString(),
+            branchName: branch.name,
+          ).paddingOnly(bottom: 10);
+        },
       ),
     );
   }
