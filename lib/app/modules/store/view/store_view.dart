@@ -67,29 +67,6 @@ class MarketPageController extends GetxController
     change([], status: RxStatus.error(responseModel.data["message"]));
   }
 
-  // List marketList = [];
-  // Future getMarketCategories(String MarketId) async {
-  //   ResponseModel responseModel = await WebServices().getCategoriesByMarketId(
-  //     marketId: MarketId.toString(),
-  //   );
-
-  //   if (responseModel.data["success"]) {
-  //     if (responseModel.data["data"]["data"].isEmpty) {
-  //       change([], status: RxStatus.empty());
-  //       return;
-  //     }
-  //     marketList.addAll(responseModel.data["data"]["data"]);
-
-  //     change(marketList, status: RxStatus.success());
-
-  //     isPagination = responseModel.data['data']['pagination']['is_pagination'] as bool;
-
-  //     return;
-  //   }
-
-  //   change([], status: RxStatus.error(responseModel.data["message"]));
-  // }
-
   int currentPage = 1;
   int categoryId = 0;
   bool isPagination = false;

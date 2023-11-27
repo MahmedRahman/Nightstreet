@@ -1,6 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:krzv2/app/modules/google_map/controllers/google_map_controller.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/models/branch_model.dart';
@@ -15,8 +18,11 @@ class HomePageServicesController extends GetxController
     with StateMixin<List<BranchModel>>, ScrollMixin {
   final List<BranchModel> _branches = [];
   int currentPage = 1;
-  // int? totalRemotePage;
+
   bool? isPagination;
+
+  PagingController<int, BranchModel> pagingController =
+      PagingController(firstPageKey: 1);
 
   BranchQueryParameters queryParams = BranchQueryParameters();
 
@@ -31,7 +37,11 @@ class HomePageServicesController extends GetxController
       update();
     }
 
-    await fetchBranches();
+    pagingController.addPageRequestListener((pageKey) {
+      currentPage = pageKey;
+      fetchBranches();
+    });
+
     super.onInit();
   }
 
@@ -43,24 +53,19 @@ class HomePageServicesController extends GetxController
 
     if (responseModel.data['success'] == true) {
       try {
-        final fetchedBranches = List<BranchModel>.from(
+        final newItems = List<BranchModel>.from(
           responseModel.data['data']['data']
               .map((item) => BranchModel.fromJson(item)),
         );
-
-        _branches.addAll(fetchedBranches);
-
-        if (_branches.isEmpty) {
-          change([], status: RxStatus.empty());
-          return;
-        }
-
-        await Future.delayed(const Duration(milliseconds: 500));
-        change(_branches, status: RxStatus.success());
-        // totalRemotePage =
-        //     responseModel.data['data']['pagination']['total_pages'];
-        isPagination =
+        final isPaginate =
             responseModel.data['data']['pagination']['is_pagination'] as bool;
+
+        if (isPaginate == false) {
+          pagingController.appendLastPage(newItems);
+        } else {
+          final nextPageKey = currentPage + 1;
+          pagingController.appendPage(newItems, nextPageKey);
+        }
       } catch (e) {}
     }
   }
@@ -69,6 +74,9 @@ class HomePageServicesController extends GetxController
     change([], status: RxStatus.loading());
     _branches.clear();
     currentPage = 1;
+
+    pagingController.refresh();
+
     fetchBranches();
   }
 

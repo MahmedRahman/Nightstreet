@@ -1,5 +1,4 @@
 class ProductImage {
-  //int id;
   String image;
 
   ProductImage({
@@ -9,7 +8,6 @@ class ProductImage {
 
   factory ProductImage.fromJson(Map<String, dynamic> json) {
     return ProductImage(
-     // id: json['id'],
       image: json['image'],
     );
   }

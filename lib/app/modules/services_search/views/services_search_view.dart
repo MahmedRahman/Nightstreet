@@ -81,7 +81,8 @@ class ServicesSearchView extends GetView<ServicesSearchController> {
   onSearchTappedBranches() {
     if (searchController.text.isEmpty) return;
 
-    if (searchController.text == branchSearchController.searchQuery.value) return;
+    if (searchController.text == branchSearchController.searchQuery.value)
+      return;
 
     branchSearchController.resetSearchValues();
 
@@ -120,7 +121,8 @@ class ServiceSearchView extends GetView<ServicesSearchController> {
                 price: service.price.toString(),
                 oldPrice: service.oldPrice.toString(),
                 onFavoriteTapped: () {
-                  if (Get.find<AuthenticationController>().isLoggedIn == false) {
+                  if (Get.find<AuthenticationController>().isLoggedIn ==
+                      false) {
                     return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                   }
 
@@ -177,7 +179,7 @@ class ClinicsSearchView extends GetView<BranchSearchController> {
               init: CliniFavoriteController(),
               builder: (favoriteController) {
                 return ClinicCardView(
-                  name: branch.name.toString(),
+                  name: branch.clinic.name,
                   imageUrl: branch.clinic.image,
                   totalRate: branch.totalRateCount.toString(),
                   isFavorite: favoriteController.clinicIsFavorite(branch.id),
@@ -188,8 +190,10 @@ class ClinicsSearchView extends GetView<BranchSearchController> {
                     );
                   },
                   onFavoriteTapped: () {
-                    if (Get.find<AuthenticationController>().isLoggedIn == false) {
-                      return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                    if (Get.find<AuthenticationController>().isLoggedIn ==
+                        false) {
+                      return AppDialogs.showToast(
+                          message: 'الرجاء تسجيل الدخول');
                     }
 
                     final favCon = Get.put<CliniFavoriteController>(

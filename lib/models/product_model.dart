@@ -19,9 +19,7 @@ class ProductModel {
   double totalRateAvg;
   int totalRateCount;
   bool isFavorite;
-  int active;
-  String weight;
-  String barcode;
+
   int adminFeatured;
 
   ProductModel({
@@ -40,9 +38,6 @@ class ProductModel {
     required this.totalRateAvg,
     required this.totalRateCount,
     required this.isFavorite,
-    required this.active,
-    required this.weight,
-    required this.barcode,
     required this.adminFeatured,
     required this.variants,
   });
@@ -79,9 +74,7 @@ class ProductModel {
     totalRateAvg: 4.5,
     totalRateCount: 1000,
     isFavorite: false,
-    active: 1,
-    weight: "1.5 kg",
-    barcode: "1234567890",
+
     adminFeatured: 1,
     variants: [],
   );
@@ -99,7 +92,8 @@ class ProductModel {
       cashback: json['cashback'],
       brand: Brand.fromJson(json['brand']),
       categories: List<ProductCategory>.from(
-        json['categories'].map((category) => ProductCategory.fromJson(category)),
+        json['categories']
+            .map((category) => ProductCategory.fromJson(category)),
       ),
       images: List<ProductImage>.from(
         json['images'].map((image) => ProductImage.fromJson(image)),
@@ -107,9 +101,6 @@ class ProductModel {
       totalRateAvg: json['total_rate_avg'].toDouble(),
       totalRateCount: json['total_rate_count'],
       isFavorite: json['is_favorite'],
-      active: json['active'],
-      weight: json['weight'],
-      barcode: json['barcode'],
       adminFeatured: json['admin_featured'],
       variants: (json['variants'] as List).length == 0
           ? []

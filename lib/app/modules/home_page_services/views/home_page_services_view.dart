@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:focus_detector/focus_detector.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:krzv2/app/modules/clinic_info/views/clinic_info_view.dart';
 import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
 import 'package:krzv2/app/modules/google_map/controllers/google_map_controller.dart';
@@ -17,6 +18,7 @@ import 'package:krzv2/component/views/services_categories_view.dart';
 import 'package:krzv2/component/views/services_sort_view.dart';
 import 'package:krzv2/component/views/slider_view.dart';
 import 'package:krzv2/extensions/widget.dart';
+import 'package:krzv2/models/branch_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_dimens.dart';
@@ -63,7 +65,10 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
       child: BaseScaffold(
         onRefresh: () async {
           KselectedCategoryId.value = 0;
-          controller.fiterBrancher();
+          // controller.fiterBrancher();
+          controller.queryParams.categoryId = '0';
+          controller.queryParams.filter = '';
+          controller.pagingController.refresh();
         },
         appBar: AppBarSerechView(
           placeHolder: "ابحث عن خدمة او عيادة",
@@ -120,73 +125,61 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                 height: 12,
               ),
               Expanded(
-                child: controller.obx(
-                  (branches) => ListView.builder(
-                    controller: controller.scroll,
-                    itemCount: branches!.length,
-                    itemBuilder: (context, index) {
-                      final branch = branches.elementAt(index);
+                child: PagedListView<int, BranchModel>(
+                  pagingController: controller.pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<BranchModel>(
+                    firstPageProgressIndicatorBuilder: (_) => Column(
+                      children: [
+                        ClinicCardView.dummy()
+                            .paddingOnly(bottom: 10)
+                            .shimmer(),
+                        ClinicCardView.dummy()
+                            .paddingOnly(bottom: 10)
+                            .shimmer(),
+                      ],
+                    ),
+                    itemBuilder: (context, branch, index) =>
+                        GetBuilder<CliniFavoriteController>(
+                      init: CliniFavoriteController(),
+                      builder: (favoriteController) {
+                        return ClinicCardView(
+                          distance: branch.distance,
+                          isFavorite:
+                              favoriteController.clinicIsFavorite(branch.id),
+                          imageUrl: branch.clinic.image,
+                          name: branch.clinic.name,
+                          onTap: () {
+                            KPageTitle = branch.clinic.name;
+                            Get.toNamed(
+                              Routes.CLINIC_INFO,
+                              arguments: branch.id,
+                            );
+                          },
+                          onFavoriteTapped: () {
+                            if (Get.find<AuthenticationController>()
+                                    .isLoggedIn ==
+                                false) {
+                              return AppDialogs.showToast(
+                                  message: 'الرجاء تسجيل الدخول');
+                            }
 
-                      if (index == branches.length - 1 &&
-                          branches.length != 1) {
-                        return AppPageLoadingMore(
-                          display: controller.status.isLoadingMore,
-                        );
-                      }
+                            final favCon = Get.put<CliniFavoriteController>(
+                              CliniFavoriteController(),
+                            );
 
-                      return GetBuilder<CliniFavoriteController>(
-                        init: CliniFavoriteController(),
-                        builder: (favoriteController) {
-                          return ClinicCardView(
-                            distance: branch.distance,
-                            isFavorite:
-                                favoriteController.clinicIsFavorite(branch.id),
-                            imageUrl: branch.clinic.image,
-                            name: branch.clinic.name,
-                            onTap: () {
-                              KPageTitle = branch.clinic.name;
-                              Get.toNamed(
-                                Routes.CLINIC_INFO,
-                                arguments: branch.id,
-                              );
-                            },
-                            onFavoriteTapped: () {
-                              if (Get.find<AuthenticationController>()
-                                      .isLoggedIn ==
-                                  false) {
-                                return AppDialogs.showToast(
-                                    message: 'الرجاء تسجيل الدخول');
-                              }
-
-                              final favCon = Get.put<CliniFavoriteController>(
-                                CliniFavoriteController(),
-                              );
-
-                              favCon.addRemoveBranchFromFavorite(
-                                branchId: branch.id,
-                              );
-                            },
-                            rate: branch.totalRateAvg.toString(),
-                            totalRate: branch.totalRateCount.toString(),
-                            branchName: branch.name,
-                          ).paddingOnly(bottom: 10);
-                        },
-                      );
-                    },
+                            favCon.addRemoveBranchFromFavorite(
+                              branchId: branch.id,
+                            );
+                          },
+                          rate: branch.totalRateAvg.toString(),
+                          totalRate: branch.totalRateCount.toString(),
+                          branchName: branch.name,
+                        ).paddingOnly(bottom: 10);
+                      },
+                    ),
                   ),
-                  onLoading: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return ClinicCardView.dummy()
-                          .paddingOnly(bottom: 10)
-                          .shimmer();
-                    },
-                  ),
-                  onError: (String? error) =>
-                      Text(error ?? 'حدث خطا في الفروع'),
-                  onEmpty: AppPageEmpty.branches(),
                 ),
-              )
+              ),
             ],
           ),
         ),
