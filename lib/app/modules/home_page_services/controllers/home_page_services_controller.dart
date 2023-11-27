@@ -21,8 +21,8 @@ class HomePageServicesController extends GetxController
 
   bool? isPagination;
 
-  PagingController<int, BranchModel> pagingController =
-      PagingController(firstPageKey: 1);
+  final pagingController =
+      PagingController<int, BranchModel>(firstPageKey: 1).obs;
 
   BranchQueryParameters queryParams = BranchQueryParameters();
 
@@ -30,7 +30,13 @@ class HomePageServicesController extends GetxController
   void onInit() async {
     change([], status: RxStatus.loading());
 
-    pagingController.addPageRequestListener((pageKey) {
+    pageListener();
+
+    super.onInit();
+  }
+
+  void pageListener() {
+    pagingController.value.addPageRequestListener((pageKey) {
       final mapController = Get.find<GoogleMapViewController>();
       final latlng = mapController.currentLocation.value;
 
@@ -42,11 +48,9 @@ class HomePageServicesController extends GetxController
       currentPage = pageKey;
       fetchBranches();
     });
-
-    super.onInit();
   }
 
-  fetchBranches() async {
+  Future<void> fetchBranches() async {
     final ResponseModel responseModel = await WebServices().getBranches(
       page: currentPage,
       queryParameters: queryParams,
@@ -62,12 +66,16 @@ class HomePageServicesController extends GetxController
             responseModel.data['data']['pagination']['is_pagination'] as bool;
 
         if (isPaginate == false) {
-          pagingController.appendLastPage(newItems);
+          pagingController.value.appendLastPage(newItems.toSet().toList());
         } else {
           final nextPageKey = currentPage + 1;
-          pagingController.appendPage(newItems, nextPageKey);
+          pagingController.value
+              .appendPage(newItems.toSet().toList(), nextPageKey);
         }
-      } catch (e) {}
+      } catch (e, st) {
+        print('errrrrr $e');
+        print('errrrrr st $st');
+      }
     }
   }
 
@@ -104,7 +112,7 @@ class HomePageServicesController extends GetxController
 
     change(_branches, status: RxStatus.loadingMore());
 
-    await fetchBranches();
+    fetchBranches();
   }
 
   @override

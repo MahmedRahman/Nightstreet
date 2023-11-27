@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:krzv2/models/other_branch_model.dart';
 import 'package:krzv2/models/product_category_model.dart';
 import 'package:krzv2/models/service_clinic_model.dart';
 
-class BranchModel {
+class BranchModel extends Equatable {
   int id;
   String name;
   String cityName;
@@ -38,12 +39,15 @@ class BranchModel {
 
   factory BranchModel.fromJson(Map<String, dynamic> json) {
     var categoryList = json['categories'] as List;
-    List<ProductCategory> categoryData = categoryList.map((i) => ProductCategory.fromJson(i)).toList();
+    List<ProductCategory> categoryData =
+        categoryList.map((i) => ProductCategory.fromJson(i)).toList();
 
     var otherBranchesList = json['other_branches'];
     List<OtherBranchModel> otherBranchesData;
     if (otherBranchesList != null) {
-      otherBranchesData = (otherBranchesList as List).map((i) => OtherBranchModel.fromJson(i)).toList();
+      otherBranchesData = (otherBranchesList as List)
+          .map((i) => OtherBranchModel.fromJson(i))
+          .toList();
     } else {
       otherBranchesData = [];
     }
@@ -65,4 +69,22 @@ class BranchModel {
       isFavorite: json['is_favorite'],
     );
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        cityName,
+        clinic,
+        distance,
+        address,
+        clinicImage,
+        lat,
+        lng,
+        categories,
+        otherBranches,
+        totalRateAvg,
+        totalRateCount,
+        isFavorite,
+      ];
 }

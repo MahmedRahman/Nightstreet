@@ -117,18 +117,29 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
               ),
               ServicesCategoriesView(
                 onTap: (int selectedCategoryId) {
+                  // controller.pagingController.value.dispose();
+
+                  controller.pagingController.value =
+                      PagingController(firstPageKey: 1);
+
+                  controller.pageListener();
+
                   controller.queryParams.categoryId =
                       selectedCategoryId.toString();
-                  controller.fiterBrancher();
+
+                  // controller.fiterBrancher();
                 },
               ),
               SizedBox(
                 height: 12,
               ),
               Expanded(
-                child: PagedListView<int, BranchModel>(
-                  pagingController: controller.pagingController,
-                  builderDelegate: builder(),
+                child: Obx(
+                  () => PagedListView<int, BranchModel>(
+                    key: UniqueKey(),
+                    pagingController: controller.pagingController.value,
+                    builderDelegate: builder(),
+                  ),
                 ),
               ),
             ],

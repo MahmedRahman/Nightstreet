@@ -1,4 +1,6 @@
-class ServiceClinicModel {
+import 'package:equatable/equatable.dart';
+
+class ServiceClinicModel extends Equatable {
   int id;
   String name;
   String desc;
@@ -19,4 +21,12 @@ class ServiceClinicModel {
       desc: json['desc'] ?? '',
     );
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        desc,
+        image,
+      ];
 }
