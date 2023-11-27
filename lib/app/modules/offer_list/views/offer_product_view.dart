@@ -8,6 +8,7 @@ import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_contro
 import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_categories_list_view.dart';
+import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/pages/app_page_loading_more.dart';
 import 'package:krzv2/component/views/slider_view.dart';
 import 'package:krzv2/extensions/widget.dart';
@@ -29,47 +30,45 @@ class OfferProductView extends GetView<OfferProductController> {
     final double itemHeight = (Get.height - kToolbarHeight - 24) / 1;
     final double itemWidth = Get.width / 2;
 
-    return Scaffold(
-      body: Column(
-        children: [
-          sliderController.obx(
-            (slidersList) {
-              return SliderView(
-                images: slidersList!.map((slider) => slider.image).toList(),
-              );
-            },
-            onLoading: Container(
-              height: 150,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.black,
-              ),
-            ).shimmer(),
-          ),
-          AppSpacers.height16,
-          productCategoriesController.obx(
-            (categoriesList) {
-              return HomeCategoriesListView(
-                categoriesList: categoriesList,
-                onCategoryTapped: (int categoryId) async {
-                  await Get.toNamed(
-                    Routes.PRODUCTS_LIST,
-                    arguments: categoryId.toString(),
-                  );
-                },
-              );
-            },
-            onLoading: HomeCategoriesListView(
-              categoriesList: [],
-              onCategoryTapped: (int categoryId) {
-                Get.toNamed(Routes.PRODUCTS_LIST);
+    return Column(
+      children: [
+        sliderController.obx(
+          (slidersList) {
+            return SliderView(
+              images: slidersList!.map((slider) => slider.image).toList(),
+            );
+          },
+          onLoading: Container(
+            height: 150,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.black,
+            ),
+          ).shimmer(),
+        ),
+        AppSpacers.height16,
+        productCategoriesController.obx(
+          (categoriesList) {
+            return HomeCategoriesListView(
+              categoriesList: categoriesList,
+              onCategoryTapped: (int categoryId) async {
+                controller.queryParams.categoryId = categoryId.toString();
+                controller.productFilter();
               },
-            ).shimmer(),
-          ),
-          AppSpacers.height16,
-          Expanded(
-            child: controller.obx((List<ProductModel>? products) {
+            );
+          },
+          onLoading: HomeCategoriesListView(
+            categoriesList: [],
+            onCategoryTapped: (int categoryId) {
+              Get.toNamed(Routes.PRODUCTS_LIST);
+            },
+          ).shimmer(),
+        ),
+        AppSpacers.height16,
+        Expanded(
+          child: controller.obx(
+            (List<ProductModel>? products) {
               return GridView.builder(
                 padding: EdgeInsets.only(top: 10),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -147,10 +146,11 @@ class OfferProductView extends GetView<OfferProductController> {
                   );
                 },
               );
-            }),
+            },
+            onEmpty: AppPageEmpty.productSearchPP(),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
