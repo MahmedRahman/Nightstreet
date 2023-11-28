@@ -49,7 +49,11 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                 await mapController.getCurrentLocation();
             controller.queryParams.lat = latlng!.latitude;
             controller.queryParams.lng = latlng.longitude;
-            controller.fiterBrancher();
+
+            controller.pagingController.value =
+                PagingController(firstPageKey: 1);
+
+            controller.pageListener();
             Future.delayed(const Duration(milliseconds: 200));
             Get.back();
             return;
@@ -58,7 +62,11 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
           if (latlng.latitude != 0 && latlng.longitude != 0) {
             controller.queryParams.lat = latlng.latitude;
             controller.queryParams.lng = latlng.longitude;
-            controller.fiterBrancher();
+
+            controller.pagingController.value =
+                PagingController(firstPageKey: 1);
+
+            controller.pageListener();
             Future.delayed(const Duration(milliseconds: 200));
             Get.back();
           }
