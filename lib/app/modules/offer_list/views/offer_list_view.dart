@@ -57,7 +57,10 @@ class OfferListView extends GetView<OfferListController> {
                         productQuery: offerProductController.queryParams,
                         maxPrice: KProductHighestPrice.value,
                         onResetTapped: () {
-                          offerProductController.onInit();
+                          offerServiceController.pagingController.value =
+                              PagingController(firstPageKey: 1);
+
+                          offerServiceController.pageListener();
                         },
                       ),
                 backgroundColor: Colors.white,

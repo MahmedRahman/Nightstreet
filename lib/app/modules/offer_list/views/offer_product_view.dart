@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_product_categories_controller.dart';
 import 'package:krzv2/app/modules/home_page_products/controllers/home_page_products_slider_controller.dart';
 import 'package:krzv2/app/modules/offer_list/controllers/offer_product_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
+import 'package:krzv2/component/paginated_grid_view.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_categories_list_view.dart';
@@ -27,9 +29,6 @@ class OfferProductView extends GetView<OfferProductController> {
 
   @override
   Widget build(BuildContext context) {
-    final double itemHeight = (Get.height - kToolbarHeight - 24) / 1;
-    final double itemWidth = Get.width / 2;
-
     return Column(
       children: [
         sliderController.obx(
@@ -54,7 +53,11 @@ class OfferProductView extends GetView<OfferProductController> {
               categoriesList: categoriesList,
               onCategoryTapped: (int categoryId) async {
                 controller.queryParams.categoryId = categoryId.toString();
-                controller.productFilter();
+
+                controller.pagingController.value =
+                    PagingController(firstPageKey: 1);
+
+                controller.pageListener();
               },
             );
           },
@@ -67,90 +70,100 @@ class OfferProductView extends GetView<OfferProductController> {
         ),
         AppSpacers.height16,
         Expanded(
-          child: controller.obx(
-            (List<ProductModel>? products) {
-              return GridView.builder(
-                padding: EdgeInsets.only(top: 10),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: (itemWidth / itemHeight) / .35,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                itemCount: products!.length,
-                itemBuilder: (_, index) {
-                  return GetBuilder<ProductFavoriteController>(
-                    init: ProductFavoriteController(),
-                    builder: (favoriteController) {
-                      final product = products.elementAt(index);
-
-                      if (index == products.length - 1 &&
-                          products.length != 1) {
-                        return AppPageLoadingMore(
-                          display: controller.status.isLoadingMore,
-                        );
-                      }
-
-                      return ProductCardView(
-                        imageUrl: product.image.toString(),
-                        name: product.name.toString(),
-                        hasDiscount: product.oldPrice.toInt() != 0,
-                        isAvailable: product.quantity > 1,
-                        price: product.price.toString(),
-                        oldPrice: product.oldPrice.toString(),
-                        isFavorite:
-                            favoriteController.productIsFavorite(product.id),
-                        onAddToCartTapped: () {
-                          if (product.variants.isNotEmpty) {
-                            AppDialogs.showToast(
-                              message:
-                                  'هذا المنتج يحتوى على الوان يجب اختيار اللون',
-                            );
-                            Get.toNamed(
-                              Routes.PRODUCT_DETAILS,
-                              arguments: product.id.toString(),
-                            );
-
-                            return;
-                          }
-
-                          cartController.addToCart(
-                            productId: product.id.toString(),
-                            quantity: '1',
-                            isNew: true,
-                          );
-                        },
-                        onFavoriteTapped: () {
-                          if (Get.find<AuthenticationController>().isLoggedIn ==
-                              false) {
-                            return AppDialogs.showToast(
-                                message: 'الرجاء تسجيل الدخول');
-                          }
-                          final favCon = Get.put<ProductFavoriteController>(
-                            ProductFavoriteController(),
-                          );
-
-                          favCon.addRemoveProductFromFavorite(
-                            productId: product.id,
-                          );
-                        },
-                        //, product.isFavorite,
-                        onTap: () {
-                          Get.toNamed(
-                            Routes.PRODUCT_DETAILS,
-                            arguments: product.id.toString(),
-                          );
-                        },
-                      );
-                    },
-                  );
-                },
-              );
-            },
-            onEmpty: AppPageEmpty.productSearchPP(),
+          child: Obx(
+            () => PaginatedGridView<ProductModel>(
+              controller: controller.pagingController.value,
+              firstLoadingIndicator: firstLoadingIndicator(),
+              itemBuilder: itemBuilder,
+              onEmpty: AppPageEmpty.productSearchPP(),
+            ),
           ),
         ),
       ],
+    );
+  }
+
+  Container firstLoadingIndicator() {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: Get.height * .38,
+            child: ProductCardView.dummy().shimmer().paddingOnly(bottom: 10),
+          ),
+          SizedBox(
+            height: Get.height * .38,
+            child: ProductCardView.dummy().shimmer().paddingOnly(bottom: 10),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget itemBuilder(_, ProductModel product, __) {
+    return GetBuilder<ProductFavoriteController>(
+      init: ProductFavoriteController(),
+      builder: (controller) {
+        return ProductCardView(
+          imageUrl: product.image,
+          isAvailable: product.quantity > 1,
+          name: product.name,
+          hasDiscount: product.oldPrice.toInt() != 0,
+          price: product.price.toString(),
+          oldPrice: product.oldPrice.toString(),
+          onAddToCartTapped: () {
+            if (product.variants.isNotEmpty) {
+              AppDialogs.showToast(
+                message: 'هذا المنتج يحتوى على الوان يجب اختيار اللون',
+              );
+              Get.toNamed(
+                Routes.PRODUCT_DETAILS,
+                arguments: product.id.toString(),
+              );
+
+              return;
+            }
+            final isGuest = Get.find<AuthenticationController>().isGuestUser;
+            if (isGuest) {
+              Get.find<ShoppingCartController>().addToGuestCart(
+                productId: product.id.toString(),
+                quantity: '1',
+                isNew: true,
+              );
+
+              return;
+            }
+            Get.find<ShoppingCartController>().addToCart(
+              productId: product.id.toString(),
+              quantity: '1',
+              isNew: true,
+            );
+          },
+          onFavoriteTapped: () {
+            if (Get.find<AuthenticationController>().isLoggedIn == false) {
+              return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+            }
+            final favCon = Get.put<ProductFavoriteController>(
+              ProductFavoriteController(),
+            );
+
+            favCon.addRemoveProductFromFavorite(
+              productId: product.id,
+            );
+          },
+          isFavorite: controller.productFavoriteIds.value!.contains(
+            product.id,
+          ),
+          onTap: () async {
+            Get.toNamed(
+              Routes.PRODUCT_DETAILS,
+              arguments: product.id.toString(),
+            );
+          },
+        );
+      },
     );
   }
 }

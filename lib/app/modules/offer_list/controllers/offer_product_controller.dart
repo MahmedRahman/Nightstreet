@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:krzv2/app/modules/offer_list/views/offer_product_view.dart';
 import 'package:krzv2/models/product_model.dart';
 import 'package:krzv2/models/product_search_query.dart';
@@ -6,46 +7,54 @@ import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
 class OfferProductController extends GetxController
-    with StateMixin<List<ProductModel>>, ScrollMixin {
+    with StateMixin<List<ProductModel>> {
   final productList = Rx<List<ProductModel>?>([]);
   int currentPage = 1;
   bool? isPagination;
   ProductQueryParameters queryParams = ProductQueryParameters(adminFeatured: 1);
+
+  final pagingController =
+      PagingController<int, ProductModel>(firstPageKey: 1).obs;
+
   @override
   void onInit() {
-    getOffersProduct();
+    pageListener();
     super.onInit();
   }
 
-  Future<void> getOffersProduct() async {
-    if (currentPage == 1) change(null, status: RxStatus.loading());
+  void pageListener() {
+    pagingController.value.addPageRequestListener(
+      (pageKey) {
+        currentPage = pageKey;
+        getOffersProduct();
+      },
+    );
+  }
 
+  Future<void> getOffersProduct() async {
     ResponseModel responseModel = await WebServices().getProducts(
       page: currentPage,
       queryParameters: queryParams,
     );
 
     if (responseModel.data["success"]) {
-      final List<ProductModel> productDataList = List<ProductModel>.from(
+      final newItems = List<ProductModel>.from(
         responseModel.data['data']['data']
-            .map((category) => ProductModel.fromJson(category)),
+            .map((item) => ProductModel.fromJson(item)),
       );
+      final isPaginate =
+          responseModel.data['data']['pagination']['is_pagination'] as bool;
 
-      productList.value?.addAll(productDataList);
-
-      if (productList.value!.isEmpty) {
-        change([], status: RxStatus.empty());
-        return;
+      if (isPaginate == false) {
+        pagingController.value.appendLastPage(newItems.toSet().toList());
+      } else {
+        final nextPageKey = currentPage + 1;
+        pagingController.value
+            .appendPage(newItems.toSet().toList(), nextPageKey);
       }
 
       KProductHighestPrice.value = responseModel.data["data"]["highest_price"];
 
-      change(productList.value!, status: RxStatus.success());
-
-      KProductHighestPrice.value = responseModel.data["data"]["highest_price"];
-
-      isPagination =
-          responseModel.data['data']['pagination']['is_pagination'] as bool;
       return;
     }
 
@@ -71,20 +80,8 @@ class OfferProductController extends GetxController
     queryParams.endPrice = productQueryParameters.endPrice;
     queryParams.brandIds = productQueryParameters.brandIds;
 
-    productFilter();
+    pagingController.value = PagingController(firstPageKey: 1);
+
+    pageListener();
   }
-
-  @override
-  Future<void> onEndScroll() async {
-    if (isPagination == false) return;
-
-    currentPage++;
-
-    change(productList.value, status: RxStatus.loadingMore());
-
-    await getOffersProduct();
-  }
-
-  @override
-  Future<void> onTopScroll() async {}
 }
