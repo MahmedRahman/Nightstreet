@@ -97,6 +97,7 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
+      onRefresh: () async => marketController.pagingController.refresh(),
       appBar: AppBarSerechView(
         placeHolder: 'ما الذي تريد البحث عنه ؟',
         actions: [
@@ -149,24 +150,12 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                 return HomeCategoriesListView(
                   categoriesList: categoriesList,
                   onCategoryTapped: (int categoryId) async {
-                    // marketController.currentPage = 1;
-                    // marketController.isPagination = false;
-
                     marketController.pagingController.value =
                         PagingController(firstPageKey: 1);
 
-                    try {
-                      marketController.categoryId!.value =
-                          categoryId.toString();
-                      print('sss => ${marketController.categoryId!.value}');
-                    } catch (e) {
-                      print('assign err $e');
-                      print('assign stach $e');
-                    }
+                    marketController.categoryId!.value = categoryId.toString();
+
                     marketController.pageListener();
-                    // marketController.getMarket(
-                    //   categoryId: categoryId.toString(),
-                    // );
                   },
                 );
               },
