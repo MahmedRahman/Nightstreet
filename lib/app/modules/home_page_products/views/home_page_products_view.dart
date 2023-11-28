@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:krzv2/app/modules/favorite/controllers/market_favorite_controller.dart';
@@ -23,7 +22,6 @@ import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/market_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
-import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';

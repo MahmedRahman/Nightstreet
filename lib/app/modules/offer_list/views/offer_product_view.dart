@@ -11,7 +11,6 @@ import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_categories_list_view.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
-import 'package:krzv2/component/views/pages/app_page_loading_more.dart';
 import 'package:krzv2/component/views/slider_view.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/product_model.dart';

@@ -13,7 +13,6 @@ import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_categories_list_view.dart';
 import 'package:krzv2/component/views/notification_icon_view.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
-import 'package:krzv2/component/views/pages/app_page_loading_more.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
 import 'package:krzv2/extensions/widget.dart';
