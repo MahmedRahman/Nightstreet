@@ -100,9 +100,10 @@ class MarketPage extends GetView<MarketPageController> {
 
     controller.MarketId = data["id"].toString();
     controller.getProductByMarketId(
-        MarketId: data["id"].toString(),
-        currentPage: 1.toString(),
-        categoryId: 0.toString());
+      MarketId: data["id"].toString(),
+      currentPage: 1.toString(),
+      categoryId: 0.toString(),
+    );
     marketCategoriesController.getMarketCategories(
       marketId: data["id"].toString(),
     );
@@ -234,7 +235,7 @@ GridView productsList({
     controller: controller.scroll,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
-      childAspectRatio: (itemWidth / itemHeight) / .40,
+      childAspectRatio: (itemWidth / itemHeight) / .38,
       crossAxisSpacing: 10,
       mainAxisSpacing: 10,
     ),
