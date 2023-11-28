@@ -20,10 +20,6 @@ import 'package:krzv2/utils/app_spacers.dart';
 RxInt KOfferHighestPrice = 0.obs;
 
 class OfferServiceView extends GetView<OfferServiceController> {
-  OfferServiceView() {
-    controller.resetSearchValues();
-    controller.onInit();
-  }
   final controller = Get.find<OfferServiceController>();
   final sliderController = Get.find<HomePageServiceSliderController>();
   final serviceCategoriesController = Get.find<ServiceCategoriesController>();
