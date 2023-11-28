@@ -8,6 +8,7 @@ import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controlle
 import 'package:krzv2/app/modules/google_map/controllers/google_map_controller.dart';
 import 'package:krzv2/app/modules/home_page_services/controllers/hom_page_service_slider_controller.dart';
 import 'package:krzv2/component/center_loading.dart';
+import 'package:krzv2/component/paginated_list_view.dart';
 import 'package:krzv2/component/views/app_bar_search_view.dart';
 import 'package:krzv2/component/views/branches_sort_box_view.dart';
 import 'package:krzv2/component/views/cards/clinic_card_view.dart';
@@ -132,10 +133,17 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
               ),
               Expanded(
                 child: Obx(
-                  () => PagedListView<int, BranchModel>(
-                    key: UniqueKey(),
-                    pagingController: controller.pagingController.value,
-                    builderDelegate: builder(),
+                  () => PaginatedListView<BranchModel>(
+                    controller: controller.pagingController.value,
+                    firstLoadingIndicator: Column(
+                      children: [
+                        ClinicCardView.dummy()
+                            .paddingOnly(bottom: 10)
+                            .shimmer(),
+                        ClinicCardView.dummy().shimmer(),
+                      ],
+                    ),
+                    itemBuilder: itemBuilder,
                   ),
                 ),
               ),
@@ -146,50 +154,40 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
     );
   }
 
-  PagedChildBuilderDelegate<BranchModel> builder() {
-    return PagedChildBuilderDelegate<BranchModel>(
-      firstPageProgressIndicatorBuilder: (_) => Column(
-        children: [
-          ClinicCardView.dummy().paddingOnly(bottom: 10).shimmer(),
-          ClinicCardView.dummy().paddingOnly(bottom: 10).shimmer(),
-        ],
-      ),
-      newPageProgressIndicatorBuilder: (_) => CenterLoading(),
-      itemBuilder: (context, branch, index) =>
-          GetBuilder<CliniFavoriteController>(
-        init: CliniFavoriteController(),
-        builder: (favoriteController) {
-          return ClinicCardView(
-            distance: branch.distance,
-            isFavorite: favoriteController.clinicIsFavorite(branch.id),
-            imageUrl: branch.clinic.image,
-            name: branch.clinic.name,
-            onTap: () {
-              KPageTitle = branch.clinic.name;
-              Get.toNamed(
-                Routes.CLINIC_INFO,
-                arguments: branch.id,
-              );
-            },
-            onFavoriteTapped: () {
-              if (Get.find<AuthenticationController>().isLoggedIn == false) {
-                return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
-              }
+  Widget itemBuilder(_, BranchModel branch, __) {
+    return GetBuilder<CliniFavoriteController>(
+      init: CliniFavoriteController(),
+      builder: (favoriteController) {
+        return ClinicCardView(
+          distance: branch.distance,
+          isFavorite: favoriteController.clinicIsFavorite(branch.id),
+          imageUrl: branch.clinic.image,
+          name: branch.clinic.name,
+          onTap: () {
+            KPageTitle = branch.clinic.name;
+            Get.toNamed(
+              Routes.CLINIC_INFO,
+              arguments: branch.id,
+            );
+          },
+          onFavoriteTapped: () {
+            if (Get.find<AuthenticationController>().isLoggedIn == false) {
+              return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+            }
 
-              final favCon = Get.put<CliniFavoriteController>(
-                CliniFavoriteController(),
-              );
+            final favCon = Get.put<CliniFavoriteController>(
+              CliniFavoriteController(),
+            );
 
-              favCon.addRemoveBranchFromFavorite(
-                branchId: branch.id,
-              );
-            },
-            rate: branch.totalRateAvg.toString(),
-            totalRate: branch.totalRateCount.toString(),
-            branchName: branch.name,
-          ).paddingOnly(bottom: 10);
-        },
-      ),
+            favCon.addRemoveBranchFromFavorite(
+              branchId: branch.id,
+            );
+          },
+          rate: branch.totalRateAvg.toString(),
+          totalRate: branch.totalRateCount.toString(),
+          branchName: branch.name,
+        ).paddingOnly(bottom: 10);
+      },
     );
   }
 
