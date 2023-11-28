@@ -47,8 +47,8 @@ class MarketCardView extends GetView {
             'لسوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وقة خالية من التمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من الرؤس السوداء وتمتعي ببشرة مشرقة خالية من  السوداء و',
         desc = '',
         onFavoriteTapped = null,
-        rate = '',
-        totalRate = '',
+        rate = '1',
+        totalRate = '1',
         this.onTapped = ondummyTapped,
         this.maxWidth = double.infinity;
   static void ondummyTapped() {
