@@ -12,8 +12,6 @@ import 'package:krzv2/component/views/branches_sort_box_view.dart';
 import 'package:krzv2/component/views/cards/clinic_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/icon_button_component.dart';
-import 'package:krzv2/component/views/pages/app_page_empty.dart';
-import 'package:krzv2/component/views/pages/app_page_loading_more.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/services_categories_view.dart';
 import 'package:krzv2/component/views/services_sort_view.dart';
@@ -117,8 +115,6 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
               ),
               ServicesCategoriesView(
                 onTap: (int selectedCategoryId) {
-                  // controller.pagingController.value.dispose();
-
                   controller.pagingController.value =
                       PagingController(firstPageKey: 1);
 
@@ -210,6 +206,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
             controller.queryParams.filter = selectedSort;
 
             if (selectedSort == '2') {
+              print('selected sort $selectedSort');
               mapController.askPermissionAndGetCurrentLocation(
                 forceNavigateToSettingIfDenied: true,
               );
@@ -218,7 +215,11 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
               if (latlng.latitude != 0 && latlng.longitude != 0) {
                 controller.queryParams.lat = latlng.latitude;
                 controller.queryParams.lng = latlng.longitude;
-                controller.fiterBrancher();
+
+                controller.pagingController.value =
+                    PagingController(firstPageKey: 1);
+
+                controller.pageListener();
               }
 
               await Future.delayed(const Duration(milliseconds: 200));
@@ -226,7 +227,11 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
               return;
             }
 
-            controller.fiterBrancher();
+            controller.pagingController.value =
+                PagingController(firstPageKey: 1);
+
+            controller.pageListener();
+
             await Future.delayed(const Duration(milliseconds: 200));
             Get.back();
           }

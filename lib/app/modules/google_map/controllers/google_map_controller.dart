@@ -227,7 +227,6 @@ class GoogleMapViewController extends GetxController with StateMixin {
       return;
     }
 
-
     if (locationStatus == PermissionStatus.permanentlyDenied &&
         forceNavigateToSettingIfDenied == true) {
       try {
@@ -238,8 +237,7 @@ class GoogleMapViewController extends GetxController with StateMixin {
             Get.back();
           },
         );
-      } catch (e) {
-      }
+      } catch (e) {}
     }
   }
 }
