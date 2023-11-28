@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:krzv2/app/modules/offer_list/views/offer_service_view.dart';
 import 'package:krzv2/component/views/service_filter_bottom_sheet_view.dart';
 import 'package:krzv2/models/service_model.dart';
@@ -7,6 +8,9 @@ import 'package:krzv2/web_serives/web_serives.dart';
 
 class OfferServiceController extends GetxController
     with ScrollMixin, StateMixin<List<ServiceModel>> {
+  final pagingController =
+      PagingController<int, ServiceModel>(firstPageKey: 1).obs;
+
   final _services = Rx<List<ServiceModel>?>([]);
   int currentPage = 1;
   bool? isPagination;
@@ -15,8 +19,17 @@ class OfferServiceController extends GetxController
 
   @override
   void onInit() {
-    getServices();
+    pageListener();
     super.onInit();
+  }
+
+  void pageListener() {
+    pagingController.value.addPageRequestListener(
+      (pageKey) {
+        currentPage = pageKey;
+        getServices();
+      },
+    );
   }
 
   resetSearchValues() {
@@ -27,8 +40,6 @@ class OfferServiceController extends GetxController
   }
 
   getServices() async {
-    if (currentPage == 1) change([], status: RxStatus.loading());
-
     ResponseModel responseModel = await WebServices().getServices(
       page: currentPage.toString(),
       categoryId: categoryId.value,
@@ -40,22 +51,23 @@ class OfferServiceController extends GetxController
     );
 
     if (responseModel.data["success"]) {
-      final List<ServiceModel> serviceDataList = List<ServiceModel>.from(
-        responseModel.data['data']['data']
-            .map((category) => ServiceModel.fromJson(category)),
-      );
-
-      _services.value!.addAll(serviceDataList);
-
-      if (_services.value!.isEmpty) {
-        change([], status: RxStatus.empty());
-        return;
-      }
-
-      change(_services.value, status: RxStatus.success());
-
       isPagination =
           responseModel.data['data']['pagination']['is_pagination'] as bool;
+
+      final newItems = List<ServiceModel>.from(
+        responseModel.data['data']['data']
+            .map((item) => ServiceModel.fromJson(item)),
+      );
+      final isPaginate =
+          responseModel.data['data']['pagination']['is_pagination'] as bool;
+
+      if (isPaginate == false) {
+        pagingController.value.appendLastPage(newItems.toSet().toList());
+      } else {
+        final nextPageKey = currentPage + 1;
+        pagingController.value
+            .appendPage(newItems.toSet().toList(), nextPageKey);
+      }
 
       KOfferHighestPrice.value = responseModel.data["data"]["highest_price"];
     }

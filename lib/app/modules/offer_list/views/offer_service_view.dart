@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_service_categories.dart';
 import 'package:krzv2/app/modules/home_page_services/controllers/hom_page_service_slider_controller.dart';
 import 'package:krzv2/app/modules/offer_list/controllers/offer_service_controller.dart';
+import 'package:krzv2/component/paginated_list_view.dart';
 import 'package:krzv2/component/views/cards/service_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_page_service_categories_view.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
-import 'package:krzv2/component/views/pages/app_page_loading_more.dart';
 import 'package:krzv2/component/views/slider_view.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/service_model.dart';
@@ -39,72 +40,61 @@ class OfferServiceView extends GetView<OfferServiceController> {
         serviceCategories(),
         AppSpacers.height12,
         Expanded(
-          child: controller.obx(
-            (List<ServiceModel>? servicesList) => ListView.builder(
-              itemCount: servicesList?.length,
-              controller: controller.scroll,
-              itemBuilder: (context, index) {
-                final service = servicesList?.elementAt(index);
-
-                if (index == servicesList!.length - 1 &&
-                    servicesList.length != 1) {
-                  return AppPageLoadingMore(
-                    display: controller.status.isLoadingMore,
-                  );
-                }
-
-                return GetBuilder<OfferFavoriteController>(
-                  init: OfferFavoriteController(),
-                  builder: (favoriteController) {
-                    return ServiceCardView(
-                      imageUrl: service!.image,
-                      name: service.name,
-                      subTitle: service.clinic.name,
-                      hasDiscount: service.oldPrice != 0,
-                      price: service.price.toString(),
-                      oldPrice: service.oldPrice.toString(),
-                      onFavoriteTapped: () {
-                        if (Get.find<AuthenticationController>().isLoggedIn ==
-                            false) {
-                          return AppDialogs.showToast(
-                              message: 'الرجاء تسجيل الدخول');
-                        }
-
-                        final favCon = Get.put<OfferFavoriteController>(
-                          OfferFavoriteController(),
-                        );
-
-                        favCon.addRemoveOfferFromFavorite(
-                          offerId: service.id,
-                        );
-                      },
-                      rate: service.totalRateAvg.toString(),
-                      totalRate: service.totalRateCount.toString(),
-                      isFavorite:
-                          favoriteController.offerIsFavorite(service.id),
-                      onTapped: () {
-                        Get.toNamed(
-                          Routes.SERVICE_DETAIL,
-                          arguments: service.id.toString(),
-                        );
-                      },
-                    ).paddingOnly(bottom: 10);
-                  },
-                );
-              },
+          child: Obx(
+            () => PaginatedListView<ServiceModel>(
+              controller: controller.pagingController.value,
+              firstLoadingIndicator: Column(
+                children: [
+                  ServiceCardView.dummy().paddingOnly(bottom: 10).shimmer(),
+                  ServiceCardView.dummy().shimmer(),
+                ],
+              ),
+              itemBuilder: itemBuilder,
+              onEmpty: AppPageEmpty.noServiceFound(),
             ),
-            onLoading: ListView.builder(
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return ServiceCardView.dummy()
-                    .paddingOnly(bottom: 10)
-                    .shimmer();
-              },
-            ),
-            onEmpty: AppPageEmpty.serviceSearch(),
           ),
-        )
+        ),
       ],
+    );
+  }
+
+  Widget itemBuilder(_, ServiceModel offer, __) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        bottom: 8,
+      ),
+      child: GetBuilder<OfferFavoriteController>(
+        init: OfferFavoriteController(),
+        builder: (favoriteController) {
+          return ServiceCardView(
+            imageUrl: offer.image,
+            name: offer.name,
+            subTitle: offer.clinic.name,
+            hasDiscount: offer.oldPrice != 0,
+            price: offer.price.toString(),
+            oldPrice: offer.oldPrice.toString(),
+            onFavoriteTapped: () {
+              if (Get.find<AuthenticationController>().isLoggedIn == false) {
+                return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+              }
+              final favCon = Get.find<OfferFavoriteController>();
+
+              favCon.addRemoveOfferFromFavorite(
+                offerId: offer.id,
+              );
+            },
+            isFavorite: favoriteController.offerIsFavorite(offer.id),
+            onTapped: () {
+              Get.toNamed(
+                Routes.SERVICE_DETAIL,
+                arguments: offer.id.toString(),
+              );
+            },
+            rate: offer.totalRateCount.toString(),
+            totalRate: offer.totalRateAvg.toString(),
+          );
+        },
+      ),
     );
   }
 
@@ -116,10 +106,12 @@ class OfferServiceView extends GetView<OfferServiceController> {
           onCategoryTapped: (int categoryId) async {
             if (categoryId.toString() == controller.categoryId.value) return;
 
-            controller.resetSearchValues();
             controller.categoryId.value = categoryId.toString();
 
-            controller.getServices();
+            controller.pagingController.value =
+                PagingController(firstPageKey: 1);
+
+            controller.pageListener();
           },
         );
       },
