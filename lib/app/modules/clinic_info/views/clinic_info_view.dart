@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
 import 'package:krzv2/app/modules/wallet/components/decorated_container_component.dart';
+import 'package:krzv2/component/paginated_list_view.dart';
 import 'package:krzv2/component/views/cards/clinic_card_view.dart';
 import 'package:krzv2/component/views/cards/service_card_view.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
@@ -12,6 +13,7 @@ import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_banner_view.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/tabs/base_switch_tap.dart';
+import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/service_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
@@ -53,7 +55,8 @@ class ClinicInfoView extends GetView {
 }
 
 class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
-  ClinicAboutInfoController controller = Get.put(ClinicAboutInfoController());
+  final ClinicAboutInfoController controller =
+      Get.put(ClinicAboutInfoController());
 
   @override
   Widget build(BuildContext context) {
@@ -208,63 +211,66 @@ class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
 }
 
 class ClinicServicesPage extends GetView<ClinicServicesController> {
-  ClinicServicesController controller = Get.put(ClinicServicesController());
+  final ClinicServicesController controller =
+      Get.put(ClinicServicesController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: controller.obx(
-        (List<ServiceModel>? services) {
-          return ListView.builder(
-            padding: EdgeInsets.zero,
-            itemCount: services!.length,
-            itemBuilder: (context, index) {
-              final offer = services.elementAt(index);
-              return Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 8,
-                ),
-                child: GetBuilder<OfferFavoriteController>(
-                  init: OfferFavoriteController(),
-                  builder: (favoriteController) {
-                    return ServiceCardView(
-                      imageUrl: offer.image,
-                      name: offer.name,
-                      subTitle: offer.clinic.name,
-                      hasDiscount: offer.oldPrice != 0,
-                      price: offer.price.toString(),
-                      oldPrice: offer.oldPrice.toString(),
-                      onFavoriteTapped: () {
-                        if (Get.find<AuthenticationController>().isLoggedIn ==
-                            false) {
-                          return AppDialogs.showToast(
-                              message: 'الرجاء تسجيل الدخول');
-                        }
-                        final favCon = Get.put<OfferFavoriteController>(
-                          OfferFavoriteController(),
-                        );
+      body: Obx(
+        () => PaginatedListView<ServiceModel>(
+          controller: controller.pagingController.value,
+          firstLoadingIndicator: Column(
+            children: [
+              ServiceCardView.dummy().paddingOnly(bottom: 10).shimmer(),
+              ServiceCardView.dummy().shimmer(),
+            ],
+          ),
+          itemBuilder: itemBuilder,
+          onEmpty: AppPageEmpty.noServiceFound(),
+        ),
+      ),
+    );
+  }
 
-                        favCon.addRemoveOfferFromFavorite(
-                          offerId: offer.id,
-                        );
-                      },
-                      isFavorite: favoriteController.offerIsFavorite(offer.id),
-                      onTapped: () {
-                        Get.toNamed(
-                          Routes.SERVICE_DETAIL,
-                          arguments: offer.id.toString(),
-                        );
-                      },
-                      rate: offer.totalRateCount.toString(),
-                      totalRate: offer.totalRateAvg.toString(),
-                    );
-                  },
-                ),
+  Widget itemBuilder(_, ServiceModel offer, __) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        bottom: 8,
+      ),
+      child: GetBuilder<OfferFavoriteController>(
+        init: OfferFavoriteController(),
+        builder: (favoriteController) {
+          return ServiceCardView(
+            imageUrl: offer.image,
+            name: offer.name,
+            subTitle: offer.clinic.name,
+            hasDiscount: offer.oldPrice != 0,
+            price: offer.price.toString(),
+            oldPrice: offer.oldPrice.toString(),
+            onFavoriteTapped: () {
+              if (Get.find<AuthenticationController>().isLoggedIn == false) {
+                return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+              }
+              final favCon = Get.put<OfferFavoriteController>(
+                OfferFavoriteController(),
+              );
+
+              favCon.addRemoveOfferFromFavorite(
+                offerId: offer.id,
               );
             },
+            isFavorite: favoriteController.offerIsFavorite(offer.id),
+            onTapped: () {
+              Get.toNamed(
+                Routes.SERVICE_DETAIL,
+                arguments: offer.id.toString(),
+              );
+            },
+            rate: offer.totalRateCount.toString(),
+            totalRate: offer.totalRateAvg.toString(),
           );
         },
-        onEmpty: AppPageEmpty.noServiceFound(),
       ),
     );
   }

@@ -67,6 +67,12 @@ class AppPageEmpty extends StatelessWidget {
         description = "جرب كلمة رئيسية أخرى , وحاول مرة اخرى.",
         imagePath = AppSvgAssets.emptySearchIcon;
 
+  AppPageEmpty.mainBranches({
+    super.key,
+  })  : title = "لم يتم العثور على عيادات",
+        description = "",
+        imagePath = AppSvgAssets.emptySearchIcon;
+
   AppPageEmpty.noServiceFound({
     super.key,
   })  : title = "لا يوجد خدمات متاحه",

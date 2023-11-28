@@ -7,6 +7,7 @@ class PaginatedListView<ItemType> extends StatelessWidget {
   final PagingController<int, ItemType> controller;
 
   final Widget firstLoadingIndicator;
+  final Widget onEmpty;
   final Widget Function(BuildContext, ItemType, int) itemBuilder;
   final Widget? loadingMoreIndicator;
 
@@ -14,6 +15,7 @@ class PaginatedListView<ItemType> extends StatelessWidget {
     Key? key,
     required this.controller,
     required this.firstLoadingIndicator,
+    required this.onEmpty,
     this.loadingMoreIndicator,
     required this.itemBuilder,
   }) : super(key: key);
@@ -33,6 +35,7 @@ class PaginatedListView<ItemType> extends StatelessWidget {
       newPageProgressIndicatorBuilder: (_) =>
           loadingMoreIndicator ?? CenterLoading(),
       itemBuilder: itemBuilder,
+      noItemsFoundIndicatorBuilder: (_) => onEmpty,
     );
   }
 }
