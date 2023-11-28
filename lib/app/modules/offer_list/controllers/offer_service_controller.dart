@@ -79,7 +79,9 @@ class OfferServiceController extends GetxController
     filterQuery.endPrice = serviceQueryParameters.endPrice;
     filterQuery.target = serviceQueryParameters.target;
 
-    serviceFilter();
+    pagingController.value = PagingController(firstPageKey: 1);
+
+    pageListener();
   }
 
   serviceFilter() {

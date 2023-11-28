@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:krzv2/app/modules/offer_list/controllers/offer_product_controller.dart';
 import 'package:krzv2/app/modules/offer_list/controllers/offer_service_controller.dart';
 import 'package:krzv2/app/modules/offer_list/views/offer_product_view.dart';
@@ -45,8 +46,10 @@ class OfferListView extends GetView<OfferListController> {
                         query: offerServiceController.filterQuery,
                         onChanged: offerServiceController.onFilterDataChanged,
                         onResetTapped: () {
-                          offerServiceController.resetSearchValues();
-                          offerServiceController.onInit();
+                          offerServiceController.pagingController.value =
+                              PagingController(firstPageKey: 1);
+
+                          offerServiceController.pageListener();
                         },
                       )
                     : ProductFilterBottomSheetView(
