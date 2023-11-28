@@ -7,6 +7,7 @@ import 'package:krzv2/app/modules/clinic_info/views/clinic_info_view.dart';
 import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
 import 'package:krzv2/app/modules/google_map/controllers/google_map_controller.dart';
 import 'package:krzv2/app/modules/home_page_services/controllers/hom_page_service_slider_controller.dart';
+import 'package:krzv2/component/center_loading.dart';
 import 'package:krzv2/component/views/app_bar_search_view.dart';
 import 'package:krzv2/component/views/branches_sort_box_view.dart';
 import 'package:krzv2/component/views/cards/clinic_card_view.dart';
@@ -153,7 +154,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
           ClinicCardView.dummy().paddingOnly(bottom: 10).shimmer(),
         ],
       ),
-      newPageProgressIndicatorBuilder: (_) => CupertinoActivityIndicator(),
+      newPageProgressIndicatorBuilder: (_) => CenterLoading(),
       itemBuilder: (context, branch, index) =>
           GetBuilder<CliniFavoriteController>(
         init: CliniFavoriteController(),
