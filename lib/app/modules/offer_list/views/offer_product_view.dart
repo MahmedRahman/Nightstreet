@@ -16,6 +16,7 @@ import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/product_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
+import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
 RxInt KProductHighestPrice = 0.obs;
@@ -28,57 +29,65 @@ class OfferProductView extends GetView<OfferProductController> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        sliderController.obx(
-          (slidersList) {
-            return SliderView(
-              images: slidersList!.map((slider) => slider.image).toList(),
-            );
-          },
-          onLoading: Container(
-            height: 150,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.black,
-            ),
-          ).shimmer(),
-        ),
-        AppSpacers.height16,
-        productCategoriesController.obx(
-          (categoriesList) {
-            return HomeCategoriesListView(
-              categoriesList: categoriesList,
-              onCategoryTapped: (int categoryId) async {
-                controller.queryParams.categoryId = categoryId.toString();
-
-                controller.pagingController.value =
-                    PagingController(firstPageKey: 1);
-
-                controller.pageListener();
-              },
-            );
-          },
-          onLoading: HomeCategoriesListView(
-            categoriesList: [],
-            onCategoryTapped: (int categoryId) {
-              Get.toNamed(Routes.PRODUCTS_LIST);
+    return RefreshIndicator(
+      color: AppColors.mainColor,
+      onRefresh: () async {
+        controller.queryParams.categoryId = '';
+        controller.pagingController.value.refresh();
+      },
+      child: Column(
+        children: [
+          sliderController.obx(
+            (slidersList) {
+              return SliderView(
+                images: slidersList!.map((slider) => slider.image).toList(),
+              );
             },
-          ).shimmer(),
-        ),
-        AppSpacers.height16,
-        Expanded(
-          child: Obx(
-            () => PaginatedGridView<ProductModel>(
-              controller: controller.pagingController.value,
-              firstLoadingIndicator: firstLoadingIndicator(),
-              itemBuilder: itemBuilder,
-              onEmpty: AppPageEmpty.productSearchPP(),
+            onLoading: Container(
+              height: 150,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.black,
+              ),
+            ).shimmer(),
+          ),
+          AppSpacers.height16,
+          productCategoriesController.obx(
+            (categoriesList) {
+              return HomeCategoriesListView(
+                initId: controller.queryParams.categoryId,
+                categoriesList: categoriesList,
+                onCategoryTapped: (int categoryId) async {
+                  controller.queryParams.categoryId = categoryId.toString();
+
+                  controller.pagingController.value =
+                      PagingController(firstPageKey: 1);
+
+                  controller.pageListener();
+                },
+              );
+            },
+            onLoading: HomeCategoriesListView(
+              categoriesList: [],
+              onCategoryTapped: (int categoryId) {
+                Get.toNamed(Routes.PRODUCTS_LIST);
+              },
+            ).shimmer(),
+          ),
+          AppSpacers.height16,
+          Expanded(
+            child: Obx(
+              () => PaginatedGridView<ProductModel>(
+                controller: controller.pagingController.value,
+                firstLoadingIndicator: firstLoadingIndicator(),
+                itemBuilder: itemBuilder,
+                onEmpty: AppPageEmpty.productSearchPP(),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

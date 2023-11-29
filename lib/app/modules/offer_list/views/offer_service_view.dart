@@ -30,8 +30,7 @@ class OfferServiceView extends GetView<OfferServiceController> {
       color: AppColors.mainColor,
       onRefresh: () async {
         serviceCategoriesController.onInit();
-        controller.categoryId.value = '0';
-        controller.pagingController.value.refresh();
+        controller.onRefresh();
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
