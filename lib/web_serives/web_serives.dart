@@ -523,12 +523,10 @@ class WebServices {
   }
 
   Future<ResponseModel> getServicesCategories({
-    String? name = "",
     String? categoryId = "",
   }) async {
     return await ApiManger().execute(
-      url:
-          "${ApiConfig.baseUrl}/offers/categories?name=${name}&category_id=${categoryId}",
+      url: "${ApiConfig.baseUrl}/offers/categories?&category_id=${categoryId}",
       HTTPRequestMethod: HTTPRequestEnum.GET,
       isAuth: true,
     );
