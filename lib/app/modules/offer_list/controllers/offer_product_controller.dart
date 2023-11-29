@@ -61,19 +61,6 @@ class OfferProductController extends GetxController
     change([], status: RxStatus.error(responseModel.data["message"]));
   }
 
-  productFilter() {
-    change([], status: RxStatus.loading());
-    productList.value!.clear();
-    currentPage = 1;
-    getOffersProduct();
-  }
-
-  resetSearchValues() {
-    productList.value!.clear();
-    currentPage = 1;
-    change([], status: RxStatus.success());
-  }
-
   void onFilterDataChanged(ProductQueryParameters productQueryParameters) {
     queryParams.filter = productQueryParameters.filter;
     queryParams.startPrice = productQueryParameters.startPrice;
@@ -83,5 +70,14 @@ class OfferProductController extends GetxController
     pagingController.value = PagingController(firstPageKey: 1);
 
     pageListener();
+  }
+
+  Future<void> onRefresh() async {
+    queryParams.filter = null;
+    queryParams.categoryId = null;
+    queryParams.startPrice = null;
+    queryParams.endPrice = null;
+    queryParams.brandIds = null;
+    pagingController.value.refresh();
   }
 }

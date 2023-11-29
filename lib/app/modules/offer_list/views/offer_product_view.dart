@@ -32,8 +32,9 @@ class OfferProductView extends GetView<OfferProductController> {
     return RefreshIndicator(
       color: AppColors.mainColor,
       onRefresh: () async {
+        productCategoriesController.onInit();
         controller.queryParams.categoryId = '';
-        controller.pagingController.value.refresh();
+        controller.onRefresh();
       },
       child: Column(
         children: [
