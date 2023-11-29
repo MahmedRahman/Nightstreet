@@ -14,7 +14,7 @@ class OfferServiceController extends GetxController
   final _services = Rx<List<ServiceModel>?>([]);
   int currentPage = 1;
   bool? isPagination;
-  RxString categoryId = ''.obs;
+  RxString categoryId = '0'.obs;
   ServiceFilterModel filterQuery = ServiceFilterModel();
 
   @override

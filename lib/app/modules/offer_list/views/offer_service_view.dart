@@ -15,6 +15,7 @@ import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/service_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
+import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
 RxInt KOfferHighestPrice = 0.obs;
@@ -25,32 +26,40 @@ class OfferServiceView extends GetView<OfferServiceController> {
   final serviceCategoriesController = Get.find<ServiceCategoriesController>();
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AppSpacers.height10,
-        sliderWidget(),
-        SizedBox(
-          height: 12,
-        ),
-        serviceCategories(),
-        AppSpacers.height12,
-        Expanded(
-          child: Obx(
-            () => PaginatedListView<ServiceModel>(
-              controller: controller.pagingController.value,
-              firstLoadingIndicator: Column(
-                children: [
-                  ServiceCardView.dummy().paddingOnly(bottom: 10).shimmer(),
-                  ServiceCardView.dummy().shimmer(),
-                ],
+    return RefreshIndicator(
+      color: AppColors.mainColor,
+      onRefresh: () async {
+        serviceCategoriesController.onInit();
+        controller.categoryId.value = '0';
+        controller.pagingController.value.refresh();
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AppSpacers.height10,
+          sliderWidget(),
+          SizedBox(
+            height: 12,
+          ),
+          serviceCategories(),
+          AppSpacers.height12,
+          Expanded(
+            child: Obx(
+              () => PaginatedListView<ServiceModel>(
+                controller: controller.pagingController.value,
+                firstLoadingIndicator: Column(
+                  children: [
+                    ServiceCardView.dummy().paddingOnly(bottom: 10).shimmer(),
+                    ServiceCardView.dummy().shimmer(),
+                  ],
+                ),
+                itemBuilder: itemBuilder,
+                onEmpty: AppPageEmpty.noServiceFound(),
               ),
-              itemBuilder: itemBuilder,
-              onEmpty: AppPageEmpty.noServiceFound(),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -98,6 +107,7 @@ class OfferServiceView extends GetView<OfferServiceController> {
     return serviceCategoriesController.obx(
       (categoriesList) {
         return HomePageServiceCategoriesView(
+          initId: controller.categoryId.value,
           categoriesList: categoriesList,
           onCategoryTapped: (int categoryId) async {
             if (categoryId.toString() == controller.categoryId.value) return;

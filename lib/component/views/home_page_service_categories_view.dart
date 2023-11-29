@@ -9,10 +9,16 @@ class HomePageServiceCategoriesView extends GetView {
     Key? key,
     required this.categoriesList,
     required this.onCategoryTapped,
-  }) : super(key: key);
+    this.initId,
+  }) {
+    if (this.initId != null) {
+      selectedId.value = initId!;
+    }
+  }
 
   final List<dynamic> categoriesList;
   final Function(int) onCategoryTapped;
+  final String? initId;
   final RxString selectedId = '0'.obs;
   @override
   Widget build(BuildContext context) {
