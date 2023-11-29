@@ -98,6 +98,7 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
       onRefresh: () async {
         marketController.pagingController.value.refresh();
         productCategoriesController.onInit();
+        marketController.categoryId!.value = '0';
       },
       appBar: AppBarSerechView(
         placeHolder: 'ما الذي تريد البحث عنه ؟',
