@@ -9,7 +9,7 @@ import 'package:krzv2/web_serives/web_serives.dart';
 class ServicesSearchController extends GetxController
     with StateMixin<List<ServiceModel>> {
   int currentPage = 1;
-  bool? isPagination;
+
   RxString searchQuery = ''.obs;
 
   final pagingController =
@@ -31,9 +31,6 @@ class ServicesSearchController extends GetxController
     );
 
     if (responseModel.data["success"]) {
-      isPagination =
-          responseModel.data['data']['pagination']['is_pagination'] as bool;
-
       final newItems = List<ServiceModel>.from(
         responseModel.data['data']['data']
             .map((item) => ServiceModel.fromJson(item)),
@@ -55,28 +52,24 @@ class ServicesSearchController extends GetxController
 }
 
 class BranchSearchController extends GetxController
-    with StateMixin<List<BranchModel>>, ScrollMixin {
-  final List<BranchModel> _branches = [];
+    with StateMixin<List<BranchModel>> {
   int currentPage = 1;
-  bool? isPagination;
+
   RxString searchQuery = ''.obs;
 
-  @override
-  void onInit() {
-    change([], status: RxStatus.success());
-    super.onInit();
-  }
+  final pagingController =
+      PagingController<int, BranchModel>(firstPageKey: 1).obs;
 
-  resetSearchValues() {
-    _branches.clear();
-    searchQuery = ''.obs;
-    currentPage = 1;
-    change([], status: RxStatus.success());
+  void startSearch() {
+    pagingController.value.addPageRequestListener(
+      (pageKey) {
+        currentPage = pageKey;
+        getBranches();
+      },
+    );
   }
 
   getBranches() async {
-    if (currentPage == 1) change([], status: RxStatus.loading());
-
     ResponseModel responseModel = await WebServices().getBranches(
       page: currentPage,
       queryParameters: BranchQueryParameters(
@@ -85,35 +78,19 @@ class BranchSearchController extends GetxController
     );
 
     if (responseModel.data["success"]) {
-      final List<BranchModel> serviceDataList = List<BranchModel>.from(
+      final newItems = List<BranchModel>.from(
         responseModel.data['data']['data']
-            .map((category) => BranchModel.fromJson(category)),
+            .map((item) => BranchModel.fromJson(item)),
       );
-
-      _branches.addAll(serviceDataList);
-
-      if (_branches.isEmpty) {
-        change([], status: RxStatus.empty());
-        return;
-      }
-
-      change(_branches, status: RxStatus.success());
-
-      isPagination =
+      final isPaginate =
           responseModel.data['data']['pagination']['is_pagination'] as bool;
+
+      if (isPaginate == false) {
+        pagingController.value.appendLastPage(newItems);
+      } else {
+        final nextPageKey = currentPage + 1;
+        pagingController.value.appendPage(newItems, nextPageKey);
+      }
     }
   }
-
-  @override
-  Future<void> onEndScroll() async {
-    if (isPagination == false) return;
-    currentPage++;
-
-    change(_branches, status: RxStatus.loadingMore());
-
-    await getBranches();
-  }
-
-  @override
-  Future<void> onTopScroll() async {}
 }
