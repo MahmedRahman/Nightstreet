@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
+import 'package:krzv2/app/modules/join_us/view/join_us_view.dart';
 import 'package:krzv2/app/modules/wallet/components/decorated_container_component.dart';
 import 'package:krzv2/component/views/app_bar.dart';
 import 'package:krzv2/component/views/notification_icon_view.dart';
@@ -94,7 +95,7 @@ class AccountMenuView extends GetView<AccountMenuController> {
                     _joiningButton(
                       title: "انضم كعيادة أو متجر",
                       iconPath: AppSvgAssets.joiningIcon,
-                      onTap: () => Get.toNamed(Routes.COMPLAINT_MANAGER),
+                      onTap: () => Get.to(JoinUs()),
                     ),
                   ],
                 ),
@@ -118,6 +119,12 @@ class AccountMenuView extends GetView<AccountMenuController> {
                     iconPath: AppSvgAssets.faqIcon,
                     onTap: () => Get.toNamed(Routes.faqPage),
                   ),
+                  if (authController.isLoggedIn == false)
+                    _joiningButton(
+                      title: "انضم كعيادة أو متجر",
+                      iconPath: AppSvgAssets.joiningIcon,
+                      onTap: () => Get.to(JoinUs()),
+                    ),
                 ],
               ),
             ),
