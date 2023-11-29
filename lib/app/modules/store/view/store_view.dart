@@ -106,7 +106,11 @@ class MarketPage extends GetView<MarketPageController> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       onRefresh: () async {
-        controller.pagingController.refresh();
+        marketCategoriesController.getMarketCategories(
+          marketId: data["id"].toString(),
+        );
+        controller.categoryId.value = '0';
+        controller.pagingController.value.refresh();
       },
       appBar: CustomAppBar(
         titleText: "متجر",
@@ -164,6 +168,7 @@ class MarketPage extends GetView<MarketPageController> {
             marketCategoriesController.obx(
               (categoriesList) {
                 return HomeCategoriesListView(
+                  initId: controller.categoryId.value,
                   categoriesList: categoriesList,
                   onCategoryTapped: (int categoryId) async {
                     controller.categoryId.value = categoryId.toString();

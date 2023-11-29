@@ -5,11 +5,17 @@ import 'package:krzv2/utils/app_colors.dart';
 class HomeCategoriesListView extends GetView {
   final List<dynamic> categoriesList;
   final Function(int) onCategoryTapped;
+  final String? initId;
   HomeCategoriesListView({
     Key? key,
     required this.categoriesList,
     required this.onCategoryTapped,
-  }) : super(key: key);
+    this.initId,
+  }) {
+    if (initId != null || initId != '') {
+      selectedId.value = initId ?? '0';
+    }
+  }
   final RxString selectedId = '0'.obs;
   @override
   Widget build(BuildContext context) {

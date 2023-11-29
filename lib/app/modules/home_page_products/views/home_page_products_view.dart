@@ -82,7 +82,7 @@ class MarketController extends GetxController with StateMixin<List> {
 
 class HomePageProductsView extends GetView<HomePageProductsController> {
   HomePageProductsView({Key? key}) : super(key: key);
-  final productCategoriesController = Get.put(ProductCategoriesController());
+  final productCategoriesController = Get.find<ProductCategoriesController>();
 
   final marketController = Get.find<MarketController>();
 
@@ -95,7 +95,10 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      onRefresh: () async => marketController.pagingController.refresh(),
+      onRefresh: () async {
+        marketController.pagingController.value.refresh();
+        productCategoriesController.onInit();
+      },
       appBar: AppBarSerechView(
         placeHolder: 'ما الذي تريد البحث عنه ؟',
         actions: [
