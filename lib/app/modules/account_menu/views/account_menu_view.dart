@@ -91,6 +91,11 @@ class AccountMenuView extends GetView<AccountMenuController> {
                       iconPath: AppSvgAssets.contactUsIcon,
                       onTap: () => Get.toNamed(Routes.COMPLAINT_MANAGER),
                     ),
+                    _joiningButton(
+                      title: "انضم كعيادة أو متجر",
+                      iconPath: AppSvgAssets.joiningIcon,
+                      onTap: () => Get.toNamed(Routes.COMPLAINT_MANAGER),
+                    ),
                   ],
                 ),
               ),
@@ -221,6 +226,45 @@ class AccountMenuView extends GetView<AccountMenuController> {
   }
 
   ListTile _loginButton({
+    required String title,
+    required String iconPath,
+    required Function() onTap,
+  }) {
+    return ListTile(
+      onTap: onTap,
+      leading: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          color: AppColors.mainColor,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: SvgPicture.asset(
+            iconPath,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: 16.0,
+          color: AppColors.blackColor,
+          letterSpacing: 0.48,
+        ),
+        textAlign: TextAlign.right,
+      ),
+      trailing: Icon(
+        Icons.arrow_forward_ios,
+        color: AppColors.blackColor,
+        size: 15,
+      ),
+    );
+  }
+
+  ListTile _joiningButton({
     required String title,
     required String iconPath,
     required Function() onTap,

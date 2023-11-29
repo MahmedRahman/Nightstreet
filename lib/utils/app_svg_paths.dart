@@ -32,6 +32,7 @@ abstract class AppSvgAssets {
   static const String policiesIcon = 'assets/svg/policies_icon.svg';
   static const String faqIcon = 'assets/svg/faq_icon.svg';
   static const String contactUsIcon = 'assets/svg/contact_us_icon.svg';
+  static const String joiningIcon = 'assets/svg/joining.svg';
   static const String logOutIcon = 'assets/svg/logout_icon.svg';
   static const String successIcon = 'assets/svg/success_icon.svg';
   static const String failedIcon = 'assets/svg/error.svg';
