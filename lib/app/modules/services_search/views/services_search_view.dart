@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
 import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
+import 'package:krzv2/component/paginated_list_view.dart';
 import 'package:krzv2/component/views/cards/clinic_card_view.dart';
 import 'package:krzv2/component/views/cards/service_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
@@ -39,7 +41,7 @@ class ServicesSearchView extends GetView<ServicesSearchController> {
         },
         onChanged: (String query) {
           if (query.isEmpty) {
-            controller.resetSearchValues();
+            controller.searchQuery.value = '';
             branchSearchController.resetSearchValues();
           }
         },
@@ -69,13 +71,15 @@ class ServicesSearchView extends GetView<ServicesSearchController> {
 
     if (searchController.text == controller.searchQuery.value) return;
 
-    controller.resetSearchValues();
-
     controller.searchQuery.value = searchController.text;
 
     FocusScope.of(Get.context!).unfocus();
 
-    controller.getServices();
+    controller.pagingController.value = PagingController(firstPageKey: 1);
+
+    FocusScope.of(Get.context!).unfocus();
+
+    controller.startSearch();
   }
 
   onSearchTappedBranches() {
@@ -97,64 +101,63 @@ class ServicesSearchView extends GetView<ServicesSearchController> {
 class ServiceSearchView extends GetView<ServicesSearchController> {
   @override
   Widget build(BuildContext context) {
-    return controller.obx(
-      (List<ServiceModel>? servicesList) => ListView.builder(
-        itemCount: servicesList?.length,
-        controller: controller.scroll,
-        itemBuilder: (context, index) {
-          final service = servicesList?.elementAt(index);
+    return Obx(
+      () {
+        if (controller.searchQuery.isEmpty) return SizedBox();
+        return PaginatedListView<ServiceModel>(
+          controller: controller.pagingController.value,
+          firstLoadingIndicator: Column(
+            children: [
+              ServiceCardView.dummy().paddingOnly(bottom: 10).shimmer(),
+              ServiceCardView.dummy().shimmer(),
+            ],
+          ),
+          itemBuilder: itemBuilder,
+          onEmpty: AppPageEmpty.noServiceFound(),
+        );
+      },
+    );
+  }
 
-          if (index == servicesList!.length - 1 && servicesList.length != 1) {
-            return AppPageLoadingMore(
-              display: controller.status.isLoadingMore,
-            );
-          }
+  Widget itemBuilder(_, ServiceModel offer, __) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        bottom: 8,
+      ),
+      child: GetBuilder<OfferFavoriteController>(
+        init: OfferFavoriteController(),
+        builder: (favoriteController) {
+          return ServiceCardView(
+            imageUrl: offer.image,
+            name: offer.name,
+            subTitle: offer.clinic.name,
+            hasDiscount: offer.oldPrice != 0,
+            price: offer.price.toString(),
+            oldPrice: offer.oldPrice.toString(),
+            onFavoriteTapped: () {
+              if (Get.find<AuthenticationController>().isLoggedIn == false) {
+                return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+              }
+              final favCon = Get.put<OfferFavoriteController>(
+                OfferFavoriteController(),
+              );
 
-          return GetBuilder<OfferFavoriteController>(
-            init: OfferFavoriteController(),
-            builder: (favoriteController) {
-              return ServiceCardView(
-                imageUrl: service!.image,
-                name: service.name,
-                subTitle: service.clinic.name,
-                hasDiscount: service.oldPrice != 0,
-                price: service.price.toString(),
-                oldPrice: service.oldPrice.toString(),
-                onFavoriteTapped: () {
-                  if (Get.find<AuthenticationController>().isLoggedIn ==
-                      false) {
-                    return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
-                  }
-
-                  final favCon = Get.put<OfferFavoriteController>(
-                    OfferFavoriteController(),
-                  );
-
-                  favCon.addRemoveOfferFromFavorite(
-                    offerId: service.id,
-                  );
-                },
-                rate: service.totalRateAvg.toString(),
-                totalRate: service.totalRateCount.toString(),
-                isFavorite: favoriteController.offerIsFavorite(service.id),
-                onTapped: () {
-                  Get.toNamed(
-                    Routes.SERVICE_DETAIL,
-                    arguments: service.id.toString(),
-                  );
-                },
-              ).paddingOnly(bottom: 10);
+              favCon.addRemoveOfferFromFavorite(
+                offerId: offer.id,
+              );
             },
+            isFavorite: favoriteController.offerIsFavorite(offer.id),
+            onTapped: () {
+              Get.toNamed(
+                Routes.SERVICE_DETAIL,
+                arguments: offer.id.toString(),
+              );
+            },
+            rate: offer.totalRateCount.toString(),
+            totalRate: offer.totalRateAvg.toString(),
           );
         },
       ),
-      onLoading: ListView.builder(
-        itemCount: 4,
-        itemBuilder: (context, index) {
-          return ServiceCardView.dummy().paddingOnly(bottom: 10).shimmer();
-        },
-      ),
-      onEmpty: AppPageEmpty.serviceSearch(),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:krzv2/models/branch_model.dart';
 import 'package:krzv2/models/branch_url_model.dart';
 import 'package:krzv2/models/service_model.dart';
@@ -6,69 +7,51 @@ import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
 class ServicesSearchController extends GetxController
-    with ScrollMixin, StateMixin<List<ServiceModel>> {
-  final List<ServiceModel> _services = [];
+    with StateMixin<List<ServiceModel>> {
   int currentPage = 1;
   bool? isPagination;
   RxString searchQuery = ''.obs;
 
-  @override
-  void onInit() {
-    change([], status: RxStatus.success());
-    super.onInit();
-  }
+  final pagingController =
+      PagingController<int, ServiceModel>(firstPageKey: 1).obs;
 
-  resetSearchValues() {
-    _services.clear();
-    searchQuery = ''.obs;
-    currentPage = 1;
-    change([], status: RxStatus.success());
+  void startSearch() {
+    pagingController.value.addPageRequestListener(
+      (pageKey) {
+        currentPage = pageKey;
+        getServices();
+      },
+    );
   }
 
   getServices() async {
-    print('service seach start');
-    if (currentPage == 1) change([], status: RxStatus.loading());
-
     ResponseModel responseModel = await WebServices().getServices(
       name: searchQuery.value,
       page: currentPage.toString(),
     );
 
-    print('service seach end');
-
     if (responseModel.data["success"]) {
-      print('dddd => ${responseModel.data['data']['data']}');
-      final List<ServiceModel> serviceDataList = List<ServiceModel>.from(
-        responseModel.data['data']['data']
-            .map((category) => ServiceModel.fromJson(category)),
-      );
-
-      _services.addAll(serviceDataList);
-
-      if (_services.isEmpty) {
-        change([], status: RxStatus.empty());
-        return;
-      }
-
-      change(_services, status: RxStatus.success());
-
       isPagination =
           responseModel.data['data']['pagination']['is_pagination'] as bool;
+
+      final newItems = List<ServiceModel>.from(
+        responseModel.data['data']['data']
+            .map((item) => ServiceModel.fromJson(item)),
+      );
+      final isPaginate =
+          responseModel.data['data']['pagination']['is_pagination'] as bool;
+
+      if (isPaginate == false) {
+        pagingController.value.appendLastPage(newItems.toSet().toList());
+      } else {
+        final nextPageKey = currentPage + 1;
+        pagingController.value
+            .appendPage(newItems.toSet().toList(), nextPageKey);
+      }
+
+      return;
     }
   }
-
-  @override
-  Future<void> onEndScroll() async {
-    if (isPagination == false) return;
-    currentPage++;
-
-    change(_services, status: RxStatus.loadingMore());
-
-    await getServices();
-  }
-
-  @override
-  Future<void> onTopScroll() async {}
 }
 
 class BranchSearchController extends GetxController
