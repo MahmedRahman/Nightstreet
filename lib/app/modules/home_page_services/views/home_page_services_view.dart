@@ -5,6 +5,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:krzv2/app/modules/clinic_info/views/clinic_info_view.dart';
 import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controller.dart';
 import 'package:krzv2/app/modules/google_map/controllers/google_map_controller.dart';
+import 'package:krzv2/app/modules/home_page/controllers/home_page_service_categories.dart';
 import 'package:krzv2/app/modules/home_page_services/controllers/hom_page_service_slider_controller.dart';
 import 'package:krzv2/component/paginated_list_view.dart';
 import 'package:krzv2/component/views/app_bar_search_view.dart';
@@ -31,6 +32,7 @@ import '../controllers/home_page_services_controller.dart';
 class HomePageServicesView extends GetView<HomePageServicesController> {
   final sliderController = Get.find<HomePageServiceSliderController>();
   final mapController = Get.find<GoogleMapViewController>();
+  final serviceCategoriesController = Get.find<ServiceCategoriesController>();
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +78,9 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
           // controller.fiterBrancher();
           controller.queryParams.categoryId = '0';
           controller.queryParams.filter = '';
-          controller.pagingController.refresh();
+
+          controller.pagingController.value.refresh();
+          serviceCategoriesController.onInit();
         },
         appBar: AppBarSerechView(
           placeHolder: "ابحث عن خدمة او عيادة",

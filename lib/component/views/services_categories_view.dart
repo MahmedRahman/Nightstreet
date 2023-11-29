@@ -14,7 +14,7 @@ class ServicesCategoriesView extends GetView {
   }) : super(key: key);
 
   final Function(int selectedCategoryId) onTap;
-  final serviceCategoriesController = Get.put(ServiceCategoriesController());
+  final serviceCategoriesController = Get.find<ServiceCategoriesController>();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
