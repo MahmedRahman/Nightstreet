@@ -15,6 +15,8 @@ import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_app_bar_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/slider_view.dart';
+import 'package:krzv2/extensions/widget.dart';
+import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/app_version_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
@@ -120,6 +122,14 @@ class HomePageView extends GetView {
                   },
                 );
               },
+              onLoading: Container(
+                height: 150,
+                width: context.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.grey,
+                ),
+              ).shimmer(),
             ),
             AppSpacers.height10,
             homePageController.obx(
@@ -164,6 +174,34 @@ class HomePageView extends GetView {
                   ),
                 );
               },
+              onLoading: Column(
+                children: [
+                  Container(
+                    height: 100,
+                    width: context.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.grey,
+                    ),
+                  ).shimmer().paddingOnly(bottom: 10),
+                  Container(
+                    height: 100,
+                    width: context.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.grey,
+                    ),
+                  ).shimmer().paddingOnly(bottom: 10),
+                  Container(
+                    height: 100,
+                    width: context.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.grey,
+                    ),
+                  ).shimmer().paddingOnly(bottom: 10),
+                ],
+              ),
             ),
           ],
         ),
@@ -228,15 +266,21 @@ class HomePageView extends GetView {
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: [
-                        Text(
-                          '${subdata.toString()}',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: const Color(0xFF3B3B3B),
-                            fontWeight: FontWeight.w500,
-                            height: 1.36,
+                        Container(
+                          constraints: BoxConstraints(
+                            maxWidth: Get.width * .3,
                           ),
-                          textAlign: TextAlign.right,
+                          child: Text(
+                            '${subdata.toString()}',
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: const Color(0xFF3B3B3B),
+                              fontWeight: FontWeight.w500,
+                              height: 1.36,
+                            ),
+                            textAlign: TextAlign.right,
+                            maxLines: 1,
+                          ),
                         ),
                         SizedBox(
                           width: 27,

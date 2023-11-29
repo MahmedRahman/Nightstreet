@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:krzv2/component/views/category_card_view.dart';
+import 'package:krzv2/utils/app_svg_paths.dart';
 
 class HomePageServiceCategoriesView extends GetView {
   HomePageServiceCategoriesView({
@@ -16,33 +17,45 @@ class HomePageServiceCategoriesView extends GetView {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: context.width,
-      color: const Color(0xffFBFBFB),
-      padding: const EdgeInsets.only(
-        top: 10,
-        bottom: 10,
-        right: 20,
-      ),
-      height: 115,
-      child: ListView.builder(
-        itemCount: categoriesList.length,
-        padding: const EdgeInsets.only(left: 20),
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          final category = categoriesList.elementAt(index);
-          return Obx(
-            () => CategoryCardView(
-              title: category['name'],
-              imageUrl: category['image'],
-              isSelected: selectedId.value == category['id'].toString(),
-              onTap: () {
-                selectedId.value = category['id'].toString();
-                onCategoryTapped(category['id']);
-              },
+        width: context.width,
+        color: const Color(0xffFBFBFB),
+        padding: const EdgeInsets.only(
+          top: 10,
+          bottom: 10,
+          right: 20,
+        ),
+        height: 115,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Obx(
+            () => Row(
+              children: [
+                AllSelection(
+                  title: 'الكل',
+                  image: AppSvgAssets.logoIcon,
+                  isSelected: selectedId.value == '0',
+                  onTap: () {
+                    selectedId.value = '0';
+                    onCategoryTapped(0);
+                  },
+                ),
+                ...categoriesList
+                    .map(
+                      (category) => CategoryCardView(
+                        title: category['name'],
+                        imageUrl: category['image'],
+                        isSelected:
+                            selectedId.value == category['id'].toString(),
+                        onTap: () {
+                          selectedId.value = category['id'].toString();
+                          onCategoryTapped(category['id']);
+                        },
+                      ),
+                    )
+                    .toList(),
+              ],
             ),
-          );
-        },
-      ),
-    );
+          ),
+        ));
   }
 }
