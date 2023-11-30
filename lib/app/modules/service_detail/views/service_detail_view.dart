@@ -62,8 +62,9 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                   child: CustomBtnCompenent.main(
                     text: 'احجز موعد الآن',
                     onTap: () {
-                      if (Get.put(AuthenticationController().isLoggedIn) ==
+                      if (Get.find<AuthenticationController>().isLoggedIn ==
                           false) {
+                        Get.toNamed(Routes.LOGIN);
                         return AppDialogs.showToast(
                             message: 'الرجاء تسجيل الدخول');
                       }
