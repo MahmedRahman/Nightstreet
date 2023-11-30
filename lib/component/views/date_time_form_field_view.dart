@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/get_date_from_picker_dialog.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
@@ -73,36 +74,46 @@ class DateTimeFormFieldView extends GetView {
                   children: [
                     GestureDetector(
                       onTap: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                          context: context,
+                        getDateFromPickerDialog(
+                          context,
                           initialDate: selectedDate.value ?? DateTime.now(),
-                          firstDate: firstDate,
-                          lastDate: lastDate ?? DateTime(2101),
-                          confirmText: "تحديد",
-                          cancelText: 'رجوع',
-                          builder: (context, child) {
-                            return Theme(
-                              data: Theme.of(context).copyWith(
-                                colorScheme: ColorScheme.light(
-                                  primary: AppColors.mainColor,
-                                  onPrimary: Colors.white,
-                                  onSurface: AppColors.mainColor,
-                                ),
-                                textButtonTheme: TextButtonThemeData(
-                                  style: TextButton.styleFrom(
-                                    foregroundColor: AppColors.mainColor,
-                                  ),
-                                ),
-                              ),
-                              child: child!,
-                            );
+                          minDate: firstDate,
+                          maxDate: lastDate ?? DateTime(2101),
+                          onDateSelected: (date) {
+                            print('selected date $date');
+                            onDateChanged(date);
                           },
                         );
+                        // DateTime? pickedDate = await showDatePicker(
+                        //   context: context,
+                        //   initialDate: selectedDate.value ?? DateTime.now(),
+                        //   firstDate: firstDate,
+                        //   lastDate: lastDate ?? DateTime(2101),
+                        //   confirmText: "تحديد",
+                        //   cancelText: 'رجوع',
+                        //   builder: (context, child) {
+                        //     return Theme(
+                        //       data: Theme.of(context).copyWith(
+                        //         colorScheme: ColorScheme.light(
+                        //           primary: AppColors.mainColor,
+                        //           onPrimary: Colors.white,
+                        //           onSurface: AppColors.mainColor,
+                        //         ),
+                        //         textButtonTheme: TextButtonThemeData(
+                        //           style: TextButton.styleFrom(
+                        //             foregroundColor: AppColors.mainColor,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       child: child!,
+                        //     );
+                        //   },
+                        // );
 
-                        if (pickedDate != null) {
-                          selectedDate.value = pickedDate;
-                          onDateChanged(pickedDate);
-                        } else {}
+                        // if (pickedDate != null) {
+                        //   selectedDate.value = pickedDate;
+                        //   onDateChanged(pickedDate);
+                        // } else {}
                       },
                       child: Container(
                         width: double.infinity,

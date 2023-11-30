@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/init_bindings.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/syncfusion_date.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 class MyApp extends StatefulWidget {
@@ -31,6 +32,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           textDirection: TextDirection.rtl,
           theme: ThemeData(
+            useMaterial3: true,
             fontFamily: "effra",
             scaffoldBackgroundColor: Colors.white,
             appBarTheme: const AppBarTheme(
@@ -38,6 +40,7 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
           locale: const Locale('ar_EG'),
+          // home: BlackoutDatesUpdation(),
           initialRoute: AppPages.INITIAL,
           getPages: AppPages.routes,
           builder: EasyLoading.init(),

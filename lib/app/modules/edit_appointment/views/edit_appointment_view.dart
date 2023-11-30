@@ -42,7 +42,7 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
     );
     return BaseScaffold(
       appBar: CustomAppBar(
-        titleText: "تعديل الموعد ",
+        titleText: "تعديل الموعد",
       ),
       body: ListView(
         padding: AppDimension.appPadding,
@@ -70,11 +70,14 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
 
                     String valData = "${value.year}-${month}-${day}";
 
-                    Get.find<EditAppointmentController>().selectData = valData.toString();
+                    Get.find<EditAppointmentController>().selectData =
+                        valData.toString();
                     Get.find<EditAppointmentController>().selectTime = "";
-                    Get.find<EditAppointmentController>().selectTimeUI.value = "";
+                    Get.find<EditAppointmentController>().selectTimeUI.value =
+                        "";
 
-                    Get.find<EditAppointmentController>().getAvailableOfferTimes();
+                    Get.find<EditAppointmentController>()
+                        .getAvailableOfferTimes();
 
                     //Get.find<EditAppointmentController>(). selectDate = value.toString().substring(0, 10);
                   },
@@ -94,11 +97,13 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
 
                     Get.generalDialog(
                       barrierDismissible: true,
-                      barrierLabel: MaterialLocalizations.of(Get.context!).modalBarrierDismissLabel,
+                      barrierLabel: MaterialLocalizations.of(Get.context!)
+                          .modalBarrierDismissLabel,
                       barrierColor: Colors.black45,
                       transitionDuration: const Duration(milliseconds: 200),
-                      pageBuilder:
-                          (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+                      pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) {
                         return Center(
                           child: Container(
                             width: Get.width * .8,
@@ -157,22 +162,39 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
                                     : Obx(
                                         () => Wrap(
                                           children: List.generate(
-                                            controller.AppointmentDataList.length,
+                                            controller
+                                                .AppointmentDataList.length,
                                             (index) {
                                               return timeCard(
                                                 onTap: (p0) {
-                                                  Get.find<EditAppointmentController>().selectTime =
-                                                      controller.AppointmentDataList[index]["time"];
-                                                  Get.find<EditAppointmentController>().selectTimeUI.value =
-                                                      controller.AppointmentDataList[index]["time"];
-                                                  Get.find<EditAppointmentController>().AppointmentDataList.refresh();
+                                                  Get.find<
+                                                          EditAppointmentController>()
+                                                      .selectTime = controller
+                                                          .AppointmentDataList[
+                                                      index]["time"];
+                                                  Get.find<
+                                                          EditAppointmentController>()
+                                                      .selectTimeUI
+                                                      .value = controller
+                                                          .AppointmentDataList[
+                                                      index]["time"];
+                                                  Get.find<
+                                                          EditAppointmentController>()
+                                                      .AppointmentDataList
+                                                      .refresh();
                                                   Get.back();
                                                 },
-                                                time: Get.find<EditAppointmentController>().AppointmentDataList[index]
-                                                    ["time"],
-                                                isSelect: Get.find<EditAppointmentController>()
-                                                        .AppointmentDataList[index]["time"] ==
-                                                    Get.find<EditAppointmentController>().selectTime,
+                                                time: Get.find<
+                                                            EditAppointmentController>()
+                                                        .AppointmentDataList[
+                                                    index]["time"],
+                                                isSelect: Get.find<
+                                                                EditAppointmentController>()
+                                                            .AppointmentDataList[
+                                                        index]["time"] ==
+                                                    Get.find<
+                                                            EditAppointmentController>()
+                                                        .selectTime,
                                               );
                                             },
                                           ),
@@ -269,7 +291,8 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
                 text: "تأكيد الموعد",
                 onTap: () {
                   if (controller.appointment!.can_update == false) {
-                    AppDialogs.showToast(message: "برجاء التواصل مع الاداره للتعديل المعاد");
+                    AppDialogs.showToast(
+                        message: "برجاء التواصل مع الاداره للتعديل المعاد");
                     return;
                   }
 
@@ -327,7 +350,9 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: selectedDay.value == index ? AppColors.mainColor : AppColors.greyColor4,
+                        color: selectedDay.value == index
+                            ? AppColors.mainColor
+                            : AppColors.greyColor4,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 19),
@@ -337,7 +362,9 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
                               '${index + 1}',
                               style: TextStyle(
                                 fontSize: 22.0,
-                                color: selectedDay.value == index ? Colors.white : AppColors.blackColor,
+                                color: selectedDay.value == index
+                                    ? Colors.white
+                                    : AppColors.blackColor,
                                 fontWeight: FontWeight.w500,
                                 height: 1.95,
                               ),
@@ -347,7 +374,9 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
                               'السبت',
                               style: TextStyle(
                                 fontSize: 14.0,
-                                color: selectedDay.value == index ? Colors.white : AppColors.blackColor,
+                                color: selectedDay.value == index
+                                    ? Colors.white
+                                    : AppColors.blackColor,
                                 letterSpacing: 0.35000000000000003,
                                 height: 1.64,
                               ),
@@ -404,7 +433,9 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.0),
-                        color: selectedDay.value == index ? AppColors.mainColor : AppColors.greyColor4,
+                        color: selectedDay.value == index
+                            ? AppColors.mainColor
+                            : AppColors.greyColor4,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 19),
@@ -413,7 +444,9 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
                             '0${index + 4}:00 ص',
                             style: TextStyle(
                               fontSize: 14.0,
-                              color: selectedDay.value == index ? Colors.white : AppColors.blackColor,
+                              color: selectedDay.value == index
+                                  ? Colors.white
+                                  : AppColors.blackColor,
                               letterSpacing: 0.35000000000000003,
                             ),
                             textAlign: TextAlign.center,
