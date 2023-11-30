@@ -16,7 +16,7 @@ import 'package:krzv2/component/views/home_app_bar_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/slider_view.dart';
 import 'package:krzv2/extensions/widget.dart';
-import 'package:krzv2/extensions/widget.dart';
+
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/app_version_service.dart';
 import 'package:krzv2/utils/app_colors.dart';

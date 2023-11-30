@@ -181,14 +181,6 @@ class AppDialogs {
               );
             },
           ),
-          AppSpacers.height12,
-          CustomBtnCompenent.secondary(
-            text: 'إغلاق التطبيق',
-            width: 240,
-            onTap: () {
-              exit(0);
-            },
-          ),
         ],
       ),
     );
