@@ -220,6 +220,14 @@ class OrderCompleteView extends GetView<OrderCompleteController> {
                       return;
                     }
 
+                    if (authController.userData!.completeProfile == false) {
+                      AppDialogs.showToast(
+                        message: "برجاء استكمال الملف الشخصي",
+                      );
+                      Get.toNamed(Routes.updateProfile);
+                      return;
+                    }
+
                     final walletBalance = double.tryParse(
                             authController.userData!.walletBalance) ??
                         0.0;

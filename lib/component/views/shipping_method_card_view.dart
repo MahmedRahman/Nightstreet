@@ -40,13 +40,18 @@ class ShippingMethodCardView extends GetView {
                 textAlign: TextAlign.right,
               ),
               AppSpacers.height12,
-              Text(
-                'الوقت المتوقع للتوصيل : $delivryTime أيام | السعر : $cost ر.س',
-                style: TextStyle(
-                  fontSize: 14.0,
-                  color: AppColors.greyColor,
+              Container(
+                constraints: BoxConstraints(
+                  maxWidth: Get.width * .7,
                 ),
-                textAlign: TextAlign.right,
+                child: Text(
+                  'الوقت المتوقع للتوصيل : $delivryTime أيام | السعر : $cost ر.س',
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    color: AppColors.greyColor,
+                  ),
+                  textAlign: TextAlign.right,
+                ),
               ),
             ],
           ),
