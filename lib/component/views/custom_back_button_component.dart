@@ -18,6 +18,7 @@ class CustomBackButton extends StatelessWidget {
       children: [
         InkWell(
           onTap: onBackTapped ?? () => Get.back(),
+          overlayColor: MaterialStatePropertyAll(Colors.transparent),
           child: Container(
             width: 38.0,
             height: 38.0,
