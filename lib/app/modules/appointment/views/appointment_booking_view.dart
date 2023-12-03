@@ -182,43 +182,48 @@ class AppointmentBookingView extends GetView<AppointmentController> {
                                             ),
                                           )
                                         : Obx(
-                                            () => Wrap(
-                                              children: List.generate(
-                                                controller
-                                                    .AppointmentDataList.length,
-                                                (index) {
-                                                  return timeCard(
-                                                    onTap: (p0) {
-                                                      Get.find<
-                                                              AppointmentController>()
-                                                          .selectTime = controller
-                                                              .AppointmentDataList[
-                                                          index]["time"];
-                                                      Get.find<
-                                                              AppointmentController>()
-                                                          .selectTimeUI
-                                                          .value = controller
-                                                              .AppointmentDataList[
-                                                          index]["time"];
-                                                      Get.find<
-                                                              AppointmentController>()
-                                                          .AppointmentDataList
-                                                          .refresh();
-                                                      Get.back();
-                                                    },
-                                                    time: Get.find<
-                                                                AppointmentController>()
-                                                            .AppointmentDataList[
-                                                        index]["time"],
-                                                    isSelect: Get.find<
+                                            () => Expanded(
+                                              child: SingleChildScrollView(
+                                                child: Wrap(
+                                                  children: List.generate(
+                                                    controller
+                                                        .AppointmentDataList
+                                                        .length,
+                                                    (index) {
+                                                      return timeCard(
+                                                        onTap: (p0) {
+                                                          Get.find<AppointmentController>()
+                                                                  .selectTime =
+                                                              controller
+                                                                      .AppointmentDataList[
+                                                                  index]["time"];
+                                                          Get.find<
+                                                                  AppointmentController>()
+                                                              .selectTimeUI
+                                                              .value = controller
+                                                                  .AppointmentDataList[
+                                                              index]["time"];
+                                                          Get.find<
+                                                                  AppointmentController>()
+                                                              .AppointmentDataList
+                                                              .refresh();
+                                                          Get.back();
+                                                        },
+                                                        time: Get.find<
                                                                     AppointmentController>()
                                                                 .AppointmentDataList[
-                                                            index]["time"] ==
-                                                        Get.find<
-                                                                AppointmentController>()
-                                                            .selectTime,
-                                                  );
-                                                },
+                                                            index]["time"],
+                                                        isSelect: Get.find<
+                                                                        AppointmentController>()
+                                                                    .AppointmentDataList[index]
+                                                                ["time"] ==
+                                                            Get.find<
+                                                                    AppointmentController>()
+                                                                .selectTime,
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
