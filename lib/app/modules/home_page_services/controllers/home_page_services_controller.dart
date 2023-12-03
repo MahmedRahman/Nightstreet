@@ -41,7 +41,6 @@ class HomePageServicesController extends GetxController
       if (latlng.latitude != 0 && latlng.longitude != 0) {
         queryParams.lat = latlng.latitude;
         queryParams.lng = latlng.longitude;
-        update();
       }
       currentPage = pageKey;
       fetchBranches();

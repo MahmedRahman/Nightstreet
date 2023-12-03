@@ -89,7 +89,7 @@ class AuthenticationController extends GetxController with CacheManager {
     await Future.delayed(
       const Duration(milliseconds: 500),
       () {
-        print('previousRoute $previousRoute');
+        print('loginWithPhoneNumber previousRoute $previousRoute');
         if (previousRoute == Routes.SHOPPINT_CART ||
             previousRoute == Routes.SERVICE_DETAIL) {
           Get.back(closeOverlays: true);
