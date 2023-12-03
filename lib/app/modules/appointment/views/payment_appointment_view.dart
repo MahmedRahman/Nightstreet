@@ -225,14 +225,14 @@ class AppointmentPaymentView extends GetView<AppointmentController> {
                 text: "تأكيد الدفع",
                 onTap: () {
                   if (EasyLoading.isShow) return;
-                  if (Get.find<AuthenticationController>()
-                          .userData!
-                          .completeProfile ==
-                      false) {
-                    AppDialogs.showToast(message: "برجاء استكمال الملف الشخصي");
-                    Get.toNamed(Routes.updateProfile);
-                    return;
-                  }
+                  // if (Get.find<AuthenticationController>()
+                  //         .userData!
+                  //         .completeProfile ==
+                  //     false) {
+                  //   AppDialogs.showToast(message: "برجاء استكمال الملف الشخصي");
+                  //   Get.toNamed(Routes.updateProfile);
+                  //   return;
+                  // }
 
                   if (KCardStatus.value == false &&
                       KWalletStatus.value == false) {

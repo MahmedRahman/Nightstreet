@@ -7,6 +7,7 @@ import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/custom_rich_text_component.dart';
 import 'package:krzv2/component/views/custom_text_field_component.dart';
+import 'package:krzv2/component/views/profile_gender_selector_view.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
@@ -58,19 +59,26 @@ class RegisterView extends GetView<RegisterController> {
                     controller: phoneController,
                     onTap: onFieldTapped,
                     textInputAction: TextInputAction.next,
-                    onSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(emailFocusNode),
+                    onSubmitted: (_) => FocusScope.of(context).requestFocus(emailFocusNode),
                   ),
-                  AppSpacers.height19,
-                  TextFieldComponent.email(
-                    controller: emailController,
-                    focusNode: emailFocusNode,
-                    isRequired: false,
-                    onTap: onFieldTapped,
-                    textInputAction: TextInputAction.done,
-                    //isRequired: false,
-                  ),
+                 // AppSpacers.height19,
+                  // TextFieldComponent.email(
+                  //   controller: emailController,
+                  //   focusNode: emailFocusNode,
+                  //   isRequired: false,
+                  //   onTap: onFieldTapped,
+                  //   textInputAction: TextInputAction.done,
+                  //   //isRequired: false,
+                  // ),
                   AppSpacers.height12,
+
+                  ProfileGenderSelectorView(
+                    initialValue: '',
+                    onChanged: (ProfileGender gender) {
+                      //gendarController.text = gender.name;
+                    },
+                  ),
+                  AppSpacers.height25,
                   CustomCheckBoxComponent(
                     onTaxtTapped: () => Get.toNamed(Routes.termsPage),
                     onChanged: (bool value) {
@@ -98,8 +106,7 @@ class RegisterView extends GetView<RegisterController> {
                         name: nameController.text,
                         email: emailController.text,
                         phone: phoneController.text,
-                        firebasToken:
-                            registerController.getFirebaseToken() ?? "",
+                        firebasToken: registerController.getFirebaseToken() ?? "",
                       );
                     },
                   ),
