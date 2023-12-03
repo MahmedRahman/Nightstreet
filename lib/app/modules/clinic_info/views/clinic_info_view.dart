@@ -12,6 +12,7 @@ import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_banner_view.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
+import 'package:krzv2/component/views/tabs/base_switch_3_tap.dart';
 import 'package:krzv2/component/views/tabs/base_switch_tap.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/service_model.dart';
@@ -41,11 +42,13 @@ class ClinicInfoView extends GetView {
         padding: AppDimension.appPadding,
         child: Column(
           children: [
-            BaseSwitchTap(
-              title2: "عن المركز",
+            BaseSwitch3Tap(
               title1: "الخدمات",
-              Widget2: ClinicAboutPage(),
+              title2: 'العروض',
+              title3: "عن المركز",
               Widget1: ClinicServicesPage(),
+              Widget2: ClinicOffersServicesPage(),
+              Widget3: ClinicAboutPage(),
             )
           ],
         ),
@@ -213,6 +216,72 @@ class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
 class ClinicServicesPage extends GetView<ClinicServicesController> {
   final ClinicServicesController controller =
       Get.put(ClinicServicesController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Obx(
+        () => PaginatedListView<ServiceModel>(
+          controller: controller.pagingController.value,
+          firstLoadingIndicator: Column(
+            children: [
+              ServiceCardView.dummy().paddingOnly(bottom: 10).shimmer(),
+              ServiceCardView.dummy().shimmer(),
+            ],
+          ),
+          itemBuilder: itemBuilder,
+          onEmpty: AppPageEmpty.noServiceFound(),
+        ),
+      ),
+    );
+  }
+
+  Widget itemBuilder(_, ServiceModel offer, __) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        bottom: 8,
+      ),
+      child: GetBuilder<OfferFavoriteController>(
+        init: OfferFavoriteController(),
+        builder: (favoriteController) {
+          return ServiceCardView(
+            imageUrl: offer.image,
+            name: offer.name,
+            subTitle: offer.clinic.name,
+            hasDiscount: offer.oldPrice != 0,
+            price: offer.price.toString(),
+            oldPrice: offer.oldPrice.toString(),
+            onFavoriteTapped: () {
+              if (Get.find<AuthenticationController>().isLoggedIn == false) {
+                return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+              }
+              final favCon = Get.put<OfferFavoriteController>(
+                OfferFavoriteController(),
+              );
+
+              favCon.addRemoveOfferFromFavorite(
+                offerId: offer.id,
+              );
+            },
+            isFavorite: favoriteController.offerIsFavorite(offer.id),
+            onTapped: () {
+              Get.toNamed(
+                Routes.SERVICE_DETAIL,
+                arguments: offer.id.toString(),
+              );
+            },
+            rate: offer.totalRateCount.toString(),
+            totalRate: offer.totalRateAvg.toString(),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class ClinicOffersServicesPage extends GetView<ClinicOffersServicesController> {
+  final ClinicOffersServicesController controller =
+      Get.put(ClinicOffersServicesController());
 
   @override
   Widget build(BuildContext context) {
