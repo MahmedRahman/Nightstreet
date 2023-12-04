@@ -64,6 +64,7 @@ class WebServices {
     required String name,
     required String email,
     required String phone,
+    required String gender,
     required String firebasToken,
   }) async {
     return await ApiManger().execute(
@@ -73,7 +74,7 @@ class WebServices {
         "name": name,
         "email": email,
         "phone": phone,
-        "gender": "male",
+        "gender": gender,
         "firebas_token": firebasToken,
         // "firebas_token": firebasToken,
       },
