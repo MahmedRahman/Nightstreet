@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           textDirection: TextDirection.rtl,
           theme: ThemeData(
-            useMaterial3: true,
+            useMaterial3: false,
             fontFamily: "effra",
             scaffoldBackgroundColor: Colors.white,
             appBarTheme: const AppBarTheme(

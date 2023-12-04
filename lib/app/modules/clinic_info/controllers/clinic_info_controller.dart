@@ -63,6 +63,7 @@ class ClinicServicesController extends GetxController with StateMixin {
     ResponseModel responseModel = await WebServices().getOffersByBranchesId(
       branchesId: branchId.value,
       page: currentPage,
+      notFeatured: 1,
     );
 
     if (responseModel.data["success"]) {
