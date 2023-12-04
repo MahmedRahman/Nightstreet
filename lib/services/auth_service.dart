@@ -51,6 +51,12 @@ class AuthenticationController extends GetxController with CacheManager {
     await saveGuestToken(response.data['data']['token']);
     final cartController = Get.find<ShoppingCartController>();
     cartController.onInit();
+
+    if (Get.routing.previous == "/service-detail") {
+      Get.back();
+      return;
+    }
+
     Get.find<MyBottomNavigationController>().changePage(0);
     Get.offAndToNamed(Routes.LAYOUT);
   }
@@ -86,12 +92,26 @@ class AuthenticationController extends GetxController with CacheManager {
     _userData = UserData.fromJson(response.data["data"]);
 
     AppDialogs.loginSuccess();
+
     await Future.delayed(
       const Duration(milliseconds: 500),
       () {
         print('loginWithPhoneNumber previousRoute $previousRoute');
-        if (previousRoute == Routes.SHOPPINT_CART ||
-            previousRoute == Routes.SERVICE_DETAIL) {
+
+        if (previousRoute == "/service-detail") {
+          Get.until((route) {
+            if (route.settings.name == Routes.SERVICE_DETAIL) {
+              //Return to the specified page
+              return true;
+            } else {
+              return false;
+            }
+          }); // Get.to(
+
+          return;
+        }
+
+        if (previousRoute == Routes.SHOPPINT_CART || previousRoute == Routes.SERVICE_DETAIL) {
           Get.back(closeOverlays: true);
         } else {
           Get.offAndToNamed(Routes.LAYOUT);
@@ -119,7 +139,7 @@ class AuthenticationController extends GetxController with CacheManager {
       if (response.data["response_code"] == 403) {
         Get.toNamed(
           Routes.REGISTER,
-          arguments: phoneNumber,
+          arguments: [phoneNumber, Get.routing.previous],
         );
 
         return;
@@ -246,6 +266,16 @@ class AuthenticationController extends GetxController with CacheManager {
         message: response.data["message"].toString(),
       );
 
+      return;
+    }
+
+    if (Get.arguments[1] == "/service-detail") {
+      Get.to(
+        VerifyPhoneView(
+          phoneNumber: phone,
+          previousRoute: Get.arguments[1],
+        ),
+      );
       return;
     }
 

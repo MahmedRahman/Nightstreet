@@ -16,19 +16,16 @@ import 'package:krzv2/utils/app_spacers.dart';
 import '../controllers/register_controller.dart';
 
 class RegisterView extends GetView<RegisterController> {
-  RegisterView({Key? key}) : super(key: key);
-
   final isTermsConfirmed = false.obs;
   final formKey = GlobalKey<FormState>();
-
   final nameController = TextEditingController();
-  final phoneController = TextEditingController(text: Get.arguments as String);
+  final phoneController = TextEditingController(text: Get.arguments[0] as String);
   final emailController = TextEditingController();
-
   final registerController = Get.put(AuthenticationController());
   final GlobalKey globalKey = GlobalKey();
   final phoneFocusNode = FocusNode();
   final emailFocusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -61,7 +58,7 @@ class RegisterView extends GetView<RegisterController> {
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) => FocusScope.of(context).requestFocus(emailFocusNode),
                   ),
-                 // AppSpacers.height19,
+                  // AppSpacers.height19,
                   // TextFieldComponent.email(
                   //   controller: emailController,
                   //   focusNode: emailFocusNode,
