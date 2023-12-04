@@ -91,8 +91,6 @@ class ClinicServicesController extends GetxController with StateMixin {
   }
 }
 
-
-
 class ClinicOffersServicesController extends GetxController with StateMixin {
   int currentPage = 1;
   bool? isPagination;
@@ -122,6 +120,7 @@ class ClinicOffersServicesController extends GetxController with StateMixin {
     ResponseModel responseModel = await WebServices().getOffersByBranchesId(
       branchesId: branchId.value,
       page: currentPage,
+      featured: 1,
     );
 
     if (responseModel.data["success"]) {
