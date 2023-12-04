@@ -29,8 +29,7 @@ import 'package:krzv2/web_serives/web_serives.dart';
 import '../controllers/home_page_products_controller.dart';
 
 class MarketController extends GetxController with StateMixin<List> {
-  final pagingController =
-      PagingController<int, MarketModel>(firstPageKey: 1).obs;
+  final pagingController = PagingController<int, MarketModel>(firstPageKey: 1).obs;
   RxString? categoryId = ''.obs;
   @override
   void onInit() {
@@ -55,18 +54,15 @@ class MarketController extends GetxController with StateMixin<List> {
     if (responseModel.data["success"]) {
       try {
         final newItems = List<MarketModel>.from(
-          responseModel.data['data']['data']
-              .map((item) => MarketModel.fromMap(item)),
+          responseModel.data['data']['data'].map((item) => MarketModel.fromMap(item)),
         );
-        final isPaginate =
-            responseModel.data['data']['pagination']['is_pagination'] as bool;
+        final isPaginate = responseModel.data['data']['pagination']['is_pagination'] as bool;
 
         if (isPaginate == false) {
           pagingController.value.appendLastPage(newItems.toSet().toList());
         } else {
           final nextPageKey = currentPage + 1;
-          pagingController.value
-              .appendPage(newItems.toSet().toList(), nextPageKey);
+          pagingController.value.appendPage(newItems.toSet().toList(), nextPageKey);
         }
       } catch (e, st) {
         print('market => error $e');
@@ -90,8 +86,7 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
   final sliderController = Get.find<HomePageProductSliderController>();
   final mostSelleerProductController = Get.put(MostSelleerProductController());
   final cartController = Get.find<ShoppingCartController>();
-  final exclusiveOffersProductController =
-      Get.put(ExclusiveOffersProductController());
+  final exclusiveOffersProductController = Get.put(ExclusiveOffersProductController());
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
@@ -103,8 +98,7 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
       appBar: AppBarSerechView(
         placeHolder: 'ما الذي تريد البحث عنه ؟',
         actions: [
-          if (authController.isLoggedIn || authController.isGuestUser)
-            ShoppingCartIconView(),
+          if (authController.isLoggedIn || authController.isGuestUser) ShoppingCartIconView(),
           if (authController.isLoggedIn) NotificationIconView(),
           AppSpacers.width20,
         ],
@@ -152,8 +146,7 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
                 return HomeCategoriesListView(
                   categoriesList: categoriesList,
                   onCategoryTapped: (int categoryId) async {
-                    marketController.pagingController.value =
-                        PagingController(firstPageKey: 1);
+                    marketController.pagingController.value = PagingController(firstPageKey: 1);
 
                     marketController.categoryId!.value = categoryId.toString();
 
@@ -210,18 +203,16 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
             );
           },
           onTapped: () {
-            Get.to(
-              MarketPage(
-                {
-                  "id": market.id,
-                  "image": market.image,
-                  "name": market.name,
-                  "desc": market.desc,
-                  "total_rate_avg": market.rate,
-                  "total_rate_count": market.totalRate,
-                },
-              ),
-            );
+            Get.to(() => MarketPage(
+                  {
+                    "id": market.id,
+                    "image": market.image,
+                    "name": market.name,
+                    "desc": market.desc,
+                    "total_rate_avg": market.rate,
+                    "total_rate_count": market.totalRate,
+                  },
+                ));
           },
           isFavorite: favController.marketsFavoriteIds.value!.contains(
             market.id,

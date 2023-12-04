@@ -114,9 +114,7 @@ class MarketComponentView extends GetView {
                             isNew: false,
                             productId: product.productId.toString(),
                             quantity: '${++newQuantity}',
-                            variantId: product.variantId == null
-                                ? ''
-                                : product.variantId.toString(),
+                            variantId: product.variantId == null ? '' : product.variantId.toString(),
                           );
                           return;
                         }
@@ -125,9 +123,7 @@ class MarketComponentView extends GetView {
                           isNew: false,
                           productId: product.productId.toString(),
                           quantity: '${++newQuantity}',
-                          variantId: product.variantId == null
-                              ? ''
-                              : product.variantId.toString(),
+                          variantId: product.variantId == null ? '' : product.variantId.toString(),
                         );
                       },
                       ondecrement: () {
@@ -138,9 +134,7 @@ class MarketComponentView extends GetView {
                             isNew: false,
                             productId: product.productId.toString(),
                             quantity: '${++newQuantity}',
-                            variantId: product.variantId == null
-                                ? ''
-                                : product.variantId.toString(),
+                            variantId: product.variantId == null ? '' : product.variantId.toString(),
                           );
                           return;
                         }
@@ -149,9 +143,7 @@ class MarketComponentView extends GetView {
                           isNew: false,
                           productId: product.productId.toString(),
                           quantity: '${--newQuantity}',
-                          variantId: product.variantId == null
-                              ? ''
-                              : product.variantId.toString(),
+                          variantId: product.variantId == null ? '' : product.variantId.toString(),
                         );
                       },
                       onTap: () {
@@ -193,11 +185,9 @@ class MarketComponentView extends GetView {
                       Get.toNamed(Routes.LOGIN);
                       return;
                     }
-                    cartController.selectedMarketId.value =
-                        market.marketId.toString();
+                    cartController.selectedMarketId.value = market.marketId.toString();
 
-                    Get.put(OrderCompleteController()).cartSummary.value =
-                        market.summary;
+                    Get.put(OrderCompleteController()).cartSummary.value = market.summary;
 
                     Get.toNamed(
                       Routes.ORDER_COMPLETE,
@@ -211,7 +201,7 @@ class MarketComponentView extends GetView {
                   text: "إضافة منتج",
                   onTap: () async {
                     Get.to(
-                      MarketPage(
+                      () => MarketPage(
                         {
                           'id': market.marketId,
                           "name": market.marketName,

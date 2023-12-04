@@ -11,7 +11,7 @@ class ApiConfig {
   //static String baseUrl = "https://api-v2.krz.sa/api";
   static const bool KShowLog = true;
   static const bool KShowError = true;
-  static const bool KDebugFlg = false;
+  static const bool KDebugFlg = true;
   Function KLoginPage = () {
     return Get.offAndToNamed(Routes.LOGIN);
   };
