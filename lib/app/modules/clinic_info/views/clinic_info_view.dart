@@ -47,10 +47,7 @@ class ClinicInfoView extends GetView {
               title2: 'العروض',
               title3: "عن المركز",
               Widget1: ClinicServicesPage(),
-              Widget2: Center(
-                child: Text('Offers'),
-              ),
-              // Widget2: ClinicOffersServicesPage(),
+              Widget2: ClinicOffersServicesPage(),
               Widget3: ClinicAboutPage(),
             )
           ],
