@@ -250,6 +250,7 @@ class AuthenticationController extends GetxController with CacheManager {
     required String name,
     required String email,
     required String phone,
+    required String gender,
     required String firebasToken,
   }) async {
     EasyLoading.show();
@@ -258,6 +259,7 @@ class AuthenticationController extends GetxController with CacheManager {
       email: email,
       phone: phone,
       firebasToken: firebasToken,
+      gender: gender,
     );
 
     EasyLoading.dismiss();

@@ -42,8 +42,7 @@ class HomePageView extends GetView {
   final productCategoriesController = Get.find<ProductCategoriesController>();
   final recommendedProductController = Get.put(RecommendedProductController());
   final bottomNavigationBarController = Get.put(MyBottomNavigationController());
-  final homesSliderSettingController =
-      Get.put(HomePageDummySliderSettingController());
+  final homesSliderSettingController = Get.put(HomePageDummySliderSettingController());
   final appVersion = Get.find<AppVersionService>();
 
   final homePageController = Get.put(HomePageController());
@@ -84,11 +83,31 @@ class HomePageView extends GetView {
                         return;
                       }
 
+                      if (data["model_name"] == "login") {
+                        Get.toNamed(Routes.LOGIN);
+                        return;
+                      }
+
+                      if (data["model_name"] == "register") {
+                        Get.toNamed(Routes.REGISTER);
+                        return;
+                      }
+
+                      if (data["model_name"] == "services_offers") {
+                        // Get.toNamed(Routes.REGISTER);
+                        return;
+                      }
+
+                      if (data["model_name"] == "products_offers") {
+                        //Get.toNamed(Routes.REGISTER);
+                        return;
+                      }
+
                       return;
                     }
 
                     if (data["redirect_type"] == "single_model") {
-                      if (data["model_name"] == "products") {
+                      if (data["model_name"] == "App\\Models\\Product") {
                         Get.toNamed(
                           Routes.PRODUCT_DETAILS,
                           arguments: data["model_id"].toString(),
@@ -98,11 +117,51 @@ class HomePageView extends GetView {
                         return;
                       }
 
-                      if (data["model_name"] == "offers") {
+                      if (data["model_name"] == "App\\Models\\Offer") {
                         Get.toNamed(
                           Routes.SERVICE_DETAIL,
                           arguments: data["model_id"].toString(),
                         );
+                        print("${data["model_id"]}");
+
+                        return;
+                      }
+
+                      if (data["model_name"] == "App\\Models\\Category") {
+                        // Get.toNamed(
+                        //   Routes.SERVICE_DETAIL,
+                        //   arguments: data["model_id"].toString(),
+                        // );
+                        print("${data["model_id"]}");
+
+                        return;
+                      }
+
+                      if (data["model_name"] == "App\\Models\\MarketCategory") {
+                        // Get.toNamed(
+                        //   Routes.SERVICE_DETAIL,
+                        //   arguments: data["model_id"].toString(),
+                        // );
+                        print("${data["model_id"]}");
+
+                        return;
+                      }
+
+                      if (data["model_name"] == "App\\Models\\Branch") {
+                        // Get.toNamed(
+                        //   Routes.SERVICE_DETAIL,
+                        //   arguments: data["model_id"].toString(),
+                        // );
+                        print("${data["model_id"]}");
+
+                        return;
+                      }
+
+                      if (data["model_name"] == "App\\Models\\Market") {
+                        // Get.toNamed(
+                        //   Routes.SERVICE_DETAIL,
+                        //   arguments: data["model_id"].toString(),
+                        // );
                         print("${data["model_id"]}");
 
                         return;
@@ -141,12 +200,10 @@ class HomePageView extends GetView {
                       (index) {
                         return homeCard(
                           title: data[index]["name"].toString(),
-                          subdata: (data[index]["content"].toString() == "null")
-                              ? ""
-                              : data[index]["content"].toString(),
+                          subdata:
+                              (data[index]["content"].toString() == "null") ? "" : data[index]["content"].toString(),
                           imageUrl: data[index]["image"].toString(),
-                          discountPercentage:
-                              data[index]["discount_percentage"].toString(),
+                          discountPercentage: data[index]["discount_percentage"].toString(),
                           onTap: () {
                             if (data[index]["redirect_type"] == "offers") {
                               bottomBarController.changePage(3);

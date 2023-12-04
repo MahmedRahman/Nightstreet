@@ -21,6 +21,8 @@ class RegisterView extends GetView<RegisterController> {
   final nameController = TextEditingController();
   final phoneController = TextEditingController(text: Get.arguments[0] as String);
   final emailController = TextEditingController();
+  final genderController = TextEditingController();
+
   final registerController = Get.put(AuthenticationController());
   final GlobalKey globalKey = GlobalKey();
   final phoneFocusNode = FocusNode();
@@ -72,7 +74,8 @@ class RegisterView extends GetView<RegisterController> {
                   ProfileGenderSelectorView(
                     initialValue: '',
                     onChanged: (ProfileGender gender) {
-                      //gendarController.text = gender.name;
+                      print("gender ${gender.name}");
+                      genderController.text = gender.name;
                     },
                   ),
                   AppSpacers.height25,
@@ -104,6 +107,7 @@ class RegisterView extends GetView<RegisterController> {
                         email: emailController.text,
                         phone: phoneController.text,
                         firebasToken: registerController.getFirebaseToken() ?? "",
+                        gender: genderController.text,
                       );
                     },
                   ),
