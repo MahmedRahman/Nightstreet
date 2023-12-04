@@ -11,6 +11,7 @@ import 'package:krzv2/component/views/cashed_network_image_view.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
+import 'package:krzv2/component/views/custom_tap_bar.dart';
 import 'package:krzv2/component/views/favorite_icon_view.dart';
 import 'package:krzv2/component/views/image_swpier_view.dart';
 import 'package:krzv2/component/views/notification_icon_view.dart';
@@ -186,28 +187,25 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                     AppSpacers.height10,
                     Divider(),
                     AppSpacers.height10,
-                    Container(
-                      height: 400,
-                      child: BaseSwitch3TapV2(
-                        title1: "وصف الخدمة",
-                        title2: "الإرشادات قبل وبعد",
-                        title3: "التقييمات",
-                        Widget1: SingleChildScrollView(
-                          child: Container(
-                            child: Html(
-                              data: data["desc"].toString(),
-                            ),
+                    CustomTapBar(
+                      label1: "وصف الخدمة",
+                      label2: "الإرشادات قبل وبعد",
+                      label3: "التقييمات",
+                      widget1: SingleChildScrollView(
+                        child: Container(
+                          child: Html(
+                            data: data["desc"].toString(),
                           ),
                         ),
-                        Widget2: SingleChildScrollView(
-                          child: Container(
-                            child: Html(
-                              data: data["instructions"].toString(),
-                            ),
-                          ),
-                        ),
-                        Widget3: ReviewInformationView(),
                       ),
+                      widget2: SingleChildScrollView(
+                        child: Container(
+                          child: Html(
+                            data: data["instructions"].toString(),
+                          ),
+                        ),
+                      ),
+                      widget3: ReviewInformationView(),
                     ),
                     AppSpacers.height12,
                     Divider(),

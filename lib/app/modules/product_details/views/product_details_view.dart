@@ -8,6 +8,7 @@ import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/counter_view.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
+import 'package:krzv2/component/views/custom_tap_bar.dart';
 import 'package:krzv2/component/views/favorite_icon_view.dart';
 import 'package:krzv2/component/views/image_swpier_view.dart';
 import 'package:krzv2/component/views/notification_icon_view.dart';
@@ -23,7 +24,6 @@ import 'package:krzv2/component/views/rating_bar_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/share_icon_view.dart';
 import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
-import 'package:krzv2/component/views/tabs/base_switch_3_tap.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/product_model.dart';
 import 'package:krzv2/routes/app_pages.dart';
@@ -173,27 +173,23 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
           AppSpacers.height5,
           Divider(),
           AppSpacers.height12,
-          SizedBox(
-            height: 400,
-            child: Column(
-              children: [
-                BaseSwitch3Tap(
-                  title1: 'وصف المنتج',
-                  title2: 'طريقة الاستعمال',
-                  title3: 'التقييمات',
-                  Widget1: SingleChildScrollView(
-                    child: Html(
-                      data: product.desc,
-                    ),
-                  ),
-                  Widget2: SingleChildScrollView(
-                    child: Html(
-                      data: product.usage,
-                    ),
-                  ),
-                  Widget3: ProductReviewsView(),
-                ),
-              ],
+          CustomTapBar(
+            label1: 'وصف المنتج',
+            label2: 'طريقة الاستعمال',
+            label3: 'التقييمات',
+            widget1: SingleChildScrollView(
+              child: Html(
+                data: product.desc,
+              ),
+            ),
+            widget2: SingleChildScrollView(
+              child: Html(
+                data: product.usage,
+              ),
+            ),
+            widget3: SizedBox(
+              height: 400,
+              child: ProductReviewsView(),
             ),
           ),
           AppSpacers.height16,
