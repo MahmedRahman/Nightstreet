@@ -39,8 +39,7 @@ class BaseSwitch3Tap extends StatelessWidget {
                   children: [
                     Expanded(
                       child: InkWell(
-                        overlayColor:
-                            MaterialStatePropertyAll(Colors.transparent),
+                        overlayColor: MaterialStatePropertyAll(Colors.transparent),
                         onTap: () {
                           KSelectItem.value = 0;
                           if (onTap != null) onTap!(0);
@@ -51,9 +50,7 @@ class BaseSwitch3Tap extends StatelessWidget {
                               title1,
                               style: TextStyle(
                                 fontSize: 16,
-                                color: KSelectItem.value == 0
-                                    ? AppColors.mainColor
-                                    : AppColors.greyColor,
+                                color: KSelectItem.value == 0 ? AppColors.mainColor : AppColors.greyColor,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -62,9 +59,7 @@ class BaseSwitch3Tap extends StatelessWidget {
                             ),
                             Container(
                               height: 2,
-                              color: KSelectItem.value == 0
-                                  ? AppColors.mainColor
-                                  : AppColors.borderColor2,
+                              color: KSelectItem.value == 0 ? AppColors.mainColor : AppColors.borderColor2,
                             )
                           ],
                         ),
@@ -72,8 +67,7 @@ class BaseSwitch3Tap extends StatelessWidget {
                     ),
                     Expanded(
                       child: InkWell(
-                        overlayColor:
-                            MaterialStatePropertyAll(Colors.transparent),
+                        overlayColor: MaterialStatePropertyAll(Colors.transparent),
                         onTap: () {
                           KSelectItem.value = 1;
                           if (onTap != null) onTap!(1);
@@ -84,9 +78,7 @@ class BaseSwitch3Tap extends StatelessWidget {
                               title2,
                               style: TextStyle(
                                 fontSize: 16,
-                                color: KSelectItem.value == 1
-                                    ? AppColors.mainColor
-                                    : AppColors.greyColor,
+                                color: KSelectItem.value == 1 ? AppColors.mainColor : AppColors.greyColor,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -95,9 +87,7 @@ class BaseSwitch3Tap extends StatelessWidget {
                             ),
                             Container(
                               height: 2,
-                              color: KSelectItem.value == 1
-                                  ? AppColors.mainColor
-                                  : AppColors.borderColor2,
+                              color: KSelectItem.value == 1 ? AppColors.mainColor : AppColors.borderColor2,
                             )
                           ],
                         ),
@@ -105,8 +95,7 @@ class BaseSwitch3Tap extends StatelessWidget {
                     ),
                     Expanded(
                       child: InkWell(
-                        overlayColor:
-                            MaterialStatePropertyAll(Colors.transparent),
+                        overlayColor: MaterialStatePropertyAll(Colors.transparent),
                         onTap: () {
                           KSelectItem.value = 2;
                           if (onTap != null) onTap!(2);
@@ -117,9 +106,7 @@ class BaseSwitch3Tap extends StatelessWidget {
                               title3,
                               style: TextStyle(
                                 fontSize: 16,
-                                color: KSelectItem.value == 2
-                                    ? AppColors.mainColor
-                                    : AppColors.greyColor,
+                                color: KSelectItem.value == 2 ? AppColors.mainColor : AppColors.greyColor,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -128,9 +115,7 @@ class BaseSwitch3Tap extends StatelessWidget {
                             ),
                             Container(
                               height: 2,
-                              color: KSelectItem.value == 2
-                                  ? AppColors.mainColor
-                                  : AppColors.borderColor2,
+                              color: KSelectItem.value == 2 ? AppColors.mainColor : AppColors.borderColor2,
                             )
                           ],
                         ),
@@ -187,8 +172,7 @@ class BaseSwitch3TapV2 extends StatelessWidget {
                 children: [
                   Expanded(
                     child: InkWell(
-                      overlayColor:
-                          MaterialStatePropertyAll(Colors.transparent),
+                      overlayColor: MaterialStatePropertyAll(Colors.transparent),
                       onTap: () {
                         KSelectItem.value = 0;
                       },
@@ -198,9 +182,7 @@ class BaseSwitch3TapV2 extends StatelessWidget {
                             title1,
                             style: TextStyle(
                               fontSize: 16,
-                              color: KSelectItem.value == 0
-                                  ? AppColors.mainColor
-                                  : AppColors.greyColor,
+                              color: KSelectItem.value == 0 ? AppColors.mainColor : AppColors.greyColor,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -209,9 +191,7 @@ class BaseSwitch3TapV2 extends StatelessWidget {
                           ),
                           Container(
                             height: 2,
-                            color: KSelectItem.value == 0
-                                ? AppColors.mainColor
-                                : AppColors.borderColor2,
+                            color: KSelectItem.value == 0 ? AppColors.mainColor : AppColors.borderColor2,
                           )
                         ],
                       ),
@@ -219,8 +199,7 @@ class BaseSwitch3TapV2 extends StatelessWidget {
                   ),
                   Expanded(
                     child: InkWell(
-                      overlayColor:
-                          MaterialStatePropertyAll(Colors.transparent),
+                      overlayColor: MaterialStatePropertyAll(Colors.transparent),
                       onTap: () {
                         KSelectItem.value = 1;
                       },
@@ -230,9 +209,7 @@ class BaseSwitch3TapV2 extends StatelessWidget {
                             title2,
                             style: TextStyle(
                               fontSize: 16,
-                              color: KSelectItem.value == 1
-                                  ? AppColors.mainColor
-                                  : AppColors.greyColor,
+                              color: KSelectItem.value == 1 ? AppColors.mainColor : AppColors.greyColor,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -241,9 +218,7 @@ class BaseSwitch3TapV2 extends StatelessWidget {
                           ),
                           Container(
                             height: 2,
-                            color: KSelectItem.value == 1
-                                ? AppColors.mainColor
-                                : AppColors.borderColor2,
+                            color: KSelectItem.value == 1 ? AppColors.mainColor : AppColors.borderColor2,
                           )
                         ],
                       ),
@@ -251,8 +226,7 @@ class BaseSwitch3TapV2 extends StatelessWidget {
                   ),
                   Expanded(
                     child: InkWell(
-                      overlayColor:
-                          MaterialStatePropertyAll(Colors.transparent),
+                      overlayColor: MaterialStatePropertyAll(Colors.transparent),
                       onTap: () {
                         KSelectItem.value = 2;
                       },
@@ -262,9 +236,7 @@ class BaseSwitch3TapV2 extends StatelessWidget {
                             title3,
                             style: TextStyle(
                               fontSize: 16,
-                              color: KSelectItem.value == 2
-                                  ? AppColors.mainColor
-                                  : AppColors.greyColor,
+                              color: KSelectItem.value == 2 ? AppColors.mainColor : AppColors.greyColor,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -273,9 +245,7 @@ class BaseSwitch3TapV2 extends StatelessWidget {
                           ),
                           Container(
                             height: 2,
-                            color: KSelectItem.value == 2
-                                ? AppColors.mainColor
-                                : AppColors.borderColor2,
+                            color: KSelectItem.value == 2 ? AppColors.mainColor : AppColors.borderColor2,
                           )
                         ],
                       ),
