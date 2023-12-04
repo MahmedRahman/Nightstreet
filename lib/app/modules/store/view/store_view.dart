@@ -39,15 +39,27 @@ class MarketPageController extends GetxController with StateMixin<List> {
   }
 
   void pageListener() {
-    pagingController.value.addPageRequestListener(
-      (pageKey) {
-        currentPage = pageKey;
-        getProductByMarketId(
-          MarketId: marketId.value,
-          page: currentPage,
-        );
-      },
-    );
+    try {
+      pagingController.value.addPageRequestListener(
+        (pageKey) {
+          currentPage = pageKey;
+          getProductByMarketId(
+            MarketId: marketId.value,
+            page: currentPage,
+          );
+        },
+      );
+    } catch (e, st) {
+      print('error $e');
+      print('stack $st');
+    }
+  }
+
+  @override
+  void onClose() {
+    print('on close');
+    pagingController.value.dispose();
+    super.onClose();
   }
 
   Future getProductByMarketId({
@@ -89,7 +101,7 @@ class MarketPageController extends GetxController with StateMixin<List> {
 
 class MarketPage extends GetView<MarketPageController> {
   final authController = Get.find<AuthenticationController>();
-  final MarketPageController controller = Get.put(MarketPageController());
+  final controller = Get.put(MarketPageController());
   final marketCategoriesController = Get.put(MarketCategoriesController());
 
   var data;
@@ -101,6 +113,8 @@ class MarketPage extends GetView<MarketPageController> {
     marketCategoriesController.getMarketCategories(
       marketId: data["id"].toString(),
     );
+
+    controller.onInit();
   }
   @override
   Widget build(BuildContext context) {
@@ -114,6 +128,10 @@ class MarketPage extends GetView<MarketPageController> {
       },
       appBar: CustomAppBar(
         titleText: "متجر",
+        onBackTapped: () {
+          controller.dispose();
+          Get.back();
+        },
         actions: [
           if (authController.isLoggedIn || authController.isGuestUser)
             ShoppingCartIconView(),
