@@ -11,7 +11,8 @@ void main() {
         locale: Locale('ar', 'SA'),
         initialRoute: AppPages.INITIAL,
         theme: ThemeData(
-          fontFamily: 'Montserrat-Arabic',
+          fontFamily: 'Montserrat',
+          textTheme: TextTheme(),
         ),
         getPages: AppPages.routes,
       ),

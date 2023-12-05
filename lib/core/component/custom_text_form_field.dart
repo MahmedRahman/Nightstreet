@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-class CustomTextBox extends StatelessWidget {
-  CustomTextBox({
+class CustomTextFormField extends StatelessWidget {
+  CustomTextFormField({
     required this.labelText,
     this.IconWidget,
     this.controller,
@@ -17,25 +18,41 @@ class CustomTextBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(),
-        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Color(0xffD8D8D8)),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         children: [
           Container(
             height: 60,
-            width: 60,
+            width: 55,
             decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(16),
+              color: Color(0xffFFFFFF),
+              borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(Icons.r_mobiledata),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SvgPicture.asset(
+                "images/svg/phone_text_icon.svg",
+              ),
+            ),
           ),
           Divider(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            child: Container(
+              width: 1,
+              height: 55,
+              decoration: BoxDecoration(
+                color: Color(0xffD8D8D8),
+              ),
+            ),
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: TextFormField(
+                cursorColor: Color(0xffD8D8D8),
                 decoration: InputDecoration(
                   border: UnderlineInputBorder(
                     borderSide: BorderSide(
@@ -43,19 +60,11 @@ class CustomTextBox extends StatelessWidget {
                       style: BorderStyle.none,
                     ),
                   ),
-                  // border: OutlineInputBorder(
-                  //   borderRadius: BorderRadius.circular(16),
-                  //   borderSide: BorderSide(
-                  //     width: 1,
-                  //     style: BorderStyle.solid,
-                  //     color: Color(0xffD8D8D8),
-                  //   ),
-                  // ),
                   labelText: labelText,
                   labelStyle: TextStyle(
-                    fontSize: 11.0,
+                    fontSize: 14.0,
                     color: const Color(0xFFABABB7),
-                    fontWeight: FontWeight.w300,
+                    fontWeight: FontWeight.bold,
                   ),
                   filled: true,
                   fillColor: Colors.white,
