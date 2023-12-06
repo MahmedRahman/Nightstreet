@@ -6,28 +6,36 @@ class CustomButton extends StatelessWidget {
     this.backgroundColor = Colors.red,
     this.borderSideColor = Colors.red,
     this.textStyleColor = Colors.white,
+    this.title = "دخول",
   });
 
   CustomButton.outLine({
     this.backgroundColor = Colors.transparent,
     this.borderSideColor = Colors.red,
     this.textStyleColor = Colors.red,
+    this.title = "دخول",
   });
 
   CustomButton.textButton({
     this.backgroundColor = Colors.transparent,
     this.borderSideColor = Colors.transparent,
     this.textStyleColor = Colors.red,
+    this.title = "دخول",
   });
+
+ 
+
   Color backgroundColor;
   Color borderSideColor;
   Color textStyleColor;
+  String title;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       height: 60.0,
       child: ElevatedButton(
+        autofocus: false,
         onPressed: () {},
         style: ElevatedButton.styleFrom(
           elevation: 0,
@@ -40,39 +48,15 @@ class CustomButton extends StatelessWidget {
           ),
         ),
         child: Text(
-          'دخول',
+          '${title}',
           style: TextStyle(
             fontSize: 14.0,
-            height: 1.5,
+            height: 1,
             color: textStyleColor,
             fontWeight: FontWeight.w600,
           ),
-          textAlign: TextAlign.center,
         ),
       ),
     );
-
-    // return InkWell(
-    //   child: Container(
-    //     height: 64,
-    //     width: double.infinity,
-    //     decoration: BoxDecoration(
-    //       color: AppColor.KOrangeColor,
-    //       borderRadius: BorderRadius.circular(16),
-    //     ),
-    //     child: Center(
-    //       child: Text(
-    //         'دخول',
-    //         style: TextStyle(
-    //           fontSize: 14.0,
-    //           height: 1.5,
-    //           color: const Color(0xFFF6F6F6),
-    //           fontWeight: FontWeight.w600,
-    //         ),
-    //         textAlign: TextAlign.center,
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }

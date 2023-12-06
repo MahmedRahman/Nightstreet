@@ -1,3 +1,4 @@
+import 'package:app_night_street/core/themes/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -31,10 +32,8 @@ class CustomTextFormField extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SvgPicture.asset(
-                "images/svg/phone_text_icon.svg",
-              ),
+              padding: const EdgeInsets.all(16.0),
+              child: IconWidget,
             ),
           ),
           Divider(),
@@ -61,14 +60,10 @@ class CustomTextFormField extends StatelessWidget {
                     ),
                   ),
                   labelText: labelText,
-                  labelStyle: TextStyle(
-                    fontSize: 14.0,
-                    color: const Color(0xFFABABB7),
-                    fontWeight: FontWeight.bold,
-                  ),
+                  labelStyle: TextStyles.font12regularGray,
                   filled: true,
                   fillColor: Colors.white,
-                  prefixIcon: IconWidget,
+                  // prefixIcon: IconWidget,
                 ),
               ),
             ),

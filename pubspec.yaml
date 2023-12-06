@@ -10,6 +10,7 @@ dependencies:
   logger: ^2.0.1
   get: 4.6.6
   flutter_svg: ^2.0.9
+  pin_code_fields: ^8.0.1
 
   flutter:
     sdk: flutter
@@ -35,3 +36,4 @@ flutter:
 
   assets:
     - images/svg/
+    - images/png/
