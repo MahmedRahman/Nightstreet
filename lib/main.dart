@@ -9,6 +9,7 @@ import 'package:krzv2/app.dart';
 import 'package:krzv2/firebase_options.dart';
 import 'package:krzv2/services/firebase_messaging_service.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+//import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
