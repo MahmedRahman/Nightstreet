@@ -9,6 +9,7 @@ import 'package:krzv2/component/views/custom_drop_menu_view.dart';
 import 'package:krzv2/component/views/custom_text_field_component.dart';
 import 'package:krzv2/component/views/date_time_form_field_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
+import 'package:krzv2/models/appointment_model.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
@@ -36,6 +37,7 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
 
   @override
   Widget build(BuildContext context) {
+    final appointment = Get.arguments as AppointmentModel;
     controller.onInit();
     TextEditingController longText = TextEditingController(
       text: controller.appointment!.notes.toString(),
