@@ -63,19 +63,17 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                   child: CustomBtnCompenent.main(
                     text: 'احجز موعد الآن',
                     onTap: () {
-                      if (Get.find<AuthenticationController>().isLoggedIn ==
-                          false) {
+                      Get.find<AppointmentController>().clearText();
+                      if (Get.find<AuthenticationController>().isLoggedIn == false) {
                         Get.toNamed(Routes.LOGIN);
-                        return AppDialogs.showToast(
-                            message: 'الرجاء تسجيل الدخول');
+                        return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                       }
                       if (data["branches"].length == 0) {
                         AppDialogs.showToast(message: "لا يوجد فروع");
                       }
 
                       Get.find<AppointmentController>().service = data;
-                      Get.find<AppointmentController>().selectBranch =
-                          data["branches"][0];
+                      Get.find<AppointmentController>().selectBranch = data["branches"][0];
 
                       Get.to(
                         AppointmentAddressView(),
@@ -109,10 +107,8 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                       title: data["clinic"]["name"],
                       clinicLogo: data["clinic"]["image"],
                       onFavoriteTap: () {
-                        if (Get.put(AuthenticationController().isLoggedIn) ==
-                            false) {
-                          return AppDialogs.showToast(
-                              message: 'الرجاء تسجيل الدخول');
+                        if (Get.put(AuthenticationController().isLoggedIn) == false) {
+                          return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
                         }
                         final favCon = Get.put<OfferFavoriteController>(
                           OfferFavoriteController(),
@@ -194,18 +190,14 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                       widget1: SingleChildScrollView(
                         child: Container(
                           child: Html(
-                            data: data["desc"].toString() == "null"
-                                ? ''
-                                : data["desc"].toString(),
+                            data: data["desc"].toString() == "null" ? '' : data["desc"].toString(),
                           ),
                         ),
                       ),
                       widget2: SingleChildScrollView(
                         child: Container(
                           child: Html(
-                            data: data["instructions"].toString() == "null"
-                                ? ''
-                                : data["instructions"].toString(),
+                            data: data["instructions"].toString() == "null" ? '' : data["instructions"].toString(),
                           ),
                         ),
                       ),

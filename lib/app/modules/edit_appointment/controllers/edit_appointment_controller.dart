@@ -37,7 +37,7 @@ class EditAppointmentController extends GetxController {
     responseModel = await WebServices().getAvailableOfferTimes(
       offerId: appointment!.offer.id,
       branchId: appointment!.branchId!,
-      doctorId: appointment!.doctorId,
+      doctorId: appointment!.doctorId.toString(),
       dateTime: selectData.toString(),
     );
     if (responseModel.data["success"]) {

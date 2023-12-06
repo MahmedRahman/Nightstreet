@@ -53,22 +53,27 @@ class AppointmentController extends GetxController {
 
   RxBool timeLoading = false.obs;
   void getAvailableOfferTimes() async {
-    ResponseModel responseModel;
-    timeLoading.value = true;
-
-    responseModel = await WebServices().getAvailableOfferTimes(
-      offerId: service["id"],
-      branchId: selectBranch["id"],
-      doctorId: GetUtils.isNull(selectDoctor) ? null : selectDoctor["id"],
-      dateTime: selectData.toString(),
-    );
-    timeLoading.value = false;
-    if (responseModel.data["success"]) {
-      AppointmentDataList.value = responseModel.data["data"];
-      update();
-    } else {
-      AppointmentDataList.value = [];
-      update();
+    try {
+      ResponseModel responseModel;
+      timeLoading.value = true;
+      print("selectDoctor ${selectDoctor.toString()}");
+      responseModel = await WebServices().getAvailableOfferTimes(
+        offerId: service["id"],
+        branchId: selectBranch["id"],
+        doctorId: selectDoctor.toString() == "" ? "null" : selectDoctor["id"].toString(),
+        dateTime: selectData.toString(),
+      );
+      timeLoading.value = false;
+      if (responseModel.data["success"]) {
+        AppointmentDataList.value = responseModel.data["data"];
+        update();
+      } else {
+        AppointmentDataList.value = [];
+        update();
+      }
+    } catch (e, st) {
+      print(st);
+      print(e);
     }
   }
 
@@ -95,10 +100,8 @@ class AppointmentController extends GetxController {
         Get.to(
           AppPaymentNewPage(
             PaymentUrl: responseModel.data["data"],
-            FailedPaymentUrl:
-                "${ApiConfig.baseUrl}/appointments/rajhi-failed-callback",
-            SuccessPaymentUrl:
-                "${ApiConfig.baseUrl}/appointments/rajhi-success-callback",
+            FailedPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-failed-callback",
+            SuccessPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-success-callback",
             onFailed: () {
               AppDialogs.showToast(message: "خطاء في عمليه الدفع");
 
@@ -124,10 +127,8 @@ class AppointmentController extends GetxController {
         Get.to(
           AppPaymentNewPage(
             PaymentUrl: responseModel.data["data"],
-            FailedPaymentUrl:
-                "${ApiConfig.baseUrl}/appointments/rajhi-failed-callback",
-            SuccessPaymentUrl:
-                "${ApiConfig.baseUrl}/appointments/rajhi-success-callback",
+            FailedPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-failed-callback",
+            SuccessPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-success-callback",
             onFailed: () {
               AppDialogs.showToast(message: "خطاء في عمليه الدفع");
               Get.back();
