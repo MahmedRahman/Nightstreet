@@ -6,7 +6,7 @@ import 'package:krzv2/web_serives/web_serives.dart';
 
 class EditAppointmentController extends GetxController {
   AppointmentModel? appointment;
-  String? selectData = "";
+  RxString selectData = "".obs;
   String? selectTime = "";
   String? selectNote = "";
 
@@ -21,7 +21,7 @@ class EditAppointmentController extends GetxController {
 
     print("Money ${appointment!.date_time.toString()}");
 
-    selectData = appointment!.date_time.toString();
+    selectData.value = appointment!.date_time.toString();
     selectTime = appointment!.timeFormat.toString();
     selectTimeUI.value = appointment!.timeFormat.toString();
     selectNote = appointment!.notes.toString();

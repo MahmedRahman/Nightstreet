@@ -52,35 +52,38 @@ class EditAppointmentView extends GetView<EditAppointmentController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: DateTimeFormFieldView(
-                  title: "تاريخ ",
-                  initialDateTime: controller.selectData,
-                  firstDate: DateTime.now(),
-                  onDateChanged: (DateTime value) {
-                    var month = value.month.toString();
+                child: Obx(
+                  () => DateTimeFormFieldView(
+                    title: "تاريخ ",
+                    initialDateTime: controller.selectData.value,
+                    firstDate: DateTime.now(),
+                    onDateChanged: (DateTime value) {
+                      var month = value.month.toString();
 
-                    if (month.length == 1) {
-                      month = "0${month}";
-                    }
-                    var day = value.day.toString();
+                      if (month.length == 1) {
+                        month = "0${month}";
+                      }
+                      var day = value.day.toString();
 
-                    if (day.length == 1) {
-                      day = "0${day}";
-                    }
+                      if (day.length == 1) {
+                        day = "0${day}";
+                      }
 
-                    String valData = "${value.year}-${month}-${day}";
+                      String valData = "${value.year}-${month}-${day}";
 
-                    Get.find<EditAppointmentController>().selectData =
-                        valData.toString();
-                    Get.find<EditAppointmentController>().selectTime = "";
-                    Get.find<EditAppointmentController>().selectTimeUI.value =
-                        "";
+                      Get.find<EditAppointmentController>().selectData.value =
+                          valData.toString();
 
-                    Get.find<EditAppointmentController>()
-                        .getAvailableOfferTimes();
+                      Get.find<EditAppointmentController>().selectTime = "";
+                      Get.find<EditAppointmentController>().selectTimeUI.value =
+                          "";
 
-                    //Get.find<EditAppointmentController>(). selectDate = value.toString().substring(0, 10);
-                  },
+                      Get.find<EditAppointmentController>()
+                          .getAvailableOfferTimes();
+
+                      //Get.find<EditAppointmentController>(). selectDate = value.toString().substring(0, 10);
+                    },
+                  ),
                 ),
               ),
               AppSpacers.width10,

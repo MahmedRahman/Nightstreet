@@ -84,36 +84,6 @@ class DateTimeFormFieldView extends GetView {
                             onDateChanged(date);
                           },
                         );
-                        // DateTime? pickedDate = await showDatePicker(
-                        //   context: context,
-                        //   initialDate: selectedDate.value ?? DateTime.now(),
-                        //   firstDate: firstDate,
-                        //   lastDate: lastDate ?? DateTime(2101),
-                        //   confirmText: "تحديد",
-                        //   cancelText: 'رجوع',
-                        //   builder: (context, child) {
-                        //     return Theme(
-                        //       data: Theme.of(context).copyWith(
-                        //         colorScheme: ColorScheme.light(
-                        //           primary: AppColors.mainColor,
-                        //           onPrimary: Colors.white,
-                        //           onSurface: AppColors.mainColor,
-                        //         ),
-                        //         textButtonTheme: TextButtonThemeData(
-                        //           style: TextButton.styleFrom(
-                        //             foregroundColor: AppColors.mainColor,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       child: child!,
-                        //     );
-                        //   },
-                        // );
-
-                        // if (pickedDate != null) {
-                        //   selectedDate.value = pickedDate;
-                        //   onDateChanged(pickedDate);
-                        // } else {}
                       },
                       child: Container(
                         width: double.infinity,

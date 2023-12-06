@@ -99,6 +99,7 @@ Future<dynamic> getDateFromPickerDialog(
                         color: Colors.red,
                         decoration: TextDecoration.lineThrough,
                       ),
+                      selectionColor: AppColors.mainColor,
                     ),
                     onViewChanged: (DateRangePickerViewChangedArgs args) =>
                         viewChanged(args, minDate),
