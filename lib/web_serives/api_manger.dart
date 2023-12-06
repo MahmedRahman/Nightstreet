@@ -60,8 +60,7 @@ class ApiManger extends GetConnect {
       if (isAuth) {
         request.headers.addAll(
           {
-            'Authorization':
-                "Bearer ${Get.find<AuthenticationController>().token}",
+            'Authorization': "Bearer ${Get.find<AuthenticationController>().token}",
           },
         );
       }
@@ -78,8 +77,7 @@ class ApiManger extends GetConnect {
       response = await post(url, query);
     }
 
-    ResponseModel responseModel =
-        getResponseModel(response!, query, HTTPRequestMethod);
+    ResponseModel responseModel = getResponseModel(response!, query, HTTPRequestMethod);
     ResponseModelList.add(responseModel);
     ResponseModelList.value = ResponseModelList.reversed.toList();
     if (ApiConfig.KShowLog) logger.e("""
@@ -118,9 +116,7 @@ class ApiManger extends GetConnect {
     }
 
     if (response.statusCode == 401) {
-      if (KShowError)
-        logger.wtf(
-            "URL : ${response.request!.url.toString()} \nStatusCode : ${response.statusCode} ");
+      if (KShowError) logger.wtf("URL : ${response.request!.url.toString()} \nStatusCode : ${response.statusCode} ");
 
       responseModel = ResponseModel(
           url: response.request!.url.toString(),
@@ -134,9 +130,7 @@ class ApiManger extends GetConnect {
       return responseModel;
     }
 
-    if (KShowError)
-      logger.wtf(
-          "URL : ${response.request!.url.toString()} \nStatusCode : ${response.statusCode} ");
+    if (KShowError) logger.wtf("URL : ${response.request!.url.toString()} \nStatusCode : ${response.statusCode} ");
 
     responseModel = ResponseModel(
         url: response.request!.url.toString(),

@@ -29,7 +29,9 @@ void main() async {
       runApp(
         DevicePreview(
           enabled: false,
-          builder: (context) => MyApp(), // Wrap your app
+          builder: (context) {
+            return MyApp();
+          }, // Wrap your app
         ),
       );
     },
