@@ -22,16 +22,15 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        //appBar: DebugView(),
-        // floatingActionButton: Padding(
-        //   padding: const EdgeInsets.only(bottom: 60),
-        //   child: FloatingActionButton(
-        //     child: Icon(Icons.add),
-        //     onPressed: () {
-        //       Get.bottomSheet(DebugView());
-        //     },
-        //   ),
-        // ),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 60),
+          child: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              Get.bottomSheet(DebugView());
+            },
+          ),
+        ),
         body: DevicePreview(
           enabled: false,
           builder: (context) => GestureDetector(
