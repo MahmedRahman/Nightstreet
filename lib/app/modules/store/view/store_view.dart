@@ -250,6 +250,7 @@ class MarketPage extends GetView<MarketPageController> {
       builder: (controller) {
         return ProductCardView(
           imageUrl: product.image,
+          isLimitedQuantity: product.quantity <= 10,
           isAvailable: product.quantity > 0,
           name: product.name,
           hasDiscount: product.oldPrice.toInt() != 0,
@@ -308,5 +309,4 @@ class MarketPage extends GetView<MarketPageController> {
       },
     );
   }
-
 }

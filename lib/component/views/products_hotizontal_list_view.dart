@@ -93,18 +93,21 @@ class ProductsHotizontalListView extends GetView {
                   return ProductCardView(
                     imageUrl: product.image,
                     name: product.name,
+                    isLimitedQuantity: product.quantity <= 10,
                     hasDiscount: product.oldPrice.toInt() != 0,
                     oldPrice: product.oldPrice.toString(),
                     price: product.price.toString(),
                     onAddToCartTapped: () => onAddToCartTapped!(product),
                     onFavoriteTapped: () {
-                      if (Get.find<AuthenticationController>().isLoggedIn == false) {
-                        return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                      if (Get.find<AuthenticationController>().isLoggedIn ==
+                          false) {
+                        return AppDialogs.showToast(
+                            message: 'الرجاء تسجيل الدخول');
                       }
                       onFavoriteTapped!(product.id);
                     },
-                    isFavorite: controller.productFavoriteIds.value!.contains(product.id),
-                    isLimitedQuantity: product.quantity <= 10,
+                    isFavorite: controller.productFavoriteIds.value!
+                        .contains(product.id),
                     isAvailable: product.quantity > 0,
                     onTap: () => onTap!(product.id),
                   ).paddingOnly(left: 8);

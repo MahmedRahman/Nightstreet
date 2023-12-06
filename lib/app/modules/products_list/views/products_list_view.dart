@@ -106,6 +106,7 @@ class ProductsListView extends GetView<ProductsListController> {
 
             return ProductCardView(
               imageUrl: product!.image,
+              isLimitedQuantity: product.quantity <= 10,
               isAvailable: product.quantity > 0,
               name: product.name,
               hasDiscount: product.oldPrice != 0,

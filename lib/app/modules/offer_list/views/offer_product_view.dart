@@ -67,7 +67,8 @@ class OfferProductView extends GetView<OfferProductController> {
                 onCategoryTapped: (int categoryId) async {
                   controller.queryParams.categoryId = categoryId.toString();
 
-                  controller.pagingController.value = PagingController(firstPageKey: 1);
+                  controller.pagingController.value =
+                      PagingController(firstPageKey: 1);
 
                   controller.pageListener();
                 },
@@ -126,6 +127,7 @@ class OfferProductView extends GetView<OfferProductController> {
           hasDiscount: product.oldPrice.toInt() != 0,
           price: product.price.toString(),
           oldPrice: product.oldPrice.toString(),
+          isLimitedQuantity: product.quantity <= 10,
           onAddToCartTapped: () {
             if (product.variants.isNotEmpty) {
               AppDialogs.showToast(
