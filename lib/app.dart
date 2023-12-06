@@ -20,54 +20,52 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(bottom: 60),
-          child: FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: () {
-              Get.bottomSheet(DebugView());
-            },
-          ),
-        ),
-        body: DevicePreview(
-          enabled: false,
-          builder: (context) => GestureDetector(
-            onTap: () {
-              FocusScopeNode currentFocus = FocusScope.of(Get.context!);
-              currentFocus.unfocus();
-            },
-            child: GetMaterialApp(
-              title: 'كرز',
-              debugShowCheckedModeBanner: false,
-              textDirection: TextDirection.rtl,
-              theme: ThemeData(
-                useMaterial3: false,
-                fontFamily: "effra",
-                scaffoldBackgroundColor: Colors.white,
-                appBarTheme: const AppBarTheme(
-                  systemOverlayStyle: SystemUiOverlayStyle.dark,
-                ),
-              ),
-              locale: const Locale('ar_EG'),
-              // home: BlackoutDatesUpdation(),
-              initialRoute: AppPages.INITIAL,
-              getPages: AppPages.routes,
-              builder: EasyLoading.init(),
-              initialBinding: InitBindings(),
+    // return GetMaterialApp(
+    //   home: Scaffold(
+    //     floatingActionButton: Padding(
+    //       padding: const EdgeInsets.only(bottom: 60),
+    //       child: FloatingActionButton(
+    //         child: Icon(Icons.add),
+    //         onPressed: () {
+    //           Get.bottomSheet(DebugView());
+    //         },
+    //       ),
+    //     ),
+    //     body: DevicePreview(
+    //       enabled: false,
+    //       builder: (context) => GestureDetector(
+    //         onTap: () {
+    //           FocusScopeNode currentFocus = FocusScope.of(Get.context!);
+    //           currentFocus.unfocus();
+    //         },
+    //         child: GetMaterialApp(
+    //           title: 'كرز',
+    //           debugShowCheckedModeBanner: false,
+    //           textDirection: TextDirection.rtl,
+    //           theme: ThemeData(
+    //             useMaterial3: false,
+    //             fontFamily: "effra",
+    //             scaffoldBackgroundColor: Colors.white,
+    //             appBarTheme: const AppBarTheme(
+    //               systemOverlayStyle: SystemUiOverlayStyle.dark,
+    //             ),
+    //           ),
+    //           locale: const Locale('ar_EG'),
+    //           // home: BlackoutDatesUpdation(),
+    //           initialRoute: AppPages.INITIAL,
+    //           getPages: AppPages.routes,
+    //           builder: EasyLoading.init(),
+    //           initialBinding: InitBindings(),
 
-              navigatorObservers: [
-                SentryNavigatorObserver(),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+    //           navigatorObservers: [
+    //             SentryNavigatorObserver(),
+    //           ],
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
 
-    /*
-    
     return DevicePreview(
       enabled: false,
       builder: (context) => GestureDetector(
@@ -101,13 +99,5 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
-*/
-    // MaterialApp(
-    //   home: Scaffold(
-    //     appBar: DebugView(),
-    //     body:
-
-    //   ),
-    // );
   }
 }
