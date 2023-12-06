@@ -114,7 +114,7 @@ class FavoriteProducts extends GetView<ProductFavoriteController> {
                 imageUrl: product.image,
                 name: product.name,
                 hasDiscount: product.oldPrice.toInt() != 0,
-                isAvailable: product.quantity > 1,
+                isAvailable: product.quantity > 0,
                 price: product.price.toString(),
                 oldPrice: product.oldPrice.toString(),
                 onAddToCartTapped: () {
@@ -130,8 +130,7 @@ class FavoriteProducts extends GetView<ProductFavoriteController> {
                     return;
                   }
 
-                  final isGuest =
-                      Get.find<AuthenticationController>().isGuestUser;
+                  final isGuest = Get.find<AuthenticationController>().isGuestUser;
 
                   if (isGuest) {
                     cartController.addToGuestCart(
@@ -155,13 +154,11 @@ class FavoriteProducts extends GetView<ProductFavoriteController> {
 
                   favCon.addRemoveProductFromFavorite(
                     productId: product.id,
-                    onSuccess: () =>
-                        controller.removeProductFromList(product.id),
+                    onSuccess: () => controller.removeProductFromList(product.id),
                   );
                 },
-                isFavorite:
-                    controller.productFavoriteIds.value!.contains(product.id),
-                isLimitedQuantity: product.quantity < 10,
+                isFavorite: controller.productFavoriteIds.value!.contains(product.id),
+                isLimitedQuantity: product.quantity <= 10,
                 onTap: () async {
                   await Get.toNamed(
                     Routes.PRODUCT_DETAILS,
@@ -229,8 +226,7 @@ class FavoriteService extends GetView<OfferFavoriteController> {
 
                         favCon.addRemoveOfferFromFavorite(
                           offerId: offer.id,
-                          onSuccess: () =>
-                              controller.removeOfferFromList(offer.id),
+                          onSuccess: () => controller.removeOfferFromList(offer.id),
                         );
                       },
                       isFavorite: favoriteController.offerIsFavorite(offer.id),

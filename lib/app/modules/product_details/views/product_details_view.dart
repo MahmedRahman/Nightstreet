@@ -268,7 +268,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
       bottomBarHeight: 163,
       bottomNavigationBar: bottomNavigationBar(
         controller: controller,
-        isAvailable: product.quantity > 1,
+        isAvailable: product.quantity > 0,
         productQuantity: product.quantity,
         onAddToCart: () {
           final cartController = Get.put<ShoppingCartController>(

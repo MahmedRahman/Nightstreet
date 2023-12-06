@@ -250,7 +250,7 @@ class MarketPage extends GetView<MarketPageController> {
       builder: (controller) {
         return ProductCardView(
           imageUrl: product.image,
-          isAvailable: product.quantity > 1,
+          isAvailable: product.quantity > 0,
           name: product.name,
           hasDiscount: product.oldPrice.toInt() != 0,
           price: product.price.toString(),

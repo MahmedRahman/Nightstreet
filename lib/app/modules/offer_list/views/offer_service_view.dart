@@ -5,6 +5,7 @@ import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller
 import 'package:krzv2/app/modules/home_page/controllers/home_page_service_categories.dart';
 import 'package:krzv2/app/modules/home_page_services/controllers/hom_page_service_slider_controller.dart';
 import 'package:krzv2/app/modules/offer_list/controllers/offer_service_controller.dart';
+import 'package:krzv2/app/modules/slider/slider_controller.dart';
 import 'package:krzv2/component/paginated_list_view.dart';
 import 'package:krzv2/component/views/cards/service_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
@@ -36,7 +37,10 @@ class OfferServiceView extends GetView<OfferServiceController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppSpacers.height10,
-          sliderWidget(),
+         // sliderWidget(),
+        AppSliderView(
+          sliderPlace: "services_offers",
+        ),
           SizedBox(
             height: 12,
           ),

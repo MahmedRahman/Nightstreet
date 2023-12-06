@@ -6,6 +6,7 @@ import 'package:krzv2/app/modules/home_page/controllers/home_page_product_catego
 import 'package:krzv2/app/modules/home_page_products/controllers/home_page_products_slider_controller.dart';
 import 'package:krzv2/app/modules/offer_list/controllers/offer_product_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
+import 'package:krzv2/app/modules/slider/slider_controller.dart';
 import 'package:krzv2/component/paginated_grid_view.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
@@ -38,20 +39,24 @@ class OfferProductView extends GetView<OfferProductController> {
       },
       child: Column(
         children: [
-          sliderController.obx(
-            (slidersList) {
-              return SliderView(
-                images: slidersList!.map((slider) => slider.image).toList(),
-              );
-            },
-            onLoading: Container(
-              height: 150,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.black,
-              ),
-            ).shimmer(),
+          // sliderController.obx(
+          //   (slidersList) {
+          //     return SliderView(
+          //       images: slidersList!.map((slider) => slider.image).toList(),
+          //     );
+          //   },
+          //   onLoading: Container(
+          //     height: 150,
+          //     width: double.infinity,
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(8),
+          //       color: Colors.black,
+          //     ),
+          //   ).shimmer(),
+          // ),
+
+          AppSliderView(
+            sliderPlace: "products_offers",
           ),
           AppSpacers.height16,
           productCategoriesController.obx(
@@ -62,8 +67,7 @@ class OfferProductView extends GetView<OfferProductController> {
                 onCategoryTapped: (int categoryId) async {
                   controller.queryParams.categoryId = categoryId.toString();
 
-                  controller.pagingController.value =
-                      PagingController(firstPageKey: 1);
+                  controller.pagingController.value = PagingController(firstPageKey: 1);
 
                   controller.pageListener();
                 },
@@ -117,7 +121,7 @@ class OfferProductView extends GetView<OfferProductController> {
       builder: (controller) {
         return ProductCardView(
           imageUrl: product.image,
-          isAvailable: product.quantity > 1,
+          isAvailable: product.quantity > 0,
           name: product.name,
           hasDiscount: product.oldPrice.toInt() != 0,
           price: product.price.toString(),

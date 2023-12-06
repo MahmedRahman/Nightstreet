@@ -7,6 +7,7 @@ import 'package:krzv2/app/modules/home_page_products/controllers/home_page_exclu
 import 'package:krzv2/app/modules/home_page_products/controllers/home_page_most_seller_product_controller.dart';
 import 'package:krzv2/app/modules/home_page_products/controllers/home_page_products_slider_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
+import 'package:krzv2/app/modules/slider/slider_controller.dart';
 import 'package:krzv2/app/modules/store/view/store_view.dart';
 import 'package:krzv2/component/paginated_list_view.dart';
 import 'package:krzv2/component/views/app_bar_search_view.dart';
@@ -31,6 +32,7 @@ import '../controllers/home_page_products_controller.dart';
 class MarketController extends GetxController with StateMixin<List> {
   final pagingController = PagingController<int, MarketModel>(firstPageKey: 1).obs;
   RxString? categoryId = ''.obs;
+
   @override
   void onInit() {
     pageListener();
@@ -116,20 +118,24 @@ class HomePageProductsView extends GetView<HomePageProductsController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AppSpacers.height10,
-            sliderController.obx(
-              (slidersList) {
-                return SliderView(
-                  images: slidersList!.map((slider) => slider.image).toList(),
-                );
-              },
-              onLoading: Container(
-                height: 150,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.black,
-                ),
-              ).shimmer(),
+            // sliderController.obx(
+            //   (slidersList) {
+            //     return SliderView(
+            //       images: slidersList!.map((slider) => slider.image).toList(),
+            //     );
+            //   },
+            //   onLoading: Container(
+            //     height: 150,
+            //     width: double.infinity,
+            //     decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(8),
+            //       color: Colors.black,
+            //     ),
+            //   ).shimmer(),
+            // ),
+
+            AppSliderView(
+              sliderPlace: "product",
             ),
             AppSpacers.height12,
             Text(

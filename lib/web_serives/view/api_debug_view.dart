@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:krzv2/web_serives/api_manger.dart';
+import 'package:flutter/services.dart';
 
 PreferredSize DebugView() {
   return PreferredSize(
@@ -46,7 +47,11 @@ PreferredSize DebugView() {
                                 ),
                               ),
                         trailing: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+
+    Clipboard.setData(ClipboardData(text: ResponseModelList.elementAt(index).url.toString()));
+
+                          },
                           icon: Icon(Icons.copy_all),
                         ),
                         title: Text(

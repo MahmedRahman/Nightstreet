@@ -9,6 +9,7 @@ import 'package:krzv2/app/modules/home_page/controllers/home_page_service_catego
 import 'package:krzv2/app/modules/home_page/controllers/home_page_service_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_slider_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
+import 'package:krzv2/app/modules/slider/slider_controller.dart';
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
 import 'package:krzv2/component/views/cashed_network_image_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
@@ -42,7 +43,7 @@ class HomePageView extends GetView {
   final productCategoriesController = Get.find<ProductCategoriesController>();
   final recommendedProductController = Get.put(RecommendedProductController());
   final bottomNavigationBarController = Get.put(MyBottomNavigationController());
-  final homesSliderSettingController = Get.put(HomePageDummySliderSettingController());
+  //final homesSliderSettingController = Get.put(HomePageDummySliderSettingController());
   final appVersion = Get.find<AppVersionService>();
 
   final homePageController = Get.put(HomePageController());
@@ -56,139 +57,8 @@ class HomePageView extends GetView {
         padding: AppDimension.appPadding,
         child: Column(
           children: [
-            homesSliderSettingController.obx(
-              (data) {
-                return SliderHomePageView(
-                  images: data!,
-                  onSliderTap: (data) {
-                    print(data.toString());
-                    if (data["redirect_type"] == "internal") {
-                      if (data["model_name"] == "products") {
-                        bottomBarController.changePage(2);
-                        return;
-                      }
-
-                      if (data["model_name"] == "offers") {
-                        bottomBarController.changePage(3);
-                        return;
-                      }
-
-                      if (data["model_name"] == "clinits") {
-                        bottomBarController.changePage(1);
-                        return;
-                      }
-
-                      if (data["model_name"] == "markets") {
-                        bottomBarController.changePage(2);
-                        return;
-                      }
-
-                      if (data["model_name"] == "login") {
-                        Get.toNamed(Routes.LOGIN);
-                        return;
-                      }
-
-                      if (data["model_name"] == "register") {
-                        Get.toNamed(Routes.REGISTER);
-                        return;
-                      }
-
-                      if (data["model_name"] == "services_offers") {
-                        // Get.toNamed(Routes.REGISTER);
-                        return;
-                      }
-
-                      if (data["model_name"] == "products_offers") {
-                        //Get.toNamed(Routes.REGISTER);
-                        return;
-                      }
-
-                      return;
-                    }
-
-                    if (data["redirect_type"] == "single_model") {
-                      if (data["model_name"] == "App\\Models\\Product") {
-                        Get.toNamed(
-                          Routes.PRODUCT_DETAILS,
-                          arguments: data["model_id"].toString(),
-                        );
-
-                        print("${data["model_id"]}");
-                        return;
-                      }
-
-                      if (data["model_name"] == "App\\Models\\Offer") {
-                        Get.toNamed(
-                          Routes.SERVICE_DETAIL,
-                          arguments: data["model_id"].toString(),
-                        );
-                        print("${data["model_id"]}");
-
-                        return;
-                      }
-
-                      if (data["model_name"] == "App\\Models\\Category") {
-                        // Get.toNamed(
-                        //   Routes.SERVICE_DETAIL,
-                        //   arguments: data["model_id"].toString(),
-                        // );
-                        print("${data["model_id"]}");
-
-                        return;
-                      }
-
-                      if (data["model_name"] == "App\\Models\\MarketCategory") {
-                        // Get.toNamed(
-                        //   Routes.SERVICE_DETAIL,
-                        //   arguments: data["model_id"].toString(),
-                        // );
-                        print("${data["model_id"]}");
-
-                        return;
-                      }
-
-                      if (data["model_name"] == "App\\Models\\Branch") {
-                        // Get.toNamed(
-                        //   Routes.SERVICE_DETAIL,
-                        //   arguments: data["model_id"].toString(),
-                        // );
-                        print("${data["model_id"]}");
-
-                        return;
-                      }
-
-                      if (data["model_name"] == "App\\Models\\Market") {
-                        // Get.toNamed(
-                        //   Routes.SERVICE_DETAIL,
-                        //   arguments: data["model_id"].toString(),
-                        // );
-                        print("${data["model_id"]}");
-
-                        return;
-                      }
-
-                      return;
-                    }
-
-                    if (data["redirect_type"] == "external") {
-                      urlLauncher(data["url"]);
-
-                      return;
-                    }
-
-                    print(data);
-                    print(data["type"].toString());
-                  },
-                );
-              },
-              onLoading: Container(
-                height: 150,
-                width: context.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.grey,
-                ),
-              ).shimmer(),
+            AppSliderView(
+              sliderPlace: "home",
             ),
             AppSpacers.height10,
             homePageController.obx(

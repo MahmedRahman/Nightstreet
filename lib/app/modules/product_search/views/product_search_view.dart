@@ -78,7 +78,7 @@ class ProductSearchView extends GetView<ProductSearchController> {
             return ProductCardView(
               imageUrl: product!.image,
               name: product.name,
-              isAvailable: product.quantity > 1,
+              isAvailable: product.quantity > 0,
               hasDiscount: product.oldPrice != 0,
               price: product.price.toString(),
               oldPrice: product.oldPrice.toString(),

@@ -7,6 +7,7 @@ import 'package:krzv2/app/modules/favorite/controllers/clinic_favorite_controlle
 import 'package:krzv2/app/modules/google_map/controllers/google_map_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_service_categories.dart';
 import 'package:krzv2/app/modules/home_page_services/controllers/hom_page_service_slider_controller.dart';
+import 'package:krzv2/app/modules/slider/slider_controller.dart';
 import 'package:krzv2/component/paginated_list_view.dart';
 import 'package:krzv2/component/views/app_bar_search_view.dart';
 import 'package:krzv2/component/views/branches_sort_box_view.dart';
@@ -45,13 +46,11 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
           final latlng = mapController.currentLocation.value;
 
           if (latlng.latitude == 0 && latlng.longitude == 0) {
-            final LocationData? latlng =
-                await mapController.getCurrentLocation();
+            final LocationData? latlng = await mapController.getCurrentLocation();
             controller.queryParams.lat = latlng!.latitude;
             controller.queryParams.lng = latlng.longitude;
 
-            controller.pagingController.value =
-                PagingController(firstPageKey: 1);
+            controller.pagingController.value = PagingController(firstPageKey: 1);
 
             controller.pageListener();
             Future.delayed(const Duration(milliseconds: 200));
@@ -63,8 +62,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
             controller.queryParams.lat = latlng.latitude;
             controller.queryParams.lng = latlng.longitude;
 
-            controller.pagingController.value =
-                PagingController(firstPageKey: 1);
+            controller.pagingController.value = PagingController(firstPageKey: 1);
 
             controller.pageListener();
             Future.delayed(const Duration(milliseconds: 200));
@@ -100,20 +98,24 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppSpacers.height10,
-              sliderController.obx(
-                (slidersList) {
-                  return SliderView(
-                    images: slidersList!.map((slider) => slider.image).toList(),
-                  );
-                },
-                onLoading: Container(
-                  height: 150,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.black,
-                  ),
-                ).shimmer(),
+              // sliderController.obx(
+              //   (slidersList) {
+              //     return SliderView(
+              //       images: slidersList!.map((slider) => slider.image).toList(),
+              //     );
+              //   },
+              //   onLoading: Container(
+              //     height: 150,
+              //     width: double.infinity,
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.circular(8),
+              //       color: Colors.black,
+              //     ),
+              //   ).shimmer(),
+              // ),
+
+              AppSliderView(
+                sliderPlace: "offer",
               ),
               SizedBox(
                 height: 12,
@@ -128,13 +130,11 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
               ),
               ServicesCategoriesView(
                 onTap: (int selectedCategoryId) {
-                  controller.pagingController.value =
-                      PagingController(firstPageKey: 1);
+                  controller.pagingController.value = PagingController(firstPageKey: 1);
 
                   controller.pageListener();
 
-                  controller.queryParams.categoryId =
-                      selectedCategoryId.toString();
+                  controller.queryParams.categoryId = selectedCategoryId.toString();
 
                   // controller.fiterBrancher();
                 },
@@ -148,9 +148,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                     controller: controller.pagingController.value,
                     firstLoadingIndicator: Column(
                       children: [
-                        ClinicCardView.dummy()
-                            .paddingOnly(bottom: 10)
-                            .shimmer(),
+                        ClinicCardView.dummy().paddingOnly(bottom: 10).shimmer(),
                         ClinicCardView.dummy().shimmer(),
                       ],
                     ),
@@ -204,8 +202,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
   }
 
   void showBranchSortBottomSheet(HomePageServicesController controller) {
-    final initialSelectedSort =
-        getInitialSelectedSort(controller.queryParams.filter);
+    final initialSelectedSort = getInitialSelectedSort(controller.queryParams.filter);
 
     Get.bottomSheet(
       BranchesSortBoxView(
@@ -227,8 +224,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
                 controller.queryParams.lat = latlng.latitude;
                 controller.queryParams.lng = latlng.longitude;
 
-                controller.pagingController.value =
-                    PagingController(firstPageKey: 1);
+                controller.pagingController.value = PagingController(firstPageKey: 1);
 
                 controller.pageListener();
               }
@@ -238,8 +234,7 @@ class HomePageServicesView extends GetView<HomePageServicesController> {
               return;
             }
 
-            controller.pagingController.value =
-                PagingController(firstPageKey: 1);
+            controller.pagingController.value = PagingController(firstPageKey: 1);
 
             controller.pageListener();
 
