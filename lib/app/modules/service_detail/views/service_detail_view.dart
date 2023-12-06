@@ -194,14 +194,18 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                       widget1: SingleChildScrollView(
                         child: Container(
                           child: Html(
-                            data: data["desc"].toString(),
+                            data: data["desc"].toString() == "null"
+                                ? ''
+                                : data["desc"].toString(),
                           ),
                         ),
                       ),
                       widget2: SingleChildScrollView(
                         child: Container(
                           child: Html(
-                            data: data["instructions"].toString(),
+                            data: data["instructions"].toString() == "null"
+                                ? ''
+                                : data["instructions"].toString(),
                           ),
                         ),
                       ),
