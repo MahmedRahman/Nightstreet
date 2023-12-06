@@ -91,10 +91,15 @@ Future<dynamic> getDateFromPickerDialog(
                 child: Obx(
                   () => SfDateRangePicker(
                     selectionMode: DateRangePickerSelectionMode.single,
+                    selectionColor: AppColors.mainColor,
+                    todayHighlightColor: AppColors.mainColor,
                     monthViewSettings: DateRangePickerMonthViewSettings(
                       blackoutDates: _blackoutDates.value,
                     ),
                     monthCellStyle: DateRangePickerMonthCellStyle(
+                      todayTextStyle: const TextStyle(
+                        color: AppColors.mainColor,
+                      ),
                       blackoutDateTextStyle: TextStyle(
                         color: Colors.red,
                         decoration: TextDecoration.lineThrough,
