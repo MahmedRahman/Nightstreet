@@ -56,7 +56,6 @@ class _MyAppState extends State<MyApp> {
     //           getPages: AppPages.routes,
     //           builder: EasyLoading.init(),
     //           initialBinding: InitBindings(),
-
     //           navigatorObservers: [
     //             SentryNavigatorObserver(),
     //           ],
@@ -75,7 +74,6 @@ class _MyAppState extends State<MyApp> {
         },
         child: GetMaterialApp(
           title: 'كرز',
-
           debugShowCheckedModeBanner: false,
           textDirection: TextDirection.rtl,
           theme: ThemeData(

@@ -113,6 +113,7 @@ class AppointmentAddressView extends GetView<AppointmentController> {
               child: CustomBtnCompenent.main(
                 text: "مواصلة الحجز",
                 onTap: () {
+                  Get.find<AppointmentController>().selectDoctor = "";
                   Get.find<AppointmentController>().branchOfferDoctors();
                 },
               ),

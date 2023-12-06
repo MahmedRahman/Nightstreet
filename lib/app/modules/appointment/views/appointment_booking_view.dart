@@ -24,17 +24,21 @@ class AppointmentBookingView extends GetView<AppointmentController> {
   TextEditingController longText = TextEditingController();
   TextEditingController selectTimeText = TextEditingController();
   AppointmentBookingView({
+  
     required this.isDoctorSelect,
+  
   }) {
+  
     Get.find<AppointmentController>().selectData = "";
     Get.find<AppointmentController>().selectTime = "";
     Get.find<AppointmentController>().selectTimeUI.value = "";
     Get.find<AppointmentController>().selectDateUI.value = "";
-
     Get.find<AppointmentController>().selectNote = "";
 
     serves = Get.find<AppointmentController>().service;
+
     selectDoctor = Get.find<AppointmentController>().selectDoctor;
+  
   }
 
   @override
