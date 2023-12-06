@@ -308,4 +308,5 @@ class MarketPage extends GetView<MarketPageController> {
       },
     );
   }
+
 }

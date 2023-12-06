@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:krzv2/app/modules/favorite/controllers/product_favorite_controller.dart';
 import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_controller.dart';
+import 'package:krzv2/component/paginated_grid_view.dart';
 import 'package:krzv2/component/views/cards/product_card_view.dart';
 import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
@@ -36,120 +38,112 @@ class ProductSearchView extends GetView<ProductSearchController> {
       ),
       body: Padding(
         padding: AppDimension.appPadding,
-        child: controller.obx(
-          (List<ProductModel>? products) {
-            return productsList(
-              products: products,
-              controller: controller,
+        child: Obx(
+          () {
+            if (controller.searchQuery.isEmpty) return SizedBox();
+            return PaginatedGridView<ProductModel>(
+              controller: controller.pagingController.value,
+              firstLoadingIndicator: firstLoadingIndicator(),
+              itemBuilder: itemBuilder,
+              onEmpty: AppPageEmpty.productSearchPP(),
             );
           },
-          onLoading: onLoading(),
-          onEmpty: AppPageEmpty.productSearchP(),
         ),
+
+        // controller.obx(
+        //   (List<ProductModel>? products) {
+        //     return productsList(
+        //       products: products,
+        //       controller: controller,
+        //     );
+        //   },
+        //   onLoading: onLoading(),
+        //   onEmpty: AppPageEmpty.productSearchP(),
+        // ),
       ),
     );
   }
 
-  GridView productsList({
-    required List<ProductModel>? products,
-    required ProductSearchController controller,
-  }) {
-    return GridView.builder(
-      itemCount: products?.length,
-      controller: controller.scroll,
-      padding: EdgeInsets.only(top: 10),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: (itemWidth / itemHeight) / .35,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
+  Container firstLoadingIndicator() {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: Get.height * .38,
+            child: ProductCardView.dummy().shimmer().paddingOnly(bottom: 10),
+          ),
+          SizedBox(
+            height: Get.height * .38,
+            child: ProductCardView.dummy().shimmer().paddingOnly(bottom: 10),
+          ),
+        ],
       ),
-      itemBuilder: (_, index) {
-        final product = products?.elementAt(index);
-        return GetBuilder<ProductFavoriteController>(
-          init: ProductFavoriteController(),
-          builder: (controller) {
-            if (index == products!.length - 1 && products.length != 1) {
-              return AppPageLoadingMore(
-                display: controller.status.isLoadingMore,
+    );
+  }
+
+  Widget itemBuilder(_, ProductModel product, __) {
+    return GetBuilder<ProductFavoriteController>(
+      init: ProductFavoriteController(),
+      builder: (controller) {
+        return ProductCardView(
+          imageUrl: product.image,
+          isAvailable: product.quantity > 1,
+          name: product.name,
+          hasDiscount: product.oldPrice.toInt() != 0,
+          price: product.price.toString(),
+          oldPrice: product.oldPrice.toString(),
+          onAddToCartTapped: () {
+            if (product.variants.isNotEmpty) {
+              AppDialogs.showToast(
+                message: 'هذا المنتج يحتوى على الوان يجب اختيار اللون',
               );
+              Get.toNamed(
+                Routes.PRODUCT_DETAILS,
+                arguments: product.id.toString(),
+              );
+
+              return;
             }
+            final isGuest = Get.find<AuthenticationController>().isGuestUser;
+            if (isGuest) {
+              Get.find<ShoppingCartController>().addToGuestCart(
+                productId: product.id.toString(),
+                quantity: '1',
+                isNew: true,
+              );
 
-            return ProductCardView(
-              imageUrl: product!.image,
-              name: product.name,
-              isAvailable: product.quantity > 1,
-              hasDiscount: product.oldPrice != 0,
-              price: product.price.toString(),
-              oldPrice: product.oldPrice.toString(),
-              onAddToCartTapped: () {
-                if (product.variants.isNotEmpty) {
-                  AppDialogs.showToast(
-                    message: 'هذا المنتج يحتوى على الوان يجب اختيار اللون',
-                  );
-                  Get.toNamed(
-                    Routes.PRODUCT_DETAILS,
-                    arguments: product.id.toString(),
-                  );
+              return;
+            }
+            Get.find<ShoppingCartController>().addToCart(
+              productId: product.id.toString(),
+              quantity: '1',
+              isNew: true,
+            );
+          },
+          onFavoriteTapped: () {
+            if (Get.find<AuthenticationController>().isLoggedIn == false) {
+              return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+            }
+            final favCon = Get.put<ProductFavoriteController>(
+              ProductFavoriteController(),
+            );
 
-                  return;
-                }
-                final isGuest =
-                    Get.find<AuthenticationController>().isGuestUser;
-
-                if (isGuest) {
-                  cartController.addToGuestCart(
-                    productId: product.id.toString(),
-                    quantity: '1',
-                    isNew: true,
-                  );
-                  return;
-                }
-                cartController.addToCart(
-                  productId: product.id.toString(),
-                  quantity: '1',
-                  isNew: true,
-                );
-              },
-              onFavoriteTapped: () {
-                if (Get.find<AuthenticationController>().isLoggedIn == false) {
-                  return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
-                }
-                final favCon = Get.put<ProductFavoriteController>(
-                  ProductFavoriteController(),
-                );
-
-                favCon.addRemoveProductFromFavorite(
-                  productId: product.id,
-                );
-              },
-              isFavorite:
-                  controller.productFavoriteIds.value!.contains(product.id),
-              onTap: () async {
-                Get.toNamed(
-                  Routes.PRODUCT_DETAILS,
-                  arguments: product.id.toString(),
-                );
-              },
+            favCon.addRemoveProductFromFavorite(
+              productId: product.id,
+            );
+          },
+          isFavorite: controller.productFavoriteIds.value!.contains(
+            product.id,
+          ),
+          onTap: () async {
+            Get.toNamed(
+              Routes.PRODUCT_DETAILS,
+              arguments: product.id.toString(),
             );
           },
         );
-      },
-    );
-  }
-
-  GridView onLoading() {
-    return GridView.builder(
-      itemCount: 4,
-      padding: EdgeInsets.only(top: 10),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: (itemWidth / itemHeight) / .42,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-      ),
-      itemBuilder: (_, index) {
-        return ProductCardView.dummy().shimmer();
       },
     );
   }
@@ -159,12 +153,14 @@ class ProductSearchView extends GetView<ProductSearchController> {
 
     if (searchTextController.text == controller.searchQuery.value) return;
 
-    controller.resetSearchValues();
-
     controller.searchQuery.value = searchTextController.text;
 
     FocusScope.of(Get.context!).unfocus();
 
-    controller.getProducts();
+    controller.pagingController.value = PagingController(firstPageKey: 1);
+
+    FocusScope.of(Get.context!).unfocus();
+
+    controller.startSearch();
   }
 }
