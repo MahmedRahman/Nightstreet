@@ -5,15 +5,15 @@ import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
 import 'package:krzv2/component/views/slider_view.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_launcuer.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
 
-
-
 String? KsliderPlace;
 
-class HomePageDummySliderSettingController extends GetxController with StateMixin<List> {
+class HomePageDummySliderSettingController extends GetxController
+    with StateMixin<List> {
   @override
   void onInit() {
     getHomesSlider();
@@ -45,6 +45,7 @@ class AppSliderView extends GetView<HomePageDummySliderSettingController> {
     controller.getHomesSlider();
   }
 
+  final authController = Get.find<AuthenticationController>();
   @override
   Widget build(BuildContext context) {
     return controller.obx(
@@ -69,6 +70,9 @@ class AppSliderView extends GetView<HomePageDummySliderSettingController> {
               }
 
               if (data["model_name"] == "login") {
+                if (authController.isLoggedIn) {
+                  return;
+                }
                 //If User is Login just return
                 //NoBackButton
                 Get.toNamed(Routes.LOGIN);
@@ -77,6 +81,9 @@ class AppSliderView extends GetView<HomePageDummySliderSettingController> {
 
               if (data["model_name"] == "register") {
                 //If User is Login just return
+                if (authController.isLoggedIn) {
+                  return;
+                }
                 //NoBackButton
                 Get.toNamed(
                   Routes.REGISTER,
