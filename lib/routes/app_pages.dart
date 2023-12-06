@@ -102,10 +102,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: Routes.splash,
-      // page: () {
-      //   return AppoinmentView();
-      // },
-      page: () => DebugView(),
+      page: () => SplashPage(),
     ),
     GetPage(
       name: Routes.updateProfile,

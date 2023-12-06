@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "519362465794",
+    "project_id": "krz-app-fc552",
+    "storage_bucket": "krz-app-fc552.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:519362465794:android:eae1fb77864a14b4c3171b",
+        "android_client_info": {
+          "package_name": "com.krz.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhPvwExqWVR9E4IyWtJGxMPLgO_7P8fQw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
