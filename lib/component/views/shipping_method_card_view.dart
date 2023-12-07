@@ -45,7 +45,7 @@ class ShippingMethodCardView extends GetView {
                   maxWidth: Get.width * .7,
                 ),
                 child: Text(
-                  'الوقت المتوقع للتوصيل : $delivryTime أيام | السعر : $cost ر.س',
+                  'الوقت المتوقع للتوصيل : $delivryTime  | السعر : $cost ر.س',
                   style: TextStyle(
                     fontSize: 14.0,
                     color: AppColors.greyColor,
