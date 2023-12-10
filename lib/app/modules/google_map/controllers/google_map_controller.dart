@@ -218,6 +218,8 @@ class GoogleMapViewController extends GetxController with StateMixin {
     if (locationStatus == PermissionStatus.granted) {
       final loc.LocationData? locationData = await location.getLocation();
 
+      print('splash lat => ${locationData!.latitude}, lng => ${locationData.longitude}');
+
       currentLocation.value = LatLng(
         locationData!.latitude!,
         locationData.longitude!,

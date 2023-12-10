@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -114,6 +115,10 @@ class MarketPage extends GetView<MarketPageController> {
       marketId: data["id"].toString(),
     );
 
+    marketCategoriesController.getMarketData(
+      marketId: data["id"].toString(),
+    );
+
     controller.onInit();
   }
   @override
@@ -144,33 +149,50 @@ class MarketPage extends GetView<MarketPageController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GetBuilder<MarketFavoriteController>(
-              init: MarketFavoriteController(),
-              initState: (_) {},
-              builder: (favController) {
-                return MarketCardView(
-                  imageUrl: data["image"].toString(),
-                  name: data["name"].toString(),
-                  desc: data["desc"].toString(),
-                  displayFullDesc: true,
-                  isFavorite: favController.marketsFavoriteIds.value!.contains(
-                    data["id"],
-                  ),
-                  onFavoriteTapped: () {
-                    if (Get.find<AuthenticationController>().isLoggedIn ==
-                        false) {
-                      return AppDialogs.showToast(
-                          message: 'الرجاء تسجيل الدخول');
-                    }
+            Obx(
+              () {
+                if (marketCategoriesController.marketData.value == null) {
+                  return Center(child: MarketCardView.dummy().shimmer());
+                }
+                return GetBuilder<MarketFavoriteController>(
+                  init: MarketFavoriteController(),
+                  initState: (_) {},
+                  builder: (favController) {
+                    return MarketCardView(
+                      imageUrl: marketCategoriesController
+                          .marketData.value["image"]
+                          .toString(),
+                      name: marketCategoriesController.marketData.value["name"]
+                          .toString(),
+                      desc: marketCategoriesController.marketData.value["desc"]
+                          .toString(),
+                      displayFullDesc: true,
+                      isFavorite:
+                          favController.marketsFavoriteIds.value!.contains(
+                        marketCategoriesController.marketData.value["id"],
+                      ),
+                      onFavoriteTapped: () {
+                        if (Get.find<AuthenticationController>().isLoggedIn ==
+                            false) {
+                          return AppDialogs.showToast(
+                              message: 'الرجاء تسجيل الدخول');
+                        }
 
-                    favController.addRemoveMarketFromFavorite(
-                      branchId: data["id"],
-                    );
+                        favController.addRemoveMarketFromFavorite(
+                          branchId:
+                              marketCategoriesController.marketData.value["id"],
+                        );
+                      },
+                      onTapped: () {},
+                      rate: marketCategoriesController
+                          .marketData.value["total_rate_avg"]
+                          .toString(),
+                      totalRate: marketCategoriesController
+                          .marketData.value["total_rate_count"]
+                          .toString(),
+                    ).paddingOnly(bottom: 10);
                   },
-                  onTapped: () {},
-                  rate: data["total_rate_avg"].toString(),
-                  totalRate: data["total_rate_count"].toString(),
-                ).paddingOnly(bottom: 10);
+                );
               },
             ),
             AppSpacers.height12,
