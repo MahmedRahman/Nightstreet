@@ -11,6 +11,8 @@ class AppointmentModel {
 
   final String timeFormat;
   final String notes;
+  final String remaining;
+  final String payed;
 
   final bool? can_rate;
   final bool? can_update;
@@ -28,6 +30,8 @@ class AppointmentModel {
     required this.timeFormat,
     required this.notes,
     required this.date_time,
+    required this.remaining,
+    required this.payed,
     this.branchId,
   });
 
@@ -46,6 +50,8 @@ class AppointmentModel {
       branchId: json['branch']['id'],
       notes: json['notes'] ?? "",
       date_time: json['date_time'].toString(),
+      remaining: json['remaining'] == null ? '' : json['remaining'].toString(),
+      payed: json['payed'] == null ? '' : json['payed'].toString(),
     );
   }
 }

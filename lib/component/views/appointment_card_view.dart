@@ -24,6 +24,8 @@ class AppointmentCardView extends GetView {
     required this.doctorName,
     required this.clinicName,
     required this.dateTime,
+    required this.offerRemaining,
+    required this.payed,
     required this.id,
     required this.time,
   }) : super(key: key);
@@ -37,6 +39,8 @@ class AppointmentCardView extends GetView {
   final String offerName;
   final String offerImage;
   final String offerPrice;
+  final String offerRemaining;
+  final String payed;
   final String offerOldPrice;
   final String doctorName;
   final String clinicName;
@@ -50,6 +54,8 @@ class AppointmentCardView extends GetView {
         this.mainButtonText = '',
         this.secondButtonText = '',
         this.offerName = '',
+        this.offerRemaining = '',
+        this.payed = '',
         this.offerImage = '',
         this.offerPrice = '',
         this.offerOldPrice = '',
@@ -117,6 +123,15 @@ class AppointmentCardView extends GetView {
                         title: "وقت الحجز",
                         subTitle: time,
                       ),
+                      dottedDivider,
+                      customTitle(
+                        title: "المبلغ المدفوع",
+                        subTitle: '${payed} رس',
+                      ),
+                      dottedDivider,
+                      customTitle(
+                          title: "المبلغ المتبقي",
+                          subTitle: '${offerRemaining} رس'),
                     ],
                   ),
                 ),

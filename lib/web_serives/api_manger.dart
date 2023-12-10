@@ -7,8 +7,8 @@ import 'package:krzv2/web_serives/view/network_error_page.dart';
 import 'package:logger/logger.dart';
 
 class ApiConfig {
-  // static String baseUrl = "https://app-krz.tasksa.dev/api";
-  static String baseUrl = "https://api-v2.krz.sa/api";
+  static String baseUrl = "https://app-krz.tasksa.dev/api";
+  // static String baseUrl = "https://api-v2.krz.sa/api";
   static const bool KShowLog = true;
   static const bool KShowError = true;
   static const bool KDebugFlg = true;

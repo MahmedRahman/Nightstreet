@@ -52,6 +52,8 @@ class ClosedAppointmentListView extends GetView<AppointmentMangmentController> {
             },
             secondButtonOnTap: () {},
             id: appointment.id.toString(),
+            offerRemaining: appointment.remaining,
+            payed: appointment.payed,
           ).paddingOnly(bottom: 10);
         },
       ),
