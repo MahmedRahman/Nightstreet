@@ -1,4 +1,3 @@
-
 import 'package:get/get.dart';
 import 'package:krzv2/web_serives/model/api_response_model.dart';
 import 'package:krzv2/web_serives/web_serives.dart';
@@ -8,8 +7,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 class AppVersionService extends GetxService {
   PackageInfo? packageInfo;
   var _appVersionCloudData = {};
-  PlateForm get _getPlateForm =>
-      Platform.isAndroid ? PlateForm.android : PlateForm.ios;
+  PlateForm get _getPlateForm => Platform.isAndroid ? PlateForm.android : PlateForm.ios;
 
   @override
   void onInit() async {
@@ -53,15 +51,13 @@ class AppVersionService extends GetxService {
     final String localVerion = await getVersionInfo();
     final String localBuild = await getBuildDevice();
 
-    int compareVersionResult =
-        _appVersionCloudData["ios_version_name"].compareTo(localVerion);
+    int compareVersionResult = _appVersionCloudData["ios_version_name"].compareTo(localVerion);
 
     if (isForceUpdate) {
       /// IOS
       if (_getPlateForm == PlateForm.ios) {
         if (compareVersionResult == 0) {
-          if (int.parse(_appVersionCloudData["ios_build_number"]) >
-              int.parse(localBuild)) {
+          if (int.parse(_appVersionCloudData["ios_build_number"]) > int.parse(localBuild)) {
             return true;
           }
           return false;
@@ -75,8 +71,7 @@ class AppVersionService extends GetxService {
       /// ANDROID
       if (_getPlateForm == PlateForm.android) {
         if (compareVersionResult == 0) {
-          if (int.parse(_appVersionCloudData["android_build_number"]) >
-              int.parse(localBuild)) {
+          if (int.parse(_appVersionCloudData["android_build_number"]) > int.parse(localBuild)) {
             return true;
           }
           return false;

@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/init_bindings.dart';
 import 'package:krzv2/routes/app_pages.dart';
+import 'package:krzv2/test_screen.dart';
 import 'package:krzv2/web_serives/view/api_debug_view.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
@@ -85,11 +86,11 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
           locale: const Locale('ar_EG'),
-          // home: BlackoutDatesUpdation(),
-          initialRoute: AppPages.INITIAL,
-          getPages: AppPages.routes,
-          builder: EasyLoading.init(),
-          initialBinding: InitBindings(),
+          home: MyTestScreen(),
+          // initialRoute: AppPages.INITIAL,
+          // getPages: AppPages.routes,
+          // builder: EasyLoading.init(),
+          // initialBinding: InitBindings(),
 
           navigatorObservers: [
             SentryNavigatorObserver(),

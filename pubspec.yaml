@@ -88,6 +88,7 @@ dependencies:
   infinite_scroll_pagination: ^4.0.0
   equatable: ^2.0.5
   syncfusion_flutter_datepicker: ^23.2.4
+  easy_date_timeline: ^1.0.2
 
 
 

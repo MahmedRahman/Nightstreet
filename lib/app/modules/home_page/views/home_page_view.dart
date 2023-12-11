@@ -30,9 +30,9 @@ class HomePageView extends GetView {
   HomePageView() {
     appVersion.getAppVersion().then(
       (value) async {
-        final hasForceUpdate = await appVersion.showUpdateDialog();
+        // final hasForceUpdate = await appVersion.showUpdateDialog();
 
-        if (hasForceUpdate == true) AppDialogs.updateApp();
+        // if (hasForceUpdate == true) AppDialogs.updateApp();
       },
     );
   }
