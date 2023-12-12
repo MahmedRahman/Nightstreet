@@ -64,7 +64,6 @@ class ClinicAboutPage extends GetView<ClinicAboutInfoController> {
   @override
   Widget build(BuildContext context) {
     return controller.obx((branch) {
-      //PageTitle.value = branch!.name.toString();
       return SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -3,6 +3,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/appointment/appointment_address_controller.dart';
 import 'package:krzv2/app/modules/appointment/views/appointment_address_view.dart';
+import 'package:krzv2/app/modules/clinic_info/views/clinic_info_view.dart';
 import 'package:krzv2/app/modules/favorite/controllers/offer_favorite_controller.dart';
 import 'package:krzv2/app/modules/service_detail/views/doctor_list_view.dart';
 import 'package:krzv2/app/modules/service_detail/views/review_Information_view.dart';
@@ -64,16 +65,19 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                     text: 'احجز موعد الآن',
                     onTap: () {
                       Get.find<AppointmentController>().clearText();
-                      if (Get.find<AuthenticationController>().isLoggedIn == false) {
+                      if (Get.find<AuthenticationController>().isLoggedIn ==
+                          false) {
                         Get.toNamed(Routes.LOGIN);
-                        return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                        return AppDialogs.showToast(
+                            message: 'الرجاء تسجيل الدخول');
                       }
                       if (data["branches"].length == 0) {
                         AppDialogs.showToast(message: "لا يوجد فروع");
                       }
 
                       Get.find<AppointmentController>().service = data;
-                      Get.find<AppointmentController>().selectBranch = data["branches"][0];
+                      Get.find<AppointmentController>().selectBranch =
+                          data["branches"][0];
 
                       Get.to(
                         AppointmentAddressView(),
@@ -88,27 +92,25 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppSpacers.height12,
-                    Container(
-                      //color: Colors.red,
-                      // height: 200,
-                      child: ImageSwpierView(
-                        images: List.generate(
-                          data["images"].length,
-                          (index) {
-                            return data["images"][index]["image"];
-                          },
-                        ),
+                    ImageSwpierView(
+                      images: List.generate(
+                        data["images"].length,
+                        (index) {
+                          return data["images"][index]["image"];
+                        },
                       ),
                     ),
                     AppSpacers.height10,
                     clinicInformationBox(
-                      id: data["clinic"]["id"],
+                      id: (data["branches"] as List)[0]['id'],
                       isFavorite: data['is_favorite'],
                       title: data["clinic"]["name"],
                       clinicLogo: data["clinic"]["image"],
                       onFavoriteTap: () {
-                        if (Get.put(AuthenticationController().isLoggedIn) == false) {
-                          return AppDialogs.showToast(message: 'الرجاء تسجيل الدخول');
+                        if (Get.put(AuthenticationController().isLoggedIn) ==
+                            false) {
+                          return AppDialogs.showToast(
+                              message: 'الرجاء تسجيل الدخول');
                         }
                         final favCon = Get.put<OfferFavoriteController>(
                           OfferFavoriteController(),
@@ -190,14 +192,18 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                       widget1: SingleChildScrollView(
                         child: Container(
                           child: Html(
-                            data: data["desc"].toString() == "null" ? '' : data["desc"].toString(),
+                            data: data["desc"].toString() == "null"
+                                ? ''
+                                : data["desc"].toString(),
                           ),
                         ),
                       ),
                       widget2: SingleChildScrollView(
                         child: Container(
                           child: Html(
-                            data: data["instructions"].toString() == "null" ? '' : data["instructions"].toString(),
+                            data: data["instructions"].toString() == "null"
+                                ? ''
+                                : data["instructions"].toString(),
                           ),
                         ),
                       ),
@@ -347,10 +353,17 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
       children: [
         InkWell(
           overlayColor: MaterialStatePropertyAll(Colors.transparent),
-          onTap: () => Get.toNamed(
-            Routes.CLINIC_INFO,
-            arguments: id,
-          ),
+          onTap: () {
+            KPageTitle = title;
+            Get.toNamed(
+              Routes.CLINIC_INFO,
+              arguments: id,
+            );
+            //   Get.toNamed(
+            //   Routes.CLINIC_INFO,
+            //   arguments: id,
+            // );
+          },
           child: Row(
             children: [
               Container(
