@@ -1,5 +1,6 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:krzv2/app/modules/appointment/views/appointment_booking_h_view.dart';
 import 'package:krzv2/app/modules/appointment/views/appointment_booking_view.dart';
 import 'package:krzv2/app/modules/appointment/views/appointment_choose_a_doctor_view.dart';
 import 'package:krzv2/app/modules/payment_bank/payment_page_new.dart';
@@ -32,7 +33,7 @@ class AppointmentController extends GetxController {
     if (responseModel.data["success"]) {
       if (responseModel.data["data"]["data"].length == 0) {
         Get.to(
-          AppointmentBookingView(
+          AppointmentBookingHView(
             //serves: service,
             isDoctorSelect: false,
           ),
