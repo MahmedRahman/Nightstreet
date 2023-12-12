@@ -206,30 +206,32 @@ class MarketPage extends GetView<MarketPageController> {
             ),
             AppSpacers.height12,
             marketCategoriesController.obx(
-              (categoriesList) {
-                return HomeCategoriesListView(
-                  initId: controller.categoryId.value,
-                  categoriesList: categoriesList,
-                  onCategoryTapped: (int categoryId) async {
-                    controller.categoryId.value = categoryId.toString();
+                (categoriesList) {
+                  return HomeCategoriesListView(
+                    initId: controller.categoryId.value,
+                    categoriesList: categoriesList,
+                    onCategoryTapped: (int categoryId) async {
+                      controller.categoryId.value = categoryId.toString();
 
-                    controller.pagingController.value =
-                        PagingController(firstPageKey: 1);
+                      controller.pagingController.value =
+                          PagingController(firstPageKey: 1);
 
-                    controller.pageListener();
-                  },
-                );
-              },
-              onLoading: HomeCategoriesListView(
-                categoriesList: [],
-                onCategoryTapped: (int categoryId) {
-                  Get.toNamed(Routes.PRODUCTS_LIST);
+                      controller.pageListener();
+                    },
+                  );
                 },
-              ).shimmer(),
-              onEmpty: Center(
-                child: Text('لا توجد اقسام'),
-              ),
-            ),
+                onLoading: HomeCategoriesListView(
+                  categoriesList: [],
+                  onCategoryTapped: (int categoryId) {
+                    Get.toNamed(Routes.PRODUCTS_LIST);
+                  },
+                ).shimmer(),
+                onEmpty: Center(
+                  child: Text('لا توجد اقسام'),
+                ),
+                onError: (String? message) {
+                  return Center(child: Text(message.toString()));
+                }),
             AppSpacers.height12,
             Expanded(
               child: Obx(
