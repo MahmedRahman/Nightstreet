@@ -1,5 +1,6 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:krzv2/app/modules/appointment/views/appointment_booking_h_view.dart';
 import 'package:krzv2/app/modules/appointment/views/appointment_booking_view.dart';
 import 'package:krzv2/app/modules/appointment/views/appointment_choose_a_doctor_view.dart';
@@ -75,6 +76,32 @@ class AppointmentController extends GetxController {
     } catch (e, st) {
       print(st);
       print(e);
+    }
+  }
+
+  RxList<DateTime> getNonDates = RxList<DateTime>([]);
+  void getAvailableOfferDays() async {
+    ResponseModel responseModel;
+
+    responseModel = await WebServices().getAvailableOfferDays(
+      offerId: service["id"],
+      branchId: selectBranch["id"],
+      doctorId: selectDoctor.toString() == "" ? "null" : selectDoctor["id"].toString(),
+    );
+
+    if (responseModel.data["success"]) {
+      print(responseModel.data["data"]["days_en"]);
+      print(service["end_booking_date"]);
+      print(DateTime.now().toString());
+
+      getNonDates.value = getNonMatchingDatesWithoutTime(DateTime.now(), DateTime.parse(service["end_booking_date"]),
+          responseModel.data["data"]["days_en"].toString().split(','));
+
+      print(getNonDates);
+
+      update();
+    } else {
+      update();
     }
   }
 
@@ -158,5 +185,20 @@ class AppointmentController extends GetxController {
     selectData = "";
     selectTime = "";
     selectNote = "";
+  }
+
+  List<DateTime> getNonMatchingDatesWithoutTime(DateTime startDate, DateTime endDate, List<String> days) {
+    List<DateTime> nonMatchingDates = [];
+    DateFormat formatter = DateFormat('EEEE'); // Used to get the full name of the day
+
+    for (DateTime date = startDate; date.isBefore(endDate.add(Duration(days: 1))); date = date.add(Duration(days: 1))) {
+      String dayName = formatter.format(date);
+      if (days.contains(dayName)) {
+        // Create a new DateTime object with only year, month, and day
+        nonMatchingDates.add(DateTime(date.year, date.month, date.day));
+      }
+    }
+
+    return nonMatchingDates;
   }
 }

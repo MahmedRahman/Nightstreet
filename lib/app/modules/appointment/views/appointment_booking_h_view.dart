@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:krzv2/app/modules/appointment/appointment_address_controller.dart';
 import 'package:krzv2/component/views/cashed_network_image_view.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
@@ -13,6 +14,9 @@ import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
+
+DateTime selectDate = DateTime.now();
+RxBool IsSelect = false.obs;
 
 class AppointmentBookingHView extends GetView<AppointmentController> {
   bool isDoctorSelect = false;
@@ -30,6 +34,8 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
 
     serves = Get.find<AppointmentController>().service;
     selectDoctor = Get.find<AppointmentController>().selectDoctor;
+
+    Get.find<AppointmentController>().getAvailableOfferDays();
   }
 
   final focusDate = Rx<DateTime?>(DateTime.now());
@@ -49,38 +55,67 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
       //     const SizedBox(width: 20),
       //   ],
       // ),
-      body: Obx(
-        () => Padding(
-          padding: AppDimension.appPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'اختر الوقت',
-                style: TextStyle(
-                  color: AppColors.blackColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+      body: Padding(
+        padding: AppDimension.appPadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'اختر الوقت',
+              style: TextStyle(
+                color: AppColors.blackColor,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
               ),
-              AppSpacers.height25,
-              isDoctorSelect
-                  ? doctorInfo(
-                      name: selectDoctor["name"],
-                      image: selectDoctor["image"],
-                    )
-                  : SizedBox.fromSize(),
-              AppSpacers.height25,
+            ),
+            AppSpacers.height25,
+            isDoctorSelect
+                ? doctorInfo(
+                    name: selectDoctor["name"],
+                    image: selectDoctor["image"],
+                  )
+                : SizedBox.fromSize(),
+            AppSpacers.height25,
+            customDateTimeLine(
+              customOnTap: (selectedDate) {
+                // bool isExistInBlockDates = controller.getNonDates
+                //     .contains(DateTime(selectedDate.year, selectedDate.month, selectedDate.day));
+
+                // if (isExistInBlockDates) return;
+                focusDate.value = selectedDate;
+                var month = selectedDate.month.toString();
+
+                if (month.length == 1) {
+                  month = "0${month}";
+                }
+                var day = selectedDate.day.toString();
+
+                if (day.length == 1) {
+                  day = "0${day}";
+                }
+
+                String valData = "${selectedDate.year}-${month}-${day}";
+
+                print(valData.toString());
+                Get.find<AppointmentController>().selectData = valData.toString();
+                Get.find<AppointmentController>().selectTime = "";
+                Get.find<AppointmentController>().selectTimeUI.value = "";
+
+                Get.find<AppointmentController>().getAvailableOfferTimes();
+              },
+            ),
+
+            /*
               EasyInfiniteDateTimeLine(
                 controller: _controller,
                 activeColor: const Color(0xffB04759),
                 locale: "ar",
                 onDateChange: (selectedDate) {
+                  bool isExistInBlockDates = controller.getNonDates
+                      .contains(DateTime(selectedDate.year, selectedDate.month, selectedDate.day));
+
+                  if (isExistInBlockDates) return;
                   focusDate.value = selectedDate;
-
-                  //  Get.find<AppointmentController>().selectDateUI.value =
-                  //                       value.toString();
-
                   var month = selectedDate.month.toString();
 
                   if (month.length == 1) {
@@ -105,76 +140,78 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
                   hPadding: 0.0,
                   margin: EdgeInsets.zero,
                 ),
-                //disabledDates: [DateTime.now()],
+                disabledDates: controller.getNonDates.value, // controller.getNonDates.value,
                 focusDate: focusDate.value,
                 firstDate: DateTime.now(),
                 lastDate: DateTime.parse(serves["end_booking_date"]),
                 itemBuilder: itemBuilder,
               ),
-              Divider(),
-              Expanded(
-                child: Obx(() {
-                  if (controller.timeLoading.value) return Center(child: CupertinoActivityIndicator());
-                  if (controller.AppointmentDataList.length == 0)
-                    return Center(
-                        child: Text(
-                      "لا يوجد بيانات ",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ));
+            */
 
-                  return ListView.separated(
-                    itemCount: controller.AppointmentDataList.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        hoverColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        onTap: () {
-                          Get.find<AppointmentController>().selectTime = controller.AppointmentDataList[index]["time"];
-                          Get.find<AppointmentController>().selectTimeUI.value =
-                              controller.AppointmentDataList[index]["time"];
-                          Get.find<AppointmentController>().AppointmentDataList.refresh();
-                        },
-                        contentPadding: EdgeInsets.zero,
-                        trailing: Get.find<AppointmentController>().AppointmentDataList[index]["time"] ==
-                                Get.find<AppointmentController>().selectTime
-                            ? CircleAvatar(
-                                radius: 10,
-                                backgroundColor: AppColors.mainColor,
-                                child: Icon(
-                                  Icons.done,
-                                  color: Colors.white,
-                                  size: 12,
-                                ),
-                              )
-                            : Text(""),
-                        title: Text(
-                          Get.find<AppointmentController>().AppointmentDataList[index]["time"].toString(),
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                          ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (_, __) => Divider(
-                      color: Colors.black,
+            Divider(),
+            Expanded(
+              child: Obx(() {
+                if (controller.timeLoading.value) return Center(child: CupertinoActivityIndicator());
+                if (controller.AppointmentDataList.length == 0)
+                  return Center(
+                      child: Text(
+                    "لا يوجد بيانات ",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
-                  );
-                }),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                color: Colors.black,
-              ),
-            ],
-          ),
+                  ));
+
+                return ListView.separated(
+                  itemCount: controller.AppointmentDataList.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      hoverColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        Get.find<AppointmentController>().selectTime = controller.AppointmentDataList[index]["time"];
+                        Get.find<AppointmentController>().selectTimeUI.value =
+                            controller.AppointmentDataList[index]["time"];
+                        Get.find<AppointmentController>().AppointmentDataList.refresh();
+                      },
+                      contentPadding: EdgeInsets.zero,
+                      trailing: Get.find<AppointmentController>().AppointmentDataList[index]["time"] ==
+                              Get.find<AppointmentController>().selectTime
+                          ? CircleAvatar(
+                              radius: 10,
+                              backgroundColor: AppColors.mainColor,
+                              child: Icon(
+                                Icons.done,
+                                color: Colors.white,
+                                size: 12,
+                              ),
+                            )
+                          : Text(""),
+                      title: Text(
+                        Get.find<AppointmentController>().AppointmentDataList[index]["time"].toString(),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                        ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (_, __) => Divider(
+                    color: Colors.black,
+                  ),
+                );
+              }),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Divider(
+              color: Colors.black,
+            ),
+          ],
         ),
       ),
+
       bottomBarHeight: 155,
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(
@@ -231,6 +268,91 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
     );
   }
 
+  Widget customDateTimeLine({
+    void Function(DateTime selectDate)? customOnTap,
+  }) {
+    return Obx(() {
+      return Column(
+        children: [
+          Row(
+            children: [
+              Text("${getWeekdayInArabic(selectDate)}"),
+              Spacer(),
+              Text("${selectDate.day}/${selectDate.month}/${selectDate.year}"),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            height: 90,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: List.generate(
+                controller.getNonDates.value.length,
+                (index) {
+                  IsSelect = (selectDate == controller.getNonDates[index]).obs;
+
+                  var dayNumber = controller.getNonDates[index].day;
+                  var dayName = getWeekdayInArabic(controller.getNonDates[index]);
+                  return InkWell(
+                    overlayColor: MaterialStatePropertyAll(Colors.transparent),
+                    onTap: () {
+                      selectDate = controller.getNonDates[index];
+                      IsSelect.value = true;
+
+                      customOnTap!(controller.getNonDates[index]);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color: IsSelect.value ? AppColors.mainColor : Colors.transparent,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.grey,
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "$dayNumber",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: IsSelect.value ? Colors.white : Colors.black,
+                                  fontFamily: "effra",
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "$dayName",
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      );
+    });
+  }
+
   ListTile doctorInfo({
     required String name,
     required String image,
@@ -252,17 +374,27 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
     );
   }
 
-  Widget itemBuilder(_, dayNumber, dayName, __, ___, isSelected) {
+  Widget itemBuilder(_, dayNumber, dayName, __, DateTime fullDate, isSelected) {
+    bool contains = controller.getNonDates.contains(DateTime(fullDate.year, fullDate.month, fullDate.day));
+
     return Column(
       children: [
         Container(
           width: 60,
           height: 60,
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.mainColor : Colors.transparent,
+            color: contains
+                ? Colors.white
+                : isSelected
+                    ? AppColors.mainColor
+                    : Colors.transparent,
             shape: BoxShape.circle,
             border: Border.all(
-              color: isSelected ? Colors.transparent : Colors.grey,
+              color: contains
+                  ? Colors.grey[300]!
+                  : isSelected
+                      ? Colors.transparent
+                      : Colors.grey,
             ),
           ),
           child: Center(
@@ -271,7 +403,11 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
-                color: isSelected ? Colors.white : Colors.black,
+                color: contains
+                    ? Colors.grey[300]
+                    : isSelected
+                        ? Colors.white
+                        : Colors.black,
                 fontFamily: "effra",
               ),
             ),
@@ -285,9 +421,15 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.normal,
+            color: contains ? Colors.grey[300] : Colors.black,
           ),
         ),
       ],
     );
   }
+}
+
+String getWeekdayInArabic(DateTime date) {
+  DateFormat formatter = DateFormat('EEEE', 'ar'); // 'ar' is the locale for Arabic
+  return formatter.format(date);
 }
