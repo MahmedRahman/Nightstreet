@@ -27,6 +27,7 @@ class ComplaintAddNewView extends GetView<ComplaintAddNewController> {
   final formKey = GlobalKey<FormState>();
   final con = Get.put(ComplaintAddNewController());
   final selectedCategoryId = Rx<int?>(null);
+  final selectedsubCategoryId = Rx<int?>(null);
   final selectedFile = Rx<File?>(null);
 
   @override
@@ -54,9 +55,11 @@ class ComplaintAddNewView extends GetView<ComplaintAddNewController> {
               (List<ComplaintCategoryModel>? categories) {
                 selectedCategoryId.value = (categories ?? []).first.id;
                 return ComplaintCategorySelectorView(
+                  title: "الأقسام الرئيسية",
                   categoriesList: categories ?? [],
                   onChanged: (ComplaintCategoryModel value) {
                     selectedCategoryId.value = value.id;
+                    controller.subCategories.value = value.subCategories;
                   },
                 );
               },
@@ -73,6 +76,21 @@ class ComplaintAddNewView extends GetView<ComplaintAddNewController> {
                   error.toString(),
                 ),
               ),
+            ),
+            Obx(
+              () {
+                if (controller.subCategories.value.isEmpty) return SizedBox();
+                return Padding(
+                  padding: const EdgeInsets.only(top: 25),
+                  child: ComplaintCategorySelectorView(
+                    title: "الأقسام الفرعية",
+                    categoriesList: controller.subCategories.value,
+                    onChanged: (ComplaintCategoryModel value) {
+                      selectedsubCategoryId.value = value.id;
+                    },
+                  ),
+                );
+              },
             ),
             AppSpacers.height25,
             TextFieldComponent.longMessage(
@@ -133,7 +151,9 @@ class ComplaintAddNewView extends GetView<ComplaintAddNewController> {
 
             controller.saveComplaint(
               description: descriptionText.text.toString(),
-              categoryId: selectedCategoryId.value.toString(),
+              categoryId: selectedsubCategoryId.value != null
+                  ? selectedsubCategoryId.value.toString()
+                  : selectedCategoryId.value.toString(),
               file: selectedFile.value,
             );
           },

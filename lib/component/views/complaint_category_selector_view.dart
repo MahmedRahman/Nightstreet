@@ -11,18 +11,20 @@ class ComplaintCategorySelectorView extends GetView {
     Key? key,
     required this.categoriesList,
     required this.onChanged,
+    required this.title,
   }) : super(key: key);
 
   final selectedIndex = Rx<int>(0);
   final List<ComplaintCategoryModel> categoriesList;
   final ValueChanged<ComplaintCategoryModel> onChanged;
+  final String title;
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'حدد نوع التذكرة',
+          title,
           style: const TextStyle(
             fontSize: 16.0,
             color: AppColors.blackColor,

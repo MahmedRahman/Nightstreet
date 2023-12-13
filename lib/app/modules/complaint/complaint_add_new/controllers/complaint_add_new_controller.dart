@@ -12,6 +12,7 @@ import 'package:krzv2/web_serives/web_serives.dart';
 
 class ComplaintAddNewController extends GetxController
     with StateMixin<List<ComplaintCategoryModel>> {
+  final subCategories = Rx<List<ComplaintCategoryModel>>([]);
   @override
   void onInit() async {
     await getComplaintsCategories();
