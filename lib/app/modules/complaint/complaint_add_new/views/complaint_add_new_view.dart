@@ -80,6 +80,8 @@ class ComplaintAddNewView extends GetView<ComplaintAddNewController> {
             Obx(
               () {
                 if (controller.subCategories.value.isEmpty) return SizedBox();
+                selectedsubCategoryId.value =
+                    (controller.subCategories.value).first.id;
                 return Padding(
                   padding: const EdgeInsets.only(top: 25),
                   child: ComplaintCategorySelectorView(

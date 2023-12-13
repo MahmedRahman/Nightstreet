@@ -47,6 +47,7 @@ class ComplaintClosedListView extends GetView<ComplaintClosedListController> {
                     ),
                   );
                 },
+                mainCategory: complaint.category,
               ),
             );
           },
@@ -66,6 +67,7 @@ class ComplaintClosedListView extends GetView<ComplaintClosedListController> {
               isActiveComplaint: false,
               statusTitle: '',
               onTap: () {},
+              mainCategory: '',
             ),
           ).shimmer();
         },

@@ -40,6 +40,9 @@ class ComplaintAddNewController extends GetxController
       }
 
       change(serviceDataList, status: RxStatus.success());
+
+      /// init sub category list
+      subCategories.value = serviceDataList.first.subCategories;
       return;
     }
 

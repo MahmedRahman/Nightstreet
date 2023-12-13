@@ -11,18 +11,20 @@ class ComplantItemBuilderView extends GetView {
     Key? key,
     required this.complaintDate,
     required this.complaintId,
-     required this.statusTitle,
+    required this.statusTitle,
     required this.isActiveComplaint,
+    required this.mainCategory,
     required this.onTap,
   }) : super(key: key);
 
   final String complaintId;
-    final String statusTitle;
+  final String statusTitle;
+  final String mainCategory;
 
   final DateTime complaintDate;
   final bool isActiveComplaint;
   final void Function() onTap;
-  
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -50,6 +52,16 @@ class ComplantItemBuilderView extends GetView {
                     textAlign: TextAlign.right,
                   ),
                   Text(
+                    'القسم الرئيسي : $mainCategory',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: AppColors.blackColor,
+                      letterSpacing: 0.42,
+                      height: 1.57,
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
+                  Text(
                     formatDateToArabic(complaintDate),
                     style: TextStyle(
                       fontSize: 14.0,
@@ -64,7 +76,7 @@ class ComplantItemBuilderView extends GetView {
               Spacer(),
               ComplantStatusView(
                 isActiveComplaint: isActiveComplaint,
-                statusTitle:statusTitle ,
+                statusTitle: statusTitle,
               )
             ],
           ),
