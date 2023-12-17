@@ -113,7 +113,7 @@ class AppointmentController extends GetxController {
       payment_type: payment_type,
       offer_id: service["id"],
       branch_id: selectBranch["id"],
-      doctor_id: GetUtils.isNull(selectDoctor) ? null : selectDoctor["id"],
+      doctor_id: selectDoctor == '' ? null : selectDoctor["id"],
       date_time: selectData.toString(),
       time: selectTime.toString(),
       notes: selectNote.toString(),
