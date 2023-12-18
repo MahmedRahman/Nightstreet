@@ -69,10 +69,10 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
             AppSpacers.height25,
             customDateTimeLine(
               customOnTap: (selectedDate) {
-                bool isExistInBlockDates = controller.getNonDates
-                    .contains(DateTime(selectedDate.year, selectedDate.month, selectedDate.day));
+                // bool isExistInBlockDates = controller.getNonDates
+                //     .contains(DateTime(selectedDate.year, selectedDate.month, selectedDate.day));
 
-                if (isExistInBlockDates) return;
+                // if (isExistInBlockDates) return;
                 focusDate.value = selectedDate;
                 var month = selectedDate.month.toString();
 
@@ -299,9 +299,13 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
                   var dayNumber = controller.getNonDates[index].day;
                   var dayName =
                       getWeekdayInArabic(controller.getNonDates[index]);
+
+                  bool notIncluded = !controller.fetchedDays.contains(dayName);
+
                   return InkWell(
                     overlayColor: MaterialStatePropertyAll(Colors.transparent),
                     onTap: () {
+                      if (notIncluded) return;
                       selectDate = controller.getNonDates[index];
                       IsSelect.value = true;
 
@@ -329,10 +333,15 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
-                                  color: IsSelect.value
-                                      ? Colors.white
-                                      : Colors.black,
+                                  color: notIncluded
+                                      ? Colors.grey[400]
+                                      : IsSelect.value
+                                          ? Colors.white
+                                          : Colors.black,
                                   fontFamily: "effra",
+                                  decoration: notIncluded
+                                      ? TextDecoration.lineThrough
+                                      : null,
                                 ),
                               ),
                             ),
@@ -345,7 +354,11 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.normal,
-                              color: Colors.black,
+                              color:
+                                  notIncluded ? Colors.grey[400] : Colors.black,
+                              decoration: notIncluded
+                                  ? TextDecoration.lineThrough
+                                  : null,
                             ),
                           ),
                         ],

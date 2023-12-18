@@ -81,6 +81,17 @@ class AppointmentController extends GetxController {
   }
 
   RxList<DateTime> getNonDates = RxList<DateTime>([]);
+  RxList<String> fetchedDays = RxList<String>([]);
+  List<String> allDays = [
+    "السبت",
+    "الأحد",
+    "الاثنين",
+    "الثلاثاء",
+    "الأربعاء",
+    "الخميس",
+    "الجمعة",
+  ];
+
   void getAvailableOfferDays() async {
     ResponseModel responseModel;
 
@@ -94,12 +105,14 @@ class AppointmentController extends GetxController {
 
     if (responseModel.data["success"]) {
       getNonDates.value = getNonMatchingDatesWithoutTime(
-        DateTime.now(),
+        DateTime.parse(service["start_date"]),
         DateTime.parse(service["end_booking_date"]),
         responseModel.data["data"]["days_en"].toString().split(','),
       );
 
       update();
+      fetchedDays.value =
+          responseModel.data["data"]["days_ar"].toString().split(',');
     } else {
       update();
     }
@@ -204,10 +217,10 @@ class AppointmentController extends GetxController {
         date.isBefore(endDate.add(Duration(days: 1)));
         date = date.add(Duration(days: 1))) {
       String dayName = formatter.format(date);
-      if (days.contains(dayName)) {
-        // Create a new DateTime object with only year, month, and day
-        nonMatchingDates.add(DateTime(date.year, date.month, date.day));
-      }
+      // if (days.contains(dayName)) {
+      // Create a new DateTime object with only year, month, and day
+      nonMatchingDates.add(DateTime(date.year, date.month, date.day));
+      // }
     }
 
     return nonMatchingDates;
