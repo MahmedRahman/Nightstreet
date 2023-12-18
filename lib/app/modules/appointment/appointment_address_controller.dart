@@ -2,7 +2,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:krzv2/app/modules/appointment/views/appointment_booking_h_view.dart';
-import 'package:krzv2/app/modules/appointment/views/appointment_booking_view.dart';
 import 'package:krzv2/app/modules/appointment/views/appointment_choose_a_doctor_view.dart';
 import 'package:krzv2/app/modules/payment_bank/payment_page_new.dart';
 import 'package:krzv2/app/modules/payment_bank/payment_success_page.dart';
@@ -62,7 +61,9 @@ class AppointmentController extends GetxController {
       responseModel = await WebServices().getAvailableOfferTimes(
         offerId: service["id"],
         branchId: selectBranch["id"],
-        doctorId: selectDoctor.toString() == "" ? "null" : selectDoctor["id"].toString(),
+        doctorId: selectDoctor.toString() == ""
+            ? "null"
+            : selectDoctor["id"].toString(),
         dateTime: selectData.toString(),
       );
       timeLoading.value = false;
@@ -86,18 +87,17 @@ class AppointmentController extends GetxController {
     responseModel = await WebServices().getAvailableOfferDays(
       offerId: service["id"],
       branchId: selectBranch["id"],
-      doctorId: selectDoctor.toString() == "" ? "null" : selectDoctor["id"].toString(),
+      doctorId: selectDoctor.toString() == ""
+          ? "null"
+          : selectDoctor["id"].toString(),
     );
 
     if (responseModel.data["success"]) {
-      print(responseModel.data["data"]["days_en"]);
-      print(service["end_booking_date"]);
-      print(DateTime.now().toString());
-
-      getNonDates.value = getNonMatchingDatesWithoutTime(DateTime.now(), DateTime.parse(service["end_booking_date"]),
-          responseModel.data["data"]["days_en"].toString().split(','));
-
-      print(getNonDates);
+      getNonDates.value = getNonMatchingDatesWithoutTime(
+        DateTime.now(),
+        DateTime.parse(service["end_booking_date"]),
+        responseModel.data["data"]["days_en"].toString().split(','),
+      );
 
       update();
     } else {
@@ -128,8 +128,10 @@ class AppointmentController extends GetxController {
         Get.to(
           AppPaymentNewPage(
             PaymentUrl: responseModel.data["data"],
-            FailedPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-failed-callback",
-            SuccessPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-success-callback",
+            FailedPaymentUrl:
+                "${ApiConfig.baseUrl}/appointments/rajhi-failed-callback",
+            SuccessPaymentUrl:
+                "${ApiConfig.baseUrl}/appointments/rajhi-success-callback",
             onFailed: () {
               AppDialogs.showToast(message: "خطاء في عمليه الدفع");
 
@@ -155,8 +157,10 @@ class AppointmentController extends GetxController {
         Get.to(
           AppPaymentNewPage(
             PaymentUrl: responseModel.data["data"],
-            FailedPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-failed-callback",
-            SuccessPaymentUrl: "${ApiConfig.baseUrl}/appointments/rajhi-success-callback",
+            FailedPaymentUrl:
+                "${ApiConfig.baseUrl}/appointments/rajhi-failed-callback",
+            SuccessPaymentUrl:
+                "${ApiConfig.baseUrl}/appointments/rajhi-success-callback",
             onFailed: () {
               AppDialogs.showToast(message: "خطاء في عمليه الدفع");
               Get.back();
@@ -187,11 +191,18 @@ class AppointmentController extends GetxController {
     selectNote = "";
   }
 
-  List<DateTime> getNonMatchingDatesWithoutTime(DateTime startDate, DateTime endDate, List<String> days) {
+  List<DateTime> getNonMatchingDatesWithoutTime(
+    DateTime startDate,
+    DateTime endDate,
+    List<String> days,
+  ) {
     List<DateTime> nonMatchingDates = [];
-    DateFormat formatter = DateFormat('EEEE'); // Used to get the full name of the day
+    DateFormat formatter =
+        DateFormat('EEEE'); // Used to get the full name of the day
 
-    for (DateTime date = startDate; date.isBefore(endDate.add(Duration(days: 1))); date = date.add(Duration(days: 1))) {
+    for (DateTime date = startDate;
+        date.isBefore(endDate.add(Duration(days: 1)));
+        date = date.add(Duration(days: 1))) {
       String dayName = formatter.format(date);
       if (days.contains(dayName)) {
         // Create a new DateTime object with only year, month, and day

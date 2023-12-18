@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/store/view/store_view.dart';
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';

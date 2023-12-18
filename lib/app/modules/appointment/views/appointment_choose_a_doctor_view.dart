@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/app/modules/appointment/appointment_address_controller.dart';
 import 'package:krzv2/app/modules/appointment/views/appointment_booking_h_view.dart';
-import 'package:krzv2/app/modules/appointment/views/appointment_booking_view.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
 import 'package:krzv2/component/views/doctor_card_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';

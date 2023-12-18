@@ -29,6 +29,7 @@ class SplashController extends GetxController with StateMixin {
 
   void Init() async {
     change(null, status: RxStatus.loading());
+
     mapController.askPermissionAndGetCurrentLocation();
 
     ResponseModel responseModel = await WebServices().getSetting();

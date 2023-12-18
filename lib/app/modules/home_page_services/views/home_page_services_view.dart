@@ -18,7 +18,6 @@ import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/services_categories_view.dart';
 import 'package:krzv2/component/views/services_sort_view.dart';
-import 'package:krzv2/component/views/slider_view.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/branch_model.dart';
 import 'package:krzv2/routes/app_pages.dart';

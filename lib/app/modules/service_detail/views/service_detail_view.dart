@@ -22,7 +22,6 @@ import 'package:krzv2/component/views/product_cash_back_view.dart';
 import 'package:krzv2/component/views/rating_bar_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/share_icon_view.dart';
-import 'package:krzv2/component/views/tabs/base_switch_3_tap.dart';
 import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/auth_service.dart';
 import 'package:krzv2/utils/app_colors.dart';

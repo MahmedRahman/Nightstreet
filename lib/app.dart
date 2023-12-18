@@ -5,8 +5,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:krzv2/init_bindings.dart';
 import 'package:krzv2/routes/app_pages.dart';
-import 'package:krzv2/app/modules/appointment/views/appointment_booking_h_view.dart';
-import 'package:krzv2/web_serives/view/api_debug_view.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 class MyApp extends StatefulWidget {

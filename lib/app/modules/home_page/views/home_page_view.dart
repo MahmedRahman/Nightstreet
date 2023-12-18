@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:krzv2/app/modules/home_page/controllers/Home%D9%80page_dummy_slider_setting_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_product_categories_controller.dart';
 import 'package:krzv2/app/modules/home_page/controllers/home_page_recommended_product_controller.dart';
@@ -12,29 +11,25 @@ import 'package:krzv2/app/modules/shoppint_cart/controllers/shopping_cart_contro
 import 'package:krzv2/app/modules/slider/slider_controller.dart';
 import 'package:krzv2/component/views/bottom_navigation_bar_view.dart';
 import 'package:krzv2/component/views/cashed_network_image_view.dart';
-import 'package:krzv2/component/views/custom_dialogs.dart';
 import 'package:krzv2/component/views/home_app_bar_view.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
-import 'package:krzv2/component/views/slider_view.dart';
 import 'package:krzv2/extensions/widget.dart';
 
-import 'package:krzv2/routes/app_pages.dart';
 import 'package:krzv2/services/app_version_service.dart';
 import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
-import 'package:krzv2/utils/app_launcuer.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import 'package:krzv2/utils/app_svg_paths.dart';
 
 class HomePageView extends GetView {
   HomePageView() {
-    appVersion.getAppVersion().then(
-      (value) async {
-        final hasForceUpdate = await appVersion.showUpdateDialog();
+    // appVersion.getAppVersion().then(
+    //   (value) async {
+    //     final hasForceUpdate = await appVersion.showUpdateDialog();
 
-        if (hasForceUpdate == true) AppDialogs.updateApp();
-      },
-    );
+    //     if (hasForceUpdate == true) AppDialogs.updateApp();
+    //   },
+    // );
   }
   final cartController = Get.find<ShoppingCartController>();
   final sliderController = Get.put(HomePageSliderController());
@@ -70,10 +65,12 @@ class HomePageView extends GetView {
                       (index) {
                         return homeCard(
                           title: data[index]["name"].toString(),
-                          subdata:
-                              (data[index]["content"].toString() == "null") ? "" : data[index]["content"].toString(),
+                          subdata: (data[index]["content"].toString() == "null")
+                              ? ""
+                              : data[index]["content"].toString(),
                           imageUrl: data[index]["image"].toString(),
-                          discountPercentage: data[index]["discount_percentage"].toString(),
+                          discountPercentage:
+                              data[index]["discount_percentage"].toString(),
                           onTap: () {
                             if (data[index]["redirect_type"] == "offers") {
                               bottomBarController.changePage(3);

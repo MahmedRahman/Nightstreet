@@ -18,7 +18,6 @@ import 'package:krzv2/component/views/notification_icon_view.dart';
 import 'package:krzv2/component/views/pages/app_page_empty.dart';
 import 'package:krzv2/component/views/scaffold/base_scaffold.dart';
 import 'package:krzv2/component/views/shopping_cart_icon_view.dart';
-import 'package:krzv2/component/views/slider_view.dart';
 import 'package:krzv2/extensions/widget.dart';
 import 'package:krzv2/models/market_model.dart';
 import 'package:krzv2/routes/app_pages.dart';

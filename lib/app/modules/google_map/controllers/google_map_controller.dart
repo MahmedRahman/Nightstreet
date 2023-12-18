@@ -214,19 +214,23 @@ class GoogleMapViewController extends GetxController with StateMixin {
     final locationStatus = await PermissionsHelper.requestLocationPermission();
 
     shouldWatchFocus = false;
+    print('locationStatus $locationStatus');
 
     if (locationStatus == PermissionStatus.granted) {
-      final loc.LocationData? locationData = await location.getLocation();
+      try {
+        final loc.LocationData? locationData = await location.getLocation();
 
-      print('splash lat => ${locationData!.latitude}, lng => ${locationData.longitude}');
+        currentLocation.value = LatLng(
+          locationData!.latitude!,
+          locationData.longitude!,
+        );
 
-      currentLocation.value = LatLng(
-        locationData!.latitude!,
-        locationData.longitude!,
-      );
-
-      update();
-      return;
+        update();
+        return;
+      } catch (e, st) {
+        print('error $e');
+        print('stack $st');
+      }
     }
 
     if (locationStatus == PermissionStatus.permanentlyDenied &&

@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:krzv2/appoinment_view.dart';
-import 'package:krzv2/web_serives/view/api_debug_view.dart';
 
 import '../app/modules/appointment_mangment/bindings/appointment_mangment_binding.dart';
 import '../app/modules/appointment_mangment/views/appointment_mangment_view.dart';

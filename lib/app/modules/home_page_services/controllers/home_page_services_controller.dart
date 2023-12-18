@@ -43,6 +43,10 @@ class HomePageServicesController extends GetxController
         queryParams.lng = latlng.longitude;
       }
       currentPage = pageKey;
+      print('queryParams lat map ${latlng.latitude}');
+      print('queryParams lng map ${latlng.longitude}');
+      print('queryParams lat controller ${queryParams.lat}');
+      print('queryParams lng controller ${queryParams.lng}');
       fetchBranches();
     });
   }
