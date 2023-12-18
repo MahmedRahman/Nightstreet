@@ -34,7 +34,7 @@ class TransactionTableComponent extends StatelessWidget {
               verticalInside: BorderSide.none,
             ),
             columnWidths: const {
-              0: FlexColumnWidth(1.0),
+              0: FlexColumnWidth(1.2),
               1: FlexColumnWidth(3.0),
               2: FlexColumnWidth(1.5),
             },
