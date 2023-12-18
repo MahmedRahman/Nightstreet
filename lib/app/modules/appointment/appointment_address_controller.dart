@@ -105,7 +105,7 @@ class AppointmentController extends GetxController {
 
     if (responseModel.data["success"]) {
       getNonDates.value = getNonMatchingDatesWithoutTime(
-        DateTime.parse(service["start_date"]),
+        DateTime.now(),
         DateTime.parse(service["end_booking_date"]),
         responseModel.data["data"]["days_en"].toString().split(','),
       );
