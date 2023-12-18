@@ -4,6 +4,7 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:krzv2/app/modules/appointment/appointment_address_controller.dart';
+import 'package:krzv2/app/modules/appointment/views/appointment_data_view.dart';
 import 'package:krzv2/component/views/cashed_network_image_view.dart';
 import 'package:krzv2/component/views/costum_btn_component.dart';
 import 'package:krzv2/component/views/custom_app_bar.dart';
@@ -255,9 +256,8 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
                   if (Get.find<AppointmentController>()
                           .service["amount_to_pay"] ==
                       0) {
-                    Get.find<AppointmentController>().bookAppointment(
-                      payment_type: "free",
-                    );
+                    Get.to(() => AppointmentDataView());
+
                     return;
                   }
 

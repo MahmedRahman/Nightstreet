@@ -11,10 +11,10 @@ import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 import '../appointment_address_controller.dart';
 
-class AppointmentAddressView extends GetView<AppointmentController> {
+class AppointmentDataView extends GetView<AppointmentController> {
   var service;
 
-  AppointmentAddressView() {
+  AppointmentDataView() {
     service = Get.find<AppointmentController>().service;
   }
 
@@ -22,7 +22,7 @@ class AppointmentAddressView extends GetView<AppointmentController> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: CustomAppBar(
-        titleText: 'حدد الفرع',
+        titleText: 'تفاصيل الحجز',
       ),
       body: ListView(
         padding: AppDimension.appPadding,
@@ -31,26 +31,6 @@ class AppointmentAddressView extends GetView<AppointmentController> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'اختر الفرع',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: AppColors.blackColor,
-                  letterSpacing: 0.32,
-                  fontWeight: FontWeight.w500,
-                  height: 0.75,
-                ),
-                textAlign: TextAlign.right,
-              ),
-              AppSpacers.height10,
-              branchesListItem(
-                onBranchChanged: (index) {
-                  Get.find<AppointmentController>().selectBranch =
-                      service["branches"][index];
-                },
-                data: service["branches"],
-              ),
-              Divider(),
               AppSpacers.height16,
               DecoratedContainer(
                 child: Padding(
@@ -113,10 +93,11 @@ class AppointmentAddressView extends GetView<AppointmentController> {
             Expanded(
               flex: 3,
               child: CustomBtnCompenent.main(
-                text: "مواصلة الحجز",
+                text: "تأكيد الحجز",
                 onTap: () {
-                  Get.find<AppointmentController>().selectDoctor = "";
-                  Get.find<AppointmentController>().branchOfferDoctors();
+                  Get.find<AppointmentController>().bookAppointment(
+                    payment_type: "free",
+                  );
                 },
               ),
             ),
