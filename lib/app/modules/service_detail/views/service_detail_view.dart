@@ -78,9 +78,7 @@ class ServiceDetailView extends GetView<ServiceDetailController> {
                       Get.find<AppointmentController>().selectBranch =
                           data["branches"][0];
 
-                      Get.to(
-                        AppointmentAddressView(),
-                      );
+                      Get.to(() => AppointmentAddressView());
                     },
                   ),
                 ),
