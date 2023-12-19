@@ -33,17 +33,17 @@ class AppointmentController extends GetxController {
     if (responseModel.data["success"]) {
       if (responseModel.data["data"]["data"].length == 0) {
         Get.to(
-          AppointmentBookingHView(
-            //serves: service,
+          () => AppointmentBookingHView(
             isDoctorSelect: false,
           ),
         );
+
         return;
       }
 
       selectDoctor = responseModel.data["data"]["data"][0];
       Get.to(
-        AppointmentChooseDoctorView(
+        () => AppointmentChooseDoctorView(
           data: responseModel.data["data"]["data"],
           serves: service,
         ),
