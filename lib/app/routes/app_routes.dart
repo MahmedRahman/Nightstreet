@@ -11,6 +11,8 @@ abstract class Routes {
   static const OTP = _Paths.OTP;
   static const REGISTER = _Paths.REGISTER;
   static const MAP_PERMISSION = _Paths.MAP_PERMISSION;
+  static const FAVORITE = _Paths.FAVORITE;
+  static const MENU = _Paths.MENU;
 }
 
 abstract class _Paths {
@@ -23,4 +25,6 @@ abstract class _Paths {
   static const OTP = '/otp';
   static const REGISTER = '/register';
   static const MAP_PERMISSION = '/map-permission';
+  static const FAVORITE = '/favorite';
+  static const MENU = '/menu';
 }

@@ -8,7 +8,10 @@ void main() {
       textDirection: TextDirection.rtl,
       child: GetMaterialApp(
         title: "Night Street",
-        locale: Locale('ar', 'SA'),
+        locale: Locale(
+          'ar',
+          'SA',
+        ),
         initialRoute: AppPages.INITIAL,
         theme: ThemeData(
           fontFamily: 'Montserrat',

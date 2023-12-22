@@ -10,12 +10,14 @@ class BaseScaffold extends StatelessWidget {
   PreferredSizeWidget? appBar;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xffFFFFFF),
-      appBar: appBar,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: body,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Color(0xffFFFFFF),
+        appBar: appBar,
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: body,
+        ),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:app_night_street/app/routes/app_pages.dart';
 import 'package:app_night_street/core/component/custom_base_scaffold.dart';
 import 'package:app_night_street/core/component/custom_button.dart';
 import 'package:app_night_street/core/themes/text_styles.dart';
@@ -43,12 +44,16 @@ class MapPermissionView extends GetView<MapPermissionController> {
           ),
           CustomButton.fill(
             title: "السماح للتطبيق",
+            onPressed: () {},
           ),
           SizedBox(
             height: 12,
           ),
           CustomButton.outLine(
             title: "تحديده يدويا",
+            onPressed: () {
+              Get.toNamed(Routes.HOME_PAGE);
+            },
           ),
           SizedBox(
             height: 8,

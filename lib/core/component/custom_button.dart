@@ -7,6 +7,7 @@ class CustomButton extends StatelessWidget {
     this.borderSideColor = Colors.red,
     this.textStyleColor = Colors.white,
     this.title = "دخول",
+    this.onPressed,
   });
 
   CustomButton.outLine({
@@ -14,6 +15,7 @@ class CustomButton extends StatelessWidget {
     this.borderSideColor = Colors.red,
     this.textStyleColor = Colors.red,
     this.title = "دخول",
+    this.onPressed,
   });
 
   CustomButton.textButton({
@@ -21,14 +23,14 @@ class CustomButton extends StatelessWidget {
     this.borderSideColor = Colors.transparent,
     this.textStyleColor = Colors.red,
     this.title = "دخول",
+    this.onPressed,
   });
-
- 
 
   Color backgroundColor;
   Color borderSideColor;
   Color textStyleColor;
   String title;
+  void Function()? onPressed;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -36,7 +38,8 @@ class CustomButton extends StatelessWidget {
       height: 60.0,
       child: ElevatedButton(
         autofocus: false,
-        onPressed: () {},
+        onPressed: onPressed,
+        
         style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: backgroundColor,

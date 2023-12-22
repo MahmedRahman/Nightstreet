@@ -1,11 +1,15 @@
 import 'package:get/get.dart';
 
+import '../modules/favorite/bindings/favorite_binding.dart';
+import '../modules/favorite/views/favorite_view.dart';
 import '../modules/homePage/bindings/home_page_binding.dart';
 import '../modules/homePage/views/home_page_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/map_permission/bindings/map_permission_binding.dart';
 import '../modules/map_permission/views/map_permission_view.dart';
+import '../modules/menu/bindings/menu_binding.dart';
+import '../modules/menu/views/menu_view.dart';
 import '../modules/onBoarding/bindings/on_boarding_binding.dart';
 import '../modules/onBoarding/views/on_boarding_view.dart';
 import '../modules/otp/bindings/otp_binding.dart';
@@ -57,6 +61,16 @@ class AppPages {
       name: _Paths.MAP_PERMISSION,
       page: () => const MapPermissionView(),
       binding: MapPermissionBinding(),
+    ),
+    GetPage(
+      name: _Paths.FAVORITE,
+      page: () => const FavoriteView(),
+      binding: FavoriteBinding(),
+    ),
+    GetPage(
+      name: _Paths.MENU,
+      page: () => const MenuView(),
+      binding: MenuBinding(),
     ),
   ];
 }
