@@ -3,7 +3,7 @@ import 'package:app_night_street/core/component/base_body.dart';
 import 'package:app_night_street/core/component/category_product_app_bar.dart';
 import 'package:app_night_street/core/component/circular_icon.dart';
 import 'package:app_night_street/core/component/product_subcategories_list_view.dart';
-import 'package:app_night_street/core/component/resturant_item.dart';
+import 'package:app_night_street/core/component/meal_item.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -39,9 +39,9 @@ class CategoryProductsView extends GetView<CategoryProductsController> {
           bottom: 16,
         ),
         children: [
-          ResturantItem(),
-          ResturantItem(),
-          ResturantItem(),
+          MealItem(),
+          MealItem(),
+          MealItem(),
         ],
       ),
     );

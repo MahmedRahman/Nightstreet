@@ -4,7 +4,7 @@ import 'package:app_night_street/app/routes/app_pages.dart';
 import 'package:app_night_street/core/app_color.dart';
 import 'package:app_night_street/core/component/category_builder.dart';
 import 'package:app_night_street/core/component/custom_button.dart';
-import 'package:app_night_street/core/component/resturant_item.dart';
+import 'package:app_night_street/core/component/meal_item.dart';
 import 'package:app_night_street/core/themes/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -122,9 +122,9 @@ class HomePageView extends GetView<HomePageController> {
           ),
           Column(
             children: [
-              ResturantItem(),
-              ResturantItem(),
-              ResturantItem(),
+              MealItem(),
+              MealItem(),
+              MealItem(),
             ],
           ),
           SizedBox(

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-class ResturantItem extends GetView {
-  const ResturantItem({super.key});
+class MealItem extends GetView {
+  const MealItem({super.key});
 
   @override
   Widget build(BuildContext context) {
