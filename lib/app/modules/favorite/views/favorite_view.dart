@@ -1,5 +1,6 @@
 import 'package:app_night_street/app/modules/homePage/views/home_page_view.dart';
 import 'package:app_night_street/core/component/custom_base_scaffold.dart';
+import 'package:app_night_street/core/component/resturant_item.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -22,9 +23,9 @@ class FavoriteView extends GetView<FavoriteController> {
           SizedBox(
             height: 10,
           ),
-          resterent_card(),
-          resterent_card(),
-          resterent_card(),
+          ResturantItem(),
+          ResturantItem(),
+          ResturantItem(),
         ],
       ),
     );

@@ -15,9 +15,13 @@ void main() {
         ),
         initialRoute: AppPages.INITIAL,
         theme: ThemeData(
-          fontFamily: 'Montserrat',
-          textTheme: TextTheme(),
-        ),
+            fontFamily: 'Montserrat',
+            textTheme: TextTheme(),
+            useMaterial3: false,
+            primaryColor: Colors.red,
+            appBarTheme: AppBarTheme(
+              backgroundColor: Colors.white,
+            )),
         getPages: AppPages.routes,
       ),
     ),

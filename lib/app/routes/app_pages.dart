@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/categories/bindings/categories_binding.dart';
 import '../modules/categories/views/categories_view.dart';
+import '../modules/categoryProducts/bindings/category_products_binding.dart';
+import '../modules/categoryProducts/views/category_products_view.dart';
 import '../modules/favorite/bindings/favorite_binding.dart';
 import '../modules/favorite/views/favorite_view.dart';
 import '../modules/homePage/bindings/home_page_binding.dart';
@@ -78,6 +80,11 @@ class AppPages {
       name: _Paths.CATEGORIES,
       page: () => const CategoriesView(),
       binding: CategoriesBinding(),
+    ),
+    GetPage(
+      name: _Paths.CATEGORY_PRODUCTS,
+      page: () => const CategoryProductsView(),
+      binding: CategoryProductsBinding(),
     ),
   ];
 }
