@@ -2,6 +2,7 @@ import 'package:app_night_street/app/modules/favorite/views/favorite_view.dart';
 import 'package:app_night_street/app/modules/menu/views/menu_view.dart';
 import 'package:app_night_street/app/routes/app_pages.dart';
 import 'package:app_night_street/core/app_color.dart';
+import 'package:app_night_street/core/component/category_builder.dart';
 import 'package:app_night_street/core/component/custom_button.dart';
 import 'package:app_night_street/core/themes/text_styles.dart';
 import 'package:flutter/material.dart';
@@ -240,27 +241,12 @@ class HomePageView extends GetView<HomePageController> {
   }
 
   Widget boxItem() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                color: Color(0xffD7D9DB),
-                borderRadius: BorderRadius.circular(
-                  40,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text("مشروبات"),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: CategoryBuilder(
+        name: 'مشروبات',
+        imagePath: '',
+        onTap: () {},
       ),
     );
   }

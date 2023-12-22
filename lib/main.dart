@@ -7,6 +7,7 @@ void main() {
     Directionality(
       textDirection: TextDirection.rtl,
       child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
         title: "Night Street",
         locale: Locale(
           'ar',
