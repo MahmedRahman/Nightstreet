@@ -1,5 +1,6 @@
 import 'package:app_night_street/app/modules/favorite/views/favorite_view.dart';
 import 'package:app_night_street/app/modules/menu/views/menu_view.dart';
+import 'package:app_night_street/app/routes/app_pages.dart';
 import 'package:app_night_street/core/app_color.dart';
 import 'package:app_night_street/core/component/custom_button.dart';
 import 'package:app_night_street/core/themes/text_styles.dart';
@@ -18,7 +19,7 @@ class HomePageView extends GetView<HomePageController> {
       backgroundColor: Color(0xffF8F4F2),
       appBar: BaseAppBar(),
       body: IndexedStack(
-        index: 2,
+        index: 0,
         children: [
           HomePage(),
           Container(),
@@ -193,12 +194,11 @@ class HomePageView extends GetView<HomePageController> {
             children: [
               boxItem(),
               boxItem(),
-              boxItem(),
-              boxItem(),
-              boxItem(),
-              boxItem(),
-              boxItem(),
-              boxMoreItem(),
+              boxMoreItem(
+                onTap: () {
+                  Get.toNamed(Routes.CATEGORIES);
+                },
+              ),
             ],
           ),
         ),
@@ -206,30 +206,35 @@ class HomePageView extends GetView<HomePageController> {
     );
   }
 
-  Padding boxMoreItem() {
+  Padding boxMoreItem({
+    required Function() onTap,
+  }) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              color: Color(0xffF26404).withOpacity(.10),
-              borderRadius: BorderRadius.circular(
-                40,
+      child: InkWell(
+        onTap: onTap,
+        child: Column(
+          children: [
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: Color(0xffF26404).withOpacity(.10),
+                borderRadius: BorderRadius.circular(
+                  40,
+                ),
+              ),
+              child: Icon(
+                Icons.arrow_forward,
+                color: Color(0xffF26404),
               ),
             ),
-            child: Icon(
-              Icons.arrow_forward,
-              color: Color(0xffF26404),
+            SizedBox(
+              height: 10,
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text("شاهد الكل"),
-        ],
+            Text("شاهد الكل"),
+          ],
+        ),
       ),
     );
   }

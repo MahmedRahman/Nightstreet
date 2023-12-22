@@ -13,6 +13,7 @@ abstract class Routes {
   static const MAP_PERMISSION = _Paths.MAP_PERMISSION;
   static const FAVORITE = _Paths.FAVORITE;
   static const MENU = _Paths.MENU;
+  static const CATEGORIES = _Paths.CATEGORIES;
 }
 
 abstract class _Paths {
@@ -27,4 +28,5 @@ abstract class _Paths {
   static const MAP_PERMISSION = '/map-permission';
   static const FAVORITE = '/favorite';
   static const MENU = '/menu';
+  static const CATEGORIES = '/categories';
 }

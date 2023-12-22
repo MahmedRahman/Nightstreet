@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/categories/bindings/categories_binding.dart';
+import '../modules/categories/views/categories_view.dart';
 import '../modules/favorite/bindings/favorite_binding.dart';
 import '../modules/favorite/views/favorite_view.dart';
 import '../modules/homePage/bindings/home_page_binding.dart';
@@ -71,6 +73,11 @@ class AppPages {
       name: _Paths.MENU,
       page: () => const MenuView(),
       binding: MenuBinding(),
+    ),
+    GetPage(
+      name: _Paths.CATEGORIES,
+      page: () => const CategoriesView(),
+      binding: CategoriesBinding(),
     ),
   ];
 }
