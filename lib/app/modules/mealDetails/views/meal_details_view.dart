@@ -1,6 +1,7 @@
 import 'package:app_night_street/core/component/base_body.dart';
 import 'package:app_night_street/core/component/cashed_network_image_view.dart';
 import 'package:app_night_street/core/component/custom_app_bar.dart';
+import 'package:app_night_street/core/component/meal_details_fav_icon.dart';
 import 'package:app_night_street/core/component/meal_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class MealDetailsView extends GetView<MealDetailsController> {
                   top: Get.height * .4,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.red,
+                  color: Colors.white,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(37),
                     topRight: Radius.circular(37),
@@ -39,21 +40,7 @@ class MealDetailsView extends GetView<MealDetailsController> {
                 ),
                 width: context.width,
               ),
-              Positioned(
-                top: Get.height * .37,
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color(0xffffffff),
-                    borderRadius: BorderRadius.circular(25.0),
-                    border: Border.all(
-                      width: 1.0,
-                      color: const Color(0xffd8d8d8),
-                    ),
-                  ),
-                ),
-              ),
+              mealDetailsFavIcon(),
             ],
           ),
         ],
