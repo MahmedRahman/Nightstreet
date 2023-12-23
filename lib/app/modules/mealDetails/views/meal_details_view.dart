@@ -70,7 +70,25 @@ class MealDetailsView extends GetView<MealDetailsController> {
                               onCounterChanged: (int counter) {},
                             ),
                           ],
-                        )
+                        ),
+                        const SizedBox(height: 21),
+                        Container(
+                          width: Get.width,
+                          height: 1,
+                          color: AppColor.KdividerColor,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'إذا كنت تحتاج إلى عدد أكبر من الفقرات يتيح لك مولد النص العربى الخصوص، حيث يحتاج العميل فى كثير من الأحيان أن يطلع على صورة حقيقية لتصميم الموقع.',
+                          style: TextStyles.font12regularBlack,
+                          textAlign: TextAlign.right,
+                        ),
+                        const SizedBox(height: 16),
+                        Container(
+                          width: Get.width,
+                          height: 1,
+                          color: AppColor.KdividerColor,
+                        ),
                       ],
                     ),
                   ),
