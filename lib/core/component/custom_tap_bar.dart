@@ -58,8 +58,19 @@ class _CustomTapBarState extends State<CustomTapBar>
       children: [
         TabBar(
           controller: _tabController,
-          labelColor: AppColor.KBlackColor,
           indicatorColor: AppColor.KOrangeColor,
+          unselectedLabelStyle: TextStyle(
+            fontFamily: "Montserrat",
+            fontSize: 13,
+            color: const Color(0xffababb7),
+            fontWeight: FontWeight.w600,
+          ),
+          labelStyle: TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 13,
+            color: const Color(0xfff26404),
+            fontWeight: FontWeight.w600,
+          ),
           overlayColor: MaterialStatePropertyAll(Colors.transparent),
           padding: AppDimension.appPadding,
           tabs: myTabs!,
