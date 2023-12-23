@@ -1,11 +1,15 @@
+import 'package:app_night_street/core/app_dimensions.dart';
 import 'package:app_night_street/core/component/base_body.dart';
 import 'package:app_night_street/core/component/cashed_network_image_view.dart';
 import 'package:app_night_street/core/component/custom_app_bar.dart';
 import 'package:app_night_street/core/component/custom_tap_bar.dart';
 import 'package:app_night_street/core/component/meal_details_fav_icon.dart';
 import 'package:app_night_street/core/component/meal_item.dart';
+import 'package:app_night_street/core/component/meal_name_and_rate.dart';
+import 'package:app_night_street/core/themes/text_styles.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 
@@ -18,13 +22,7 @@ class MealDetailsView extends GetView<MealDetailsController> {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            height: Get.height / 2.2,
-            child: CashedNetworkImageView(
-              imageUrl:
-                  "https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?q=80&w=2615&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            ),
-          ),
+          mealImage(),
           Stack(
             alignment: Alignment.center,
             children: [
@@ -44,7 +42,16 @@ class MealDetailsView extends GetView<MealDetailsController> {
                   label1: 'التفاصيل',
                   label2: 'التقييمات',
                   widget1: SingleChildScrollView(
-                    child: Column(),
+                    padding: AppDimension.appPadding.copyWith(top: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        MealNameAndRate(
+                          name: 'عرض وجبة الصحاب',
+                          rate: '4.9',
+                        ),
+                      ],
+                    ),
                   ),
                   widget2: SingleChildScrollView(
                     child: Column(),
@@ -55,6 +62,16 @@ class MealDetailsView extends GetView<MealDetailsController> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Container mealImage() {
+    return Container(
+      height: Get.height / 2.2,
+      child: CashedNetworkImageView(
+        imageUrl:
+            "https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?q=80&w=2615&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       ),
     );
   }

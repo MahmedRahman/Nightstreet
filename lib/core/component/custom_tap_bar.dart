@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 class CustomTapBar extends StatefulWidget {
   final String label1;
   final String label2;
-
   final Widget widget1;
   final Widget widget2;
 
@@ -55,6 +54,7 @@ class _CustomTapBarState extends State<CustomTapBar>
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TabBar(
           controller: _tabController,
@@ -76,12 +76,10 @@ class _CustomTapBarState extends State<CustomTapBar>
           tabs: myTabs!,
           indicatorSize: TabBarIndicatorSize.label,
         ),
-        Center(
-          child: [
-            widget.widget1,
-            widget.widget2,
-          ][_tabIndex],
-        ),
+        [
+          widget.widget1,
+          widget.widget2,
+        ][_tabIndex],
       ],
     );
   }
