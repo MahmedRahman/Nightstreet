@@ -50,6 +50,28 @@ class MealDetailsView extends GetView<MealDetailsController> {
                           name: 'عرض وجبة الصحاب',
                           rate: '4.9',
                         ),
+                        const SizedBox(height: 14),
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                              "images/svg/delivery-bike.svg",
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              '25 - 20',
+                              style: TextStyles.font12regularBlack,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              'دقيقة',
+                              style: TextStyles.font12regularBlack,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
