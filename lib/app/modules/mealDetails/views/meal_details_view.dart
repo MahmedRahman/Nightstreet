@@ -1,6 +1,7 @@
 import 'package:app_night_street/core/component/base_body.dart';
 import 'package:app_night_street/core/component/cashed_network_image_view.dart';
 import 'package:app_night_street/core/component/custom_app_bar.dart';
+import 'package:app_night_street/core/component/custom_tap_bar.dart';
 import 'package:app_night_street/core/component/meal_details_fav_icon.dart';
 import 'package:app_night_street/core/component/meal_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -28,6 +29,7 @@ class MealDetailsView extends GetView<MealDetailsController> {
             alignment: Alignment.center,
             children: [
               Container(
+                width: context.width,
                 margin: EdgeInsets.only(
                   top: Get.height * .4,
                 ),
@@ -38,7 +40,16 @@ class MealDetailsView extends GetView<MealDetailsController> {
                     topRight: Radius.circular(37),
                   ),
                 ),
-                width: context.width,
+                child: CustomTapBar(
+                  label1: 'التفاصيل',
+                  label2: 'التقييمات',
+                  widget1: SingleChildScrollView(
+                    child: Column(),
+                  ),
+                  widget2: SingleChildScrollView(
+                    child: Column(),
+                  ),
+                ),
               ),
               mealDetailsFavIcon(),
             ],
