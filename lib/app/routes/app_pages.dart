@@ -12,6 +12,8 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/map_permission/bindings/map_permission_binding.dart';
 import '../modules/map_permission/views/map_permission_view.dart';
+import '../modules/mealDetails/bindings/meal_details_binding.dart';
+import '../modules/mealDetails/views/meal_details_view.dart';
 import '../modules/menu/bindings/menu_binding.dart';
 import '../modules/menu/views/menu_view.dart';
 import '../modules/onBoarding/bindings/on_boarding_binding.dart';
@@ -28,7 +30,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.ON_BOARDING;
+  static const INITIAL = Routes.MEAL_DETAILS;
 
   static final routes = [
     GetPage(
@@ -85,6 +87,11 @@ class AppPages {
       name: _Paths.CATEGORY_PRODUCTS,
       page: () => const CategoryProductsView(),
       binding: CategoryProductsBinding(),
+    ),
+    GetPage(
+      name: _Paths.MEAL_DETAILS,
+      page: () => const MealDetailsView(),
+      binding: MealDetailsBinding(),
     ),
   ];
 }
