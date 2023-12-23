@@ -1,8 +1,11 @@
+import 'package:app_night_street/core/app_color.dart';
 import 'package:app_night_street/core/app_dimensions.dart';
 import 'package:app_night_street/core/component/base_body.dart';
 import 'package:app_night_street/core/component/cashed_network_image_view.dart';
 import 'package:app_night_street/core/component/custom_app_bar.dart';
 import 'package:app_night_street/core/component/custom_tap_bar.dart';
+import 'package:app_night_street/core/component/meal_counter.dart';
+import 'package:app_night_street/core/component/meal_delivery_time.dart';
 import 'package:app_night_street/core/component/meal_details_fav_icon.dart';
 import 'package:app_night_street/core/component/meal_item.dart';
 import 'package:app_night_street/core/component/meal_name_and_rate.dart';
@@ -51,27 +54,21 @@ class MealDetailsView extends GetView<MealDetailsController> {
                           rate: '4.9',
                         ),
                         const SizedBox(height: 14),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              "images/svg/delivery-bike.svg",
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              '25 - 20',
-                              style: TextStyles.font12regularBlack,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              'دقيقة',
-                              style: TextStyles.font12regularBlack,
-                            ),
-                          ],
+                        MealDeliveryTime(
+                          time: '25 - 20 دقيقة',
                         ),
+                        const SizedBox(height: 21),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '340 جنيه',
+                              style: TextStyles.font12regularBlack,
+                              textAlign: TextAlign.right,
+                            ),
+                            MealCounter(),
+                          ],
+                        )
                       ],
                     ),
                   ),

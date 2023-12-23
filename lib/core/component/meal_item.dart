@@ -1,3 +1,4 @@
+import 'package:app_night_street/core/component/meal_delivery_time.dart';
 import 'package:app_night_street/core/themes/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -86,26 +87,8 @@ class MealItem extends GetView {
                     SizedBox(
                       width: 10,
                     ),
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          "images/svg/delivery-bike.svg",
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          '25 - 20',
-                          style: TextStyles.font12regularBlack,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          'دقيقة',
-                          style: TextStyles.font12regularBlack,
-                        ),
-                      ],
+                    MealDeliveryTime(
+                      time: '25 - 20 دقيقة',
                     ),
                     Spacer(),
                     Row(
