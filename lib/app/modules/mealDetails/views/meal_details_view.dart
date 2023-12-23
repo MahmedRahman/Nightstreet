@@ -9,6 +9,8 @@ import 'package:app_night_street/core/component/meal_delivery_time.dart';
 import 'package:app_night_street/core/component/meal_details_fav_icon.dart';
 import 'package:app_night_street/core/component/meal_item.dart';
 import 'package:app_night_street/core/component/meal_name_and_rate.dart';
+import 'package:app_night_street/core/component/meal_size.dart';
+import 'package:app_night_street/core/component/size_selector.dart';
 import 'package:app_night_street/core/themes/text_styles.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -88,6 +90,10 @@ class MealDetailsView extends GetView<MealDetailsController> {
                           width: Get.width,
                           height: 1,
                           color: AppColor.KdividerColor,
+                        ),
+                        const SizedBox(height: 21),
+                        SizeSelector(
+                          onSizedChanged: (String) {},
                         ),
                       ],
                     ),
