@@ -1,4 +1,3 @@
-import 'package:app_night_street/core/app_color.dart';
 import 'package:flutter/material.dart';
 
 class BaseScaffold extends StatelessWidget {

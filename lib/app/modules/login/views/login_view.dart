@@ -1,4 +1,3 @@
-import 'package:app_night_street/core/app_color.dart';
 import 'package:app_night_street/core/component/app_logo.dart';
 import 'package:app_night_street/core/component/custom_button.dart';
 import 'package:app_night_street/core/component/custom_text_form_field.dart';

@@ -1,6 +1,5 @@
 import 'package:app_night_street/app/routes/app_pages.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class ApiConfig {
   static String baseUrl = "https://app-krz.tasksa.dev/api";

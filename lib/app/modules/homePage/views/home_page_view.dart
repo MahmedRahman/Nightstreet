@@ -3,7 +3,6 @@ import 'package:app_night_street/app/modules/menu/views/menu_view.dart';
 import 'package:app_night_street/app/routes/app_pages.dart';
 import 'package:app_night_street/core/app_color.dart';
 import 'package:app_night_street/core/component/category_builder.dart';
-import 'package:app_night_street/core/component/custom_button.dart';
 import 'package:app_night_street/core/component/meal_item.dart';
 import 'package:app_night_street/core/themes/text_styles.dart';
 import 'package:flutter/material.dart';

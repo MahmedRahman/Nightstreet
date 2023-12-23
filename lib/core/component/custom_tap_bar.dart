@@ -76,10 +76,19 @@ class _CustomTapBarState extends State<CustomTapBar>
           tabs: myTabs!,
           indicatorSize: TabBarIndicatorSize.label,
         ),
-        [
-          widget.widget1,
-          widget.widget2,
-        ][_tabIndex],
+        Expanded(
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              widget.widget1,
+              widget.widget2,
+            ],
+          ),
+        )
+        // [
+        //   widget.widget1,
+        //   widget.widget2,
+        // ][_tabIndex],
       ],
     );
   }

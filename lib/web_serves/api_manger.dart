@@ -1,5 +1,4 @@
 import 'package:app_night_street/app/routes/app_pages.dart';
-import 'package:app_night_street/app/services/auth_service.dart';
 import 'package:app_night_street/web_serves/api_config.dart';
 import 'package:app_night_street/web_serves/model/api_response_model.dart';
 import 'package:app_night_street/web_serves/view/network_error_page.dart';
