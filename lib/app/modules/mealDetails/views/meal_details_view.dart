@@ -66,7 +66,9 @@ class MealDetailsView extends GetView<MealDetailsController> {
                               style: TextStyles.font12regularBlack,
                               textAlign: TextAlign.right,
                             ),
-                            MealCounter(),
+                            MealCounter(
+                              onCounterChanged: (int counter) {},
+                            ),
                           ],
                         )
                       ],

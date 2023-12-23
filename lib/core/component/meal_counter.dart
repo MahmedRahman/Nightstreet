@@ -5,9 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MealCounter extends GetView {
-  MealCounter({super.key});
+  MealCounter({
+    super.key,
+    required this.onCounterChanged,
+  });
 
   final RxInt _counter = 1.obs;
+  final Function(int) onCounterChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +32,7 @@ class MealCounter extends GetView {
           InkWell(
             onTap: () {
               _counter.value++;
+              onCounterChanged(_counter.value);
             },
             overlayColor: MaterialStatePropertyAll(Colors.transparent),
             child: Icon(
@@ -49,6 +54,8 @@ class MealCounter extends GetView {
             onTap: () {
               if (_counter.value == 1) return;
               _counter.value--;
+
+              onCounterChanged(_counter.value);
             },
             overlayColor: MaterialStatePropertyAll(Colors.transparent),
             child: Icon(
