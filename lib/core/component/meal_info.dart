@@ -1,7 +1,6 @@
 import 'package:app_night_street/core/app_color.dart';
 import 'package:app_night_street/core/app_dimensions.dart';
 import 'package:app_night_street/core/component/additions_list_view.dart';
-import 'package:app_night_street/core/component/custom_button.dart';
 import 'package:app_night_street/core/component/meal_counter.dart';
 import 'package:app_night_street/core/component/meal_delivery_time.dart';
 import 'package:app_night_street/core/component/meal_name_and_rate.dart';

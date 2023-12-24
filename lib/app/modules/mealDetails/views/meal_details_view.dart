@@ -1,21 +1,8 @@
-import 'package:app_night_street/core/app_color.dart';
-import 'package:app_night_street/core/app_dimensions.dart';
-import 'package:app_night_street/core/component/base_body.dart';
 import 'package:app_night_street/core/component/cashed_network_image_view.dart';
-import 'package:app_night_street/core/component/custom_app_bar.dart';
 import 'package:app_night_street/core/component/custom_tap_bar.dart';
-import 'package:app_night_street/core/component/meal_counter.dart';
-import 'package:app_night_street/core/component/meal_delivery_time.dart';
 import 'package:app_night_street/core/component/meal_details_fav_icon.dart';
 import 'package:app_night_street/core/component/meal_info.dart';
-import 'package:app_night_street/core/component/meal_item.dart';
-import 'package:app_night_street/core/component/meal_name_and_rate.dart';
-import 'package:app_night_street/core/component/meal_size.dart';
-import 'package:app_night_street/core/component/size_selector.dart';
-import 'package:app_night_street/core/themes/text_styles.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 
