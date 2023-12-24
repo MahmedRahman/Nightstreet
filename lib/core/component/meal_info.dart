@@ -148,5 +148,3 @@ class MealInfo extends StatelessWidget {
     );
   }
 }
-
-class TextSTyles {}
