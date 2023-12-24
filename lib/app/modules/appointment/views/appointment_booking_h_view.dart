@@ -15,7 +15,7 @@ import 'package:krzv2/utils/app_colors.dart';
 import 'package:krzv2/utils/app_dimens.dart';
 import 'package:krzv2/utils/app_spacers.dart';
 
-DateTime selectDate = DateTime.now();
+final Rx<DateTime?>? selectDate = Rx<DateTime?>(null);
 RxBool IsSelect = false.obs;
 
 class AppointmentBookingHView extends GetView<AppointmentController> {
@@ -31,11 +31,14 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
     Get.find<AppointmentController>().selectTimeUI.value = "";
     Get.find<AppointmentController>().selectDateUI.value = "";
     Get.find<AppointmentController>().selectNote = "";
+    Get.find<AppointmentController>().getNonDates.clear();
+    Get.find<AppointmentController>().AppointmentDataList.clear();
 
     serves = Get.find<AppointmentController>().service;
     selectDoctor = Get.find<AppointmentController>().selectDoctor;
 
     Get.find<AppointmentController>().getAvailableOfferDays();
+    focusDate.value = null;
   }
 
   final focusDate = Rx<DateTime?>(DateTime.now());
@@ -97,50 +100,6 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
                 Get.find<AppointmentController>().getAvailableOfferTimes();
               },
             ),
-
-            /*
-              EasyInfiniteDateTimeLine(
-                controller: _controller,
-                activeColor: const Color(0xffB04759),
-                locale: "ar",
-                onDateChange: (selectedDate) {
-                  bool isExistInBlockDates = controller.getNonDates
-                      .contains(DateTime(selectedDate.year, selectedDate.month, selectedDate.day));
-
-                  if (isExistInBlockDates) return;
-                  focusDate.value = selectedDate;
-                  var month = selectedDate.month.toString();
-
-                  if (month.length == 1) {
-                    month = "0${month}";
-                  }
-                  var day = selectedDate.day.toString();
-
-                  if (day.length == 1) {
-                    day = "0${day}";
-                  }
-
-                  String valData = "${selectedDate.year}-${month}-${day}";
-
-                  print(valData.toString());
-                  Get.find<AppointmentController>().selectData = valData.toString();
-                  Get.find<AppointmentController>().selectTime = "";
-                  Get.find<AppointmentController>().selectTimeUI.value = "";
-
-                  Get.find<AppointmentController>().getAvailableOfferTimes();
-                },
-                timeLineProps: EasyTimeLineProps(
-                  hPadding: 0.0,
-                  margin: EdgeInsets.zero,
-                ),
-                disabledDates: controller.getNonDates.value, // controller.getNonDates.value,
-                focusDate: focusDate.value,
-                firstDate: DateTime.now(),
-                lastDate: DateTime.parse(serves["end_booking_date"]),
-                itemBuilder: itemBuilder,
-              ),
-            */
-
             Divider(),
             Expanded(
               child: Obx(() {
@@ -277,12 +236,16 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
     return Obx(() {
       return Column(
         children: [
-          Row(
-            children: [
-              Text("${getWeekdayInArabic(selectDate)}"),
-              Spacer(),
-              Text("${selectDate.day}/${selectDate.month}/${selectDate.year}"),
-            ],
+          Visibility(
+            visible: selectDate!.value != null,
+            child: Row(
+              children: [
+                Text("${getWeekdayInArabic(selectDate?.value ?? null)}"),
+                Spacer(),
+                Text(
+                    "${selectDate?.value?.day}/${selectDate?.value?.month}/${selectDate?.value?.year}"),
+              ],
+            ),
           ),
           SizedBox(
             height: 10,
@@ -306,7 +269,7 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
                     overlayColor: MaterialStatePropertyAll(Colors.transparent),
                     onTap: () {
                       if (notIncluded) return;
-                      selectDate = controller.getNonDates[index];
+                      selectDate!.value = controller.getNonDates[index];
                       IsSelect.value = true;
 
                       customOnTap!(controller.getNonDates[index]);
@@ -451,7 +414,8 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
   }
 }
 
-String getWeekdayInArabic(DateTime date) {
+String? getWeekdayInArabic(DateTime? date) {
+  if (date == null) return '';
   DateFormat formatter =
       DateFormat('EEEE', 'ar'); // 'ar' is the locale for Arabic
   return formatter.format(date);

@@ -43,7 +43,7 @@ class ProductFilterBottomSheetView extends GetView {
     }
     // end init rate
 
-    // init price range
+    // init price range 
     if (productQuery.startPrice != null && productQuery.endPrice != null) {
       princeRangeRx.value = RangeValues(
         productQuery.startPrice!,

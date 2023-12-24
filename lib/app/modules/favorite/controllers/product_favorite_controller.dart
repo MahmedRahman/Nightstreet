@@ -13,7 +13,6 @@ class ProductFavoriteController extends GetxController
 
   int currentPage = 1;
   bool? isPagination;
-  RxString searchQuery = ''.obs;
 
   @override
   void onInit() {
@@ -23,7 +22,7 @@ class ProductFavoriteController extends GetxController
 
   resetPaginationValues() {
     _products.clear();
-    searchQuery = ''.obs;
+
     currentPage = 1;
   }
 
