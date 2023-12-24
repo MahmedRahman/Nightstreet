@@ -6,7 +6,7 @@ import 'app/routes/app_pages.dart';
 void main() {
   runApp(
     DevicePreview(
-      enabled: true,
+      enabled: false,
       tools: [
         ...DevicePreview.defaultTools,
       ],

@@ -1,12 +1,15 @@
 import 'package:app_night_street/core/app_color.dart';
 import 'package:app_night_street/core/app_dimensions.dart';
 import 'package:app_night_street/core/component/additions_list_view.dart';
+import 'package:app_night_street/core/component/custom_button.dart';
 import 'package:app_night_street/core/component/meal_counter.dart';
 import 'package:app_night_street/core/component/meal_delivery_time.dart';
 import 'package:app_night_street/core/component/meal_name_and_rate.dart';
+import 'package:app_night_street/core/component/orange_bottom.dart';
 import 'package:app_night_street/core/component/size_selector.dart';
 import 'package:app_night_street/core/themes/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class MealInfo extends StatelessWidget {
@@ -14,10 +17,10 @@ class MealInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: AppDimension.appPadding.copyWith(top: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: ListView(
+        padding: AppDimension.appPadding.copyWith(top: 20),
         children: [
           MealNameAndRate(
             name: 'عرض وجبة الصحاب',
@@ -95,6 +98,56 @@ class MealInfo extends StatelessWidget {
           )
         ],
       ),
+      bottomNavigationBar: addToCartBtnAndPrice(
+        price: '2000',
+        onAddToCartTapped: () {},
+      ),
+    );
+  }
+
+  Container addToCartBtnAndPrice({
+    required String price,
+    required Function onAddToCartTapped,
+  }) {
+    return Container(
+      height: 95,
+      decoration: BoxDecoration(
+        color: const Color(0xffffffff),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0x1a000000),
+            offset: Offset(0, 10),
+            blurRadius: 60,
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: OrangeBtn(
+                title: 'اضف الي العربة',
+                iconPath: "images/svg/white_cart_icon.svg",
+                onTap: () => onAddToCartTapped(),
+              ),
+            ),
+          ),
+          Row(
+            children: [
+              SvgPicture.asset("images/svg/price_icon.svg"),
+              const SizedBox(width: 6),
+              Text(
+                '$price جنيه',
+                style: TextStyles.font16regularBlack2,
+              ),
+            ],
+          ),
+          const SizedBox(width: 20),
+        ],
+      ),
     );
   }
 }
+
+class TextSTyles {}
