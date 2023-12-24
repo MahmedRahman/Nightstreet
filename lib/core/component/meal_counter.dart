@@ -8,10 +8,12 @@ class MealCounter extends GetView {
   MealCounter({
     super.key,
     required this.onCounterChanged,
+    this.enabled = true,
   });
 
   final RxInt _counter = 1.obs;
   final Function(int) onCounterChanged;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class MealCounter extends GetView {
         children: [
           InkWell(
             onTap: () {
+              if (enabled == false) return;
               _counter.value++;
               onCounterChanged(_counter.value);
             },
@@ -52,6 +55,7 @@ class MealCounter extends GetView {
           ),
           InkWell(
             onTap: () {
+              if (enabled == false) return;
               if (_counter.value == 1) return;
               _counter.value--;
 

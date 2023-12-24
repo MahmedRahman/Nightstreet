@@ -1,5 +1,6 @@
 import 'package:app_night_street/core/app_color.dart';
 import 'package:app_night_street/core/app_dimensions.dart';
+import 'package:app_night_street/core/component/additions_list_view.dart';
 import 'package:app_night_street/core/component/meal_counter.dart';
 import 'package:app_night_street/core/component/meal_delivery_time.dart';
 import 'package:app_night_street/core/component/meal_name_and_rate.dart';
@@ -69,6 +70,29 @@ class MealInfo extends StatelessWidget {
             color: AppColor.KdividerColor,
           ),
           const SizedBox(height: 21),
+          Text(
+            'اختر الحجم',
+            style: TextStyles.font14mediumBlack,
+            textAlign: TextAlign.right,
+            softWrap: false,
+          ),
+          const SizedBox(height: 14),
+          AdditionsListView(
+            categoriesList: [
+              {
+                "id": 1,
+                "title": "بيبسي حجم كبير",
+                "price": "12 جنيه",
+              },
+              {
+                "id": 2,
+                "title": "بيبسي حجم كبير",
+                "price": "12 جنيه",
+              },
+            ],
+            onSelected: (int id) {},
+            onCounterChanged: (int counter) {},
+          )
         ],
       ),
     );
