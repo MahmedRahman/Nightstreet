@@ -240,11 +240,11 @@ class AppPages {
       page: () => LayoutView(),
       binding: LayoutBinding(),
     ),
-    GetPage(
-      name: Routes.HOME_PAGE_SERVICES,
-      page: () => HomePageServicesView(),
-      binding: HomePageServicesBinding(),
-    ),
+    // GetPage(
+    //   name: Routes.HOME_PAGE_SERVICES,
+    //   page: () => HomePageServicesView(),
+    //   binding: HomePageServicesBinding(),
+    // ),
     GetPage(
       name: Routes.FAVORITE,
       page: () => FavoriteView(),

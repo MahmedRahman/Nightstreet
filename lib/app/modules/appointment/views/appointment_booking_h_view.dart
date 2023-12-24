@@ -108,7 +108,7 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
                 if (controller.AppointmentDataList.length == 0)
                   return Center(
                       child: Text(
-                    "لا يوجد بيانات ",
+                    "لا يوجد مواعيد متاحة",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,

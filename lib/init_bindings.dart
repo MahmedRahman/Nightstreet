@@ -50,6 +50,5 @@ class InitBindings extends Bindings {
     );
 
     Get.put(MarketController());
-    Get.put(HomePageServicesController());
   }
 }
