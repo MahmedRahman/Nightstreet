@@ -1,4 +1,5 @@
 import 'package:app_night_street/core/component/cashed_network_image_view.dart';
+import 'package:app_night_street/core/component/custom_back_button.dart';
 import 'package:app_night_street/core/component/custom_tap_bar.dart';
 import 'package:app_night_street/core/component/meal_add_to_card_btn.dart';
 import 'package:app_night_street/core/component/meal_details_fav_icon.dart';
@@ -58,9 +59,21 @@ class MealDetailsView extends GetView<MealDetailsController> {
   Container mealImage() {
     return Container(
       height: Get.height / 2.2,
-      child: CashedNetworkImageView(
-        imageUrl:
-            "https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?q=80&w=2615&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          CashedNetworkImageView(
+            imageUrl:
+                "https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?q=80&w=2615&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          ),
+          Positioned(
+            top: AppBar().preferredSize.height,
+            right: 17,
+            child: CustomBackButton(
+              backGroundColor: Colors.white.withOpacity(.6),
+            ),
+          ),
+        ],
       ),
     );
   }
