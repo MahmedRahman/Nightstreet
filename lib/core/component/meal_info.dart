@@ -11,9 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class MealInfo extends StatelessWidget {
-  const MealInfo({super.key});
-
+class MealInfo extends GetView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

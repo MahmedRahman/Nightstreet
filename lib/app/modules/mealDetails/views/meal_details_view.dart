@@ -2,6 +2,7 @@ import 'package:app_night_street/core/component/cashed_network_image_view.dart';
 import 'package:app_night_street/core/component/custom_tap_bar.dart';
 import 'package:app_night_street/core/component/meal_details_fav_icon.dart';
 import 'package:app_night_street/core/component/meal_info.dart';
+import 'package:app_night_street/core/component/meal_reviews.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -35,9 +36,7 @@ class MealDetailsView extends GetView<MealDetailsController> {
                   label1: 'التفاصيل',
                   label2: 'التقييمات',
                   widget1: MealInfo(),
-                  widget2: SingleChildScrollView(
-                    child: Column(),
-                  ),
+                  widget2: MealReviews(),
                 ),
               ),
               mealDetailsFavIcon(),
