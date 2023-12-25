@@ -1,5 +1,6 @@
 import 'package:app_night_street/core/component/cashed_network_image_view.dart';
 import 'package:app_night_street/core/component/custom_tap_bar.dart';
+import 'package:app_night_street/core/component/meal_add_to_card_btn.dart';
 import 'package:app_night_street/core/component/meal_details_fav_icon.dart';
 import 'package:app_night_street/core/component/meal_info.dart';
 import 'package:app_night_street/core/component/meal_reviews.dart';
@@ -47,53 +48,9 @@ class MealDetailsView extends GetView<MealDetailsController> {
           ),
         ],
       ),
-      bottomNavigationBar: addToCartBtnAndPrice(
+      bottomNavigationBar: AddToCartBtnAndPrice(
         price: '2000',
-        onAddToCartTapped: () {},
-      ),
-    );
-  }
-
-  Container addToCartBtnAndPrice({
-    required String price,
-    required Function onAddToCartTapped,
-  }) {
-    return Container(
-      height: 95,
-      decoration: BoxDecoration(
-        color: const Color(0xffffffff),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0x1a000000),
-            offset: Offset(0, 10),
-            blurRadius: 60,
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: OrangeBtn(
-                title: 'اضف الي العربة',
-                iconPath: "images/svg/white_cart_icon.svg",
-                onTap: () => onAddToCartTapped(),
-              ),
-            ),
-          ),
-          Row(
-            children: [
-              SvgPicture.asset("images/svg/price_icon.svg"),
-              const SizedBox(width: 6),
-              Text(
-                '$price جنيه',
-                style: TextStyles.font16regularBlack2,
-              ),
-            ],
-          ),
-          const SizedBox(width: 20),
-        ],
+        onAddToCardTapped: () {},
       ),
     );
   }
