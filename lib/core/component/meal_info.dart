@@ -95,54 +95,6 @@ class MealInfo extends GetView {
           )
         ],
       ),
-      bottomNavigationBar: addToCartBtnAndPrice(
-        price: '2000',
-        onAddToCartTapped: () {},
-      ),
-    );
-  }
-
-  Container addToCartBtnAndPrice({
-    required String price,
-    required Function onAddToCartTapped,
-  }) {
-    return Container(
-      height: 95,
-      decoration: BoxDecoration(
-        color: const Color(0xffffffff),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0x1a000000),
-            offset: Offset(0, 10),
-            blurRadius: 60,
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: OrangeBtn(
-                title: 'اضف الي العربة',
-                iconPath: "images/svg/white_cart_icon.svg",
-                onTap: () => onAddToCartTapped(),
-              ),
-            ),
-          ),
-          Row(
-            children: [
-              SvgPicture.asset("images/svg/price_icon.svg"),
-              const SizedBox(width: 6),
-              Text(
-                '$price جنيه',
-                style: TextStyles.font16regularBlack2,
-              ),
-            ],
-          ),
-          const SizedBox(width: 20),
-        ],
-      ),
     );
   }
 }
