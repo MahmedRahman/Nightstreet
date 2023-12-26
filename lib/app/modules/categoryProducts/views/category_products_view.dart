@@ -2,8 +2,10 @@ import 'package:app_night_street/core/app_dimensions.dart';
 import 'package:app_night_street/core/component/base_body.dart';
 import 'package:app_night_street/core/component/category_product_app_bar.dart';
 import 'package:app_night_street/core/component/circular_icon.dart';
+import 'package:app_night_street/core/component/meal_filter_bottom_sheet.dart';
 import 'package:app_night_street/core/component/product_subcategories_list_view.dart';
 import 'package:app_night_street/core/component/meal_item.dart';
+import 'package:app_night_street/core/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -22,7 +24,7 @@ class CategoryProductsView extends GetView<CategoryProductsController> {
         actions: [
           CircularIcon(
             iconPath: 'images/svg/filter_icon.svg',
-            onTap: () {},
+            onTap: displayFilterBottomSheet,
           ),
           const SizedBox(width: 17),
           CircularIcon(
@@ -46,6 +48,20 @@ class CategoryProductsView extends GetView<CategoryProductsController> {
       ),
     );
   }
+
+  displayFilterBottomSheet() => Get.bottomSheet(
+        MealFilterBottomSheet(
+          filtersList: Constants.KMealFilterList,
+          onSelected: (int selected) {},
+        ),
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
+        ),
+      );
 
   Padding subCategories() {
     return Padding(

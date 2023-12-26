@@ -6,6 +6,7 @@ class CustomButton extends StatelessWidget {
     this.borderSideColor = Colors.red,
     this.textStyleColor = Colors.white,
     this.title = "دخول",
+    this.borderRadius = 18.0,
     this.onPressed,
   });
 
@@ -14,6 +15,7 @@ class CustomButton extends StatelessWidget {
     this.borderSideColor = Colors.red,
     this.textStyleColor = Colors.red,
     this.title = "دخول",
+    this.borderRadius = 18.0,
     this.onPressed,
   });
 
@@ -22,6 +24,7 @@ class CustomButton extends StatelessWidget {
     this.borderSideColor = Colors.transparent,
     this.textStyleColor = Colors.red,
     this.title = "دخول",
+    this.borderRadius = 18.0,
     this.onPressed,
   });
 
@@ -30,6 +33,7 @@ class CustomButton extends StatelessWidget {
   Color textStyleColor;
   String title;
   void Function()? onPressed;
+  final double borderRadius;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -38,13 +42,13 @@ class CustomButton extends StatelessWidget {
       child: ElevatedButton(
         autofocus: false,
         onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          elevation: 0,
-          backgroundColor: backgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18.0),
-            side: BorderSide(
-              color: borderSideColor,
+        style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+          backgroundColor: MaterialStateProperty.all<Color>(backgroundColor),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(borderRadius),
+              side: BorderSide(color: borderSideColor),
             ),
           ),
         ),
