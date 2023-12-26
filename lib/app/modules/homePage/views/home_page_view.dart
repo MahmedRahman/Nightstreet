@@ -246,7 +246,7 @@ class HomePageView extends GetView<HomePageController> {
       child: CategoryBuilder(
         name: 'مشروبات',
         imagePath: '',
-        onTap: () {},
+        onTap: () => Get.toNamed(Routes.CATEGORY_PRODUCTS),
       ),
     );
   }
