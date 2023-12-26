@@ -24,9 +24,11 @@ class AppointmentChooseDoctorView extends GetView<AppointmentController> {
           return DoctorCardView(
             onTap: () {
               Get.find<AppointmentController>().selectDoctor = data[index];
-              Get.to(() => AppointmentBookingHView(
-                    isDoctorSelect: true,
-                  ));
+              Get.to(
+                () => AppointmentBookingHView(
+                  isDoctorSelect: true,
+                ),
+              );
             },
             doctorName: data[index]["name"].toString(),
             doctorImage: data[index]["image"].toString(),

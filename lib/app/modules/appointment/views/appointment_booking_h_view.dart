@@ -33,7 +33,7 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
     Get.find<AppointmentController>().selectNote = "";
     Get.find<AppointmentController>().getNonDates.clear();
     Get.find<AppointmentController>().AppointmentDataList.clear();
-
+    selectDate!.value = null;
     serves = Get.find<AppointmentController>().service;
     selectDoctor = Get.find<AppointmentController>().selectDoctor;
 
@@ -42,8 +42,7 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
   }
 
   final focusDate = Rx<DateTime?>(DateTime.now());
-  final EasyInfiniteDateTimelineController _controller =
-      EasyInfiniteDateTimelineController();
+  final EasyInfiniteDateTimelineController _controller = EasyInfiniteDateTimelineController();
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
@@ -92,8 +91,7 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
                 String valData = "${selectedDate.year}-${month}-${day}";
 
                 print(valData.toString());
-                Get.find<AppointmentController>().selectData =
-                    valData.toString();
+                Get.find<AppointmentController>().selectData = valData.toString();
                 Get.find<AppointmentController>().selectTime = "";
                 Get.find<AppointmentController>().selectTimeUI.value = "";
 
@@ -103,8 +101,7 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
             Divider(),
             Expanded(
               child: Obx(() {
-                if (controller.timeLoading.value)
-                  return Center(child: CupertinoActivityIndicator());
+                if (controller.timeLoading.value) return Center(child: CupertinoActivityIndicator());
                 if (controller.AppointmentDataList.length == 0)
                   return Center(
                       child: Text(
@@ -122,17 +119,13 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
                       hoverColor: Colors.transparent,
                       splashColor: Colors.transparent,
                       onTap: () {
-                        Get.find<AppointmentController>().selectTime =
-                            controller.AppointmentDataList[index]["time"];
+                        Get.find<AppointmentController>().selectTime = controller.AppointmentDataList[index]["time"];
                         Get.find<AppointmentController>().selectTimeUI.value =
                             controller.AppointmentDataList[index]["time"];
-                        Get.find<AppointmentController>()
-                            .AppointmentDataList
-                            .refresh();
+                        Get.find<AppointmentController>().AppointmentDataList.refresh();
                       },
                       contentPadding: EdgeInsets.zero,
-                      trailing: Get.find<AppointmentController>()
-                                  .AppointmentDataList[index]["time"] ==
+                      trailing: Get.find<AppointmentController>().AppointmentDataList[index]["time"] ==
                               Get.find<AppointmentController>().selectTime
                           ? CircleAvatar(
                               radius: 10,
@@ -145,9 +138,7 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
                             )
                           : Text(""),
                       title: Text(
-                        Get.find<AppointmentController>()
-                            .AppointmentDataList[index]["time"]
-                            .toString(),
+                        Get.find<AppointmentController>().AppointmentDataList[index]["time"].toString(),
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -191,10 +182,8 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
               child: CustomBtnCompenent.main(
                 text: 'مواصلة الحجز',
                 onTap: () {
-                  print(
-                      'time => ${Get.find<AppointmentController>().selectTime}');
-                  print(
-                      'date => ${Get.find<AppointmentController>().selectData}');
+                  print('time => ${Get.find<AppointmentController>().selectTime}');
+                  print('date => ${Get.find<AppointmentController>().selectData}');
 
                   if (Get.find<AppointmentController>().selectData == null ||
                       Get.find<AppointmentController>().selectData == '') {
@@ -203,8 +192,7 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
                   }
                   if (Get.find<AppointmentController>().selectTime == null ||
                       Get.find<AppointmentController>().selectTime == '') {
-                    AppDialogs.showToast(
-                        message: "برجاء اختيار المعاد المناسب");
+                    AppDialogs.showToast(message: "برجاء اختيار المعاد المناسب");
                     return;
                   }
 
@@ -212,9 +200,7 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
 
                   Get.find<AppointmentController>().selectNote = "";
 
-                  if (Get.find<AppointmentController>()
-                          .service["amount_to_pay"] ==
-                      0) {
+                  if (Get.find<AppointmentController>().service["amount_to_pay"] == 0) {
                     Get.to(() => AppointmentDataView());
 
                     return;
@@ -242,8 +228,7 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
               children: [
                 Text("${getWeekdayInArabic(selectDate?.value ?? null)}"),
                 Spacer(),
-                Text(
-                    "${selectDate?.value?.day}/${selectDate?.value?.month}/${selectDate?.value?.year}"),
+                Text("${selectDate?.value?.day}/${selectDate?.value?.month}/${selectDate?.value?.year}"),
               ],
             ),
           ),
@@ -260,8 +245,7 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
                   IsSelect = (selectDate == controller.getNonDates[index]).obs;
 
                   var dayNumber = controller.getNonDates[index].day;
-                  var dayName =
-                      getWeekdayInArabic(controller.getNonDates[index]);
+                  var dayName = getWeekdayInArabic(controller.getNonDates[index]);
 
                   bool notIncluded = !controller.fetchedDays.contains(dayName);
 
@@ -282,9 +266,7 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
                             width: 60,
                             height: 60,
                             decoration: BoxDecoration(
-                              color: IsSelect.value
-                                  ? AppColors.mainColor
-                                  : Colors.transparent,
+                              color: IsSelect.value ? AppColors.mainColor : Colors.transparent,
                               shape: BoxShape.circle,
                               border: Border.all(
                                 color: Colors.grey,
@@ -302,9 +284,7 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
                                           ? Colors.white
                                           : Colors.black,
                                   fontFamily: "effra",
-                                  decoration: notIncluded
-                                      ? TextDecoration.lineThrough
-                                      : null,
+                                  decoration: notIncluded ? TextDecoration.lineThrough : null,
                                 ),
                               ),
                             ),
@@ -317,11 +297,8 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.normal,
-                              color:
-                                  notIncluded ? Colors.grey[400] : Colors.black,
-                              decoration: notIncluded
-                                  ? TextDecoration.lineThrough
-                                  : null,
+                              color: notIncluded ? Colors.grey[400] : Colors.black,
+                              decoration: notIncluded ? TextDecoration.lineThrough : null,
                             ),
                           ),
                         ],
@@ -359,8 +336,7 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
   }
 
   Widget itemBuilder(_, dayNumber, dayName, __, DateTime fullDate, isSelected) {
-    bool contains = controller.getNonDates
-        .contains(DateTime(fullDate.year, fullDate.month, fullDate.day));
+    bool contains = controller.getNonDates.contains(DateTime(fullDate.year, fullDate.month, fullDate.day));
 
     return Column(
       children: [
@@ -416,7 +392,6 @@ class AppointmentBookingHView extends GetView<AppointmentController> {
 
 String? getWeekdayInArabic(DateTime? date) {
   if (date == null) return '';
-  DateFormat formatter =
-      DateFormat('EEEE', 'ar'); // 'ar' is the locale for Arabic
+  DateFormat formatter = DateFormat('EEEE', 'ar'); // 'ar' is the locale for Arabic
   return formatter.format(date);
 }
