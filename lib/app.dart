@@ -84,7 +84,6 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
           locale: const Locale('ar_EG'),
-          // home: MyTestScreen(),
           initialRoute: AppPages.INITIAL,
           getPages: AppPages.routes,
           builder: EasyLoading.init(),
