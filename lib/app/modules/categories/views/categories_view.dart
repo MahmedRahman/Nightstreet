@@ -1,3 +1,4 @@
+import 'package:app_night_street/app/routes/app_pages.dart';
 import 'package:app_night_street/core/component/base_body.dart';
 import 'package:app_night_street/core/component/category_builder.dart';
 import 'package:app_night_street/core/component/custom_app_bar.dart';
@@ -30,7 +31,7 @@ class CategoriesView extends GetView<CategoriesController> {
           return CategoryBuilder(
             name: 'قسم ${index + 1}',
             imagePath: '',
-            onTap: () {},
+            onTap: () => Get.toNamed(Routes.CATEGORY_PRODUCTS),
           );
         },
       ),
