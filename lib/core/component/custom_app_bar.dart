@@ -9,6 +9,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Function()? onBackTapped;
   final Color backgroundColor;
   final double elevation;
+  final bool withBackButton;
 
   const CustomAppBar({
     super.key,
@@ -17,6 +18,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onBackTapped,
     this.backgroundColor = Colors.transparent,
     this.elevation = 0,
+    this.withBackButton = true,
   });
 
   @override
@@ -33,10 +35,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         statusBarBrightness: Brightness.light, // For iOS (dark icons)
       ),
       elevation: elevation,
-      leading: Padding(
-        padding: const EdgeInsets.only(right: 16),
-        child: CustomBackButton(onBackTapped: onBackTapped),
-      ),
+      leading: withBackButton
+          ? Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: CustomBackButton(onBackTapped: onBackTapped),
+            )
+          : null,
       centerTitle: false,
       title: Text(
         titleText,

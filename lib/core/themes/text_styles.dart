@@ -17,7 +17,7 @@ class TextStyles {
   static TextStyle font14BoldBlack = TextStyle(
     fontSize: 14.0,
     fontWeight: FontWeightHelper.bold,
-    color: Colors.black,
+    color: AppColor.KBlackColor2,
   );
   static TextStyle font13mediumBlack = TextStyle(
     fontSize: 13.0,
@@ -58,7 +58,7 @@ class TextStyles {
   static TextStyle font14mediumBlack = TextStyle(
     fontSize: 14.0,
     fontWeight: FontWeightHelper.medium,
-    color: AppColor.KBlackColor,
+    color: AppColor.KBlackColor2,
   );
   static TextStyle font12regularGray = TextStyle(
     fontSize: 12.0,

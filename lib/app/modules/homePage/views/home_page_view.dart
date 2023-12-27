@@ -1,3 +1,4 @@
+import 'package:app_night_street/app/modules/cart/views/cart_view.dart';
 import 'package:app_night_street/app/modules/favorite/views/favorite_view.dart';
 import 'package:app_night_street/app/modules/menu/views/menu_view.dart';
 import 'package:app_night_street/app/routes/app_pages.dart';
@@ -18,12 +19,12 @@ class HomePageView extends GetView<HomePageController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffF8F4F2),
-      appBar: BaseAppBar(),
+      // appBar: BaseAppBar(),
       body: IndexedStack(
-        index: 0,
+        index: 1,
         children: [
           HomePage(),
-          Container(),
+          CartView(),
           FavoriteView(),
           MenuView(),
         ],
