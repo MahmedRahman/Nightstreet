@@ -4,11 +4,9 @@ import 'package:app_night_street/core/component/additions_list_view.dart';
 import 'package:app_night_street/core/component/meal_counter.dart';
 import 'package:app_night_street/core/component/meal_delivery_time.dart';
 import 'package:app_night_street/core/component/meal_name_and_rate.dart';
-import 'package:app_night_street/core/component/orange_bottom.dart';
 import 'package:app_night_street/core/component/size_selector.dart';
 import 'package:app_night_street/core/themes/text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class MealInfo extends GetView {
