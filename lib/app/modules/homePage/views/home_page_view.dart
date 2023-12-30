@@ -21,7 +21,7 @@ class HomePageView extends GetView<HomePageController> {
       backgroundColor: Color(0xffF8F4F2),
       // appBar: BaseAppBar(),
       body: IndexedStack(
-        index: 1,
+        index: 0,
         children: [
           HomePage(),
           CartView(),
