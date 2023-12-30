@@ -2,6 +2,7 @@ import 'package:app_night_street/core/app_color.dart';
 import 'package:app_night_street/core/app_dimensions.dart';
 import 'package:app_night_street/core/component/custom_button.dart';
 import 'package:app_night_street/core/component/orange_bottom.dart';
+import 'package:app_night_street/core/component/radio_btn_component.dart';
 import 'package:app_night_street/core/themes/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -115,22 +116,8 @@ class MealFilterBottomSheet extends GetView {
             style: TextStyles.font12regularBlack,
           ),
           const Spacer(),
-          Container(
-            width: 18,
-            height: 18,
-            decoration: BoxDecoration(
-              color: isSelect ? AppColor.KOrangeColor : Colors.transparent,
-              borderRadius: BorderRadius.circular(22.0),
-              border: Border.all(
-                width: 1.0,
-                color: isSelect ? Colors.transparent : Color(0xffD0D0D2),
-              ),
-            ),
-            child: Icon(
-              Icons.check,
-              color: Colors.white,
-              size: 15,
-            ),
+          RadioBtn(
+            isSelected: isSelect,
           ),
         ],
       ),

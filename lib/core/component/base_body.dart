@@ -24,7 +24,10 @@ class BaseBody extends GetView {
             fit: BoxFit.cover,
           ),
         ),
-        child: SafeArea(child: child),
+        child: SafeArea(
+          child: child,
+          bottom: false,
+        ),
       ),
       bottomNavigationBar: bottomNavigationBar,
     ); // return Container(

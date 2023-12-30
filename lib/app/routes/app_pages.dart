@@ -8,6 +8,8 @@ import '../modules/categories/bindings/categories_binding.dart';
 import '../modules/categories/views/categories_view.dart';
 import '../modules/categoryProducts/bindings/category_products_binding.dart';
 import '../modules/categoryProducts/views/category_products_view.dart';
+import '../modules/complete_order/bindings/complete_order_binding.dart';
+import '../modules/complete_order/views/complete_order_view.dart';
 import '../modules/favorite/bindings/favorite_binding.dart';
 import '../modules/favorite/views/favorite_view.dart';
 import '../modules/homePage/bindings/home_page_binding.dart';
@@ -36,7 +38,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.CART;
+  static const INITIAL = Routes.COMPLETE_ORDER;
 
   static final routes = [
     GetPage(
@@ -113,6 +115,11 @@ class AppPages {
       name: _Paths.NEW_ADDRESS,
       page: () => const NewAddressView(),
       binding: NewAddressBinding(),
+    ),
+    GetPage(
+      name: _Paths.COMPLETE_ORDER,
+      page: () => const CompleteOrderView(),
+      binding: CompleteOrderBinding(),
     ),
   ];
 }

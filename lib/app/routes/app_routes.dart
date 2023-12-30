@@ -19,6 +19,7 @@ abstract class Routes {
   static const CART = _Paths.CART;
   static const ADDRESSES = _Paths.ADDRESSES;
   static const NEW_ADDRESS = _Paths.NEW_ADDRESS;
+  static const COMPLETE_ORDER = _Paths.COMPLETE_ORDER;
 }
 
 abstract class _Paths {
@@ -39,4 +40,5 @@ abstract class _Paths {
   static const CART = '/cart';
   static const ADDRESSES = '/addresses';
   static const NEW_ADDRESS = '/new-address';
+  static const COMPLETE_ORDER = '/complete-order';
 }
