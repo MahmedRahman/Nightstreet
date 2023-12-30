@@ -8,9 +8,19 @@ import '../app_dimensions.dart';
 import '../themes/text_styles.dart';
 
 class AddressItemBuilder extends GetView {
-  const AddressItemBuilder({
+  AddressItemBuilder({
     super.key,
+    required this.title,
+    required this.description,
+    required this.onDeleteTapped,
+    required this.onEditTapped,
   });
+  final String title;
+  final String description;
+  final Function() onDeleteTapped;
+  final Function() onEditTapped;
+
+  final Rx<String> selectedAction = ''.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +61,7 @@ class AddressItemBuilder extends GetView {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'المنزل',
+                  title,
                   style: TextStyles.font12regularGray2,
                 ),
                 SizedBox(height: 5),
@@ -60,7 +70,7 @@ class AddressItemBuilder extends GetView {
                     maxWidth: Get.width * .5,
                   ),
                   child: Text(
-                    'منوف شارعع مجلس المدينة ، عمارةع مجلس المدينة ، عمارةع مجلس المدينة ، عمارة ٤ب',
+                    description,
                     style: TextStyles.font12regularBlack,
                     maxLines: 1,
                   ),
@@ -68,7 +78,11 @@ class AddressItemBuilder extends GetView {
               ],
             ),
             const Spacer(),
-            PopupMenuButton(
+            PopupMenuButton<String>(
+              initialValue: selectedAction.value,
+              onSelected: (String? selected) {
+                selectedAction.value = selected!;
+              },
               child: SvgPicture.asset("images/svg/3_dots_icon.svg"),
               itemBuilder: (context) {
                 return List.generate(
@@ -77,11 +91,18 @@ class AddressItemBuilder extends GetView {
                     final item = Constants.KDropMenuList[index];
                     return PopupMenuItem(
                       child: Text(item),
+                      onTap: () {
+                        if (item == "حذف") {
+                          onDeleteTapped();
+                          return;
+                        }
+                        onEditTapped();
+                      },
                     );
                   },
                 );
               },
-            )
+            ),
           ],
         ),
       ),

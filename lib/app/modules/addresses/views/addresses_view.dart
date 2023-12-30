@@ -19,7 +19,13 @@ class AddressesView extends GetView<AddressesController> {
       child: ListView(
         padding: AppDimension.appPadding,
         children: [
-          AddressItemBuilder(),
+          AddressItemBuilder(
+            title: 'المنزل',
+            description:
+                'منوف شارعع مجلس المدينة ، عمارةع مجلس المدينة ، عمارةع مجلس المدينة ، عمارة ٤ب',
+            onDeleteTapped: () {},
+            onEditTapped: () {},
+          ),
         ],
       ),
     );
