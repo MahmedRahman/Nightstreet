@@ -6,9 +6,11 @@ class BaseBody extends GetView {
     super.key,
     required this.child,
     required this.appBar,
+    this.bottomNavigationBar,
   });
   final Widget child;
   final PreferredSizeWidget appBar;
+  final Widget? bottomNavigationBar;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class BaseBody extends GetView {
       child: Scaffold(
         appBar: appBar,
         body: child,
+        bottomNavigationBar: bottomNavigationBar,
       ),
     );
   }

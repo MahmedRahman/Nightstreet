@@ -1,9 +1,10 @@
+import 'package:app_night_street/core/app_color.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   CustomButton.fill({
-    this.backgroundColor = Colors.red,
-    this.borderSideColor = Colors.red,
+    this.backgroundColor = AppColor.KOrangeColor,
+    this.borderSideColor = AppColor.KOrangeColor,
     this.textStyleColor = Colors.white,
     this.title = "دخول",
     this.borderRadius = 18.0,
@@ -12,17 +13,17 @@ class CustomButton extends StatelessWidget {
 
   CustomButton.outLine({
     this.backgroundColor = Colors.transparent,
-    this.borderSideColor = Colors.red,
-    this.textStyleColor = Colors.red,
+    this.borderSideColor = AppColor.KOrangeColor,
+    this.textStyleColor = AppColor.KOrangeColor,
     this.title = "دخول",
-    this.borderRadius = 18.0,
+    this.borderRadius = 32,
     this.onPressed,
   });
 
   CustomButton.textButton({
     this.backgroundColor = Colors.transparent,
     this.borderSideColor = Colors.transparent,
-    this.textStyleColor = Colors.red,
+    this.textStyleColor = AppColor.KOrangeColor,
     this.title = "دخول",
     this.borderRadius = 18.0,
     this.onPressed,
@@ -45,6 +46,7 @@ class CustomButton extends StatelessWidget {
         style: ButtonStyle(
           foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
           backgroundColor: MaterialStateProperty.all<Color>(backgroundColor),
+          shadowColor: MaterialStatePropertyAll(Colors.transparent),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius),
