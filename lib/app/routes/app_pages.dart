@@ -20,6 +20,8 @@ import '../modules/mealDetails/bindings/meal_details_binding.dart';
 import '../modules/mealDetails/views/meal_details_view.dart';
 import '../modules/menu/bindings/menu_binding.dart';
 import '../modules/menu/views/menu_view.dart';
+import '../modules/new_address/bindings/new_address_binding.dart';
+import '../modules/new_address/views/new_address_view.dart';
 import '../modules/onBoarding/bindings/on_boarding_binding.dart';
 import '../modules/onBoarding/views/on_boarding_view.dart';
 import '../modules/otp/bindings/otp_binding.dart';
@@ -34,7 +36,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.ADDRESSES;
+  static const INITIAL = Routes.NEW_ADDRESS;
 
   static final routes = [
     GetPage(
@@ -106,6 +108,11 @@ class AppPages {
       name: _Paths.ADDRESSES,
       page: () => const AddressesView(),
       binding: AddressesBinding(),
+    ),
+    GetPage(
+      name: _Paths.NEW_ADDRESS,
+      page: () => const NewAddressView(),
+      binding: NewAddressBinding(),
     ),
   ];
 }

@@ -18,6 +18,7 @@ abstract class Routes {
   static const MEAL_DETAILS = _Paths.MEAL_DETAILS;
   static const CART = _Paths.CART;
   static const ADDRESSES = _Paths.ADDRESSES;
+  static const NEW_ADDRESS = _Paths.NEW_ADDRESS;
 }
 
 abstract class _Paths {
@@ -37,4 +38,5 @@ abstract class _Paths {
   static const MEAL_DETAILS = '/meal-details';
   static const CART = '/cart';
   static const ADDRESSES = '/addresses';
+  static const NEW_ADDRESS = '/new-address';
 }

@@ -35,7 +35,7 @@ class AddressesView extends GetView<AddressesController> {
         ),
         child: CustomButton.outLine(
           onPressed: () {},
-          title: "اضافة عنوان جديد",
+          title: "إضافة عنوان جديد",
         ),
       ),
     );
