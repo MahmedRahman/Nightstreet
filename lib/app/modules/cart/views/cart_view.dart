@@ -1,3 +1,4 @@
+import 'package:app_night_street/app/routes/app_pages.dart';
 import 'package:app_night_street/core/app_dimensions.dart';
 import 'package:app_night_street/core/component/base_body.dart';
 import 'package:app_night_street/core/component/cart_item_builder.dart';
@@ -30,7 +31,9 @@ class CartView extends GetView<CartController> {
               },
             ),
           ),
-          CartSummary.dummy()
+          CartSummary.dummy(
+            onCompleteOrderTapped: () => Get.toNamed(Routes.ADDRESSES),
+          )
         ],
       ),
     );

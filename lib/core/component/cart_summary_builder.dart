@@ -17,11 +17,12 @@ class CartSummary extends GetView {
     required this.onCompleteOrderTapped,
   });
 
-  CartSummary.dummy()
-      : subTotalPrice = "2000",
+  CartSummary.dummy({
+    final Function()? onCompleteOrderTapped,
+  })  : subTotalPrice = "2000",
         totalPrice = '2000',
         shippingPrice = "2000",
-        onCompleteOrderTapped = null;
+        onCompleteOrderTapped = onCompleteOrderTapped;
 
   @override
   Widget build(BuildContext context) {
