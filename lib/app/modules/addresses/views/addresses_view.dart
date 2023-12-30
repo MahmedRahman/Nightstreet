@@ -1,3 +1,4 @@
+import 'package:app_night_street/app/routes/app_pages.dart';
 import 'package:app_night_street/core/app_dimensions.dart';
 import 'package:app_night_street/core/component/base_body.dart';
 import 'package:app_night_street/core/component/custom_app_bar.dart';
@@ -34,7 +35,7 @@ class AddressesView extends GetView<AddressesController> {
           bottom: 40,
         ),
         child: CustomButton.outLine(
-          onPressed: () {},
+          onPressed: () => Get.toNamed(Routes.NEW_ADDRESS),
           title: "إضافة عنوان جديد",
         ),
       ),
