@@ -44,6 +44,14 @@ class NewAddressView extends GetView<NewAddressController> {
           RoundedTextField(
             labelText: "العنوان بالتفصيل",
           ),
+          const SizedBox(height: 30),
+          Text(
+            'أو اضف العنوان من الخريطة',
+            style: TextStyles.font16RegularOrange.copyWith(
+              decoration: TextDecoration.underline,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
       bottomNavigationBar: Padding(

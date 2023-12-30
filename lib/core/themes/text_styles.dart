@@ -19,6 +19,11 @@ class TextStyles {
     fontWeight: FontWeightHelper.bold,
     color: AppColor.KBlackColor2,
   );
+  static TextStyle font16RegularOrange = TextStyle(
+    fontSize: 16.0,
+    fontWeight: FontWeightHelper.medium,
+    color: AppColor.KOrangeColor,
+  );
   static TextStyle font13mediumBlack = TextStyle(
     fontSize: 13.0,
     fontWeight: FontWeightHelper.medium,
