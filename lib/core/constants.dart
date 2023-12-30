@@ -25,4 +25,5 @@ class Constants {
       "title": "السعر : من الاسفل الي الاعلي",
     },
   ];
+  static const List<String> KDropMenuList = ["حذف", 'تعديل'];
 }

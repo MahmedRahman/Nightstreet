@@ -1,3 +1,4 @@
+import 'package:app_night_street/core/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -67,14 +68,19 @@ class AddressItemBuilder extends GetView {
               ],
             ),
             const Spacer(),
-            Column(
-              children: [
-                SizedBox(height: 17),
-                InkWell(
-                    onTap: () {},
-                    overlayColor: MaterialStatePropertyAll(Colors.transparent),
-                    child: SvgPicture.asset("images/svg/3_dots_icon.svg")),
-              ],
+            PopupMenuButton(
+              child: SvgPicture.asset("images/svg/3_dots_icon.svg"),
+              itemBuilder: (context) {
+                return List.generate(
+                  Constants.KDropMenuList.length,
+                  (index) {
+                    final item = Constants.KDropMenuList[index];
+                    return PopupMenuItem(
+                      child: Text(item),
+                    );
+                  },
+                );
+              },
             )
           ],
         ),
