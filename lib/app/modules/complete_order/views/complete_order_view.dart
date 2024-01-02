@@ -1,3 +1,4 @@
+import 'package:app_night_street/app/routes/app_pages.dart';
 import 'package:app_night_street/core/app_dimensions.dart';
 import 'package:app_night_street/core/component/base_body.dart';
 import 'package:app_night_street/core/component/custom_app_bar.dart';
@@ -73,7 +74,7 @@ class CompleteOrderView extends GetView<CompleteOrderController> {
           bottom: 40,
         ),
         child: CustomButton.fill(
-          onPressed: () {},
+          onPressed: () => Get.offNamed(Routes.ORDER_SUCCESS),
           title: "اتمام الطلب",
           borderRadius: 32,
         ),

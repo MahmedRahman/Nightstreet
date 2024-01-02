@@ -25,6 +25,7 @@ class AddressesView extends GetView<AddressesController> {
                 'منوف شارعع مجلس المدينة ، عمارةع مجلس المدينة ، عمارةع مجلس المدينة ، عمارة ٤ب',
             onDeleteTapped: () {},
             onEditTapped: () {},
+            onTap: () => Get.toNamed(Routes.COMPLETE_ORDER),
           ),
         ],
       ),
