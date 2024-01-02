@@ -50,6 +50,12 @@ class TextStyles {
     fontWeight: FontWeightHelper.regular,
     color: Colors.white,
   );
+
+  static TextStyle font12RegularWhite = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeightHelper.regular,
+    color: Colors.white,
+  );
   static TextStyle font13regularGray = TextStyle(
     fontSize: 13.0,
     fontWeight: FontWeightHelper.regular,
@@ -64,6 +70,11 @@ class TextStyles {
     fontSize: 14.0,
     fontWeight: FontWeightHelper.medium,
     color: AppColor.KBlackColor2,
+  );
+  static TextStyle font14MediumRed = TextStyle(
+    fontSize: 14.0,
+    fontWeight: FontWeightHelper.medium,
+    color: AppColor.KRedColor2,
   );
   static TextStyle font12regularGray = TextStyle(
     fontSize: 12.0,
