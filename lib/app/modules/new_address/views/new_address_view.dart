@@ -41,8 +41,11 @@ class NewAddressView extends GetView<NewAddressController> {
             ],
           ),
           const SizedBox(height: 16),
-          RoundedTextField(
-            labelText: "العنوان بالتفصيل",
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: RoundedTextField(
+              labelText: "العنوان بالتفصيل",
+            ),
           ),
           const SizedBox(height: 30),
           Text(

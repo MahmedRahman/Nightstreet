@@ -10,33 +10,34 @@ class RoundedTextField extends GetView {
     this.backGroundColor = Colors.white,
     this.borderColor = Colors.transparent,
     this.borderRadius = 32,
+    this.hideBorder = false,
     this.onChanged,
+    this.maxLines = 4,
   });
 
+  final int maxLines;
   final String? labelText;
-  final TextEditingController? controller;
-  final Color? backGroundColor;
   final Color? borderColor;
   final double borderRadius;
+  final Color? backGroundColor;
   final ValueChanged<String>? onChanged;
+  final TextEditingController? controller;
+  final bool hideBorder;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: TextFormField(
-        maxLines: 4,
-        onChanged: onChanged,
-        cursorColor: Color(0xffD8D8D8),
-        decoration: InputDecoration(
-          border: border(borderColor!),
-          enabledBorder: border(borderColor!),
-          focusedBorder: border(borderColor!),
-          hintText: labelText,
-          hintStyle: TextStyles.font12regularGray,
-          filled: true,
-          fillColor: backGroundColor,
-        ),
+    return TextFormField(
+      maxLines: maxLines,
+      onChanged: onChanged,
+      cursorColor: Color(0xffD8D8D8),
+      decoration: InputDecoration(
+        border: hideBorder ? InputBorder.none : border(borderColor!),
+        enabledBorder: hideBorder ? InputBorder.none : border(borderColor!),
+        focusedBorder: hideBorder ? InputBorder.none : border(borderColor!),
+        hintText: labelText,
+        hintStyle: TextStyles.font12regularGray,
+        filled: true,
+        fillColor: backGroundColor,
       ),
     );
   }
