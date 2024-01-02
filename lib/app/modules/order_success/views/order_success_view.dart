@@ -1,3 +1,4 @@
+import 'package:app_night_street/app/routes/app_pages.dart';
 import 'package:app_night_street/core/app_dimensions.dart';
 import 'package:app_night_street/core/component/custom_button.dart';
 import 'package:app_night_street/core/component/empty_app_bar.dart';
@@ -53,7 +54,7 @@ class OrderSuccessView extends GetView<OrderSuccessController> {
               ),
               const SizedBox(height: 16),
               CustomButton.outLine(
-                onPressed: () {},
+                onPressed: () => Get.offAllNamed(Routes.HOME_PAGE),
                 title: "الرئيسية",
                 borderRadius: 32,
               ),

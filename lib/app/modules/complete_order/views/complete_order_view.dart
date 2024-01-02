@@ -74,7 +74,7 @@ class CompleteOrderView extends GetView<CompleteOrderController> {
           bottom: 40,
         ),
         child: CustomButton.fill(
-          onPressed: () => Get.offNamed(Routes.ORDER_SUCCESS),
+          onPressed: () => Get.offAllNamed(Routes.ORDER_SUCCESS),
           title: "اتمام الطلب",
           borderRadius: 32,
         ),
