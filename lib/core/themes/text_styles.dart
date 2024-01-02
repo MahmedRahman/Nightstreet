@@ -70,6 +70,11 @@ class TextStyles {
     fontWeight: FontWeightHelper.regular,
     color: AppColor.KgrayColor,
   );
+  static TextStyle font12MediumBlack = TextStyle(
+    fontSize: 12.0,
+    fontWeight: FontWeightHelper.regular,
+    color: AppColor.KBlackColor2,
+  );
   static TextStyle font12regularGray2 = TextStyle(
     fontSize: 12.0,
     fontWeight: FontWeightHelper.regular,

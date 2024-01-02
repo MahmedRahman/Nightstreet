@@ -5,12 +5,20 @@ import 'package:app_night_street/core/themes/text_styles.dart';
 
 class RoundedTextField extends GetView {
   RoundedTextField({
-    this.controller,
     required this.labelText,
+    this.controller,
+    this.backGroundColor = Colors.white,
+    this.borderColor = Colors.transparent,
+    this.borderRadius = 32,
+    this.onChanged,
   });
 
   final String? labelText;
   final TextEditingController? controller;
+  final Color? backGroundColor;
+  final Color? borderColor;
+  final double borderRadius;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -18,22 +26,29 @@ class RoundedTextField extends GetView {
       padding: const EdgeInsets.all(4.0),
       child: TextFormField(
         maxLines: 4,
+        onChanged: onChanged,
         cursorColor: Color(0xffD8D8D8),
         decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderSide: BorderSide(
-              width: 0,
-              style: BorderStyle.none,
-            ),
-            borderRadius: BorderRadius.circular(
-              32,
-            ),
-          ),
+          border: border(borderColor!),
+          enabledBorder: border(borderColor!),
+          focusedBorder: border(borderColor!),
           hintText: labelText,
           hintStyle: TextStyles.font12regularGray,
           filled: true,
-          fillColor: Colors.white,
+          fillColor: backGroundColor,
         ),
+      ),
+    );
+  }
+
+  OutlineInputBorder border(Color borderColor) {
+    return OutlineInputBorder(
+      borderSide: BorderSide(
+        width: 0,
+        color: borderColor,
+      ),
+      borderRadius: BorderRadius.circular(
+        borderRadius,
       ),
     );
   }
