@@ -20,17 +20,20 @@ class HomePageView extends GetView<HomePageController> {
     return Scaffold(
       backgroundColor: Color(0xffF8F4F2),
       // appBar: BaseAppBar(),
-      body: IndexedStack(
-        index: 1,
-        children: [
-          HomePage(),
-          CartView(),
-          FavoriteView(),
-          MenuView(),
-        ],
+      body: Obx(
+        () => IndexedStack(
+          index: controller.selectedPageIndex.value,
+          children: [
+            HomePage(),
+            CartView(),
+            FavoriteView(),
+            MenuView(),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         fixedColor: Color(0xffEA8558),
+        onTap: (int index) => controller.selectedPageIndex.value = index,
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
