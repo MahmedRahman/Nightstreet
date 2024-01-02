@@ -3,9 +3,7 @@ import 'package:app_night_street/core/app_dimensions.dart';
 import 'package:app_night_street/core/component/base_body.dart';
 import 'package:app_night_street/core/component/custom_app_bar.dart';
 import 'package:app_night_street/core/component/custom_button.dart';
-import 'package:app_night_street/core/themes/text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 
