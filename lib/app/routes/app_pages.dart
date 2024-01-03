@@ -36,6 +36,8 @@ import '../modules/otp/bindings/otp_binding.dart';
 import '../modules/otp/views/otp_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
+import '../modules/share_app/bindings/share_app_binding.dart';
+import '../modules/share_app/views/share_app_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 import '../modules/terms/bindings/terms_binding.dart';
@@ -46,7 +48,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.CONTACT_US;
+  static const INITIAL = Routes.HOME_PAGE;
 
   static final routes = [
     GetPage(
@@ -148,6 +150,11 @@ class AppPages {
       name: _Paths.CONTACT_US,
       page: () => const ContactUsView(),
       binding: ContactUsBinding(),
+    ),
+    GetPage(
+      name: _Paths.SHARE_APP,
+      page: () => const ShareAppView(),
+      binding: ShareAppBinding(),
     ),
   ];
 }

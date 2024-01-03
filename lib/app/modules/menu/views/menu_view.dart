@@ -29,7 +29,7 @@ class MenuView extends GetView {
             onAboutTapped: () => Get.toNamed(Routes.ABOUT),
             onTermsTapped: () => Get.toNamed(Routes.TERMS),
             onContactUsTapped: () => Get.toNamed(Routes.CONTACT_US),
-            onShareTapped: () {},
+            onShareTapped: () => Get.toNamed(Routes.SHARE_APP),
           ),
           const SizedBox(height: 50),
           logoutButton(onTap: () {})

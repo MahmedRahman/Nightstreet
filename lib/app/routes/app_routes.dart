@@ -24,6 +24,7 @@ abstract class Routes {
   static const ABOUT = _Paths.ABOUT;
   static const TERMS = _Paths.TERMS;
   static const CONTACT_US = _Paths.CONTACT_US;
+  static const SHARE_APP = _Paths.SHARE_APP;
 }
 
 abstract class _Paths {
@@ -49,4 +50,5 @@ abstract class _Paths {
   static const ABOUT = '/about';
   static const TERMS = '/terms';
   static const CONTACT_US = '/contact-us';
+  static const SHARE_APP = '/share-app';
 }
