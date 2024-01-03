@@ -23,6 +23,7 @@ abstract class Routes {
   static const ORDER_SUCCESS = _Paths.ORDER_SUCCESS;
   static const ABOUT = _Paths.ABOUT;
   static const TERMS = _Paths.TERMS;
+  static const CONTACT_US = _Paths.CONTACT_US;
 }
 
 abstract class _Paths {
@@ -47,4 +48,5 @@ abstract class _Paths {
   static const ORDER_SUCCESS = '/order-success';
   static const ABOUT = '/about';
   static const TERMS = '/terms';
+  static const CONTACT_US = '/contact-us';
 }
