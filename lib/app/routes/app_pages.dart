@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/about/bindings/about_binding.dart';
+import '../modules/about/views/about_view.dart';
 import '../modules/addresses/bindings/addresses_binding.dart';
 import '../modules/addresses/views/addresses_view.dart';
 import '../modules/cart/bindings/cart_binding.dart';
@@ -40,7 +42,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME_PAGE;
+  static const INITIAL = Routes.ABOUT;
 
   static final routes = [
     GetPage(
@@ -127,6 +129,11 @@ class AppPages {
       name: _Paths.ORDER_SUCCESS,
       page: () => const OrderSuccessView(),
       binding: OrderSuccessBinding(),
+    ),
+    GetPage(
+      name: _Paths.ABOUT,
+      page: () => const AboutView(),
+      binding: AboutBinding(),
     ),
   ];
 }

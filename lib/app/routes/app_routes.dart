@@ -21,6 +21,7 @@ abstract class Routes {
   static const NEW_ADDRESS = _Paths.NEW_ADDRESS;
   static const COMPLETE_ORDER = _Paths.COMPLETE_ORDER;
   static const ORDER_SUCCESS = _Paths.ORDER_SUCCESS;
+  static const ABOUT = _Paths.ABOUT;
 }
 
 abstract class _Paths {
@@ -43,4 +44,5 @@ abstract class _Paths {
   static const NEW_ADDRESS = '/new-address';
   static const COMPLETE_ORDER = '/complete-order';
   static const ORDER_SUCCESS = '/order-success';
+  static const ABOUT = '/about';
 }
