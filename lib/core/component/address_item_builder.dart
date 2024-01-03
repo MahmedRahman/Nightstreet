@@ -31,7 +31,7 @@ class AddressItemBuilder extends GetView {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 15),
         decoration: BoxDecoration(
-          color: const Color(0xffffffff),
+          color: const Color(0xffffffff).withOpacity(.5),
           borderRadius: BorderRadius.circular(11.0),
           boxShadow: [
             BoxShadow(

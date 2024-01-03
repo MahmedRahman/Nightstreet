@@ -45,6 +45,7 @@ class NewAddressView extends GetView<NewAddressController> {
             padding: const EdgeInsets.all(4.0),
             child: RoundedTextField(
               labelText: "العنوان بالتفصيل",
+              backGroundColor: AppColor.KWhiteOpacity,
             ),
           ),
           const SizedBox(height: 30),

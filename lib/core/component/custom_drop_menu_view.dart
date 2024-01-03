@@ -1,3 +1,4 @@
+import 'package:app_night_street/core/app_color.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -51,7 +52,7 @@ class CustomDropMenuView<T> extends GetView {
       dropdownBuilder: dropdownBuilder ?? null,
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
-          fillColor: Colors.white,
+          fillColor: AppColor.KWhiteOpacity,
           contentPadding: EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 25,

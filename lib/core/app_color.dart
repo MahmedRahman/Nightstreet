@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class AppColor {
@@ -11,4 +12,5 @@ class AppColor {
   static const Color KgrayColor3 = Color(0xffF4F5F9);
   static const Color KBorderColor = Color(0xffE2E4E4);
   static const Color KdividerColor = Color(0xffF6F6F6);
+  static Color KWhiteOpacity = Colors.white.withOpacity(.8);
 }

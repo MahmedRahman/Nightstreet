@@ -1,3 +1,4 @@
+import 'package:app_night_street/core/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -22,7 +23,7 @@ class CustomBackButton extends StatelessWidget {
             height: 38.0,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
-              color: Colors.white.withOpacity(.6),
+              color: AppColor.KWhiteOpacity,
             ),
             child: Padding(
               padding: const EdgeInsets.all(10),
