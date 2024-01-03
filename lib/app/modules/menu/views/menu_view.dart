@@ -27,8 +27,8 @@ class MenuView extends GetView {
           const SizedBox(height: 35),
           MainInformation(
             onAboutTapped: () => Get.toNamed(Routes.ABOUT),
-            onTermsTapped: () {},
-            onContactUsTapped: () {},
+            onTermsTapped: () => Get.toNamed(Routes.TERMS),
+            onContactUsTapped: () => Get.toNamed(Routes.CONTACT_US),
             onShareTapped: () {},
           ),
           const SizedBox(height: 50),
