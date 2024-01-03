@@ -1,5 +1,6 @@
 import 'package:app_night_street/core/app_color.dart';
 import 'package:app_night_street/core/component/custom_back_button.dart';
+import 'package:app_night_street/core/themes/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -44,12 +45,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: false,
       title: Text(
         titleText,
-        style: TextStyle(
-          fontSize: 18.0,
-          color: AppColor.KBlackColor,
-          fontWeight: FontWeight.w500,
-        ),
-        textAlign: TextAlign.right,
+        style: TextStyles.font14mediumBlack,
       ),
       actions: actions,
     );

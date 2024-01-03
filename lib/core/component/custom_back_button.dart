@@ -6,11 +6,9 @@ class CustomBackButton extends StatelessWidget {
   const CustomBackButton({
     super.key,
     this.onBackTapped,
-    this.backGroundColor = Colors.white,
   });
 
   final Function()? onBackTapped;
-  final Color backGroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +22,7 @@ class CustomBackButton extends StatelessWidget {
             height: 38.0,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
-              color: backGroundColor,
+              color: Colors.white.withOpacity(.6),
             ),
             child: Padding(
               padding: const EdgeInsets.all(10),

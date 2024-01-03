@@ -66,9 +66,7 @@ class MealDetailsView extends GetView<MealDetailsController> {
           Positioned(
             top: AppBar().preferredSize.height,
             right: 17,
-            child: CustomBackButton(
-              backGroundColor: Colors.white.withOpacity(.6),
-            ),
+            child: CustomBackButton(),
           ),
         ],
       ),
