@@ -14,6 +14,11 @@ class TextStyles {
     fontWeight: FontWeightHelper.bold,
     color: AppColor.KOrangeColor,
   );
+  static TextStyle font13BoldBlack = TextStyle(
+    fontSize: 13.0,
+    fontWeight: FontWeightHelper.bold,
+    color: AppColor.KBlackColor2,
+  );
   static TextStyle font14BoldBlack = TextStyle(
     fontSize: 14.0,
     fontWeight: FontWeightHelper.bold,
@@ -80,6 +85,18 @@ class TextStyles {
     fontSize: 12.0,
     fontWeight: FontWeightHelper.regular,
     color: AppColor.KgrayColor,
+  );
+
+  static TextStyle font13BoldGray = TextStyle(
+    fontSize: 13.0,
+    fontWeight: FontWeightHelper.bold,
+    color: AppColor.KgrayColor,
+  );
+
+  static TextStyle font13BoldOrange = TextStyle(
+    fontSize: 13.0,
+    fontWeight: FontWeightHelper.bold,
+    color: AppColor.KOrangeColor,
   );
   static TextStyle font12MediumBlack = TextStyle(
     fontSize: 12.0,

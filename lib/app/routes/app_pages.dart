@@ -26,6 +26,8 @@ import '../modules/mealDetails/bindings/meal_details_binding.dart';
 import '../modules/mealDetails/views/meal_details_view.dart';
 import '../modules/menu/bindings/menu_binding.dart';
 import '../modules/menu/views/menu_view.dart';
+import '../modules/my_orders/bindings/my_orders_binding.dart';
+import '../modules/my_orders/views/my_orders_view.dart';
 import '../modules/new_address/bindings/new_address_binding.dart';
 import '../modules/new_address/views/new_address_view.dart';
 import '../modules/onBoarding/bindings/on_boarding_binding.dart';
@@ -48,7 +50,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME_PAGE;
+  static const INITIAL = Routes.MY_ORDERS;
 
   static final routes = [
     GetPage(
@@ -155,6 +157,11 @@ class AppPages {
       name: _Paths.SHARE_APP,
       page: () => const ShareAppView(),
       binding: ShareAppBinding(),
+    ),
+    GetPage(
+      name: _Paths.MY_ORDERS,
+      page: () => const MyOrdersView(),
+      binding: MyOrdersBinding(),
     ),
   ];
 }

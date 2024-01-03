@@ -25,6 +25,7 @@ abstract class Routes {
   static const TERMS = _Paths.TERMS;
   static const CONTACT_US = _Paths.CONTACT_US;
   static const SHARE_APP = _Paths.SHARE_APP;
+  static const MY_ORDERS = _Paths.MY_ORDERS;
 }
 
 abstract class _Paths {
@@ -51,4 +52,5 @@ abstract class _Paths {
   static const TERMS = '/terms';
   static const CONTACT_US = '/contact-us';
   static const SHARE_APP = '/share-app';
+  static const MY_ORDERS = '/my-orders';
 }

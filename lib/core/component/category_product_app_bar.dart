@@ -32,7 +32,10 @@ class CategoryProductAppBar extends StatelessWidget
       shadowColor: Color(0x1a000000),
       leading: Padding(
         padding: const EdgeInsets.only(right: 16),
-        child: CustomBackButton(onBackTapped: onBackTapped),
+        child: CustomBackButton(
+          onBackTapped: onBackTapped,
+          backGroundColor: Color(0x0f6c727f),
+        ),
       ),
       centerTitle: false,
       title: Text(
