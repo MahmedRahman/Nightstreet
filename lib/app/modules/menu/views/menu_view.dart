@@ -1,3 +1,4 @@
+import 'package:app_night_street/app/routes/app_pages.dart';
 import 'package:app_night_street/core/app_color.dart';
 import 'package:app_night_street/core/app_dimensions.dart';
 import 'package:app_night_street/core/component/base_body.dart';
@@ -25,7 +26,7 @@ class MenuView extends GetView {
           ),
           const SizedBox(height: 35),
           MainInformation(
-            onAboutTapped: () {},
+            onAboutTapped: () => Get.toNamed(Routes.ABOUT),
             onTermsTapped: () {},
             onContactUsTapped: () {},
             onShareTapped: () {},
