@@ -7,68 +7,74 @@ class OrderItem extends GetView {
     required this.productNumber,
     required this.orderDate,
     required this.orderPrice,
+    required this.onTap,
   });
   final String orderNo;
   final String productNumber;
   final String orderDate;
   final String orderPrice;
+  final Function() onTap;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(13),
-      decoration: BoxDecoration(
-        color: const Color(0xffffffff),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Column(
-                children: [
-                  titleWidget(title: 'رقم الطلب'),
-                  const SizedBox(height: 7),
-                  value(value: orderNo)
-                ],
-              ),
-              const Spacer(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  titleWidget(title: 'عدد المنتجات'),
-                  const SizedBox(height: 7),
-                  value(value: productNumber)
-                ],
-              )
-            ],
-          ),
-          const SizedBox(height: 18),
-          Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  titleWidget(title: 'تاريخ الطلب'),
-                  const SizedBox(height: 7),
-                  value(value: orderDate)
-                ],
-              ),
-              const Spacer(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  titleWidget(
-                    title: 'السعر',
-                  ),
-                  const SizedBox(height: 7),
-                  value(
-                    value: '$orderPrice جنيه',
-                  )
-                ],
-              )
-            ],
-          ),
-        ],
+    return InkWell(
+      onTap: onTap,
+      overlayColor: MaterialStatePropertyAll(Colors.transparent),
+      child: Container(
+        padding: EdgeInsets.all(13),
+        decoration: BoxDecoration(
+          color: const Color(0xffffffff),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Column(
+                  children: [
+                    titleWidget(title: 'رقم الطلب'),
+                    const SizedBox(height: 7),
+                    value(value: orderNo)
+                  ],
+                ),
+                const Spacer(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    titleWidget(title: 'عدد المنتجات'),
+                    const SizedBox(height: 7),
+                    value(value: productNumber)
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(height: 18),
+            Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    titleWidget(title: 'تاريخ الطلب'),
+                    const SizedBox(height: 7),
+                    value(value: orderDate)
+                  ],
+                ),
+                const Spacer(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    titleWidget(
+                      title: 'السعر',
+                    ),
+                    const SizedBox(height: 7),
+                    value(
+                      value: '$orderPrice جنيه',
+                    )
+                  ],
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

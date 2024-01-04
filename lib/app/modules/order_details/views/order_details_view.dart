@@ -1,6 +1,7 @@
 import 'package:app_night_street/core/app_dimensions.dart';
 import 'package:app_night_street/core/component/base_body.dart';
 import 'package:app_night_street/core/component/custom_back_button.dart';
+import 'package:app_night_street/core/component/custom_button.dart';
 import 'package:app_night_street/core/component/payment_methods.dart';
 import 'package:app_night_street/core/themes/text_styles.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,16 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
   Widget build(BuildContext context) {
     return BaseBody(
       appBar: _buildAppBar(),
+      bottomNavigationBar: Padding(
+        padding: AppDimension.appPadding.copyWith(
+          bottom: 40,
+        ),
+        child: CustomButton.outLine(
+          onPressed: () {},
+          title: "تتبع حالة الطلب",
+          borderRadius: 32,
+        ),
+      ),
       child: ListView(
         padding: AppDimension.appPadding.copyWith(top: 40),
         children: [

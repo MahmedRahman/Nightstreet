@@ -1,3 +1,4 @@
+import 'package:app_night_street/app/routes/app_pages.dart';
 import 'package:app_night_street/core/app_color.dart';
 import 'package:app_night_street/core/app_dimensions.dart';
 import 'package:app_night_street/core/component/base_body.dart';
@@ -26,6 +27,7 @@ class MyOrdersView extends GetView<MyOrdersController> {
                 productNumber: '١٥ منتج',
                 orderDate: '2022-08-22 12:44:16',
                 orderPrice: "1200",
+                onTap: () => Get.toNamed(Routes.ORDER_DETAILS),
               ),
             ],
           ),
@@ -37,6 +39,7 @@ class MyOrdersView extends GetView<MyOrdersController> {
                 productNumber: '١٥ منتج',
                 orderDate: '2022-08-22 12:44:16',
                 orderPrice: "1200",
+                onTap: () => Get.toNamed(Routes.ORDER_DETAILS),
               ),
             ],
           ),
@@ -48,6 +51,7 @@ class MyOrdersView extends GetView<MyOrdersController> {
                 productNumber: '١٥ منتج',
                 orderDate: '2022-08-22 12:44:16',
                 orderPrice: "1200",
+                onTap: () => Get.toNamed(Routes.ORDER_DETAILS),
               ),
             ],
           ),
@@ -59,6 +63,7 @@ class MyOrdersView extends GetView<MyOrdersController> {
                 productNumber: '١٥ منتج',
                 orderDate: '2022-08-22 12:44:16',
                 orderPrice: "1200",
+                onTap: () => Get.toNamed(Routes.ORDER_DETAILS),
               ),
             ],
           ),
