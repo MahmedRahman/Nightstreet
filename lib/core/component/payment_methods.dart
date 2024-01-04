@@ -32,7 +32,7 @@ class PaymentMethods extends GetView {
           child: Obx(
             () => Column(
               children: [
-                paymentMethod(
+                PaymentMethod(
                   isSelected: selectedPayment.value == "apple_pay",
                   title: 'Apple Pay',
                   mainIcon: '',
@@ -43,7 +43,7 @@ class PaymentMethods extends GetView {
                   },
                 ),
                 SizedBox(height: 10),
-                paymentMethod(
+                PaymentMethod(
                   isSelected: selectedPayment.value == "visa",
                   title: 'البطاقة الائتمانية',
                   mainIcon: '',
@@ -58,7 +58,7 @@ class PaymentMethods extends GetView {
                   },
                 ),
                 SizedBox(height: 10),
-                paymentMethod(
+                PaymentMethod(
                   isSelected: selectedPayment.value == "cod",
                   title: 'دفع عند الاستلام',
                   mainIcon: '',
@@ -79,8 +79,8 @@ class PaymentMethods extends GetView {
   }
 }
 
-class paymentMethod extends GetView {
-  const paymentMethod({
+class PaymentMethod extends GetView {
+  const PaymentMethod({
     super.key,
     required this.title,
     required this.mainIcon,

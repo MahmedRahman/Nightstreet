@@ -32,6 +32,8 @@ import '../modules/new_address/bindings/new_address_binding.dart';
 import '../modules/new_address/views/new_address_view.dart';
 import '../modules/onBoarding/bindings/on_boarding_binding.dart';
 import '../modules/onBoarding/views/on_boarding_view.dart';
+import '../modules/order_details/bindings/order_details_binding.dart';
+import '../modules/order_details/views/order_details_view.dart';
 import '../modules/order_success/bindings/order_success_binding.dart';
 import '../modules/order_success/views/order_success_view.dart';
 import '../modules/otp/bindings/otp_binding.dart';
@@ -50,7 +52,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.MY_ORDERS;
+  static const INITIAL = Routes.ORDER_DETAILS;
 
   static final routes = [
     GetPage(
@@ -162,6 +164,11 @@ class AppPages {
       name: _Paths.MY_ORDERS,
       page: () => const MyOrdersView(),
       binding: MyOrdersBinding(),
+    ),
+    GetPage(
+      name: _Paths.ORDER_DETAILS,
+      page: () => const OrderDetailsView(),
+      binding: OrderDetailsBinding(),
     ),
   ];
 }
