@@ -10,6 +10,8 @@ import '../modules/categories/bindings/categories_binding.dart';
 import '../modules/categories/views/categories_view.dart';
 import '../modules/categoryProducts/bindings/category_products_binding.dart';
 import '../modules/categoryProducts/views/category_products_view.dart';
+import '../modules/chat_with_delivery/bindings/chat_with_delivery_binding.dart';
+import '../modules/chat_with_delivery/views/chat_with_delivery_view.dart';
 import '../modules/complete_order/bindings/complete_order_binding.dart';
 import '../modules/complete_order/views/complete_order_view.dart';
 import '../modules/contact_us/bindings/contact_us_binding.dart';
@@ -54,7 +56,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.ORDER_STATUS;
+  static const INITIAL = Routes.CHAT_WITH_DELIVERY;
 
   static final routes = [
     GetPage(
@@ -176,6 +178,11 @@ class AppPages {
       name: _Paths.ORDER_STATUS,
       page: () => const OrderStatusView(),
       binding: OrderStatusBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHAT_WITH_DELIVERY,
+      page: () => const ChatWithDeliveryView(),
+      binding: ChatWithDeliveryBinding(),
     ),
   ];
 }

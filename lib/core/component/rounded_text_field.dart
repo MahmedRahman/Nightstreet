@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'package:app_night_street/core/themes/text_styles.dart';
@@ -13,6 +14,7 @@ class RoundedTextField extends GetView {
     this.hideBorder = false,
     this.onChanged,
     this.maxLines = 4,
+    this.suffixIcon,
   });
 
   final int maxLines;
@@ -23,6 +25,7 @@ class RoundedTextField extends GetView {
   final ValueChanged<String>? onChanged;
   final TextEditingController? controller;
   final bool hideBorder;
+  final Widget? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +41,7 @@ class RoundedTextField extends GetView {
         hintStyle: TextStyles.font12regularGray,
         filled: true,
         fillColor: backGroundColor,
+        suffixIcon: suffixIcon,
       ),
     );
   }

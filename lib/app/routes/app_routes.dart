@@ -28,6 +28,7 @@ abstract class Routes {
   static const MY_ORDERS = _Paths.MY_ORDERS;
   static const ORDER_DETAILS = _Paths.ORDER_DETAILS;
   static const ORDER_STATUS = _Paths.ORDER_STATUS;
+  static const CHAT_WITH_DELIVERY = _Paths.CHAT_WITH_DELIVERY;
 }
 
 abstract class _Paths {
@@ -57,4 +58,5 @@ abstract class _Paths {
   static const MY_ORDERS = '/my-orders';
   static const ORDER_DETAILS = '/order-details';
   static const ORDER_STATUS = '/order-status';
+  static const CHAT_WITH_DELIVERY = '/chat-with-delivery';
 }
