@@ -27,6 +27,7 @@ abstract class Routes {
   static const SHARE_APP = _Paths.SHARE_APP;
   static const MY_ORDERS = _Paths.MY_ORDERS;
   static const ORDER_DETAILS = _Paths.ORDER_DETAILS;
+  static const ORDER_STATUS = _Paths.ORDER_STATUS;
 }
 
 abstract class _Paths {
@@ -55,4 +56,5 @@ abstract class _Paths {
   static const SHARE_APP = '/share-app';
   static const MY_ORDERS = '/my-orders';
   static const ORDER_DETAILS = '/order-details';
+  static const ORDER_STATUS = '/order-status';
 }

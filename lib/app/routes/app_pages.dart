@@ -34,6 +34,8 @@ import '../modules/onBoarding/bindings/on_boarding_binding.dart';
 import '../modules/onBoarding/views/on_boarding_view.dart';
 import '../modules/order_details/bindings/order_details_binding.dart';
 import '../modules/order_details/views/order_details_view.dart';
+import '../modules/order_status/bindings/order_status_binding.dart';
+import '../modules/order_status/views/order_status_view.dart';
 import '../modules/order_success/bindings/order_success_binding.dart';
 import '../modules/order_success/views/order_success_view.dart';
 import '../modules/otp/bindings/otp_binding.dart';
@@ -52,7 +54,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.ORDER_DETAILS;
+  static const INITIAL = Routes.ORDER_STATUS;
 
   static final routes = [
     GetPage(
@@ -169,6 +171,11 @@ class AppPages {
       name: _Paths.ORDER_DETAILS,
       page: () => const OrderDetailsView(),
       binding: OrderDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.ORDER_STATUS,
+      page: () => const OrderStatusView(),
+      binding: OrderStatusBinding(),
     ),
   ];
 }
