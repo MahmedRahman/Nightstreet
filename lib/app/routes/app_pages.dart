@@ -56,7 +56,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.CHAT_WITH_DELIVERY;
+  static const INITIAL = Routes.ORDER_STATUS;
 
   static final routes = [
     GetPage(

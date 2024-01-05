@@ -26,24 +26,28 @@ class ChatWithDeliveryView extends GetView<ChatWithDeliveryController> {
         children: [
           _body(),
           _deliveryImage(),
-          Padding(
-            padding: AppDimension.appPadding.copyWith(bottom: 30),
-            child: RoundedTextField(
-              backGroundColor: Color(0xffF4F4F4),
-              borderColor: Color(0xffD5D5D5),
-              labelText: "رسالتك هنا",
-              maxLines: 1,
-              suffixIcon: InkWell(
-                onTap: () => print('tapped'),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: SvgPicture.asset("images/svg/send_message.svg"),
-                ),
-              ),
-              onChanged: (String text) {},
-            ),
-          ),
+          _sendMessageButton(),
         ],
+      ),
+    );
+  }
+
+  Padding _sendMessageButton() {
+    return Padding(
+      padding: AppDimension.appPadding.copyWith(bottom: 30),
+      child: RoundedTextField(
+        backGroundColor: Color(0xffF4F4F4),
+        borderColor: Color(0xffD5D5D5),
+        labelText: "رسالتك هنا",
+        maxLines: 1,
+        suffixIcon: InkWell(
+          onTap: () => print('tapped'),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: SvgPicture.asset("images/svg/send_message.svg"),
+          ),
+        ),
+        onChanged: (String text) {},
       ),
     );
   }

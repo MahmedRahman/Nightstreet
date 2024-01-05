@@ -1,5 +1,7 @@
+import 'package:app_night_street/app/routes/app_pages.dart';
 import 'package:app_night_street/core/app_dimensions.dart';
 import 'package:app_night_street/core/component/base_body.dart';
+import 'package:app_night_street/core/component/custom_button.dart';
 import 'package:app_night_street/core/component/order_app_bar.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +57,16 @@ class OrderStatusView extends GetView<OrderStatusController> {
             ],
           ),
         ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: AppDimension.appPadding.copyWith(
+          bottom: 40,
+        ),
+        child: CustomButton.outLine(
+          onPressed: () => Get.offAllNamed(Routes.CHAT_WITH_DELIVERY),
+          title: "ارسال رسالة للمندوب",
+          borderRadius: 32,
+        ),
       ),
     );
   }
