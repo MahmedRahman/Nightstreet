@@ -1,3 +1,4 @@
+import 'package:app_night_street/app/routes/app_pages.dart';
 import 'package:app_night_street/core/component/cashed_network_image_view.dart';
 import 'package:app_night_street/core/component/custom_back_button.dart';
 import 'package:app_night_street/core/component/custom_tap_bar.dart';
@@ -48,7 +49,7 @@ class MealDetailsView extends GetView<MealDetailsController> {
       ),
       bottomNavigationBar: AddToCartBtnAndPrice(
         price: '2000',
-        onAddToCardTapped: () {},
+        onAddToCardTapped: () => Get.toNamed(Routes.CART),
       ),
     );
   }

@@ -60,7 +60,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.NOTIFICATIONS;
+  static const INITIAL = Routes.ON_BOARDING;
 
   static final routes = [
     GetPage(

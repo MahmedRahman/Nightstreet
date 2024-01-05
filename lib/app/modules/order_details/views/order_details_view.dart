@@ -19,14 +19,27 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
       appBar: OrderAppBar(
         title: 'تفاصيل الطلب',
       ),
-      bottomNavigationBar: Padding(
-        padding: AppDimension.appPadding.copyWith(
-          bottom: 40,
-        ),
-        child: CustomButton.outLine(
-          onPressed: () => Get.toNamed(Routes.ORDER_STATUS),
-          title: "تتبع حالة الطلب",
-          borderRadius: 32,
+      bottomNavigationBar: SizedBox(
+        height: 190,
+        child: Padding(
+          padding: AppDimension.appPadding.copyWith(
+            bottom: 40,
+          ),
+          child: Column(
+            children: [
+              CustomButton.outLine(
+                onPressed: () => Get.toNamed(Routes.ORDER_STATUS),
+                title: "تتبع حالة الطلب",
+                borderRadius: 32,
+              ),
+              const SizedBox(height: 20),
+              CustomButton.outLine(
+                onPressed: () => Get.toNamed(Routes.ORDER_RATE),
+                title: "قيم الطعام",
+                borderRadius: 32,
+              ),
+            ],
+          ),
         ),
       ),
       child: ListView(

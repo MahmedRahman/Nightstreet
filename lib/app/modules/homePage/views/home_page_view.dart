@@ -31,36 +31,60 @@ class HomePageView extends GetView<HomePageController> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        fixedColor: Color(0xffEA8558),
-        onTap: (int index) => controller.selectedPageIndex.value = index,
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              "images/svg/menu/home.svg",
-            ),
-            label: "الرئيسية",
+      bottomNavigationBar: Obx(
+        () => BottomNavigationBar(
+          // fixedColor: Color(0xffC9CBD5),
+          onTap: (int index) => controller.selectedPageIndex.value = index,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Color(0xffEA8558),
+          unselectedItemColor: Color(0xffC9CBD5),
+          currentIndex: controller.selectedPageIndex.value,
+          selectedLabelStyle: TextStyle(
+              color: Color(0xffEA8558),
+              fontSize: 12,
+              fontWeight: FontWeight.bold),
+          selectedIconTheme: IconThemeData(
+            color: Color(0xffEA8558),
           ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              "images/svg/menu/cart.svg",
+          items: [
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                "images/svg/menu/home.svg",
+                color: controller.selectedPageIndex.value == 0
+                    ? AppColor.KOrangeColor
+                    : Color(0xffC9CBD5),
+              ),
+              label: "الرئيسية",
             ),
-            label: "سلة الشراء",
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              "images/svg/menu/heart-circle-linear.svg",
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                "images/svg/menu/cart.svg",
+                color: controller.selectedPageIndex.value == 1
+                    ? AppColor.KOrangeColor
+                    : Color(0xffC9CBD5),
+              ),
+              label: "سلة الشراء",
             ),
-            label: "المفضلة",
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(
-              "images/svg/menu/more.svg",
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                "images/svg/menu/heart-circle-linear.svg",
+                color: controller.selectedPageIndex.value == 2
+                    ? AppColor.KOrangeColor
+                    : Color(0xffC9CBD5),
+              ),
+              label: "المفضلة",
             ),
-            label: "المزيد",
-          ),
-        ],
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                "images/svg/menu/more.svg",
+                color: controller.selectedPageIndex.value == 3
+                    ? AppColor.KOrangeColor
+                    : Color(0xffC9CBD5),
+              ),
+              label: "المزيد",
+            ),
+          ],
+        ),
       ),
     );
   }

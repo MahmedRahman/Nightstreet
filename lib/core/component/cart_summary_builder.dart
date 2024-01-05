@@ -114,6 +114,7 @@ class CartSummary extends GetView {
                 title: "اتمام الطلب",
                 onTap: onCompleteOrderTapped ?? () {},
               ),
+              SizedBox(height: 26),
             ],
           ),
         )

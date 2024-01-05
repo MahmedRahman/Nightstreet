@@ -1,3 +1,4 @@
+import 'package:app_night_street/app/modules/homePage/controllers/home_page_controller.dart';
 import 'package:app_night_street/app/routes/app_pages.dart';
 import 'package:app_night_street/core/app_dimensions.dart';
 import 'package:app_night_street/core/component/custom_button.dart';
@@ -16,6 +17,7 @@ class OrderSuccessView extends GetView<OrderSuccessController> {
   const OrderSuccessView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final homeController = Get.find<HomePageController>();
     return BaseBody(
       appBar: EmptyAppBar(),
       child: Container(
@@ -48,7 +50,10 @@ class OrderSuccessView extends GetView<OrderSuccessController> {
           child: Column(
             children: [
               CustomButton.fill(
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed(Routes.HOME_PAGE);
+                  homeController.selectedPageIndex.value = 3;
+                },
                 title: "طلباتي",
                 borderRadius: 32,
               ),

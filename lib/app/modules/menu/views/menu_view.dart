@@ -80,9 +80,13 @@ class MenuView extends GetView {
           children: [
             Padding(
               padding: const EdgeInsets.all(5.0),
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                child: SvgPicture.asset("images/svg/Notification.svg"),
+              child: InkWell(
+                overlayColor: MaterialStatePropertyAll(Colors.white),
+                onTap: () => Get.toNamed(Routes.NOTIFICATIONS),
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: SvgPicture.asset("images/svg/Notification.svg"),
+                ),
               ),
             ),
             Container(
