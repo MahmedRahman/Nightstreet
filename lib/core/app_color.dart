@@ -12,5 +12,6 @@ class AppColor {
   static const Color KgrayColor3 = Color(0xffF4F5F9);
   static const Color KBorderColor = Color(0xffE2E4E4);
   static const Color KdividerColor = Color(0xffF6F6F6);
+  static const Color KBackBtnColor = Color(0x0f6c727f);
   static Color KWhiteOpacity = Colors.white.withOpacity(.8);
 }

@@ -15,6 +15,7 @@ class OrderAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       elevation: 0,
       backgroundColor: Colors.transparent,
+      automaticallyImplyLeading: false,
       title: Row(
         children: [
           CustomBackButton(

@@ -128,7 +128,7 @@ class MenuView extends GetView {
           _buildIconButton(
             title: "طلباتي",
             icon: "images/svg/my_orders.svg",
-            onTap: () {},
+            onTap: () => Get.toNamed(Routes.MY_ORDERS),
           ),
           _buildIconButton(
             title: "العناوين",

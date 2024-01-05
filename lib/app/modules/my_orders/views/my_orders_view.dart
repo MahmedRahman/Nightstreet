@@ -77,6 +77,7 @@ class MyOrdersView extends GetView<MyOrdersController> {
       backgroundColor: Colors.white,
       elevation: 4,
       shadowColor: Color(0x1a000000),
+      automaticallyImplyLeading: false,
       centerTitle: false,
       title: Row(
         children: [

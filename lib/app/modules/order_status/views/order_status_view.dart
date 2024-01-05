@@ -63,7 +63,7 @@ class OrderStatusView extends GetView<OrderStatusController> {
           bottom: 40,
         ),
         child: CustomButton.outLine(
-          onPressed: () => Get.offAllNamed(Routes.CHAT_WITH_DELIVERY),
+          onPressed: () => Get.toNamed(Routes.CHAT_WITH_DELIVERY),
           title: "ارسال رسالة للمندوب",
           borderRadius: 32,
         ),
