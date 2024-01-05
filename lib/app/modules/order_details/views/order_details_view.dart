@@ -1,3 +1,4 @@
+import 'package:app_night_street/app/routes/app_pages.dart';
 import 'package:app_night_street/core/app_dimensions.dart';
 import 'package:app_night_street/core/component/base_body.dart';
 import 'package:app_night_street/core/component/custom_button.dart';
@@ -23,7 +24,7 @@ class OrderDetailsView extends GetView<OrderDetailsController> {
           bottom: 40,
         ),
         child: CustomButton.outLine(
-          onPressed: () {},
+          onPressed: () => Get.toNamed(Routes.ORDER_STATUS),
           title: "تتبع حالة الطلب",
           borderRadius: 32,
         ),
